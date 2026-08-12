@@ -1,0 +1,47 @@
+#!/usr/bin/env node
+import fs from "node:fs";
+import path from "node:path";
+const root=process.cwd();
+const read=(p)=>fs.readFileSync(path.join(root,p),"utf8");
+const results=[];
+const check=(name,ok,detail="")=>results.push({name,ok:Boolean(ok),detail});
+const media=JSON.parse(read("app/content/media-items.json"));
+const tedx=media.entries.find((e)=>e.id==="tedx-invisible-inheritance");
+const conversation=media.entries.find((e)=>e.id==="homo-plasticus-conversation");
+const page=read("app/media/page.tsx");
+const content=read("app/content/media-content.ts");
+const community=read("app/community/page.tsx");
+const css=read("app/globals.css");
+const home=read("app/page.tsx");
+const transcript=read("docs/sources/RAW_MEETING_TRANSCRIPT.txt");
+
+check("TEDx temporary link restored from preserved v30 source", tedx?.youtubeId==="MVnY2vw99SY" && tedx?.mediaUrl==="https://www.youtube.com/watch?v=MVnY2vw99SY");
+check("TEDx is explicitly temporary rather than mislabelled official", tedx?.temporary===true && tedx?.replaceWhenOfficialAvailable===true && /Temporary audience recording/i.test(tedx?.displayStatus||"") && !/Official video/i.test(JSON.stringify(tedx)));
+check("TEDx publication basis records the latest user authorization without fabricating owner approval", tedx?.published===true && tedx?.publicationApproval==="user_authorized" && tedx?.ownerApproved===false);
+check("TEDx exact publication date is not fabricated", tedx?.date===null && tedx?.dateStatus==="pending_verification");
+check("Long-form conversation restored from preserved v30 source", conversation?.youtubeId==="DJuZBIXeiM8" && conversation?.mediaUrl==="https://www.youtube.com/watch?v=DJuZBIXeiM8");
+check("Long-form conversation is playable under recorded user authorization", conversation?.published===true && conversation?.publicationApproval==="user_authorized" && conversation?.status==="ready");
+check("Long-form conversation title is restored", /Silent Invasion of Microplastics and Human Health/i.test(conversation?.title||""));
+check("Long-form conversation date remains an explicit verification item", conversation?.date===null && conversation?.dateStatus==="pending_verification");
+check("Media feature conversion accepts a recorded publication approval basis", content.includes('entry.publicationApproval === "user_authorized"'));
+check("Media page labels TEDx as temporary", /TEDxMiami · temporary recording/i.test(page) && /not the official TEDx release/i.test(page));
+check("Media page labels long conversation available", /Long-form conversation · available now/i.test(page));
+check("Media page now exposes the user-supplied welcome film without autoplay", /Video live/.test(page) && /WELCOME_FILM\.hostedVideoSrc/.test(page) && /preload="metadata"/.test(page));
+check("Welcome film config is wired to the local hosted derivative", /status: "ready"/.test(content) && /hostedVideoSrc: "\/media\/welcome-dr-haddad\.mp4"/.test(content) && /posterSrc: "\/media\/welcome-dr-haddad-poster\.webp"/.test(content));
+check("TEDx stays off Home", !/MVnY2vw99SY|tedx-invisible-inheritance|hp-tedx/i.test(home));
+check("Transcript's original phone-recording caution remains preserved in sources", /wife's friend did it on her phone/i.test(transcript) && /would not use this one/i.test(transcript));
+check("Community uses the complete generations artwork extracted from the authoritative Chapter 2 blueprint", community.includes('/generations-full.webp') && community.includes('/generations-full-mobile.webp') && !community.includes('src="/generations.webp"'));
+check("Complete generations derivatives are present in the public asset set", fs.existsSync(path.join(root,'public/generations-full.webp')) && fs.existsSync(path.join(root,'public/generations-full-mobile.webp')));
+check("Community hero image now loads eagerly because it is above the fold", community.includes('loading="eager"') && community.includes('fetchPriority="high"'));
+check("Community generations visual never uses cover cropping in the v40.8 override", /v40\.8 Community full-generations source correction[\s\S]*?\.community-visual>img\{[^}]*object-fit:contain!important[^}]*object-position:center center!important/s.test(css));
+check("Desktop Community poster is explicitly sized to fit within the viewport rather than spanning multiple screens", /v40\.8 Community full-generations source correction[\s\S]*?height:min\(78svh,820px\)!important/s.test(css) && /min-height:calc\(100svh - 82px\)/.test(css));
+check("Desktop Community poster preserves full 2:3 source aspect ratio", /v40\.8 Community full-generations source correction[\s\S]*?aspect-ratio:2\/3/s.test(css));
+check("Mobile Community poster returns to natural responsive height without cropping", /@media\(max-width:700px\)[\s\S]*?\.community-visual>img\{[^}]*width:100%!important[^}]*height:auto!important[^}]*object-fit:contain!important/s.test(css));
+check("Community page still exposes contact and media routes", community.includes('href="/contact"') && community.includes('href="/media"'));
+check("Oversized generations panel stays removed from Home", !home.includes('/generations.webp') && !home.includes('hp-join-image'));
+check("Welcome film uses the supplied hosted file rather than an invented third-party URL", /hostedVideoSrc: "\/media\/welcome-dr-haddad\.mp4"/.test(content) && /youtubeId: null/.test(content) && /embedUrl: null/.test(content));
+
+const failures=results.filter((r)=>!r.ok);
+for(const r of results) console.log(`${r.ok?"PASS":"FAIL"} | ${r.name}${r.detail?` | ${r.detail}`:""}`);
+console.log(`\nMedia + Community polish audit: ${results.length-failures.length}/${results.length} passed; ${failures.length} failed.`);
+if(failures.length) process.exit(1);

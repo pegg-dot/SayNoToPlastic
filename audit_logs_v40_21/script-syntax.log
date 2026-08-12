@@ -1,0 +1,6 @@
+JavaScript syntax checks:
+34 .mjs files passed node --check.
+Python syntax checks:
+5 Python files passed py_compile.
+Shell syntax checks:
+4 shell files passed bash -n.

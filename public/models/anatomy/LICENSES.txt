@@ -1,0 +1,47 @@
+HOMO PLASTICUS ANATOMY ASSET ATTRIBUTION
+
+NIH Human Reference Atlas (HRA)
+Assets: body-female.glb, brain.glb, heart.glb, vasculature-female.glb, placenta.glb, ovary.glb, uterus-female.glb, pelvis-female.glb
+Source: https://3d.nih.gov/collections/hra
+Repository: https://github.com/hubmapconsortium/ccf-3d-reference-object-library
+License: Creative Commons Attribution 4.0 International (CC BY 4.0)
+License text: https://creativecommons.org/licenses/by/4.0/
+Modifications: source geometry was simplified and Meshopt-compressed for web delivery; materials, lighting, opacity, and camera presentation were adapted for Homo Plasticus.
+
+Female body and reproductive reference additions
+Assets: body-female.glb, vasculature-female.glb, uterus-female.glb, pelvis-female.glb
+Source records: https://3d.nih.gov/entries/3DPX-020996 and https://3d.nih.gov/entries/3DPX-020984
+Additional source assets: https://cdn.humanatlas.io/hra-releases/v1.2/models/VH_F_Skin.glb and https://cdn.humanatlas.io/hra-releases/v1.2/models/VH_F_Blood_Vasculature.glb
+Purpose: the website presents the uterus within the female pelvis as an educational orientation before the placental evidence chapter. The pregnancy exterior is a localized deformation of the HRA skin surface used only to orient the viewer; it is not a patient-specific scan.
+
+Medical Vision Group fetal MRI surface
+Asset: fetus-mri.glb
+Source: https://github.com/MedicalVisionGroup/fetal-smpl
+Paper: Fetuses Made Simple: Modeling and Tracking of Fetal Shape and Pose, MICCAI 2025
+Public demonstration subject: MAP-C507, segmentation frame 50
+License: MIT License, as published with the source repository
+Modifications: source vertices and triangle topology are unchanged; the export recenters the surface and computes vertex normals. The website changes material, scale, rotation, and position at runtime to align the fetal surface with the HRA amnion and placenta for an educational assembly.
+Scientific boundary: the public demonstration does not state gestational age. The fetal surface and HRA maternal structures are derived from different datasets and are not represented as a single-patient reconstruction. The assembly is for anatomical orientation, not diagnosis or measurement.
+
+BodyParts3D
+Assets: testis-left.stl, testis-right.stl, epididymis-left.stl, epididymis-right.stl
+Source: https://dbarchive.biosciencedbc.jp/en/bodyparts3d/download.html
+Mirror used for the source files: https://github.com/Kevin-Mattheus-Moerman/BodyParts3D
+FMA identifiers: FMA7211, FMA7212, FMA18256, FMA18257
+Credit: BodyParts3D, (c) The Database Center for Life Science
+License: Creative Commons Attribution-Share Alike 2.1 Japan (CC BY-SA 2.1 JP)
+License text: https://creativecommons.org/licenses/by-sa/2.1/jp/deed.en
+Modifications: geometry is smoothed at runtime and used to create the derived testis.svg fallback. The derived fallback remains available under CC BY-SA 2.1 JP.
+
+This attribution file covers the anatomical geometry and derived anatomy fallback used by the Homo Plasticus body journey. It does not change the license of unrelated site content.
+
+Interactive extended-system viewer (v40.17)
+Exterior asset: body-female.glb (local, previously attributed above).
+Runtime reference surfaces: VH_F_Kidney_L.glb, VH_F_Kidney_R.glb, VH_F_Ureter_L.glb, VH_F_Ureter_R.glb, VH_F_Urinary_Bladder.glb, VH_F_Small_Intestine.glb, SBU_F_Intestine_Large.glb, VH_F_Liver.glb, VH_F_Pancreas.glb, VH_F_Thymus.glb, VH_F_Ovary_L.glb, VH_F_Ovary_R.glb, VH_F_Fallopian_Tube_L.glb, VH_F_Fallopian_Tube_R.glb.
+Canonical release directory: https://github.com/hubmapconsortium/ccf-releases/tree/main/v1.2/models
+Primary runtime delivery: https://cdn.humanatlas.io/hra-releases/v1.2/models/
+Fallback delivery: https://raw.githubusercontent.com/hubmapconsortium/ccf-releases/main/v1.2/models/
+Library overview: https://humanatlas.io/3d-reference-library
+License: Creative Commons Attribution 4.0 International (CC BY 4.0)
+Modifications: geometry is not edited by the site. The viewer clones the supplied scenes at runtime and adapts materials, opacity, lighting, camera framing, and layer visibility. The endocrine viewer intentionally labels its limited structure set and does not fabricate thyroid, adrenal, pituitary, or other missing surfaces.
+Operational note: external organ surfaces from the HRA lazy-load when a visitor approaches an extended scroll chapter or opens a focused/complete anatomy viewer. The complete-body atlas requests the registered composite model set, while the local exterior shell and the six core local anatomy layers remain available without those remote files. A working internet connection is required for the first load of remote HRA surfaces; later visits may benefit from the browser cache. Readable fallbacks and retry controls remain available when a remote model cannot be reached.

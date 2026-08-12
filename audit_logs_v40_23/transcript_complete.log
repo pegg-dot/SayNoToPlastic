@@ -1,0 +1,325 @@
+
+> homo-plasticus@0.1.0 transcript:complete
+> node scripts/nothing-left-behind-audit.mjs
+
+PASS | Matrix contains unique requirement IDs | 179 rows / 179 unique
+PASS | Matrix total matches status JSON | 179 == 179
+PASS | Corrected nothing-left-behind matrix tracks 179 requirements | 179
+PASS | Done count matches status | 99
+PASS | Our-work count matches status | 48
+PASS | Blocked count matches status | 32
+PASS | Owner/approval blocked subtype count matches status | 22
+PASS | External-provider blocked subtype count matches status | 8
+PASS | Missing-source blocked subtype count matches status | 2
+PASS | Blocked subtype counts sum to blocked total | 22+8+2 == 32
+PASS | Bucket counts sum to total | {"1 — Done and proven":99,"3 — Blocked on owner/provider/source input":32,"2 — Our work remains":48}
+PASS | Nothing-left-behind row DS-01 exists
+PASS | Nothing-left-behind row DS-02 exists
+PASS | Nothing-left-behind row DS-03 exists
+PASS | Nothing-left-behind row DS-04 exists
+PASS | Nothing-left-behind row DS-05 exists
+PASS | Nothing-left-behind row DS-06 exists
+PASS | Nothing-left-behind row HV-01 exists
+PASS | Nothing-left-behind row HV-02 exists
+PASS | Nothing-left-behind row HV-03 exists
+PASS | Nothing-left-behind row HV-04 exists
+PASS | Nothing-left-behind row AS-01 exists
+PASS | Nothing-left-behind row CF-05 exists
+PASS | Nothing-left-behind row MC-16 exists
+PASS | Nothing-left-behind row CP-01 exists
+PASS | Nothing-left-behind row LA-01 exists
+PASS | Nothing-left-behind row MC-17 exists
+PASS | Nothing-left-behind row MC-18 exists
+PASS | Nothing-left-behind row MC-19 exists
+PASS | Nothing-left-behind row QA-01 exists
+PASS | Nothing-left-behind row AB-13 exists
+PASS | Nothing-left-behind row CF-06 exists
+PASS | Nothing-left-behind row CF-07 exists
+PASS | Nothing-left-behind row CF-08 exists
+PASS | Nothing-left-behind row CF-09 exists
+PASS | Nothing-left-behind row SG-01 exists
+PASS | Nothing-left-behind row SG-02 exists
+PASS | Nothing-left-behind row HM-19 exists
+PASS | CF-09 preserves the European Heart Journal year conflict
+PASS | HM-07 moves from owner-asset blocker to real-film proof queue
+PASS | HM-19 protects one-viewport welcome-modal fit from regression
+PASS | Coronary-blood evidence record remains 2026
+PASS | Requirement BR-01 required fields
+PASS | Requirement BR-02 required fields
+PASS | Requirement BR-03 required fields
+PASS | Requirement BR-04 required fields
+PASS | Requirement BR-05 required fields
+PASS | Requirement BR-06 required fields
+PASS | Requirement BR-07 required fields
+PASS | Requirement BR-08 required fields
+PASS | Requirement BR-09 required fields
+PASS | Requirement BR-10 required fields
+PASS | Requirement IA-01 required fields
+PASS | Requirement IA-02 required fields
+PASS | Requirement IA-03 required fields
+PASS | Requirement IA-04 required fields
+PASS | Requirement IA-05 required fields
+PASS | Requirement IA-06 required fields
+PASS | Requirement IA-07 required fields
+PASS | Requirement IA-08 required fields
+PASS | Requirement IA-09 required fields
+PASS | Requirement IA-10 required fields
+PASS | Requirement IA-11 required fields
+PASS | Requirement IA-12 required fields
+PASS | Requirement HM-01 required fields
+PASS | Requirement HM-02 required fields
+PASS | Requirement HM-03 required fields
+PASS | Requirement HM-04 required fields
+PASS | Requirement HM-05 required fields
+PASS | Requirement HM-06 required fields
+PASS | Requirement HM-07 required fields
+PASS | Requirement HM-08 required fields
+PASS | Requirement HM-09 required fields
+PASS | Requirement HM-10 required fields
+PASS | Requirement HM-11 required fields
+PASS | Requirement HM-12 required fields
+PASS | Requirement HM-13 required fields
+PASS | Requirement HM-14 required fields
+PASS | Requirement HM-15 required fields
+PASS | Requirement HM-16 required fields
+PASS | Requirement HM-17 required fields
+PASS | Requirement HM-18 required fields
+PASS | Requirement HM-19 required fields
+PASS | Requirement AN-01 required fields
+PASS | Requirement AN-02 required fields
+PASS | Requirement AN-03 required fields
+PASS | Requirement AN-04 required fields
+PASS | Requirement AN-05 required fields
+PASS | Requirement AN-06 required fields
+PASS | Requirement AN-07 required fields
+PASS | Requirement AN-08 required fields
+PASS | Requirement AN-09 required fields
+PASS | Requirement AN-10 required fields
+PASS | Requirement AN-11 required fields
+PASS | Requirement AN-12 required fields
+PASS | Requirement AN-13 required fields
+PASS | Requirement AN-14 required fields
+PASS | Requirement AN-15 required fields
+PASS | Requirement AN-16 required fields
+PASS | Requirement AN-17 required fields
+PASS | Requirement AN-18 required fields
+PASS | Requirement SC-01 required fields
+PASS | Requirement SC-02 required fields
+PASS | Requirement SC-03 required fields
+PASS | Requirement SC-04 required fields
+PASS | Requirement SC-05 required fields
+PASS | Requirement SC-06 required fields
+PASS | Requirement SC-07 required fields
+PASS | Requirement SC-08 required fields
+PASS | Requirement SC-09 required fields
+PASS | Requirement SC-10 required fields
+PASS | Requirement SC-11 required fields
+PASS | Requirement SC-12 required fields
+PASS | Requirement SO-01 required fields
+PASS | Requirement SO-02 required fields
+PASS | Requirement SO-03 required fields
+PASS | Requirement SO-04 required fields
+PASS | Requirement SO-05 required fields
+PASS | Requirement SO-06 required fields
+PASS | Requirement SO-07 required fields
+PASS | Requirement SO-08 required fields
+PASS | Requirement SO-09 required fields
+PASS | Requirement SO-10 required fields
+PASS | Requirement SO-11 required fields
+PASS | Requirement SO-12 required fields
+PASS | Requirement SO-13 required fields
+PASS | Requirement SO-14 required fields
+PASS | Requirement SO-15 required fields
+PASS | Requirement SO-16 required fields
+PASS | Requirement SO-17 required fields
+PASS | Requirement SO-18 required fields
+PASS | Requirement SO-19 required fields
+PASS | Requirement SO-20 required fields
+PASS | Requirement BK-01 required fields
+PASS | Requirement BK-02 required fields
+PASS | Requirement BK-03 required fields
+PASS | Requirement BK-04 required fields
+PASS | Requirement BK-05 required fields
+PASS | Requirement BK-06 required fields
+PASS | Requirement BK-07 required fields
+PASS | Requirement BK-08 required fields
+PASS | Requirement BK-09 required fields
+PASS | Requirement BK-10 required fields
+PASS | Requirement BK-11 required fields
+PASS | Requirement BK-12 required fields
+PASS | Requirement AB-01 required fields
+PASS | Requirement AB-02 required fields
+PASS | Requirement AB-03 required fields
+PASS | Requirement AB-04 required fields
+PASS | Requirement AB-05 required fields
+PASS | Requirement AB-06 required fields
+PASS | Requirement AB-07 required fields
+PASS | Requirement AB-08 required fields
+PASS | Requirement AB-09 required fields
+PASS | Requirement AB-10 required fields
+PASS | Requirement AB-11 required fields
+PASS | Requirement AB-12 required fields
+PASS | Requirement MC-01 required fields
+PASS | Requirement MC-02 required fields
+PASS | Requirement MC-03 required fields
+PASS | Requirement MC-04 required fields
+PASS | Requirement MC-05 required fields
+PASS | Requirement MC-06 required fields
+PASS | Requirement MC-07 required fields
+PASS | Requirement MC-08 required fields
+PASS | Requirement MC-09 required fields
+PASS | Requirement MC-10 required fields
+PASS | Requirement MC-11 required fields
+PASS | Requirement MC-12 required fields
+PASS | Requirement MC-13 required fields
+PASS | Requirement MC-14 required fields
+PASS | Requirement MC-15 required fields
+PASS | Requirement OP-01 required fields
+PASS | Requirement OP-02 required fields
+PASS | Requirement OP-03 required fields
+PASS | Requirement OP-04 required fields
+PASS | Requirement OP-05 required fields
+PASS | Requirement OP-06 required fields
+PASS | Requirement OP-07 required fields
+PASS | Requirement OP-08 required fields
+PASS | Requirement OP-09 required fields
+PASS | Requirement OP-10 required fields
+PASS | Requirement OP-11 required fields
+PASS | Requirement OP-12 required fields
+PASS | Requirement OP-13 required fields
+PASS | Requirement OP-14 required fields
+PASS | Requirement OP-15 required fields
+PASS | Requirement OP-16 required fields
+PASS | Requirement OP-17 required fields
+PASS | Requirement CF-01 required fields
+PASS | Requirement CF-02 required fields
+PASS | Requirement CF-03 required fields
+PASS | Requirement CF-04 required fields
+PASS | Requirement DS-01 required fields
+PASS | Requirement DS-02 required fields
+PASS | Requirement DS-03 required fields
+PASS | Requirement DS-04 required fields
+PASS | Requirement DS-05 required fields
+PASS | Requirement DS-06 required fields
+PASS | Requirement HV-01 required fields
+PASS | Requirement HV-02 required fields
+PASS | Requirement HV-03 required fields
+PASS | Requirement HV-04 required fields
+PASS | Requirement AS-01 required fields
+PASS | Requirement CF-05 required fields
+PASS | Requirement MC-16 required fields
+PASS | Requirement CP-01 required fields
+PASS | Requirement LA-01 required fields
+PASS | Requirement MC-17 required fields
+PASS | Requirement MC-18 required fields
+PASS | Requirement QA-01 required fields
+PASS | Requirement AB-13 required fields
+PASS | Requirement CF-06 required fields
+PASS | Requirement CF-07 required fields
+PASS | Requirement CF-08 required fields
+PASS | Requirement CF-09 required fields
+PASS | Requirement SG-01 required fields
+PASS | Requirement SG-02 required fields
+PASS | Requirement BK-13 required fields
+PASS | Requirement AB-14 required fields
+PASS | Requirement MC-19 required fields
+PASS | Required audit/source asset app/components/ExposureRouteVisual.tsx
+PASS | Required audit/source asset public/hero-desktop.webp
+PASS | Required audit/source asset public/hero-mobile.webp
+PASS | Required audit/source asset public/kitchen-desktop.webp
+PASS | Required audit/source asset public/kitchen-mobile.webp
+PASS | Required audit/source asset public/generations.webp
+PASS | Required audit/source asset public/generations-mobile.webp
+PASS | Required audit/source asset public/generations-full.webp
+PASS | Required audit/source asset public/generations-full-mobile.webp
+PASS | Required audit/source asset public/earth-footer.webp
+PASS | Required audit/source asset public/sntp-social-share.webp
+PASS | Required audit/source asset public/brand/sntp-wordmark-horizontal.svg
+PASS | Required audit/source asset public/brand/sntp-wordmark-compact.svg
+PASS | Required audit/source asset public/brand/sntp-wordmark-monochrome.svg
+PASS | Required audit/source asset docs/CONTENT_OPERATIONS.md
+PASS | Required audit/source asset scripts/content-intake-audit.mjs
+PASS | Required audit/source asset docs/RAW_TRANSCRIPT_TRACEABILITY.md
+PASS | Required audit/source asset docs/RAW_TRANSCRIPT_TRACEABILITY.csv
+PASS | Required audit/source asset docs/BLUEPRINT_TRACEABILITY.md
+PASS | Required audit/source asset docs/BLUEPRINT_TRACEABILITY.csv
+PASS | Required audit/source asset docs/REGISTER_TRACEABILITY.md
+PASS | Required audit/source asset docs/REGISTER_TRACEABILITY.csv
+PASS | Required audit/source asset docs/SOURCE_VISUAL_REVIEW.md
+PASS | Required audit/source asset docs/AUDIT_OF_AUDIT.md
+PASS | Required audit/source asset docs/V39_1_CHANGE_MANIFEST.md
+PASS | Required audit/source asset docs/V39_1_NOTHING_LEFT_BEHIND.md
+PASS | Required audit/source asset docs/content-templates/guide-intake.json
+PASS | Required audit/source asset docs/content-templates/evidence-study-intake.json
+PASS | Required audit/source asset docs/content-templates/media-intake.json
+PASS | Required audit/source asset docs/content-templates/affiliate-product-intake.json
+PASS | Required audit/source asset docs/sources/RAW_MEETING_TRANSCRIPT.txt
+PASS | Required audit/source asset docs/sources/MASTER_DELIVERY_REGISTER.md
+PASS | Required audit/source asset docs/sources/audio/Dr-Haddad-website-review-recording.m4a
+PASS | Required audit/source asset docs/sources/blueprints/SayNoToPlastic_Master_Blueprint_Chapter_1_Designer_Setup.docx
+PASS | Required audit/source asset docs/sources/blueprints/SayNoToPlastic_Master_Blueprint_Chapter_2_Landing_Page_Build.docx
+PASS | Required audit/source asset docs/sources/images/quick-action-card-page-121.png
+PASS | Required audit/source asset docs/sources/images/homo-plasticus-official-book-render.png
+PASS | Required audit/source asset public/media/welcome-dr-haddad.mp4
+PASS | Required audit/source asset public/media/welcome-dr-haddad-poster.webp
+PASS | Required audit/source asset app/content/welcome-film-metadata.json
+PASS | Required audit/source asset docs/WELCOME_FILM_INTEGRATION.md
+PASS | Source manifest exposes integrity hashes | 17 hashes
+PASS | Source hash docs/sources/RAW_MEETING_TRANSCRIPT.txt | match
+PASS | Source hash docs/sources/audio/Dr-Haddad-website-review-recording.m4a | match
+PASS | Source hash docs/sources/MASTER_DELIVERY_REGISTER.md | match
+PASS | Source hash docs/sources/blueprints/SayNoToPlastic_Master_Blueprint_Chapter_1_Designer_Setup.docx | match
+PASS | Source hash docs/sources/blueprints/SayNoToPlastic_Master_Blueprint_Chapter_2_Landing_Page_Build.docx | match
+PASS | Source hash docs/sources/images/quick-action-card-page-121.png | match
+PASS | Source hash docs/sources/images/homo-plasticus-official-book-render.png | match
+PASS | Source hash docs/sources/haddad-content/pdf/reduce-exposure.pdf | match
+PASS | Source hash docs/sources/haddad-content/pdf/female-reproductive-health.pdf | match
+PASS | Source hash docs/sources/haddad-content/pdf/endocrine-metabolic-system.pdf | match
+PASS | Source hash docs/sources/haddad-content/pdf/kidneys-urinary-system.pdf | match
+PASS | Source hash docs/sources/haddad-content/pdf/skin.pdf | match
+PASS | Source hash docs/sources/haddad-content/pdf/detecting-microplastics.pdf | match
+PASS | Source hash docs/sources/haddad-content/pdf/digestive-system.pdf | match
+PASS | Source hash docs/sources/haddad-content/pdf/exposome-diagram.pdf | match
+PASS | Source hash docs/sources/haddad-content/pdf/pregnancy-placenta-early-life.pdf | match
+PASS | Source hash docs/sources/haddad-content/pdf/cardiovascular-system.pdf | match
+PASS | Rejected phrase absent: caution can be practical without pretending
+PASS | Rejected phrase absent: build a common relationship with evolving science
+PASS | Rejected phrase absent: do not turn caution into panic
+PASS | Rejected phrase absent: turn caution into panic
+PASS | Accepted phrase not encoded as rejected
+PASS | Home uses approved hero art shell
+PASS | Home hero uses eager responsive image derivatives
+PASS | Home intentionally omits the oversized generations panel after rendered user review
+PASS | Community generations visual uses eager responsive hero image derivatives
+PASS | Home uses all six exposure visuals
+PASS | Dedicated Community page retains the approved generations visual shell
+PASS | TEDx is not a homepage section
+PASS | Home lower-page order is action → book → about → media → community | 5850 < 6807 < 6839 < 7980 < 8748
+PASS | Solutions uses approved kitchen responsive picture
+PASS | Header scroll threshold is within 40-60px blueprint window
+PASS | Mobile menu implements focus return
+PASS | Mobile menu implements background scroll lock
+PASS | Scrolled header uses ~92% Midnight Navy
+PASS | Exposure body copy minimum raised to 16px in restored layer
+PASS | Later rendered review supersedes the live Earth photo while preserving a flat quote field
+PASS | Original Earth-at-night asset remains preserved for provenance
+PASS | Footer legal text restored to 14px
+PASS | Footer touch targets restored to 48px
+PASS | Responsive hero derivative is wired
+PASS | Responsive generations derivative is wired on Community
+PASS | Home SEO title matches blueprint intent
+PASS | Home social share asset is 1200x630 candidate
+PASS | Content preflight package command exists
+PASS | Nothing-left-behind package command exists
+PASS | Blueprint traceability covers all 10 Chapter 1 and 16 Chapter 2 sections | 26 mapped sections
+PASS | Raw transcript traceability covers lines 1-528 without gaps | 45 segments; next expected line 529
+PASS | Every transcript traceability requirement ID exists in the completion matrix | 115 unique mapped IDs
+PASS | Every blueprint traceability requirement ID exists in the completion matrix | 78 unique mapped IDs
+PASS | Master Delivery Register traceability covers all 13 major sections | 13 mapped sections
+PASS | Every Register traceability requirement ID exists in the completion matrix | 160 unique mapped IDs
+PASS | CF-09 is mapped to the cardiovascular transcript segment
+PASS | SC-04 is mapped to the cardiovascular transcript segment
+PASS | No literal airplane/flapping requirement in preserved written transcript | searched literal variants; none found
+PASS | SG-02 preserves independent audio-transcript fidelity review as an open proof gate | 53449969 bytes
+
+Nothing-left-behind audit: 319/319 passed; 0 failed.

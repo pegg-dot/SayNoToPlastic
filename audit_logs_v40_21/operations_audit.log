@@ -1,0 +1,59 @@
+[PASS] .env.example is packaged as the safe configuration contract.
+[PASS] .env.example declares PUBLIC_SITE_URL.
+[PASS] .env.example declares COMMERCE_MODE.
+[PASS] .env.example declares COMMERCE_PREVIEW_ENABLED.
+[PASS] .env.example declares STRIPE_SECRET_KEY.
+[PASS] .env.example declares STRIPE_WEBHOOK_SECRET.
+[PASS] .env.example declares STRIPE_PRICE_ID.
+[PASS] .env.example declares STRIPE_API_VERSION.
+[PASS] .env.example declares STRIPE_AUTOMATIC_TAX.
+[PASS] .env.example declares EBOOK_ACCESS_SECRET.
+[PASS] .env.example declares EBOOK_OBJECT_KEY.
+[PASS] .env.example declares EBOOK_DOWNLOAD_FILENAME.
+[PASS] .env.example declares EBOOK_SHA256.
+[PASS] .env.example declares RESEND_API_KEY.
+[PASS] .env.example declares RESEND_FROM_EMAIL.
+[PASS] .env.example declares SUPPORT_EMAIL.
+[PASS] .env.example declares AUDIENCE_PROVIDER.
+[PASS] .env.example declares MAILCHIMP_API_KEY.
+[PASS] .env.example declares MAILCHIMP_SERVER_PREFIX.
+[PASS] .env.example declares MAILCHIMP_AUDIENCE_ID.
+[PASS] .env.example declares OPERATIONS_SECRET.
+[PASS] Migration 0005 adds unsubscribe state and durable outbox retry fields.
+[PASS] Drizzle schema reflects migration 0005.
+[PASS] Migration 0006 adds idempotent learning-series enrollment state and indexes.
+[PASS] Drizzle schema reflects migration 0006.
+[PASS] Subscriptions create a private preference token and durable welcome job.
+[PASS] Repeated signup for an already-active address does not generate another welcome job.
+[PASS] Consent-based signup can schedule the ten-part learning series without duplicating the ordinary welcome path.
+[PASS] An active subscriber opting into the series replaces any stale pending welcome job after the unsubscribe token rotates.
+[PASS] Unsubscribe requests suppress locally and queue provider synchronization.
+[PASS] Repeated unsubscribe requests do not create duplicate provider-sync jobs.
+[PASS] Unsubscribe cancels pending learning-series delivery as well as provider synchronization.
+[PASS] Contact outbox audit recipient follows the hosted support configuration.
+[PASS] Transactional email delivery includes provider idempotency and one-click unsubscribe headers.
+[PASS] Learning-series messages keep sequence context, source-aware framing, and the medical boundary.
+[PASS] Newsletter audience synchronization uses an explicit Mailchimp/Resend provider boundary.
+[PASS] Email outbox supports leases, retries, recovery delivery, terminal state, and payload scrubbing.
+[PASS] Email outbox delivers due learning-series lessons through the same leased, retried, idempotent operations path.
+[PASS] Learning-series delivery preserves lesson order and terminates the remaining schedule after a terminal delivery failure.
+[PASS] Internal operations endpoints require a 32+ character bearer secret with constant-time comparison.
+[PASS] Readiness checks bindings, audience configuration, and required database schema without exposing secret values.
+[PASS] Readiness verifies the learning-series migration before reporting operations ready.
+[PASS] Protected drain endpoint retries site email, ebook recovery, and queued purchase fulfillment.
+[PASS] Queued purchase fulfillment retries stop after a bounded number of attempts.
+[PASS] Worker sets X-Content-Type-Options.
+[PASS] Worker sets Referrer-Policy.
+[PASS] Worker sets X-Frame-Options.
+[PASS] Worker sets Cross-Origin-Opener-Policy.
+[PASS] Worker sets Permissions-Policy.
+[PASS] Worker sets Strict-Transport-Security.
+[PASS] Worker sets X-Robots-Tag.
+[PASS] Route, root, and loading failure states are present.
+[PASS] Web app manifest is present.
+[PASS] Robots rules exclude private and utility paths.
+[PASS] Global social preview represents the movement rather than the book product.
+[PASS] Book route has book-specific social metadata.
+[PASS] Visitors can revise optional analytics consent after the banner decision.
+[PASS] Access recovery prevents duplicate submissions and announces progress.
+[SUMMARY] 58 passed, 0 failed.

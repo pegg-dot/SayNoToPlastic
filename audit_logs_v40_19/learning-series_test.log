@@ -1,0 +1,7 @@
+
+> homo-plasticus@0.1.0 learning-series:test
+> node --experimental-strip-types scripts/learning-series-contract-test.mjs
+
+[PASS] Learning-series registry, challenge plans, scheduling, restart, and unsubscribe contracts are coherent.
+(node:34997) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)

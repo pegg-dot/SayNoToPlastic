@@ -1,0 +1,13 @@
+[PASS] 34 route files preserve a consistent main-content landmark contract.
+[PASS] Homepage header and site footer sit outside the main landmark.
+[PASS] Root layout exposes an inertable site shell before the welcome dialog.
+[PASS] Site chrome includes skip navigation, inert mobile-menu background handling, shared scroll locking, explicit button semantics, and section-aware navigation state.
+[PASS] Overlapping modal/menu scroll locks are reference-counted and restore the prior body state.
+[PASS] Welcome dialog isolates background content, traps focus locally, labels its description, and shares the scroll lock.
+[PASS] Anatomy controls update the visual immediately, expose chapter relationships, and degrade when IntersectionObserver is unavailable.
+[PASS] Anatomy rendering has a static reduced-motion path, a WebGL/load error boundary, and stable fallback keys.
+[PASS] Book scroll preview is directly keyboard-operable and respects reduced-motion scrolling.
+[PASS] Forms and checkout controls expose pending state, stable descriptions, explicit submission semantics, and configured support identity.
+[PASS] Guide and recommendation filter controls expose named button groups.
+[PASS] Global CSS supports skip-target focus, keyboard book controls, and static reduced-motion anatomy fallbacks.
+[SUMMARY] 12 passed, 0 failed.

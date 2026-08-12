@@ -1,0 +1,39 @@
+
+> homo-plasticus@0.1.0 homepage:polish
+> node scripts/homepage-polish-audit.mjs
+
+[PASS] Hero no longer repeats the environmental-problem setup line.
+[PASS] Core book premise remains the hero headline.
+[PASS] Hero deck is reduced to one concise sentence.
+[PASS] Hero byline was removed to reduce first-screen text density.
+[PASS] Header uses the approved microplastic wordmark asset.
+[PASS] Legacy text wordmark markup is gone.
+[PASS] Legacy slash/underline decoration is explicitly disabled for the raster wordmark.
+[PASS] Approved wordmark is sized as responsive site chrome.
+[PASS] Anatomy stage no longer renders the technical model-label pileup.
+[PASS] Rejected first-chapter anatomical wording is removed from source.
+[PASS] Anatomy stage keeps a compact chapter locator.
+[PASS] Exposure route 03 is now Food storage.
+[PASS] Exposure route 04 is now Heat.
+[PASS] Redundant Heat and food contact label is removed.
+[PASS] Homepage heart title is shortened.
+[PASS] Homepage heart finding keeps the acute group count in concise form.
+[PASS] Homepage heart meaning retains the causality boundary.
+[PASS] The distinct 2024 carotid-plaque study remains visible on Home.
+[PASS] Primary coronary-blood metadata remains 2026 European Heart Journal.
+[PASS] Distinct carotid-plaque evidence remains intact.
+[PASS] Action bridge renders all three exact core rules from the canonical action source.
+[PASS] Action CTA has a dedicated spacing hook.
+[PASS] Desktop CTA receives explicit breathing room from body copy.
+[PASS] Action copy no longer repeats the three rules already shown in the left column.
+[PASS] Action bridge uses a more balanced two-column desktop grid.
+[PASS] Hero artwork fills the stage and fades into the background instead of ending as a rectangle.
+[PASS] v40 visual override block is present and labeled.
+[PASS] Events & Media bridge remains on the homepage.
+[PASS] Events & Media background is full-bleed instead of capped to the editorial content width.
+[PASS] Full-bleed Events & Media keeps its inner content aligned to the editorial grid on wide screens.
+[PASS] Oversized generational image is removed from the homepage Join section.
+[PASS] Homepage still keeps the Community/newsletter path after removing the giant image.
+[PASS] Generational visual remains as a responsive eager hero asset on the dedicated Community page without forcing it onto Home.
+[PASS] v40.1 lower-home visual override block is present and labeled.
+[SUMMARY] 34 passed, 0 failed.

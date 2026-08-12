@@ -1,0 +1,22 @@
+
+> homo-plasticus@0.1.0 transcript:priority
+> node scripts/transcript-priority-audit.mjs
+
+[PASS] T01 Supplied 12-step Quick Action Card is preserved as live content.
+[PASS] T02 Exact three core rules are preserved.
+[PASS] T03 Explicitly rejected plastic-storage sentence is removed.
+[PASS] T04 Water guidance is direct and still explains filter context.
+[PASS] T05 Kitchen conversion has a dedicated direct guide and Solutions entry.
+[PASS] T06 Single-use foodware has a direct guide and action bridge.
+[PASS] T07 Rejected reproductive fallback blobs are replaced with recognizable labeled views.
+[PASS] T08 Education keeps the source conflict internal while the public page follows the latest direction to remove owner-confirmation workflow language.
+[PASS] T09 Latest user-authorized TEDx exception is explicit: temporary phone recording is playable, not mislabeled official, and marked for replacement.
+[PASS] T10 Movement canonical and support configuration use Say No to Plastic.
+[PASS] T11 Mailchimp-versus-Resend is an explicit provider decision with both adapters available.
+[PASS] T12 Media uses an approval-aware editorial registry.
+[PASS] T13 Collaborator credit is limited to the book byline rather than a movement profile.
+[PASS] T14 Affiliate products remain unpublished until reviewed records exist.
+[PASS] T15 Contested detox and health-protection wording is preserved with a visible evidence boundary.
+[WARN] O01 Final signature wordmark remains an owner-approved design gate; current text treatment is not labeled final.
+[WARN] O02 Reproductive fallbacks are improved, but final clinical/anatomy approval still requires rendered review.
+[SUMMARY] 15 resolved checks, 2 explicit gates, 0 failures.

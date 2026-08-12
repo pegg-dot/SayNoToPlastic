@@ -1,0 +1,34 @@
+PASS | Welcome film config is ready
+PASS | Welcome film config uses the canonical hosted MP4
+PASS | Welcome film config uses the real poster
+PASS | Welcome film duration label matches the supplied asset
+PASS | Web MP4 exists | 35866916 bytes
+PASS | Web MP4 byte size matches provenance metadata | 35866916 == 35866916
+PASS | Web MP4 SHA-256 matches provenance metadata | 7cfbf206102a907163bec6e4b06c69a8f0b8d51b7ad28ddde589b093bada7175
+PASS | Web MP4 is H.264/AAC rather than serving the HEVC master
+PASS | Web MP4 is faststart/progressive (moov before mdat) | moov=36, mdat=177529
+PASS | Poster exists | 36004 bytes
+PASS | Poster SHA-256 matches provenance metadata | 7a4ab5505541ae7db16d010c09db15c8c5c486bcc2580fde522f742d4ccb1dd8
+PASS | Master provenance is recorded without bundling the 248 MB upload
+PASS | First-visit modal still uses localStorage memory
+PASS | Homepage replay trigger remains
+PASS | Film does not start with sound automatically on dialog open
+PASS | Hosted video source declares MP4 and uses explicit user-started playback
+PASS | Welcome dialog accessibility/focus behavior remains
+PASS | Portrait modal video is contained instead of stretched/cropped
+PASS | Welcome dialog is capped to one viewport and cannot internally scroll
+PASS | Welcome backdrop cannot become a second scroll surface
+PASS | Portrait film surface can shrink below the old 640px minimum
+PASS | Desktop dialog gives the portrait film a dedicated narrow column
+PASS | Welcome copy is compacted without hiding its controls
+PASS | Tablet dialog remains two-column instead of stacking into a tall modal
+PASS | Mobile dialog uses bounded video/copy rows inside one viewport
+PASS | Extreme zoom/tiny viewport keeps every modal control reachable
+PASS | Events & Media embeds the same hosted welcome film inline
+PASS | Events & Media does not autoplay the inline welcome film
+PASS | Events & Media honestly exposes captions/transcript pending
+PASS | Portrait Media player is 9:16 and uses contain
+PASS | Welcome asset moved out of owner/provider blocker count
+PASS | Integration/provenance documentation exists
+
+Welcome-film audit: 32/32 passed; 0 failed.

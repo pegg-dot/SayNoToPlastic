@@ -1,0 +1,27 @@
+PASS | TEDx temporary link restored from preserved v30 source
+PASS | TEDx is explicitly temporary rather than mislabelled official
+PASS | TEDx publication basis records the latest user authorization without fabricating owner approval
+PASS | TEDx exact publication date is not fabricated
+PASS | Long-form conversation restored from preserved v30 source
+PASS | Long-form conversation is playable under recorded user authorization
+PASS | Long-form conversation title is restored
+PASS | Long-form conversation date remains an explicit verification item
+PASS | Media feature conversion accepts a recorded publication approval basis
+PASS | Media page labels TEDx as temporary
+PASS | Media page labels long conversation available
+PASS | Media page now exposes the user-supplied welcome film without autoplay
+PASS | Welcome film config is wired to the local hosted derivative
+PASS | TEDx stays off Home
+PASS | Transcript's original phone-recording caution remains preserved in sources
+PASS | Community uses the complete generations artwork extracted from the authoritative Chapter 2 blueprint
+PASS | Complete generations derivatives are present in the public asset set
+PASS | Community hero image now loads eagerly because it is above the fold
+PASS | Community generations visual never uses cover cropping in the v40.8 override
+PASS | Desktop Community poster is explicitly sized to fit within the viewport rather than spanning multiple screens
+PASS | Desktop Community poster preserves full 2:3 source aspect ratio
+PASS | Mobile Community poster returns to natural responsive height without cropping
+PASS | Community page still exposes contact and media routes
+PASS | Oversized generations panel stays removed from Home
+PASS | Welcome film uses the supplied hosted file rather than an invented third-party URL
+
+Media + Community polish audit: 25/25 passed; 0 failed.

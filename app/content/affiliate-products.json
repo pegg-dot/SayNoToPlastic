@@ -1,0 +1,38 @@
+{
+  "version": 2,
+  "lastReviewed": "2026-08-06",
+  "defaultDisclosure": "Say No to Plastic may earn a commission from this link at no additional cost to you. Editorial conclusions are independent of compensation.",
+  "categories": [
+    {
+      "slug": "water",
+      "name": "Water",
+      "description": "Filtration claims, verified standards, maintenance, replacement cost, waste, flow, and local-water fit.",
+      "guideSlug": "microplastics-drinking-water-filter-guide"
+    },
+    {
+      "slug": "kitchen",
+      "name": "Kitchen",
+      "description": "Food-contact materials, heat tolerance, durability, repairability, and frequency of use.",
+      "guideSlug": "plastic-kitchen-conversion"
+    },
+    {
+      "slug": "home",
+      "name": "Home",
+      "description": "Particle capture, sealed filtration, maintenance, noise, energy, and realistic household use.",
+      "guideSlug": "microplastics-indoor-dust"
+    },
+    {
+      "slug": "textiles",
+      "name": "Textiles",
+      "description": "Fiber content, construction, longevity, care burden, shedding evidence, and end-of-life tradeoffs.",
+      "guideSlug": "synthetic-clothing-microfibers"
+    },
+    {
+      "slug": "personal-care",
+      "name": "Personal care",
+      "description": "Ingredient claims, packaging, product function, frequency of use, and lower-waste alternatives.",
+      "guideSlug": "personal-care-cosmetics-plastic"
+    }
+  ],
+  "products": []
+}

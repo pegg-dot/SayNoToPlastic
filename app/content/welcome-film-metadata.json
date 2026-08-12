@@ -1,0 +1,22 @@
+{
+  "sourceFilename": "D93F9F07-B2C5-4261-968C-A0F9676B3B5B.mp4",
+  "sourceSha256": "08080a26a095c897dd7766efbc82ff493c97816b76212622ba1c96500f91fedb",
+  "sourceBytes": 248469754,
+  "sourceCodec": "hevc+aac",
+  "sourceWidth": 1080,
+  "sourceHeight": 1920,
+  "sourceFrameRate": 30,
+  "sourceDurationSeconds": 208.066667,
+  "webPath": "/media/welcome-dr-haddad.mp4",
+  "webSha256": "7cfbf206102a907163bec6e4b06c69a8f0b8d51b7ad28ddde589b093bada7175",
+  "webBytes": 35866916,
+  "webCodec": "h264+aac",
+  "webWidth": 540,
+  "webHeight": 960,
+  "webDurationSeconds": 208.071995,
+  "posterPath": "/media/welcome-dr-haddad-poster.webp",
+  "posterSha256": "7a4ab5505541ae7db16d010c09db15c8c5c486bcc2580fde522f742d4ccb1dd8",
+  "posterBytes": 36004,
+  "masterBundled": false,
+  "note": "The 248 MB uploaded HEVC master is not duplicated inside the portable website ZIP. The site ships a browser-compatible H.264/AAC derivative plus a poster; this metadata preserves master provenance and integrity."
+}

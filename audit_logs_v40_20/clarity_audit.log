@@ -1,0 +1,33 @@
+
+> homo-plasticus@0.1.0 clarity:audit
+> node scripts/clarity-audit.mjs
+
+[PASS] Homepage states the direct first principle.
+[PASS] Homepage explains the exact three core rules in plain language.
+[PASS] Homepage has one compact action hierarchy rather than adjacent checklists.
+[PASS] Rejected ambiguous exposure language is absent from the homepage.
+[PASS] Solutions leads with the direct first step.
+[PASS] Solutions separates immediate action from optional detail.
+[PASS] Solutions includes direct water, kitchen, and single-use guidance.
+[PASS] Solutions does not repeat the full card and another priority framework.
+[PASS] Rejected formula-like and caution-first messaging is absent.
+[PASS] Planner asks for one realistic next change.
+[PASS] Planner enforces one current selection.
+[PASS] Old multi-choice planner language is absent.
+[PASS] Exact core rule is preserved: Don’t heat plastic.
+[PASS] Exact core rule is preserved: Don’t store food in plastic.
+[PASS] Exact core rule is preserved: Don’t drink from plastic.
+[PASS] The authored Quick Action Card contains exactly 12 supplied actions.
+[PASS] The separate one-change planner retains practical choices without replacing the authored card.
+[PASS] Contested book wording is preserved rather than silently rewritten.
+[PASS] Contested book wording carries a transparent evidence note.
+[PASS] Quick Action Card renders the supplied author text as accessible live content.
+[PASS] Quick Action Card distinguishes author wording from supported health claims.
+[PASS] Web card follows the supplied page order: 12 actions, then three core rules.
+[PASS] Explicitly rejected plastic-storage instruction is absent.
+[PASS] Heating guide directly corrects the rejected instruction.
+[PASS] Dedicated kitchen-conversion and single-use guides exist.
+[PASS] Water guide begins with the requested direct advice and explains reverse osmosis.
+[PASS] Guide library makes detail optional.
+[PASS] Science-to-action bridge returns to the same clear principle.
+[SUMMARY] 28 passed, 0 failed.

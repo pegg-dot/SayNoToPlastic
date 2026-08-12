@@ -1,0 +1,23 @@
+
+> homo-plasticus@0.1.0 framing:polish
+> node scripts/v40-23-framing-density-audit.mjs
+
+[PASS] Build identifier advances to v40.23 framing and density polish.
+[PASS] The awkward website-versus-book framing is removed.
+[PASS] Book page uses a natural science-behind-the-questions heading.
+[PASS] Book page preserves the public reading-path and table-of-contents boundary.
+[PASS] The body-system and detection links remain on the book page.
+[PASS] Dr. Haddad page preserves the Exposome section and interactive map.
+[PASS] About Exposome section has a tighter two-column desktop frame.
+[PASS] Compact Exposome map uses a vertical control rail and one focused panel.
+[PASS] Compact Exposome map keeps a usable small-screen fallback.
+[PASS] Exposome keyboard and tab semantics remain intact.
+[PASS] The rejected media heading is removed.
+[PASS] Media page uses the approved concise public-conversation framing.
+[PASS] Media introduction still states the evidence and uncertainty boundary.
+[PASS] All briefing cards and both actions remain available.
+[PASS] Media briefing introduction is shorter and more proportionate.
+[PASS] The v40.23 audit is registered.
+[PASS] Package lock remains byte-identical to the approved baseline.
+[PASS] v40.23 change, validation, and architecture records are packaged.
+[SUMMARY] 18 passed, 0 failed.

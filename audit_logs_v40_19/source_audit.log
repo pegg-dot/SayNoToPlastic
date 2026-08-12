@@ -1,0 +1,37 @@
+
+> homo-plasticus@0.1.0 source:audit
+> node scripts/source-audit.mjs
+
+[PASS] Project JSON files parse successfully.
+[PASS] Guide catalog contains 14 guides, including kitchen conversion and single-use foodware.
+[PASS] Guide slugs are unique.
+[PASS] 54 guide source URLs are structurally valid.
+[PASS] 5 affiliate categories point to valid guides.
+[PASS] Homepage source contains no TEDx content.
+[PASS] Legacy /tedx redirects to the Media feature.
+[PASS] Welcome modal includes first-visit memory, keyboard/focus behavior, replay, and privacy-enhanced playback hooks.
+[PASS] Welcome modal is mounted in the root layout.
+[PASS] Commerce preview mode is explicitly gated and wired.
+[PASS] Book CTA component calls the central checkout endpoint.
+[PASS] No direct legacy checkout URL exists outside central configuration.
+[PASS] Movement canonical identity is Say No to Plastic while the existing WooCommerce fallback remains explicit.
+[PASS] Homepage anatomy journey contains ten unique evidence chapters.
+[PASS] Pregnancy and placenta are one sourced maternal-fetal chapter.
+[PASS] Heart chapter keeps coronary-blood and artery-plaque evidence distinct.
+[PASS] Anatomy journey ends with a complete-body interactive atlas handoff.
+[PASS] Homepage evidence chapters support multiple direct primary sources.
+[PASS] Anatomy renderer contains ten synchronized visual scenes.
+[PASS] Maternal-fetal scene renders the uterus with fetus and placenta.
+[PASS] Stable reproductive fallbacks use labeled, recognizable ovary and testicular views.
+[PASS] Desktop and mobile navigation identify Events & Media explicitly.
+[PASS] Published media has an explicit approval basis, and temporary media is labeled for replacement rather than misrepresented as official.
+[PASS] Education uses the higher-authority transcript/Register presentation while preserving the unresolved source conflict internally.
+[PASS] Contact page is approachable, categorized, and keeps the medical boundary secondary.
+[PASS] Book page uses the official cover and includes recovery and refund guidance.
+[PASS] Collaborator credit remains in the published-book byline without a standalone movement-level profile.
+[PASS] Guide schema and RSS identify Say No to Plastic as the publisher.
+[PASS] Movement-level policies and utility pages identify Say No to Plastic rather than the book brand.
+[PASS] Source-referenced public image/model assets exist.
+[PASS] Global CSS braces are balanced.
+[PASS] Roadmap, transcript, clarity, preview, affiliate, current-state, and parked-owner records are present.
+[SUMMARY] 32 passed, 0 failed.

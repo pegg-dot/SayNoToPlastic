@@ -1,0 +1,63 @@
+
+> homo-plasticus@0.1.0 anatomy:viewer
+> node scripts/v40-17-anatomy-viewer-audit.mjs
+
+[PASS] Viewer, registry, journey, scene, and shared model loader are packaged.
+[PASS] Model registry includes digestive-system.
+[PASS] digestive-system opens directly from its scroll chapter.
+[PASS] Model registry includes kidneys-urinary-system.
+[PASS] kidneys-urinary-system opens directly from its scroll chapter.
+[PASS] Model registry includes endocrine-metabolic-system.
+[PASS] endocrine-metabolic-system opens directly from its scroll chapter.
+[PASS] Model registry includes skin.
+[PASS] skin opens directly from its scroll chapter.
+[PASS] Scroll-chapter viewers expose dialog semantics and return focus after closure.
+[PASS] One anatomy journey includes ten chapters and a complete-atlas handoff.
+[PASS] Licensed HRA model is registered: VH_F_Kidney_L.glb.
+[PASS] Licensed HRA model is registered: VH_F_Kidney_R.glb.
+[PASS] Licensed HRA model is registered: VH_F_Ureter_L.glb.
+[PASS] Licensed HRA model is registered: VH_F_Ureter_R.glb.
+[PASS] Licensed HRA model is registered: VH_F_Urinary_Bladder.glb.
+[PASS] Licensed HRA model is registered: VH_F_Small_Intestine.glb.
+[PASS] Licensed HRA model is registered: SBU_F_Intestine_Large.glb.
+[PASS] Licensed HRA model is registered: VH_F_Liver.glb.
+[PASS] Licensed HRA model is registered: VH_F_Pancreas.glb.
+[PASS] Licensed HRA model is registered: VH_F_Thymus.glb.
+[PASS] Licensed HRA model is registered: VH_F_Ovary_L.glb.
+[PASS] Licensed HRA model is registered: VH_F_Ovary_R.glb.
+[PASS] Licensed HRA model is registered: VH_F_Fallopian_Tube_L.glb.
+[PASS] Licensed HRA model is registered: VH_F_Fallopian_Tube_R.glb.
+[PASS] Official HRA CDN and repository fallback URLs are registered.
+[PASS] Skin uses the complete exterior HRA body surface.
+[PASS] Endocrine scope explicitly avoids fabricating unavailable glands.
+[PASS] A shared loader caches models and supports explicit retry invalidation.
+[PASS] Viewer uses the existing Three.js stack, shared loader, and orbit controls without a new UI dependency.
+[PASS] Viewer exposes mouse and touch interaction guidance.
+[PASS] Viewer provides exterior, cutaway, and isolated-system modes.
+[PASS] Camera control is present: Focus system.
+[PASS] Camera control is present: Full body.
+[PASS] Camera control is present: Front.
+[PASS] Camera control is present: Rear.
+[PASS] Camera control is present: Zoom in.
+[PASS] Camera control is present: Zoom out.
+[PASS] Camera control is present: Reset.
+[PASS] Viewer uses a complete shell and calculates framing from loaded model bounds.
+[PASS] Model failures have bounded retry and cache-reset paths.
+[PASS] First-load network behavior and progress are visible.
+[PASS] A conceptual fallback remains available if organ surfaces cannot load.
+[PASS] Viewer has modal semantics, focus containment, Escape closure, inert background, and scroll lock.
+[PASS] Reduced-motion preference disables inertial camera motion.
+[PASS] Viewer communicates the educational and non-diagnostic boundary.
+[PASS] Visible viewer provenance links to the HRA library, release directory, and license.
+[PASS] The same licensed extended-system geometry is integrated into the scroll animation.
+[PASS] The scroll renderer defines at least ten synchronized camera scenes.
+[PASS] Packaged anatomy attribution lists every runtime-loaded HRA surface.
+[PASS] Attribution records license and runtime delivery behavior.
+[PASS] Viewer has full-screen, canvas, group controls, and responsive styling.
+[PASS] Welcome-film trigger is suppressed while the anatomy modal owns focus.
+[PASS] Viewer animation has a reduced-motion CSS escape hatch.
+[PASS] Dedicated anatomy viewer audit remains registered.
+[PASS] Build identifier advances to the compatible v40.19 anatomy candidate.
+[PASS] Package lock remains byte-identical to the approved lock.
+[PASS] Prior interactive-anatomy implementation records remain packaged.
+[SUMMARY] 58 passed, 0 failed.

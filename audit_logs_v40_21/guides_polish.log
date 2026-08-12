@@ -1,0 +1,22 @@
+[PASS] Guides route has a scoped visual-polish class without changing route identity.
+[PASS] Reading room has a dedicated full-bleed field plus contained editorial inner grid.
+[PASS] Reading-room ivory field fills the viewport instead of ending as a centered block.
+[PASS] Guide content remains aligned to the shared editorial grid inside the full-bleed field.
+[PASS] Featured reads no longer use the cramped side-by-side intro/card split.
+[PASS] Three featured guide cards receive equal full-width desktop columns.
+[PASS] Featured-read heading has controlled readable wrapping.
+[PASS] Featured guide titles have bounded line length instead of narrow erratic wrapping.
+[PASS] Featured reads intentionally stack before cramped tablet widths.
+[PASS] Search/filter controls share a stable top alignment.
+[PASS] Main guide grid starts with a clear reading-room boundary.
+[PASS] Approved Guides hero copy remains unchanged.
+[PASS] Approved reading pathways remain on the page.
+[PASS] Featured-read label remains unchanged.
+[PASS] Search remains functional and visible.
+[PASS] Accessible guide filters remain intact.
+[PASS] Search/filter result state remains dynamic.
+[PASS] All 14 guide records remain present.
+[PASS] Rendered Guides review provenance preserved: guides-layout-01.png.
+[PASS] Rendered Guides review provenance preserved: guides-layout-02.png.
+[PASS] Guides visual override is labeled for future traceability.
+[SUMMARY] 21 passed, 0 failed.

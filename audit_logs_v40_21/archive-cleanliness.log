@@ -1,0 +1,4 @@
+[PASS] No npm debug logs under .sites-runtime/npm-cache/_logs.
+[PASS] No Python __pycache__ directories or .pyc files.
+[PASS] No node_modules, .next, dist, .wrangler, .DS_Store, editor swap, or backup files.
+[SUMMARY] 559 files before PROJECT_TREE regeneration.

@@ -1,0 +1,52 @@
+{
+  "entries": [
+    {
+      "id": "tedx-invisible-inheritance",
+      "type": "talk",
+      "title": "The Invisible Inheritance of Nanoplastics",
+      "description": "Temporary audience recording of Dr. Haddad's TEDxMiami talk. It is not the official TEDx release and will be replaced when the official public video arrives.",
+      "platform": "YouTube \u00b7 audience recording",
+      "date": null,
+      "status": "ready",
+      "sourceUrl": "https://www.youtube.com/watch?v=MVnY2vw99SY",
+      "mediaUrl": "https://www.youtube.com/watch?v=MVnY2vw99SY",
+      "youtubeId": "MVnY2vw99SY",
+      "thumbnail": "/tedx.webp",
+      "thumbnailAlt": "Elie R. Haddad, MD, speaking on a TEDxMiami stage",
+      "thumbnailRights": "existing_project_site_asset; press_reuse_pending",
+      "ownerApproved": false,
+      "published": true,
+      "dateStatus": "pending_verification",
+      "publicationApproval": "user_authorized",
+      "temporary": true,
+      "replaceWhenOfficialAvailable": true,
+      "displayStatus": "Temporary audience recording \u00b7 official TEDx release coming soon",
+      "playLabel": "Watch the temporary recording",
+      "useThumbnailAsPoster": true
+    },
+    {
+      "id": "homo-plasticus-conversation",
+      "type": "interview",
+      "title": "Homo Plasticus: The Silent Invasion of Microplastics and Human Health",
+      "description": "A long-form Homo Plasticus conversation about the project's origin, the human-health evidence, and the practical response.",
+      "platform": "YouTube",
+      "date": null,
+      "status": "ready",
+      "sourceUrl": "https://www.youtube.com/watch?v=DJuZBIXeiM8",
+      "mediaUrl": "https://www.youtube.com/watch?v=DJuZBIXeiM8",
+      "youtubeId": "DJuZBIXeiM8",
+      "thumbnail": "/book-official.webp",
+      "thumbnailAlt": "Homo Plasticus book cover",
+      "thumbnailRights": "book_asset_only",
+      "ownerApproved": false,
+      "published": true,
+      "dateStatus": "pending_verification",
+      "publicationApproval": "user_authorized",
+      "temporary": false,
+      "replaceWhenOfficialAvailable": false,
+      "displayStatus": "Long-form conversation \u00b7 current YouTube link",
+      "playLabel": "Watch the conversation",
+      "useThumbnailAsPoster": false
+    }
+  ]
+}

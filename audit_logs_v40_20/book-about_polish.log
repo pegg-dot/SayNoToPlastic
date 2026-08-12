@@ -1,0 +1,28 @@
+
+> homo-plasticus@0.1.0 book-about:polish
+> node scripts/book-about-polish-audit.mjs
+
+[PASS] Dedicated book page explicitly rejects the old four-label-as-whole-book framing.
+[PASS] Book territory section is transparent that it is not the table of contents.
+[PASS] Book page presents six broad territories instead of the old four-card shorthand.
+[PASS] Book territories cover historical context, fragmentation, exposure, human evidence, practical action, and larger response.
+[PASS] Dedicated book page no longer renders the old four-chapter grid.
+[PASS] Homepage book journey is framed as a preview rather than a complete chapter map.
+[PASS] Homepage book spread no longer labels the four preview screens as the book's reading map.
+[PASS] Book interaction retains four navigable preview states without implying only four book themes.
+[PASS] Dr. Haddad hero remains intact.
+[PASS] Condensed About copy preserves the requested cardiology-to-environment-to-public-education narrative arc.
+[PASS] About story keeps all five narrative chapters while reducing copy density.
+[PASS] Education remains a dedicated factual section.
+[PASS] Owner-confirmation workflow language is removed from the public About page.
+[PASS] Public education data follows the higher-authority transcript/Register names currently available.
+[PASS] Education source uncertainty remains recorded internally rather than being silently erased.
+[PASS] All six requested philosophy principles remain after copy reduction.
+[PASS] Closing reflection uses the new horizontal composition instead of the old tall stacked quote.
+[PASS] Closing farewell is condensed rather than removed.
+[PASS] Desktop closing reflection distributes the three statements horizontally.
+[PASS] About narrative no longer forces each chapter into the previous oversized 72svh reading block.
+[PASS] Book territory layout uses a balanced three-column desktop grid.
+[PASS] Book territory grid has a tablet fallback.
+[PASS] Book territory grid has a single-column mobile fallback.
+[SUMMARY] 23 passed, 0 failed.

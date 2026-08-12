@@ -1,0 +1,38 @@
+
+> homo-plasticus@0.1.0 solutions:polish
+> node scripts/solutions-polish-audit.mjs
+
+[PASS] Solutions lower action section has one contained inner editorial grid.
+[PASS] Kitchen image and direct-change headline share one coherent lead row.
+[PASS] Direct-change copy has an explicit aligned layout hook.
+[PASS] Ivory Solutions field is full-bleed instead of a floating capped block.
+[PASS] Full-bleed field uses a higher-specificity block override so the legacy first-child grid cannot collapse the kitchen figure.
+[PASS] Kitchen image receives the larger share of the desktop lead grid.
+[PASS] Kitchen figure fills its intended lead column instead of collapsing to a thumbnail.
+[PASS] High-specificity Solutions inner override remains block layout, not the legacy grid.
+[PASS] Kitchen image has a controlled editorial crop instead of arbitrary page height.
+[PASS] Three direct guide cards use a consistent compact row rhythm.
+[PASS] Direct Solutions section intentionally stacks on tablet/mobile.
+[PASS] Visible Solutions Evidence Boundary strip is removed.
+[PASS] Solutions page no longer prints the Evidence Boundary label.
+[PASS] Authored-card evidence boundary remains on the Quick Action Card.
+[PASS] Quick Action Card still states the scientific limitation transparently.
+[PASS] Water guide route remains intact.
+[PASS] Kitchen-conversion guide route remains intact.
+[PASS] Single-use guide route remains intact.
+[PASS] One-change planner remains on Solutions.
+[PASS] Planner still enforces one current change.
+[PASS] Exact three core rules remain visible.
+[PASS] Optional-depth bridge remains intact.
+[PASS] Footer no longer renders the Earth-at-night image.
+[PASS] Inheritance quote remains as live text.
+[PASS] Footer quote uses the requested flat dark field.
+[PASS] Only a faint abstract Earth curve remains as optional atmosphere.
+[PASS] Earlier Earth-at-night asset remains preserved for provenance even though it is no longer rendered.
+[PASS] Completion ruler records the later footer visual decision instead of silently contradicting the blueprint.
+[PASS] Rendered review provenance preserved: solutions-flow-01.png.
+[PASS] Rendered review provenance preserved: solutions-flow-02.png.
+[PASS] Rendered review provenance preserved: solutions-flow-03.png.
+[PASS] Rendered review provenance preserved: solutions-flow-04.png.
+[PASS] Solutions visual override history is labeled for future traceability.
+[SUMMARY] 33 passed, 0 failed.

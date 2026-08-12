@@ -1,0 +1,38 @@
+{
+  "version": "v38",
+  "basis": [
+    "docs/sources/RAW_MEETING_TRANSCRIPT.txt",
+    "docs/sources/MASTER_DELIVERY_REGISTER.md",
+    "docs/TRANSCRIPT_REQUIREMENTS_MATRIX.csv",
+    "later explicit owner decisions"
+  ],
+  "completed": [
+    "authored_quick_action_card_restored",
+    "exact_three_core_rules_restored",
+    "rejected_plastic_storage_instruction_removed",
+    "water_guidance_simplified",
+    "kitchen_conversion_guide_added",
+    "single_use_foodware_guide_added",
+    "ovary_fallback_rebuilt",
+    "testis_fallback_rebuilt",
+    "education_conflict_held_pending",
+    "unconfirmed_media_disabled",
+    "movement_domain_identity_corrected",
+    "audience_provider_boundary_added",
+    "media_registry_added",
+    "standalone_collaborator_profile_removed",
+    "detox_wording_given_visible_evidence_boundary"
+  ],
+  "remaining_review_gates": [
+    "dependency_backed_build",
+    "rendered_desktop_tablet_mobile_review",
+    "clinical_anatomy_approval",
+    "final_wordmark_and_font_license",
+    "written_education_timeline_confirmation",
+    "official_media_links_and_rights",
+    "final_welcome_film_assets",
+    "audience_provider_owner_selection",
+    "production_provider_activation"
+  ],
+  "production_changed": false
+}

@@ -1,0 +1,29 @@
+
+> homo-plasticus@0.1.0 anatomy:integrated
+> node scripts/v40-20-integrated-scroll-atlas-audit.mjs
+
+[PASS] Complete-atlas context preloads as the anatomy section approaches the viewport rather than on first page paint.
+[PASS] The scroll stage communicates active visible anatomy and preserves the ten-chapter navigation.
+[PASS] Superseded floating chapter-01 pins are removed without removing chapters 07–10 from the main journey.
+[PASS] The journey introduction explains the persistent context-and-focus behavior.
+[PASS] The complete movable atlas opens directly from chapter 01, not only from the section below the scroll.
+[PASS] All ten anatomy chapters remain registered.
+[PASS] Every scroll scene inherits low-opacity whole-body context for the extended systems.
+[PASS] Chapter 01 visibly includes reproductive, endocrine, urinary, and digestive anatomy in the combined body overview.
+[PASS] The scroll view derives its remote system layers from the same complete-atlas registry.
+[PASS] The scroll renderer mounts reproductive anatomy.
+[PASS] The scroll renderer mounts endocrine anatomy.
+[PASS] The scroll renderer mounts kidneys anatomy.
+[PASS] The scroll renderer mounts digestive anatomy.
+[PASS] Remote atlas models load before the section arrives, share the common cache, and avoid duplicate endocrine surfaces in the overview.
+[PASS] Extended anatomy is not deferred until chapters 07–10; it can be visible in the opening whole-body scene.
+[PASS] The ovary-to-testis transition no longer erases the persistent whole-body context.
+[PASS] Focused chapters still bring their selected shell or organ system forward.
+[PASS] The shared complete-atlas registry still contains the source geometry reused in the scroll.
+[PASS] The integrated-atlas indicator retains responsive styling.
+[PASS] Removed floating-pin styling does not remain as dead interface CSS.
+[PASS] Build identifier preserves the v40.20 integrated atlas or advances to the compatible v40.21 polish candidate.
+[PASS] Dedicated v40.20 audit is registered.
+[PASS] Package lock remains byte-identical to the approved baseline.
+[PASS] v40.20 change, validation, and architecture records are packaged.
+[SUMMARY] 24 passed, 0 failed.

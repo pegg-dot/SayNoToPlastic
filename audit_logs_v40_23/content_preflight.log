@@ -1,0 +1,9 @@
+
+> homo-plasticus@0.1.0 content:preflight
+> node scripts/content-intake-audit.mjs
+
+PASS guide-intake.json: 9 required fields present
+PASS evidence-study-intake.json: 11 required fields present
+PASS media-intake.json: 16 required fields present
+PASS affiliate-product-intake.json: 13 required fields present
+PASS content intake: 4 templates and public registries retain safe publication boundaries

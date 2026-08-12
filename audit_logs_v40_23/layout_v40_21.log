@@ -1,0 +1,47 @@
+
+> homo-plasticus@0.1.0 layout:v40-21
+> node scripts/v40-21-layout-polish-audit.mjs
+
+[PASS] Build identifier preserves v40.21 or advances to the compatible v40.23 polish candidate.
+[PASS] A shared brain-to-head calibration is registered.
+[PASS] Brain calibration positions the local surface inside the upper head rather than the face or neck.
+[PASS] The complete atlas uses the shared brain calibration.
+[PASS] The scroll scene imports the same brain calibration.
+[PASS] The scroll brain is rendered through the shared calibrated transform.
+[PASS] The endocrine chapter brings the endocrine layer forward against a restrained body shell.
+[PASS] The urinary chapter brings kidneys, ureters, and bladder forward.
+[PASS] The skin chapter isolates the exterior surface and suppresses internal context.
+[PASS] The digestive chapter brings its registered organs forward while retaining minimal context.
+[PASS] Endocrine chapter reports the four actually represented tissues.
+[PASS] Endocrine headline describes visible anatomy rather than an abstract network.
+[PASS] Urinary chapter reports its five visible structures.
+[PASS] Skin chapter reports the single whole-body exterior surface.
+[PASS] Digestive chapter reports its four represented organs.
+[PASS] The sticky stage uses one short visible-anatomy label tied to the active chapter.
+[PASS] The long complete-atlas context badge is removed from the sticky stage.
+[PASS] Technical atlas explanation no longer crowds the sticky stage.
+[PASS] Redundant floating Endocrine, Kidney, Skin, and Digestive pins are removed from the opening body view.
+[PASS] All ten chapters remain available through the primary anatomy navigation.
+[PASS] The complete-atlas handoff uses a transparent body silhouette.
+[PASS] Complete-atlas handoff labels Exterior.
+[PASS] Complete-atlas handoff labels Brain.
+[PASS] Complete-atlas handoff labels Circulation.
+[PASS] Complete-atlas handoff labels Heart.
+[PASS] Complete-atlas handoff labels Pelvis + pregnancy.
+[PASS] Complete-atlas handoff labels Endocrine.
+[PASS] Complete-atlas handoff labels Kidneys.
+[PASS] Complete-atlas handoff labels Digestive.
+[PASS] The ambiguous circular ALL graphic is removed.
+[PASS] Pregnancy and early life receives an intentional full-width library treatment.
+[PASS] Science body-system library is a balanced three-by-two grid plus one full-width life-stage pathway.
+[PASS] Science library heading is constrained to avoid excessive wrapping and whitespace.
+[PASS] Body-system library adapts to a balanced two-column tablet layout.
+[PASS] Body-system library becomes one column on mobile.
+[PASS] Science landing page no longer duplicates the dedicated Exposome experience.
+[PASS] The complete Exposome remains available on its canonical route.
+[PASS] The Exposome remains discoverable from the footer and practical-action pathway.
+[PASS] v40.21 includes responsive sticky-stage and body-silhouette styling.
+[PASS] Layout audit remains registered through the v40.22 superseding pass.
+[PASS] Package lock remains byte-identical to the approved baseline.
+[PASS] v40.21 change, validation, and architecture records are packaged.
+[SUMMARY] 42 passed, 0 failed.

@@ -1,0 +1,27 @@
+chapter,section,topic,requirement_ids,disposition
+ch1,1,Project setup / environments / versioning,OP-14;OP-15;OP-16;OP-17,enforced where platform-applicable
+ch1,2,Global colors/typography/spacing/grid,BR-04;BR-05;BR-06;BR-07;DS-01,active + proof/owner gates
+ch1,3,Responsive breakpoints,DS-01;QA-01,proof gate
+ch1,4,Reusable components,DS-01;OP-13,source implemented + proof gate
+ch1,5,Global navigation,IA-01;DS-02;DS-03,source implemented + proof gate
+ch1,6,Global image handling,DS-04;HV-01;HV-02;HV-03;HV-04,source implemented + proof gate
+ch1,7,Motion rules,DS-05;OP-13,source implemented + proof gate
+ch1,8,Accessibility,OP-13;QA-01,proof gate
+ch1,9,SEO / metadata,OP-08;OP-09;CF-08,source implemented + proof gate
+ch1,10,Pre-design checklist,DS-01;DS-02;DS-03;DS-04;DS-05;OP-13,aggregate gate
+ch2,1,Hero,HM-01;HM-02;HM-03;HM-04;HM-08;HV-01;CF-06,partly superseded; approved art retained
+ch2,2,This Changes Everything,AN-01;AN-02;AN-03;AN-06;CF-06,superseded where duplicate of interactive anatomy
+ch2,3,Evidence,SC-01;SC-02;SC-03;SC-04;SC-05;SC-06;SC-07;SC-08;CF-06,dedicated Science retained; Home static architecture superseded
+ch2,4,Where to Start,SO-01;SO-05;SO-07;HV-02;CF-07,content retained; detailed placement moved to Solutions
+ch2,5,Homo Plasticus book,BK-01;BK-02;BK-03;BK-04;BK-05;BK-06;BK-07;BK-08,retained
+ch2,6,Meet Dr. Haddad,AB-01;AB-02;AB-03;AB-04;AB-08;AB-09;AB-13;CF-05,source/asset gates remain
+ch2,7,TEDx,MC-01;MC-02;MC-03;MC-18;CF-06,Home placement superseded; Media-only
+ch2,8,Join the Movement,MC-08;MC-09;MC-10;MC-17;HV-03,source built; provider/render proof remains
+ch2,9,Footer,HM-15;HV-04;DS-06,blueprint photo direction superseded by later rendered review; flat live-quote field built; proof remains
+ch2,10,Section transitions,DS-01;DS-05;QA-01,visual proof gate
+ch2,11,CTA map,HM-08;IA-01;IA-02;IA-03;IA-04;IA-05;IA-06;MC-01,later placement decisions override obsolete TEDx anchors
+ch2,12,Responsive QA,QA-01;DS-01;DS-04,proof gate
+ch2,13,Accessibility QA,OP-13;QA-01;MC-18,proof/asset gate
+ch2,14,Performance QA,OP-12;DS-04;MC-18,proof gate
+ch2,15,Analytics / conversion,OP-10,provider proof remains
+ch2,16,Final designer sign-off,QA-01;OP-12;OP-13;HV-01;HV-02;HV-03;HV-04,aggregate release gate

@@ -1,0 +1,18 @@
+{
+  "id": "",
+  "type": "interview",
+  "title": "",
+  "platform": "",
+  "date": null,
+  "dateStatus": "pending_verification",
+  "sourceUrl": "",
+  "mediaUrl": "",
+  "youtubeId": "",
+  "thumbnail": "",
+  "thumbnailRights": "pending",
+  "ownerApproved": false,
+  "publicationApproval": "pending",
+  "temporary": false,
+  "replaceWhenOfficialAvailable": false,
+  "published": false
+}

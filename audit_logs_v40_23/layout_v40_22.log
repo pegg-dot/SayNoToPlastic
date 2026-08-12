@@ -1,0 +1,27 @@
+
+> homo-plasticus@0.1.0 layout:polish
+> node scripts/v40-22-final-layout-audit.mjs
+
+[PASS] Build identifier preserves the v40.22 layout contract or advances to v40.23 framing polish.
+[PASS] Floating Endocrine, Kidney, Skin, and Digestive pins are removed from the body image.
+[PASS] Removed floating-pin interface CSS does not remain in the bundle.
+[PASS] The ten-chapter anatomy navigation remains the clear route into every system.
+[PASS] Shared brain calibration is updated for the head-aligned placement.
+[PASS] The scrollable anatomy uses the shared head alignment.
+[PASS] The Complete Body Atlas uses the same head alignment.
+[PASS] Calibrated brain top remains below the exterior head top.
+[PASS] Calibrated brain remains in the upper head region rather than the face or neck.
+[PASS] The redundant Exposome block is removed from the main Science page.
+[PASS] The full Exposome remains available on its dedicated Science route.
+[PASS] The Exposome remains discoverable from shared navigation and practical action.
+[PASS] Science retains detection methods and body-system context after deduplication.
+[PASS] All four guide-entry routes remain registered.
+[PASS] Guide entry routes use a balanced two-by-two desktop grid.
+[PASS] Guide entry routes collapse to one column on small screens.
+[PASS] The ivory reading room uses a deliberate paper gradient and tighter vertical rhythm.
+[PASS] Featured guide cards have a coherent surface treatment and compact proportions.
+[PASS] Guide-library cards receive a restrained interactive paper treatment.
+[PASS] The v40.22 final layout audit is registered.
+[PASS] Package lock remains byte-identical to the approved baseline.
+[PASS] v40.22 change, validation, and architecture records are packaged.
+[SUMMARY] 22 passed, 0 failed.

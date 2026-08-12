@@ -1,0 +1,46 @@
+start_line,end_line,classification,topic,requirement_ids
+1,10,requirement,Hero shortening and removal,HM-01;HM-03
+11,13,context/transition,Transition into scroll-led story,AN-11;AN-12
+14,26,requirement,Anatomy accuracy and real organs/reproductive structures,AN-01;AN-02;AN-03;AN-06;AN-08;AN-10
+27,32,requirement,Direct primary-study links; brain study,AN-13;SC-01;SC-07
+33,46,requirement,Cardiovascular evidence plus newer coronary-blood study,AN-04;SC-02;SC-03;SC-04;CF-09
+47,61,requirement,Placenta and human follicular-fluid priority; ovary recognizability,AN-05;AN-07;AN-08;AN-09;SC-05;SC-06
+62,71,context,Social/personal aside,
+72,88,requirement,"Anatomy interaction, optimization, scroll prompt",HM-05;AN-11;AN-12
+89,106,requirement,"Exposure wording, readable scale, concrete visuals, fast fashion/skincare",HM-09;HM-10;HM-11;BR-07
+107,117,requirement,Remove repetition principle; keep Home brief; defer detail,HM-12;HM-17;HM-18;CF-07
+118,124,requirement,"Home navigation, Solutions routing, About destination",IA-01;IA-03;IA-05
+125,139,requirement/source,Detailed About source promised; Science generally liked,AB-02;SC-01;SC-12
+140,146,requirement,Dedicated book page; keep premium book scroll,IA-04;BK-01
+147,160,requirement,Do not publish phone TEDx; wait for official,MC-02;MC-03;MC-18
+161,182,requirement,Events & Media destination; keep Home shorter,IA-06;IA-07;MC-01;MC-04;MC-05;HM-18
+183,205,requirement,Contact discoverability; Ask a question; disclaimer placement; Resources clarity,IA-09;IA-10;IA-11;MC-12;MC-13;MC-14;MC-15
+206,217,requirement/source,Sculpture photography; Quick Action Card source,AS-01;SO-01;SO-02
+218,225,requirement,Simplify water guidance; plastic bottles and reverse osmosis,SO-05;SO-06
+226,240,requirement,No plastic storage/heating; kitchen conversion; single-use plastics,SO-07;SO-08;SO-09;SO-10;SO-11;SO-12
+241,253,requirement/future,Affiliate examples and later activation,OP-04;OP-05;OP-06;OP-07
+254,266,requirement,"Say No to Plastic identity, professional colors, larger titles, signature wordmark",BR-01;BR-04;BR-05;BR-06;BR-07;BR-08
+267,276,context,Personal/university conversation,
+277,284,requirement,Reputable published public-health sources acceptable,SC-07;SC-08
+285,302,requirement/future asset,First-visit intro video content and popup; TEDx moves to Media,HM-06;HM-07;CF-06
+303,308,requirement,Inheritance quote concise; bottom/footer preferred,HM-15;HV-04
+309,318,requirement,Anatomy on Home; action under Guides; evidence under Science,IA-02;IA-03;AN-01
+319,344,requirement,Remove meta verification sermon; allow intentional Science repetition; remove redundant source blocks,SC-08;SC-09;SC-10;SC-11;SC-12;CP-01
+345,357,requirement,Reject cheesy wording; movement identity; professional not-groovy signature font,CP-01;BR-01;BR-05
+358,367,requirement/context,Accepted phrase after clarification; practical starting actions,CP-01;SO-05;SO-07;SO-15
+368,379,requirement,Skincare everywhere; remove anti-panic/evolving-science meta copy,HM-09;SO-18;CP-01
+380,383,source gap,Unidentified incomplete picture,SG-01
+384,403,requirement/platform discussion,Purchase/access and native checkout discussion,HM-08;BK-08;BK-09;BK-10;BK-12
+404,410,requirement,Correct official book image with collaboration credit,BK-02;BR-03
+411,424,requirement,Remove stray/duplicate book copy; collaborator not movement-level,BK-03;BK-07;BR-03;HM-17
+425,432,requirement/future,Book FAQ; affiliates/TEDx/podcast future additions,BK-06;BK-07;OP-17
+433,438,requirement/source conflict,Keep worked About text/image relationship,CF-05
+439,456,requirement/source,Education label and chronology; Chapter 3 source,AB-02;AB-05;AB-06;AB-07
+457,469,requirement/future provider,"Community image, generations, newsletter infrastructure, movement pillars",HV-03;MC-08;MC-09;MC-10;MC-11;MC-17
+470,471,conditional requirement,Linktree only if useful; remove wordy block,MC-16;MC-09
+472,480,requirement/future owner,"Policies, digital-sale/refund support, affiliate legal",OP-01;OP-02;OP-03;OP-07
+481,490,requirement,"Medical disclaimer, media inquiries through Community, Get the Book",MC-14;MC-15;HM-08
+491,505,context/workflow,Future site review / ChatGPT-access discussion,LA-01
+506,513,requirement/provider,GoDaddy domain/DNS; owner handles credentials,BR-08;OP-08;OP-17
+514,524,requirement/future workflow,Launch then Dr. Haddad long-context ChatGPT Pro review,LA-01
+525,528,context,Closing conversation,

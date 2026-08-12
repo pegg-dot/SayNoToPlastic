@@ -1,0 +1,22 @@
+# Say No to Plastic
+
+Say No to Plastic is a physician-led science-to-action platform about plastics, microplastics, nanoplastics, human exposure, and practical exposure reduction. Homo Plasticus is the book and digital product within the platform.
+
+Configured primary site: https://saynotoplastic.com/
+Science ledger: https://saynotoplastic.com/science
+Body-system science library: https://saynotoplastic.com/science#body-system-overviews
+Detection methods: https://saynotoplastic.com/science/how-detection-works
+Exposome framework: https://saynotoplastic.com/science/exposome
+Practical exposure-reduction framework and device-local worksheet: https://saynotoplastic.com/solutions/reduce-exposure
+Field guides: https://saynotoplastic.com/resources
+Book: https://saynotoplastic.com/homo-plasticus
+Events, media, and downloadable evidence briefs: https://saynotoplastic.com/media
+Press kit and one-page briefings: https://saynotoplastic.com/media/press-kit
+Community readings, device-local challenges, and optional email learning series: https://saynotoplastic.com/community
+Editorial policy: https://saynotoplastic.com/editorial-policy
+Medical disclaimer: https://saynotoplastic.com/medical-disclaimer
+Affiliate disclosure: https://saynotoplastic.com/affiliate-disclosure
+
+Important interpretation rule: detection, biological mechanism, observational association, and causation are different levels of evidence. Body-system pages visibly identify whether their primary-source record is verified, partial, or still under source review. Source-review pages are not intended for search indexing until the primary bibliography is attached and approved. Site content is general education and does not provide personal medical advice.
+
+Interactive worksheets and challenges store progress on the visitor's device. The optional ten-part learning series requires explicit consent and may be unavailable until production email operations are configured.

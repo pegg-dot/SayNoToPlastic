@@ -1,0 +1,17 @@
+{
+  "version": "v40.10-one-viewport-welcome-modal",
+  "auditDate": "2026-08-08",
+  "totalRequirements": 179,
+  "doneAndProven": 99,
+  "ourWorkRemains": 48,
+  "blockedOnOwnerProviderSource": 32,
+  "renderedInteractionWorkflowProofStillRequired": 48,
+  "blockedOnOwner": 22,
+  "blockedOnExternalProvider": 8,
+  "blockedOnMissingSourceContext": 2,
+  "productionChanged": false,
+  "sourceChangedByThisPass": true,
+  "previousAuditTotal": 178,
+  "newlyTrackedRequirements": 1,
+  "verdict": "welcome-film-modal-one-viewport-fit-built-render-proof-required"
+}

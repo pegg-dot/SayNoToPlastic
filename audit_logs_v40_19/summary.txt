@@ -1,0 +1,301 @@
+===== npm run anatomy:complete =====
+PASS anatomy_complete
+[PASS] Concise chapters, full-width handoff, system controls, and quick-read panel are styled.
+[PASS] v40.19 includes desktop, tablet, mobile, and reduced-motion layout rules.
+[PASS] Runtime anatomy sources retain visible license attribution.
+[PASS] Build identifier is the v40.19 ten-chapter complete-atlas candidate.
+[PASS] Dedicated v40.19 audit is registered.
+[PASS] Package lock remains byte-identical to the approved baseline.
+[PASS] v40.19 change, validation, and architecture records are packaged.
+[SUMMARY] 59 passed, 0 failed.
+
+===== npm run anatomy:viewer =====
+PASS anatomy_viewer
+[PASS] Viewer has full-screen, canvas, group controls, and responsive styling.
+[PASS] Welcome-film trigger is suppressed while the anatomy modal owns focus.
+[PASS] Viewer animation has a reduced-motion CSS escape hatch.
+[PASS] Dedicated anatomy viewer audit remains registered.
+[PASS] Build identifier advances to the compatible v40.19 anatomy candidate.
+[PASS] Package lock remains byte-identical to the approved lock.
+[PASS] Prior interactive-anatomy implementation records remain packaged.
+[SUMMARY] 58 passed, 0 failed.
+
+===== npm run homepage:final =====
+PASS homepage_final
+[PASS] The integrated journey and complete-atlas handoff have dedicated visual styling.
+[PASS] The final homepage anatomy treatment includes tablet, mobile, and reduced-motion rules.
+[PASS] The complete atlas provides styled per-system focus controls.
+[PASS] Build identifier advances beyond v40.18 to v40.19.
+[PASS] Dedicated homepage-final audit remains registered.
+[PASS] Package lock remains byte-identical to the approved baseline.
+[PASS] v40.18 baseline records remain packaged.
+[SUMMARY] 24 passed, 0 failed.
+
+===== npm run completion:audit =====
+PASS completion_audit
+[PASS] Generated PDF is present and structurally recognizable: public/press-briefs/particles-vs-endocrine-chemicals.pdf.
+[PASS] Generated PDF is present and structurally recognizable: public/press-briefs/reduce-exposure.pdf.
+[PASS] PDF generation is reproducible from a packaged script.
+[PASS] Generated PDFs have a complete packaged hash/page manifest.
+[PASS] No unsourced lungs/respiratory article was invented.
+[PASS] Build identifier preserves the v40.16 completion baseline or a later compatible candidate.
+[PASS] Package lock remains byte-identical to the approved v40.9+ lock.
+[SUMMARY] 45 passed, 0 failed.
+
+===== npm run content:integration =====
+PASS content_integration
+[PASS] Source register maps all ten PDFs to route and review state
+[PASS] Original integration blueprint is preserved in project docs
+[PASS] Package lock remains byte-identical to the v40.9+ approved lock
+[PASS] Build identifier advances without changing production
+[PASS] Current production commerce default remains WooCommerce
+[PASS] Existing welcome-film integration remains mounted
+[PASS] Shared approved wordmark remains in site chrome
+[SUMMARY] 140 passed, 0 failed.
+
+===== npm run syntax:audit =====
+PASS syntax_audit
+
+> homo-plasticus@0.1.0 syntax:audit
+> node scripts/syntax-audit.mjs
+
+[PASS] 124 TypeScript/TSX files have no parser diagnostics.
+[SUMMARY] 124 files checked, 0 syntax failures.
+
+===== npm run ui:audit =====
+PASS ui_audit
+[PASS] Welcome dialog isolates background content, traps focus locally, labels its description, and shares the scroll lock.
+[PASS] Anatomy controls update the visual immediately, expose chapter relationships, and degrade when IntersectionObserver is unavailable.
+[PASS] Anatomy rendering has a static reduced-motion path, a WebGL/load error boundary, and stable fallback keys.
+[PASS] Book scroll preview is directly keyboard-operable and respects reduced-motion scrolling.
+[PASS] Forms and checkout controls expose pending state, stable descriptions, explicit submission semantics, and configured support identity.
+[PASS] Guide and recommendation filter controls expose named button groups.
+[PASS] Global CSS supports skip-target focus, keyboard book controls, and static reduced-motion anatomy fallbacks.
+[SUMMARY] 12 passed, 0 failed.
+
+===== npm run clarity:audit =====
+PASS clarity_audit
+[PASS] Web card follows the supplied page order: 12 actions, then three core rules.
+[PASS] Explicitly rejected plastic-storage instruction is absent.
+[PASS] Heating guide directly corrects the rejected instruction.
+[PASS] Dedicated kitchen-conversion and single-use guides exist.
+[PASS] Water guide begins with the requested direct advice and explains reverse osmosis.
+[PASS] Guide library makes detail optional.
+[PASS] Science-to-action bridge returns to the same clear principle.
+[SUMMARY] 28 passed, 0 failed.
+
+===== npm run source:audit =====
+PASS source_audit
+[PASS] Book page uses the official cover and includes recovery and refund guidance.
+[PASS] Collaborator credit remains in the published-book byline without a standalone movement-level profile.
+[PASS] Guide schema and RSS identify Say No to Plastic as the publisher.
+[PASS] Movement-level policies and utility pages identify Say No to Plastic rather than the book brand.
+[PASS] Source-referenced public image/model assets exist.
+[PASS] Global CSS braces are balanced.
+[PASS] Roadmap, transcript, clarity, preview, affiliate, current-state, and parked-owner records are present.
+[SUMMARY] 32 passed, 0 failed.
+
+===== npm run links:audit =====
+PASS links_audit
+
+> homo-plasticus@0.1.0 links:audit
+> node scripts/link-audit.mjs
+
+[PASS] 194 internal link references checked against 66 routes and 71 public assets.
+[SUMMARY] 0 broken internal link references.
+
+===== npm run homepage:polish =====
+PASS homepage_polish
+[PASS] Events & Media bridge remains on the homepage.
+[PASS] Events & Media background is full-bleed instead of capped to the editorial content width.
+[PASS] Full-bleed Events & Media keeps its inner content aligned to the editorial grid on wide screens.
+[PASS] Oversized generational image is removed from the homepage Join section.
+[PASS] Homepage still keeps the Community/newsletter path after removing the giant image.
+[PASS] Generational visual remains as a responsive eager hero asset on the dedicated Community page without forcing it onto Home.
+[PASS] v40.1 lower-home visual override block is present and labeled.
+[SUMMARY] 34 passed, 0 failed.
+
+===== npm run science:polish =====
+PASS science_polish
+[PASS] Later rendered review removes the distracting Earth-at-night photo from the live footer.
+[PASS] Science now inherits the calm flat footer field requested in rendered review.
+[PASS] Footer keeps only a very faint abstract Earth curve.
+[PASS] Earlier Earth footer asset remains preserved as source provenance rather than being deleted.
+[PASS] Original Science screenshot is preserved as review provenance.
+[PASS] User-supplied full-body reference is preserved as review provenance.
+[PASS] User-supplied organ collage is preserved as review provenance.
+[SUMMARY] 33 passed, 0 failed.
+
+===== npm run solutions:polish =====
+PASS solutions_polish
+[PASS] Earlier Earth-at-night asset remains preserved for provenance even though it is no longer rendered.
+[PASS] Completion ruler records the later footer visual decision instead of silently contradicting the blueprint.
+[PASS] Rendered review provenance preserved: solutions-flow-01.png.
+[PASS] Rendered review provenance preserved: solutions-flow-02.png.
+[PASS] Rendered review provenance preserved: solutions-flow-03.png.
+[PASS] Rendered review provenance preserved: solutions-flow-04.png.
+[PASS] Solutions visual override history is labeled for future traceability.
+[SUMMARY] 33 passed, 0 failed.
+
+===== npm run guides:polish =====
+PASS guides_polish
+[PASS] Search remains functional and visible.
+[PASS] Accessible guide filters remain intact.
+[PASS] Search/filter result state remains dynamic.
+[PASS] All 14 guide records remain present.
+[PASS] Rendered Guides review provenance preserved: guides-layout-01.png.
+[PASS] Rendered Guides review provenance preserved: guides-layout-02.png.
+[PASS] Guides visual override is labeled for future traceability.
+[SUMMARY] 21 passed, 0 failed.
+
+===== npm run book-about:polish =====
+PASS book-about_polish
+[PASS] Closing reflection uses the new horizontal composition instead of the old tall stacked quote.
+[PASS] Closing farewell is condensed rather than removed.
+[PASS] Desktop closing reflection distributes the three statements horizontally.
+[PASS] About narrative no longer forces each chapter into the previous oversized 72svh reading block.
+[PASS] Book territory layout uses a balanced three-column desktop grid.
+[PASS] Book territory grid has a tablet fallback.
+[PASS] Book territory grid has a single-column mobile fallback.
+[SUMMARY] 23 passed, 0 failed.
+
+===== npm run media-community:polish =====
+PASS media-community_polish
+PASS | Desktop Community poster is explicitly sized to fit within the viewport rather than spanning multiple screens
+PASS | Desktop Community poster preserves full 2:3 source aspect ratio
+PASS | Mobile Community poster returns to natural responsive height without cropping
+PASS | Community page still exposes contact and media routes
+PASS | Oversized generations panel stays removed from Home
+PASS | Welcome film uses the supplied hosted file rather than an invented third-party URL
+
+Media + Community polish audit: 25/25 passed; 0 failed.
+
+===== npm run welcome:film =====
+PASS welcome_film
+PASS | Events & Media embeds the same hosted welcome film inline
+PASS | Events & Media does not autoplay the inline welcome film
+PASS | Events & Media honestly exposes captions/transcript pending
+PASS | Portrait Media player is 9:16 and uses contain
+PASS | Welcome asset moved out of owner/provider blocker count
+PASS | Integration/provenance documentation exists
+
+Welcome-film audit: 32/32 passed; 0 failed.
+
+===== npm run local:preflight =====
+PASS local_preflight
+[PASS] macOS install uses an atomic local lock instead of overlapping installs.
+[PASS] macOS install remains bounded by the cross-platform timeout helper.
+[PASS] Sites/Linux defensive install path remains intact.
+[PASS] Build keeps the proven GNU timeout path when available.
+[PASS] Build falls back to the cross-platform timeout helper when GNU timeout is absent.
+[PASS] Timeout helper implements bounded termination and hard-kill fallback.
+[PASS] Timeout helper handles Unix process groups without assuming them on Windows.
+[SUMMARY] 9 passed, 0 failed.
+
+===== npm run operations:audit =====
+PASS operations_audit
+[PASS] Route, root, and loading failure states are present.
+[PASS] Web app manifest is present.
+[PASS] Robots rules exclude private and utility paths.
+[PASS] Global social preview represents the movement rather than the book product.
+[PASS] Book route has book-specific social metadata.
+[PASS] Visitors can revise optional analytics consent after the banner decision.
+[PASS] Access recovery prevents duplicate submissions and announces progress.
+[SUMMARY] 58 passed, 0 failed.
+
+===== npm run transcript:priority =====
+PASS transcript_priority
+[PASS] T11 Mailchimp-versus-Resend is an explicit provider decision with both adapters available.
+[PASS] T12 Media uses an approval-aware editorial registry.
+[PASS] T13 Collaborator credit is limited to the book byline rather than a movement profile.
+[PASS] T14 Affiliate products remain unpublished until reviewed records exist.
+[PASS] T15 Contested detox and health-protection wording is preserved with a visible evidence boundary.
+[WARN] O01 Final signature wordmark remains an owner-approved design gate; current text treatment is not labeled final.
+[WARN] O02 Reproductive fallbacks are improved, but final clinical/anatomy approval still requires rendered review.
+[SUMMARY] 15 resolved checks, 2 explicit gates, 0 failures.
+
+===== npm run transcript:complete =====
+PASS transcript_complete
+PASS | Master Delivery Register traceability covers all 13 major sections | 13 mapped sections
+PASS | Every Register traceability requirement ID exists in the completion matrix | 160 unique mapped IDs
+PASS | CF-09 is mapped to the cardiovascular transcript segment
+PASS | SC-04 is mapped to the cardiovascular transcript segment
+PASS | No literal airplane/flapping requirement in preserved written transcript | searched literal variants; none found
+PASS | SG-02 preserves independent audio-transcript fidelity review as an open proof gate | 53449969 bytes
+
+Nothing-left-behind audit: 319/319 passed; 0 failed.
+
+===== npm run audience:preflight =====
+PASS audience_preflight
+[PASS] Audience provider boundary supports none, Resend, and Mailchimp.
+[PASS] Mailchimp synchronization covers subscribe and unsubscribe states.
+[PASS] Mailchimp member identifiers are generated without a runtime package dependency.
+[PASS] Resend remains an available audience provider without being silently selected.
+[PASS] Durable outbox routes audience synchronization through the provider adapter.
+[PASS] Protected readiness reports audience provider state without returning secrets.
+[PASS] Reference Mailchimp subscriber hash is a 32-character MD5 digest.
+[SUMMARY] 12 passed, 0 failed.
+
+===== npm run audience:test =====
+PASS audience_test
+
+> homo-plasticus@0.1.0 audience:test
+> node --experimental-strip-types scripts/audience-adapter-test.mjs
+
+[PASS] Audience provider adapter contract passed for none, Resend, and Mailchimp.
+(node:34963) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+===== npm run learning-series:test =====
+PASS learning-series_test
+
+> homo-plasticus@0.1.0 learning-series:test
+> node --experimental-strip-types scripts/learning-series-contract-test.mjs
+
+[PASS] Learning-series registry, challenge plans, scheduling, restart, and unsubscribe contracts are coherent.
+(node:34997) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+===== npm run media:preflight =====
+PASS media_preflight
+> homo-plasticus@0.1.0 media:preflight
+> node scripts/media-preflight.mjs
+
+[WARN] tedx-invisible-inheritance: published under explicit project-user authorization; final owner confirmation remains separate.
+[WARN] tedx-invisible-inheritance: publication date is still pending verification.
+[WARN] homo-plasticus-conversation: published under explicit project-user authorization; final owner confirmation remains separate.
+[WARN] homo-plasticus-conversation: publication date is still pending verification.
+[SUMMARY] 2 media entries checked; 0 errors; 4 warnings.
+
+===== npm run affiliate:preflight =====
+PASS affiliate_preflight
+
+> homo-plasticus@0.1.0 affiliate:preflight
+> node scripts/affiliate-preflight.mjs
+
+Affiliate preflight: 0 catalog records, 0 errors, 1 warnings.
+WARN: No recommendations are published. The page will display the review-queue state.
+
+===== npm run commerce:preflight =====
+PASS commerce_preflight
+[PASS] COMMERCE_MODE is woocommerce.
+[WARN] Publication metadata still needs publicationDate.
+[WARN] Publication metadata still needs pageCount.
+[WARN] Publication metadata still needs isbn.
+[WARN] Preview/sample permission is still pending.
+[WARN] Native commerce activation values were not enforced because COMMERCE_MODE is woocommerce. Run with --strict for a launch-readiness gate.
+[WARN] No --ebook path was supplied, so the final PDF and checksum were not verified.
+[SUMMARY] 16 passed, 6 warnings, 0 failures.
+
+===== npm run content:preflight =====
+PASS content_preflight
+> homo-plasticus@0.1.0 content:preflight
+> node scripts/content-intake-audit.mjs
+
+PASS guide-intake.json: 9 required fields present
+PASS evidence-study-intake.json: 11 required fields present
+PASS media-intake.json: 16 required fields present
+PASS affiliate-product-intake.json: 13 required fields present
+PASS content intake: 4 templates and public registries retain safe publication boundaries
+
+TOTAL_FAILED=0

@@ -1,0 +1,14 @@
+section,topic,requirement_ids,disposition
+1,"Brand, product, and conversion model","BR-01;BR-02;BR-03;BR-04;BR-05;BR-06;BR-07;BR-08;BR-09;BR-10",active + owner/render gates
+2,"Global information architecture","IA-01;IA-02;IA-03;IA-04;IA-05;IA-06;IA-07;IA-08;IA-09;IA-10;IA-11",active
+3,"Homepage narrative, anatomy, exposure, action, book/about/media/community bridges","HM-01;HM-02;HM-03;HM-04;HM-05;HM-06;HM-07;HM-08;HM-09;HM-10;HM-11;HM-12;HM-13;HM-14;HM-15;HM-16;HM-17;HM-18;AN-01;AN-02;AN-03;AN-04;AN-05;AN-06;AN-07;AN-08;AN-09;AN-10;AN-11;AN-12;AN-13;AN-14;AN-15;AN-16;AN-17;AN-18;HV-01;HV-03;HV-04",source built + render/owner gates
+4,"Science system","SC-01;SC-02;SC-03;SC-04;SC-05;SC-06;SC-07;SC-08;SC-09;SC-10;SC-11;SC-12;CF-09",source built + scientific regression rails
+5,"Solutions, Quick Action Card, and guides","SO-01;SO-02;SO-03;SO-04;SO-05;SO-06;SO-07;SO-08;SO-09;SO-10;SO-11;SO-12;SO-13;SO-14;SO-15;SO-16;SO-17;SO-18;CP-01;HV-02",source built + clinical/render gates
+6,"Book and ecommerce","BK-01;BK-02;BK-03;BK-04;BK-05;BK-06;BK-07;BK-08;BK-09;BK-10;BK-11;BK-12;OP-14;OP-15;OP-16",source infrastructure built + owner/provider transaction gates
+7,"Dr. Haddad page","AB-01;AB-02;AB-03;AB-04;AB-05;AB-06;AB-07;AB-08;AB-09;AB-10;AB-11;AB-12;AB-13;CF-04;CF-05",source built + missing-source/owner gates
+8,"Events, media, and community","MC-01;MC-02;MC-03;MC-04;MC-05;MC-06;MC-07;MC-08;MC-09;MC-10;MC-11;MC-16;MC-17;MC-18;HV-03",source built + media/provider gates
+9,"Contact, legal, affiliate, and trust operations","MC-12;MC-13;MC-14;MC-15;OP-01;OP-02;OP-03;OP-04;OP-05;OP-06;OP-07",source built + provider/owner legal reconciliation gates
+10,"Traffic, SEO, data, content engine, performance, accessibility","OP-08;OP-09;OP-10;OP-11;OP-12;OP-13;QA-01;CF-08",source built + real browser/provider proof
+11,"Asset and account register","AS-01;BR-05;BR-08;BR-09;HM-07;BK-11;MC-02;MC-03;MC-17;OP-17",explicit owner/provider/source blockers
+12,"Build order and review gates","QA-01;OP-12;OP-13;OP-14;OP-15;OP-16;OP-17;LA-01",active release sequence
+13,"Current truth / unfinished work remains tracked","OP-14;OP-15;OP-16;OP-17;LA-01;SG-01",current-state guardrail

@@ -1,0 +1,13 @@
+[PASS] .env.example declares AUDIENCE_PROVIDER.
+[PASS] .env.example declares MAILCHIMP_API_KEY.
+[PASS] .env.example declares MAILCHIMP_SERVER_PREFIX.
+[PASS] .env.example declares MAILCHIMP_AUDIENCE_ID.
+[PASS] Audience activation requires an explicit owner/provider choice.
+[PASS] Audience provider boundary supports none, Resend, and Mailchimp.
+[PASS] Mailchimp synchronization covers subscribe and unsubscribe states.
+[PASS] Mailchimp member identifiers are generated without a runtime package dependency.
+[PASS] Resend remains an available audience provider without being silently selected.
+[PASS] Durable outbox routes audience synchronization through the provider adapter.
+[PASS] Protected readiness reports audience provider state without returning secrets.
+[PASS] Reference Mailchimp subscriber hash is a 32-character MD5 digest.
+[SUMMARY] 12 passed, 0 failed.

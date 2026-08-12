@@ -1,0 +1,740 @@
+===== anatomy_complete =====
+
+> homo-plasticus@0.1.0 anatomy:complete
+> node scripts/v40-19-complete-atlas-audit.mjs
+
+[PASS] Home contains neither the retired anatomy card showcase nor the large Exposome block.
+[PASS] The integrated anatomy journey remains in the existing homepage flow.
+[PASS] The shared homepage evidence registry contains ten anatomy chapters.
+[PASS] Extended scroll chapter exists: endocrine-metabolic-system.
+[PASS] Extended scroll chapter exists: kidneys-urinary-system.
+[PASS] Extended scroll chapter exists: skin.
+[PASS] Extended scroll chapter exists: digestive-system.
+[PASS] Visible chapter copy is concise while methods, limits, and sources remain accessible on demand.
+[PASS] All extended chapters can open a focused 3D viewer from the same scroll experience.
+[PASS] A full-width complete-atlas handoff follows the scroll chapters.
+[PASS] The handoff previews every major included system.
+[PASS] The scroll renderer defines at least ten camera states.
+[PASS] Scrollable anatomy renders endocrine geometry.
+[PASS] Scrollable anatomy renders kidneys geometry.
+[PASS] Scrollable anatomy renders digestive geometry.
+[PASS] Scrollable anatomy renders body geometry.
+[PASS] Remote HRA structures lazy-load near their scroll chapters and share the model cache.
+[PASS] Extended chapters occupy distinct synchronized positions in the ten-scene sequence.
+[PASS] Complete atlas has a registered viewer slug.
+[PASS] Complete atlas declares composite mode, focus groups, and a combined model set.
+[PASS] Complete atlas includes Blood vasculature.
+[PASS] Complete atlas includes Brain.
+[PASS] Complete atlas includes Heart.
+[PASS] Complete atlas includes Pelvic skeleton.
+[PASS] Complete atlas includes Uterus.
+[PASS] Complete atlas includes Placenta.
+[PASS] Complete atlas includes Fetal reference surface.
+[PASS] Complete atlas includes Left fallopian tube.
+[PASS] Complete atlas includes Right fallopian tube.
+[PASS] Complete atlas includes Left kidney.
+[PASS] Complete atlas includes Small intestine.
+[PASS] Complete atlas includes Pancreas.
+[PASS] Complete atlas includes Thymus.
+[PASS] Complete atlas exposes a skin focus control.
+[PASS] Complete atlas exposes a brain focus control.
+[PASS] Complete atlas exposes a circulation focus control.
+[PASS] Complete atlas exposes a heart focus control.
+[PASS] Complete atlas exposes a skeleton focus control.
+[PASS] Complete atlas exposes a pregnancy focus control.
+[PASS] Complete atlas exposes a reproductive focus control.
+[PASS] Complete atlas exposes a endocrine focus control.
+[PASS] Complete atlas exposes a urinary focus control.
+[PASS] Complete atlas exposes a digestive focus control.
+[PASS] Complete atlas states the sex-specific compositing boundary instead of fabricating an overlay.
+[PASS] Complete atlas states that it is not a complete clinical body model.
+[PASS] Viewer can isolate or restore each registered system group.
+[PASS] Viewer supports exterior, cutaway, and isolated-system modes.
+[PASS] Complete viewer retains all requested camera controls.
+[PASS] Viewer panel uses a concise known/uncertain summary with optional structure details.
+[PASS] Complete viewer preserves modal focus, Escape, inert-background, and scroll-lock behavior.
+[PASS] Complete atlas has a readable fallback and retry path.
+[PASS] Focused viewers, scroll chapters, and the complete atlas share one cacheable model loader.
+[PASS] Concise chapters, full-width handoff, system controls, and quick-read panel are styled.
+[PASS] v40.19 includes desktop, tablet, mobile, and reduced-motion layout rules.
+[PASS] Runtime anatomy sources retain visible license attribution.
+[PASS] Build identifier is the v40.19 ten-chapter complete-atlas candidate.
+[PASS] Dedicated v40.19 audit is registered.
+[PASS] Package lock remains byte-identical to the approved baseline.
+[PASS] v40.19 change, validation, and architecture records are packaged.
+[SUMMARY] 59 passed, 0 failed.
+===== anatomy_viewer =====
+
+> homo-plasticus@0.1.0 anatomy:viewer
+> node scripts/v40-17-anatomy-viewer-audit.mjs
+
+[PASS] Viewer, registry, journey, scene, and shared model loader are packaged.
+[PASS] Model registry includes digestive-system.
+[PASS] digestive-system opens directly from its scroll chapter.
+[PASS] Model registry includes kidneys-urinary-system.
+[PASS] kidneys-urinary-system opens directly from its scroll chapter.
+[PASS] Model registry includes endocrine-metabolic-system.
+[PASS] endocrine-metabolic-system opens directly from its scroll chapter.
+[PASS] Model registry includes skin.
+[PASS] skin opens directly from its scroll chapter.
+[PASS] Scroll-chapter viewers expose dialog semantics and return focus after closure.
+[PASS] One anatomy journey includes ten chapters and a complete-atlas handoff.
+[PASS] Licensed HRA model is registered: VH_F_Kidney_L.glb.
+[PASS] Licensed HRA model is registered: VH_F_Kidney_R.glb.
+[PASS] Licensed HRA model is registered: VH_F_Ureter_L.glb.
+[PASS] Licensed HRA model is registered: VH_F_Ureter_R.glb.
+[PASS] Licensed HRA model is registered: VH_F_Urinary_Bladder.glb.
+[PASS] Licensed HRA model is registered: VH_F_Small_Intestine.glb.
+[PASS] Licensed HRA model is registered: SBU_F_Intestine_Large.glb.
+[PASS] Licensed HRA model is registered: VH_F_Liver.glb.
+[PASS] Licensed HRA model is registered: VH_F_Pancreas.glb.
+[PASS] Licensed HRA model is registered: VH_F_Thymus.glb.
+[PASS] Licensed HRA model is registered: VH_F_Ovary_L.glb.
+[PASS] Licensed HRA model is registered: VH_F_Ovary_R.glb.
+[PASS] Licensed HRA model is registered: VH_F_Fallopian_Tube_L.glb.
+[PASS] Licensed HRA model is registered: VH_F_Fallopian_Tube_R.glb.
+[PASS] Official HRA CDN and repository fallback URLs are registered.
+[PASS] Skin uses the complete exterior HRA body surface.
+[PASS] Endocrine scope explicitly avoids fabricating unavailable glands.
+[PASS] A shared loader caches models and supports explicit retry invalidation.
+[PASS] Viewer uses the existing Three.js stack, shared loader, and orbit controls without a new UI dependency.
+[PASS] Viewer exposes mouse and touch interaction guidance.
+[PASS] Viewer provides exterior, cutaway, and isolated-system modes.
+[PASS] Camera control is present: Focus system.
+[PASS] Camera control is present: Full body.
+[PASS] Camera control is present: Front.
+[PASS] Camera control is present: Rear.
+[PASS] Camera control is present: Zoom in.
+[PASS] Camera control is present: Zoom out.
+[PASS] Camera control is present: Reset.
+[PASS] Viewer uses a complete shell and calculates framing from loaded model bounds.
+[PASS] Model failures have bounded retry and cache-reset paths.
+[PASS] First-load network behavior and progress are visible.
+[PASS] A conceptual fallback remains available if organ surfaces cannot load.
+[PASS] Viewer has modal semantics, focus containment, Escape closure, inert background, and scroll lock.
+[PASS] Reduced-motion preference disables inertial camera motion.
+[PASS] Viewer communicates the educational and non-diagnostic boundary.
+[PASS] Visible viewer provenance links to the HRA library, release directory, and license.
+[PASS] The same licensed extended-system geometry is integrated into the scroll animation.
+[PASS] The scroll renderer defines at least ten synchronized camera scenes.
+[PASS] Packaged anatomy attribution lists every runtime-loaded HRA surface.
+[PASS] Attribution records license and runtime delivery behavior.
+[PASS] Viewer has full-screen, canvas, group controls, and responsive styling.
+[PASS] Welcome-film trigger is suppressed while the anatomy modal owns focus.
+[PASS] Viewer animation has a reduced-motion CSS escape hatch.
+[PASS] Dedicated anatomy viewer audit remains registered.
+[PASS] Build identifier advances to the compatible v40.19 anatomy candidate.
+[PASS] Package lock remains byte-identical to the approved lock.
+[PASS] Prior interactive-anatomy implementation records remain packaged.
+[SUMMARY] 58 passed, 0 failed.
+===== homepage_final =====
+
+> homo-plasticus@0.1.0 homepage:final
+> node scripts/v40-18-homepage-final-audit.mjs
+
+[PASS] The large Exposome feature remains removed from Home.
+[PASS] The dedicated Exposome route and reusable map remain available elsewhere.
+[PASS] Home preserves the anatomy journey and everyday-exposure section.
+[PASS] The separate light anatomy showcase is retired instead of duplicated.
+[PASS] Homepage evidence includes endocrine-metabolic-system.
+[PASS] endocrine-metabolic-system has a direct 3D action inside the scroll journey.
+[PASS] Homepage evidence includes kidneys-urinary-system.
+[PASS] kidneys-urinary-system has a direct 3D action inside the scroll journey.
+[PASS] Homepage evidence includes skin.
+[PASS] skin has a direct 3D action inside the scroll journey.
+[PASS] Homepage evidence includes digestive-system.
+[PASS] digestive-system has a direct 3D action inside the scroll journey.
+[PASS] Homepage evidence registry exposes at least ten anatomy chapters.
+[PASS] The anatomy renderer exposes at least ten camera scenes.
+[PASS] Chapter copy is concise by default with details available on demand.
+[PASS] A full-width complete-atlas handoff follows the ten scroll chapters.
+[PASS] Complete atlas combines the major local and HRA anatomy surfaces.
+[PASS] The integrated journey and complete-atlas handoff have dedicated visual styling.
+[PASS] The final homepage anatomy treatment includes tablet, mobile, and reduced-motion rules.
+[PASS] The complete atlas provides styled per-system focus controls.
+[PASS] Build identifier advances beyond v40.18 to v40.19.
+[PASS] Dedicated homepage-final audit remains registered.
+[PASS] Package lock remains byte-identical to the approved baseline.
+[PASS] v40.18 baseline records remain packaged.
+[SUMMARY] 24 passed, 0 failed.
+===== completion_audit =====
+
+> homo-plasticus@0.1.0 completion:audit
+> node scripts/v40-16-completion-audit.mjs
+
+[PASS] Existing anatomy journey directly integrates the four extended systems and complete atlas.
+[PASS] Extended-system viewer exposes concise known/uncertain context with keyboard closure and modal semantics.
+[PASS] Bespoke conceptual body-system visual exists: CardiovascularVisual.
+[PASS] Bespoke conceptual body-system visual exists: FemaleReproductiveVisual.
+[PASS] Bespoke conceptual body-system visual exists: EndocrineVisual.
+[PASS] Bespoke conceptual body-system visual exists: KidneyVisual.
+[PASS] Bespoke conceptual body-system visual exists: SkinVisual.
+[PASS] Bespoke conceptual body-system visual exists: DigestiveVisual.
+[PASS] Bespoke conceptual body-system visual exists: PregnancyVisual.
+[PASS] Canonical body-system template renders the matching conceptual visual.
+[PASS] Homepage includes the explicit progress-not-perfection transition and worksheet route.
+[PASS] Quick Action Card links to the fuller exposure guide.
+[PASS] Exposure guide publishes a literal worksheet anchor for cross-route links.
+[PASS] Exposure worksheet is interactive, device-local, printable, and downloadable.
+[PASS] Exposure worksheet remains usable when browser storage is unavailable.
+[PASS] Community page exposes ten readings, consent-based email enrollment, and both challenges.
+[PASS] Community registry contains ten email lessons and the 30-day challenge.
+[PASS] Challenge UI supports 7-day and 30-day device-local plans with printable PDFs.
+[PASS] Challenge tabs and blocked-storage fallback preserve accessible, session-safe operation.
+[PASS] Shared signup form sends an explicit program without changing ordinary Field Notes enrollment.
+[PASS] Subscribe route can schedule the learning series after consent.
+[PASS] Existing active subscribers receive a fresh pending welcome payload after learning-series token rotation.
+[PASS] Outbox delivers lessons in sequence, advances enrollment, and stops the schedule after terminal failure.
+[PASS] Provider success advances the enrollment before payload scrubbing so a final database update can self-heal on retry.
+[PASS] Unsubscribe cancels unsent learning-series lessons.
+[PASS] Learning-series migration and readiness check are present.
+[PASS] Explicit re-enrollment refreshes the unsent schedule and unsubscribe token instead of leaving stale jobs.
+[PASS] Learning-series activation runbook and contract test are packaged.
+[PASS] Media center exposes downloadable evidence briefings.
+[PASS] Press kit exposes the same source-status briefings.
+[PASS] Press registry defines six downloadable one-page briefs.
+[PASS] Generated PDF is present and structurally recognizable: public/downloads/reduce-exposure-worksheet.pdf.
+[PASS] Generated PDF is present and structurally recognizable: public/downloads/sntp-7-day-challenge.pdf.
+[PASS] Generated PDF is present and structurally recognizable: public/downloads/sntp-30-day-challenge.pdf.
+[PASS] Generated PDF is present and structurally recognizable: public/press-briefs/cardiovascular-system.pdf.
+[PASS] Generated PDF is present and structurally recognizable: public/press-briefs/pregnancy-early-life.pdf.
+[PASS] Generated PDF is present and structurally recognizable: public/press-briefs/female-reproductive-health.pdf.
+[PASS] Generated PDF is present and structurally recognizable: public/press-briefs/detection-methods.pdf.
+[PASS] Generated PDF is present and structurally recognizable: public/press-briefs/particles-vs-endocrine-chemicals.pdf.
+[PASS] Generated PDF is present and structurally recognizable: public/press-briefs/reduce-exposure.pdf.
+[PASS] PDF generation is reproducible from a packaged script.
+[PASS] Generated PDFs have a complete packaged hash/page manifest.
+[PASS] No unsourced lungs/respiratory article was invented.
+[PASS] Build identifier preserves the v40.16 completion baseline or a later compatible candidate.
+[PASS] Package lock remains byte-identical to the approved v40.9+ lock.
+[SUMMARY] 45 passed, 0 failed.
+===== content_integration =====
+
+> homo-plasticus@0.1.0 content:integration
+> node --experimental-strip-types scripts/haddad-content-integration-audit.mjs
+
+(node:33101) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+[PASS] Seven body-system narratives are present | 7 records
+[PASS] Body-system slugs are unique
+[PASS] Every planned body-system route is represented
+[PASS] cardiovascular-system: canonical narrative has four sections
+[PASS] cardiovascular-system: known/uncertain boundary is substantive
+[PASS] cardiovascular-system: five takeaways retained
+[PASS] cardiovascular-system: source and review provenance are explicit
+[PASS] cardiovascular-system: review state matches the approved gate | verified
+[PASS] female-reproductive-health: canonical narrative has four sections
+[PASS] female-reproductive-health: known/uncertain boundary is substantive
+[PASS] female-reproductive-health: five takeaways retained
+[PASS] female-reproductive-health: source and review provenance are explicit
+[PASS] female-reproductive-health: review state matches the approved gate | partial
+[PASS] endocrine-metabolic-system: canonical narrative has four sections
+[PASS] endocrine-metabolic-system: known/uncertain boundary is substantive
+[PASS] endocrine-metabolic-system: five takeaways retained
+[PASS] endocrine-metabolic-system: source and review provenance are explicit
+[PASS] endocrine-metabolic-system: review state matches the approved gate | source-review
+[PASS] kidneys-urinary-system: canonical narrative has four sections
+[PASS] kidneys-urinary-system: known/uncertain boundary is substantive
+[PASS] kidneys-urinary-system: five takeaways retained
+[PASS] kidneys-urinary-system: source and review provenance are explicit
+[PASS] kidneys-urinary-system: review state matches the approved gate | source-review
+[PASS] skin: canonical narrative has four sections
+[PASS] skin: known/uncertain boundary is substantive
+[PASS] skin: five takeaways retained
+[PASS] skin: source and review provenance are explicit
+[PASS] skin: review state matches the approved gate | source-review
+[PASS] digestive-system: canonical narrative has four sections
+[PASS] digestive-system: known/uncertain boundary is substantive
+[PASS] digestive-system: five takeaways retained
+[PASS] digestive-system: source and review provenance are explicit
+[PASS] digestive-system: review state matches the approved gate | source-review
+[PASS] pregnancy-early-life: canonical narrative has four sections
+[PASS] pregnancy-early-life: known/uncertain boundary is substantive
+[PASS] pregnancy-early-life: five takeaways retained
+[PASS] pregnancy-early-life: source and review provenance are explicit
+[PASS] pregnancy-early-life: review state matches the approved gate | partial
+[PASS] Detection content preserves four-step method framing
+[PASS] Exposome content preserves the five-domain framework
+[PASS] Reduce-exposure content preserves the no-perfection action framework
+[PASS] Reduce exposure: no-perfection and biggest-source framing retained
+[PASS] Reduce exposure: kitchen-material alternatives retained
+[PASS] Reduce exposure: water, heat, storage, single-use, and food priorities retained
+[PASS] Reduce exposure: clothing, dust, HEPA, ventilation, and personal care retained
+[PASS] Reduce exposure: durable-habit and awareness conclusion retained
+[PASS] Female reproductive: system functions and lifelong ovarian-reserve context retained
+[PASS] Female reproductive: ovary, follicular-fluid, uterus, fibroid, and endometriosis topics retained
+[PASS] Female reproductive: BPA/phthalate distinction and non-causation boundary retained
+[PASS] Endocrine: connected gland network retained
+[PASS] Endocrine: broad hormone functions retained
+[PASS] Endocrine: chemical evidence topics retained
+[PASS] Endocrine: particle mechanisms and hormone questions retained
+[PASS] Endocrine: particles and chemicals remain explicitly separate
+[PASS] Kidneys: filtration scale and core functions retained
+[PASS] Kidneys: filter/retain/eliminate research question retained
+[PASS] Kidneys: nanoplastic and laboratory mechanism context retained
+[PASS] Kidneys: no-proven-disease boundary retained
+[PASS] Skin: largest-organ and barrier functions retained
+[PASS] Skin: intact-skin, nanoplastic, and damaged-skin questions retained
+[PASS] Skin: inhalation/ingestion priority and non-major-route framing retained
+[PASS] Skin: cosmetics, personal care, and chemical absorption remain distinct
+[PASS] Detection: invisible-scale and reported human-sample context retained
+[PASS] Detection: collect, prepare, analyze, identify workflow retained
+[PASS] Detection: size, shape, mass, and spectral distinctions retained
+[PASS] Detection: PE, PP, PET, PS, and PVC retained
+[PASS] Detection: contamination-control and QA safeguards retained
+[PASS] Detection: detection-is-not-harm boundary retained
+[PASS] Digestive: food/water route and swallowed-air context retained
+[PASS] Digestive: immune, microbiome, and barrier context retained
+[PASS] Digestive: stool, elimination, and possible crossing retained
+[PASS] Digestive: inflammation and microbiome research retained
+[PASS] Digestive: no-proven-disease boundary retains named conditions
+[PASS] Exposome: all five supplied domains retained
+[PASS] Exposome: air examples retained
+[PASS] Exposome: water and food examples retained
+[PASS] Exposome: product and lifestyle examples retained
+[PASS] Exposome: body-response and long-term framing retained
+[PASS] Pregnancy: placenta and rapid organ-development framing retained
+[PASS] Pregnancy: cord blood, amniotic fluid, meconium, breast milk, and fetal tissue retained as source-review claims
+[PASS] Pregnancy: before-birth and early-infancy framing retained
+[PASS] Pregnancy: non-causation and no-blame boundaries retained
+[PASS] Cardiovascular: established primary risk factors retained
+[PASS] Cardiovascular: vessel-scale context retained
+[PASS] Cardiovascular: plaque and 84/40/32 coronary findings retained
+[PASS] Cardiovascular: polyethylene and inflammatory-marker details retained
+[PASS] Cardiovascular: association-not-causation boundary retained
+[PASS] Canonical route source exists: app/science/body/[slug]/page.tsx
+[PASS] Canonical route source exists: app/science/how-detection-works/page.tsx
+[PASS] Canonical route source exists: app/science/exposome/page.tsx
+[PASS] Canonical route source exists: app/solutions/reduce-exposure/page.tsx
+[PASS] Reusable integration component exists: app/components/BodySystemLibrary.tsx
+[PASS] Reusable integration component exists: app/components/DetectionPrimer.tsx
+[PASS] Reusable integration component exists: app/components/ExposomeMap.tsx
+[PASS] Exposome tab pattern supports arrow, Home, and End keys
+[PASS] Body-system pages expose evidence status, known/uncertain, sources, and medical boundary
+[PASS] Source-review body-system pages are protected from indexing until bibliography review
+[PASS] Body-system pages are statically generated from the shared registry
+[PASS] Home integrates all ten body-system chapters into one scroll journey and removes the separate showcase
+[PASS] Science integrates methods, body systems, and exposome context
+[PASS] Anatomy chapters cross-link to canonical body-system pages
+[PASS] Solutions adds the long-form reduction framework and preserves the existing planner
+[PASS] Every guide can render connected science without changing the 14-guide catalog
+[PASS] Book page reuses topics as questions rather than inventing a table of contents
+[PASS] About page connects Dr. Haddad's philosophy to the exposome
+[PASS] Media and press kit expose evidence briefing routes and downloadable one-page briefs
+[PASS] Community turns all ten supplied topics into a learning curriculum and challenge path
+[PASS] Editorial policy codifies detection/causation, evidence type, contamination, and source-state rules
+[PASS] Medical disclaimer covers the new high-sensitivity topic areas
+[PASS] Recommendations cannot convert body-system evidence into product-treatment claims
+[PASS] Sitemap publishes the new canonical route families
+[PASS] RSS/Field Notes feed includes body systems and new canonical topics
+[PASS] LLM-readable site map explains source-review indexing boundaries
+[PASS] Supplied source is preserved: docs/sources/haddad-content/pdf/reduce-exposure.pdf
+[PASS] Supplied source hash is registered: docs/sources/haddad-content/pdf/reduce-exposure.pdf
+[PASS] Supplied source is preserved: docs/sources/haddad-content/pdf/female-reproductive-health.pdf
+[PASS] Supplied source hash is registered: docs/sources/haddad-content/pdf/female-reproductive-health.pdf
+[PASS] Supplied source is preserved: docs/sources/haddad-content/pdf/endocrine-metabolic-system.pdf
+[PASS] Supplied source hash is registered: docs/sources/haddad-content/pdf/endocrine-metabolic-system.pdf
+[PASS] Supplied source is preserved: docs/sources/haddad-content/pdf/kidneys-urinary-system.pdf
+[PASS] Supplied source hash is registered: docs/sources/haddad-content/pdf/kidneys-urinary-system.pdf
+[PASS] Supplied source is preserved: docs/sources/haddad-content/pdf/skin.pdf
+[PASS] Supplied source hash is registered: docs/sources/haddad-content/pdf/skin.pdf
+[PASS] Supplied source is preserved: docs/sources/haddad-content/pdf/detecting-microplastics.pdf
+[PASS] Supplied source hash is registered: docs/sources/haddad-content/pdf/detecting-microplastics.pdf
+[PASS] Supplied source is preserved: docs/sources/haddad-content/pdf/digestive-system.pdf
+[PASS] Supplied source hash is registered: docs/sources/haddad-content/pdf/digestive-system.pdf
+[PASS] Supplied source is preserved: docs/sources/haddad-content/pdf/exposome-diagram.pdf
+[PASS] Supplied source hash is registered: docs/sources/haddad-content/pdf/exposome-diagram.pdf
+[PASS] Supplied source is preserved: docs/sources/haddad-content/pdf/pregnancy-placenta-early-life.pdf
+[PASS] Supplied source hash is registered: docs/sources/haddad-content/pdf/pregnancy-placenta-early-life.pdf
+[PASS] Supplied source is preserved: docs/sources/haddad-content/pdf/cardiovascular-system.pdf
+[PASS] Supplied source hash is registered: docs/sources/haddad-content/pdf/cardiovascular-system.pdf
+[PASS] Source register maps all ten PDFs to route and review state
+[PASS] Original integration blueprint is preserved in project docs
+[PASS] Package lock remains byte-identical to the v40.9+ approved lock
+[PASS] Build identifier advances without changing production
+[PASS] Current production commerce default remains WooCommerce
+[PASS] Existing welcome-film integration remains mounted
+[PASS] Shared approved wordmark remains in site chrome
+[SUMMARY] 140 passed, 0 failed.
+===== syntax_audit =====
+
+> homo-plasticus@0.1.0 syntax:audit
+> node scripts/syntax-audit.mjs
+
+[PASS] 124 TypeScript/TSX files have no parser diagnostics.
+[SUMMARY] 124 files checked, 0 syntax failures.
+===== source_audit =====
+
+> homo-plasticus@0.1.0 source:audit
+> node scripts/source-audit.mjs
+
+[PASS] Project JSON files parse successfully.
+[PASS] Guide catalog contains 14 guides, including kitchen conversion and single-use foodware.
+[PASS] Guide slugs are unique.
+[PASS] 54 guide source URLs are structurally valid.
+[PASS] 5 affiliate categories point to valid guides.
+[PASS] Homepage source contains no TEDx content.
+[PASS] Legacy /tedx redirects to the Media feature.
+[PASS] Welcome modal includes first-visit memory, keyboard/focus behavior, replay, and privacy-enhanced playback hooks.
+[PASS] Welcome modal is mounted in the root layout.
+[PASS] Commerce preview mode is explicitly gated and wired.
+[PASS] Book CTA component calls the central checkout endpoint.
+[PASS] No direct legacy checkout URL exists outside central configuration.
+[PASS] Movement canonical identity is Say No to Plastic while the existing WooCommerce fallback remains explicit.
+[PASS] Homepage anatomy journey contains ten unique evidence chapters.
+[PASS] Pregnancy and placenta are one sourced maternal-fetal chapter.
+[PASS] Heart chapter keeps coronary-blood and artery-plaque evidence distinct.
+[PASS] Anatomy journey ends with a complete-body interactive atlas handoff.
+[PASS] Homepage evidence chapters support multiple direct primary sources.
+[PASS] Anatomy renderer contains ten synchronized visual scenes.
+[PASS] Maternal-fetal scene renders the uterus with fetus and placenta.
+[PASS] Stable reproductive fallbacks use labeled, recognizable ovary and testicular views.
+[PASS] Desktop and mobile navigation identify Events & Media explicitly.
+[PASS] Published media has an explicit approval basis, and temporary media is labeled for replacement rather than misrepresented as official.
+[PASS] Education uses the higher-authority transcript/Register presentation while preserving the unresolved source conflict internally.
+[PASS] Contact page is approachable, categorized, and keeps the medical boundary secondary.
+[PASS] Book page uses the official cover and includes recovery and refund guidance.
+[PASS] Collaborator credit remains in the published-book byline without a standalone movement-level profile.
+[PASS] Guide schema and RSS identify Say No to Plastic as the publisher.
+[PASS] Movement-level policies and utility pages identify Say No to Plastic rather than the book brand.
+[PASS] Source-referenced public image/model assets exist.
+[PASS] Global CSS braces are balanced.
+[PASS] Roadmap, transcript, clarity, preview, affiliate, current-state, and parked-owner records are present.
+[SUMMARY] 32 passed, 0 failed.
+===== links_audit =====
+
+> homo-plasticus@0.1.0 links:audit
+> node scripts/link-audit.mjs
+
+[PASS] 194 internal link references checked against 66 routes and 71 public assets.
+[SUMMARY] 0 broken internal link references.
+===== transcript_complete =====
+
+> homo-plasticus@0.1.0 transcript:complete
+> node scripts/nothing-left-behind-audit.mjs
+
+PASS | Matrix contains unique requirement IDs | 179 rows / 179 unique
+PASS | Matrix total matches status JSON | 179 == 179
+PASS | Corrected nothing-left-behind matrix tracks 179 requirements | 179
+PASS | Done count matches status | 99
+PASS | Our-work count matches status | 48
+PASS | Blocked count matches status | 32
+PASS | Owner/approval blocked subtype count matches status | 22
+PASS | External-provider blocked subtype count matches status | 8
+PASS | Missing-source blocked subtype count matches status | 2
+PASS | Blocked subtype counts sum to blocked total | 22+8+2 == 32
+PASS | Bucket counts sum to total | {"1 — Done and proven":99,"3 — Blocked on owner/provider/source input":32,"2 — Our work remains":48}
+PASS | Nothing-left-behind row DS-01 exists
+PASS | Nothing-left-behind row DS-02 exists
+PASS | Nothing-left-behind row DS-03 exists
+PASS | Nothing-left-behind row DS-04 exists
+PASS | Nothing-left-behind row DS-05 exists
+PASS | Nothing-left-behind row DS-06 exists
+PASS | Nothing-left-behind row HV-01 exists
+PASS | Nothing-left-behind row HV-02 exists
+PASS | Nothing-left-behind row HV-03 exists
+PASS | Nothing-left-behind row HV-04 exists
+PASS | Nothing-left-behind row AS-01 exists
+PASS | Nothing-left-behind row CF-05 exists
+PASS | Nothing-left-behind row MC-16 exists
+PASS | Nothing-left-behind row CP-01 exists
+PASS | Nothing-left-behind row LA-01 exists
+PASS | Nothing-left-behind row MC-17 exists
+PASS | Nothing-left-behind row MC-18 exists
+PASS | Nothing-left-behind row MC-19 exists
+PASS | Nothing-left-behind row QA-01 exists
+PASS | Nothing-left-behind row AB-13 exists
+PASS | Nothing-left-behind row CF-06 exists
+PASS | Nothing-left-behind row CF-07 exists
+PASS | Nothing-left-behind row CF-08 exists
+PASS | Nothing-left-behind row CF-09 exists
+PASS | Nothing-left-behind row SG-01 exists
+PASS | Nothing-left-behind row SG-02 exists
+PASS | Nothing-left-behind row HM-19 exists
+PASS | CF-09 preserves the European Heart Journal year conflict
+PASS | HM-07 moves from owner-asset blocker to real-film proof queue
+PASS | HM-19 protects one-viewport welcome-modal fit from regression
+PASS | Coronary-blood evidence record remains 2026
+PASS | Requirement BR-01 required fields
+PASS | Requirement BR-02 required fields
+PASS | Requirement BR-03 required fields
+PASS | Requirement BR-04 required fields
+PASS | Requirement BR-05 required fields
+PASS | Requirement BR-06 required fields
+PASS | Requirement BR-07 required fields
+PASS | Requirement BR-08 required fields
+PASS | Requirement BR-09 required fields
+PASS | Requirement BR-10 required fields
+PASS | Requirement IA-01 required fields
+PASS | Requirement IA-02 required fields
+PASS | Requirement IA-03 required fields
+PASS | Requirement IA-04 required fields
+PASS | Requirement IA-05 required fields
+PASS | Requirement IA-06 required fields
+PASS | Requirement IA-07 required fields
+PASS | Requirement IA-08 required fields
+PASS | Requirement IA-09 required fields
+PASS | Requirement IA-10 required fields
+PASS | Requirement IA-11 required fields
+PASS | Requirement IA-12 required fields
+PASS | Requirement HM-01 required fields
+PASS | Requirement HM-02 required fields
+PASS | Requirement HM-03 required fields
+PASS | Requirement HM-04 required fields
+PASS | Requirement HM-05 required fields
+PASS | Requirement HM-06 required fields
+PASS | Requirement HM-07 required fields
+PASS | Requirement HM-08 required fields
+PASS | Requirement HM-09 required fields
+PASS | Requirement HM-10 required fields
+PASS | Requirement HM-11 required fields
+PASS | Requirement HM-12 required fields
+PASS | Requirement HM-13 required fields
+PASS | Requirement HM-14 required fields
+PASS | Requirement HM-15 required fields
+PASS | Requirement HM-16 required fields
+PASS | Requirement HM-17 required fields
+PASS | Requirement HM-18 required fields
+PASS | Requirement HM-19 required fields
+PASS | Requirement AN-01 required fields
+PASS | Requirement AN-02 required fields
+PASS | Requirement AN-03 required fields
+PASS | Requirement AN-04 required fields
+PASS | Requirement AN-05 required fields
+PASS | Requirement AN-06 required fields
+PASS | Requirement AN-07 required fields
+PASS | Requirement AN-08 required fields
+PASS | Requirement AN-09 required fields
+PASS | Requirement AN-10 required fields
+PASS | Requirement AN-11 required fields
+PASS | Requirement AN-12 required fields
+PASS | Requirement AN-13 required fields
+PASS | Requirement AN-14 required fields
+PASS | Requirement AN-15 required fields
+PASS | Requirement AN-16 required fields
+PASS | Requirement AN-17 required fields
+PASS | Requirement AN-18 required fields
+PASS | Requirement SC-01 required fields
+PASS | Requirement SC-02 required fields
+PASS | Requirement SC-03 required fields
+PASS | Requirement SC-04 required fields
+PASS | Requirement SC-05 required fields
+PASS | Requirement SC-06 required fields
+PASS | Requirement SC-07 required fields
+PASS | Requirement SC-08 required fields
+PASS | Requirement SC-09 required fields
+PASS | Requirement SC-10 required fields
+PASS | Requirement SC-11 required fields
+PASS | Requirement SC-12 required fields
+PASS | Requirement SO-01 required fields
+PASS | Requirement SO-02 required fields
+PASS | Requirement SO-03 required fields
+PASS | Requirement SO-04 required fields
+PASS | Requirement SO-05 required fields
+PASS | Requirement SO-06 required fields
+PASS | Requirement SO-07 required fields
+PASS | Requirement SO-08 required fields
+PASS | Requirement SO-09 required fields
+PASS | Requirement SO-10 required fields
+PASS | Requirement SO-11 required fields
+PASS | Requirement SO-12 required fields
+PASS | Requirement SO-13 required fields
+PASS | Requirement SO-14 required fields
+PASS | Requirement SO-15 required fields
+PASS | Requirement SO-16 required fields
+PASS | Requirement SO-17 required fields
+PASS | Requirement SO-18 required fields
+PASS | Requirement SO-19 required fields
+PASS | Requirement SO-20 required fields
+PASS | Requirement BK-01 required fields
+PASS | Requirement BK-02 required fields
+PASS | Requirement BK-03 required fields
+PASS | Requirement BK-04 required fields
+PASS | Requirement BK-05 required fields
+PASS | Requirement BK-06 required fields
+PASS | Requirement BK-07 required fields
+PASS | Requirement BK-08 required fields
+PASS | Requirement BK-09 required fields
+PASS | Requirement BK-10 required fields
+PASS | Requirement BK-11 required fields
+PASS | Requirement BK-12 required fields
+PASS | Requirement AB-01 required fields
+PASS | Requirement AB-02 required fields
+PASS | Requirement AB-03 required fields
+PASS | Requirement AB-04 required fields
+PASS | Requirement AB-05 required fields
+PASS | Requirement AB-06 required fields
+PASS | Requirement AB-07 required fields
+PASS | Requirement AB-08 required fields
+PASS | Requirement AB-09 required fields
+PASS | Requirement AB-10 required fields
+PASS | Requirement AB-11 required fields
+PASS | Requirement AB-12 required fields
+PASS | Requirement MC-01 required fields
+PASS | Requirement MC-02 required fields
+PASS | Requirement MC-03 required fields
+PASS | Requirement MC-04 required fields
+PASS | Requirement MC-05 required fields
+PASS | Requirement MC-06 required fields
+PASS | Requirement MC-07 required fields
+PASS | Requirement MC-08 required fields
+PASS | Requirement MC-09 required fields
+PASS | Requirement MC-10 required fields
+PASS | Requirement MC-11 required fields
+PASS | Requirement MC-12 required fields
+PASS | Requirement MC-13 required fields
+PASS | Requirement MC-14 required fields
+PASS | Requirement MC-15 required fields
+PASS | Requirement OP-01 required fields
+PASS | Requirement OP-02 required fields
+PASS | Requirement OP-03 required fields
+PASS | Requirement OP-04 required fields
+PASS | Requirement OP-05 required fields
+PASS | Requirement OP-06 required fields
+PASS | Requirement OP-07 required fields
+PASS | Requirement OP-08 required fields
+PASS | Requirement OP-09 required fields
+PASS | Requirement OP-10 required fields
+PASS | Requirement OP-11 required fields
+PASS | Requirement OP-12 required fields
+PASS | Requirement OP-13 required fields
+PASS | Requirement OP-14 required fields
+PASS | Requirement OP-15 required fields
+PASS | Requirement OP-16 required fields
+PASS | Requirement OP-17 required fields
+PASS | Requirement CF-01 required fields
+PASS | Requirement CF-02 required fields
+PASS | Requirement CF-03 required fields
+PASS | Requirement CF-04 required fields
+PASS | Requirement DS-01 required fields
+PASS | Requirement DS-02 required fields
+PASS | Requirement DS-03 required fields
+PASS | Requirement DS-04 required fields
+PASS | Requirement DS-05 required fields
+PASS | Requirement DS-06 required fields
+PASS | Requirement HV-01 required fields
+PASS | Requirement HV-02 required fields
+PASS | Requirement HV-03 required fields
+PASS | Requirement HV-04 required fields
+PASS | Requirement AS-01 required fields
+PASS | Requirement CF-05 required fields
+PASS | Requirement MC-16 required fields
+PASS | Requirement CP-01 required fields
+PASS | Requirement LA-01 required fields
+PASS | Requirement MC-17 required fields
+PASS | Requirement MC-18 required fields
+PASS | Requirement QA-01 required fields
+PASS | Requirement AB-13 required fields
+PASS | Requirement CF-06 required fields
+PASS | Requirement CF-07 required fields
+PASS | Requirement CF-08 required fields
+PASS | Requirement CF-09 required fields
+PASS | Requirement SG-01 required fields
+PASS | Requirement SG-02 required fields
+PASS | Requirement BK-13 required fields
+PASS | Requirement AB-14 required fields
+PASS | Requirement MC-19 required fields
+PASS | Required audit/source asset app/components/ExposureRouteVisual.tsx
+PASS | Required audit/source asset public/hero-desktop.webp
+PASS | Required audit/source asset public/hero-mobile.webp
+PASS | Required audit/source asset public/kitchen-desktop.webp
+PASS | Required audit/source asset public/kitchen-mobile.webp
+PASS | Required audit/source asset public/generations.webp
+PASS | Required audit/source asset public/generations-mobile.webp
+PASS | Required audit/source asset public/generations-full.webp
+PASS | Required audit/source asset public/generations-full-mobile.webp
+PASS | Required audit/source asset public/earth-footer.webp
+PASS | Required audit/source asset public/sntp-social-share.webp
+PASS | Required audit/source asset public/brand/sntp-wordmark-horizontal.svg
+PASS | Required audit/source asset public/brand/sntp-wordmark-compact.svg
+PASS | Required audit/source asset public/brand/sntp-wordmark-monochrome.svg
+PASS | Required audit/source asset docs/CONTENT_OPERATIONS.md
+PASS | Required audit/source asset scripts/content-intake-audit.mjs
+PASS | Required audit/source asset docs/RAW_TRANSCRIPT_TRACEABILITY.md
+PASS | Required audit/source asset docs/RAW_TRANSCRIPT_TRACEABILITY.csv
+PASS | Required audit/source asset docs/BLUEPRINT_TRACEABILITY.md
+PASS | Required audit/source asset docs/BLUEPRINT_TRACEABILITY.csv
+PASS | Required audit/source asset docs/REGISTER_TRACEABILITY.md
+PASS | Required audit/source asset docs/REGISTER_TRACEABILITY.csv
+PASS | Required audit/source asset docs/SOURCE_VISUAL_REVIEW.md
+PASS | Required audit/source asset docs/AUDIT_OF_AUDIT.md
+PASS | Required audit/source asset docs/V39_1_CHANGE_MANIFEST.md
+PASS | Required audit/source asset docs/V39_1_NOTHING_LEFT_BEHIND.md
+PASS | Required audit/source asset docs/content-templates/guide-intake.json
+PASS | Required audit/source asset docs/content-templates/evidence-study-intake.json
+PASS | Required audit/source asset docs/content-templates/media-intake.json
+PASS | Required audit/source asset docs/content-templates/affiliate-product-intake.json
+PASS | Required audit/source asset docs/sources/RAW_MEETING_TRANSCRIPT.txt
+PASS | Required audit/source asset docs/sources/MASTER_DELIVERY_REGISTER.md
+PASS | Required audit/source asset docs/sources/audio/Dr-Haddad-website-review-recording.m4a
+PASS | Required audit/source asset docs/sources/blueprints/SayNoToPlastic_Master_Blueprint_Chapter_1_Designer_Setup.docx
+PASS | Required audit/source asset docs/sources/blueprints/SayNoToPlastic_Master_Blueprint_Chapter_2_Landing_Page_Build.docx
+PASS | Required audit/source asset docs/sources/images/quick-action-card-page-121.png
+PASS | Required audit/source asset docs/sources/images/homo-plasticus-official-book-render.png
+PASS | Required audit/source asset public/media/welcome-dr-haddad.mp4
+PASS | Required audit/source asset public/media/welcome-dr-haddad-poster.webp
+PASS | Required audit/source asset app/content/welcome-film-metadata.json
+PASS | Required audit/source asset docs/WELCOME_FILM_INTEGRATION.md
+PASS | Source manifest exposes integrity hashes | 17 hashes
+PASS | Source hash docs/sources/RAW_MEETING_TRANSCRIPT.txt | match
+PASS | Source hash docs/sources/audio/Dr-Haddad-website-review-recording.m4a | match
+PASS | Source hash docs/sources/MASTER_DELIVERY_REGISTER.md | match
+PASS | Source hash docs/sources/blueprints/SayNoToPlastic_Master_Blueprint_Chapter_1_Designer_Setup.docx | match
+PASS | Source hash docs/sources/blueprints/SayNoToPlastic_Master_Blueprint_Chapter_2_Landing_Page_Build.docx | match
+PASS | Source hash docs/sources/images/quick-action-card-page-121.png | match
+PASS | Source hash docs/sources/images/homo-plasticus-official-book-render.png | match
+PASS | Source hash docs/sources/haddad-content/pdf/reduce-exposure.pdf | match
+PASS | Source hash docs/sources/haddad-content/pdf/female-reproductive-health.pdf | match
+PASS | Source hash docs/sources/haddad-content/pdf/endocrine-metabolic-system.pdf | match
+PASS | Source hash docs/sources/haddad-content/pdf/kidneys-urinary-system.pdf | match
+PASS | Source hash docs/sources/haddad-content/pdf/skin.pdf | match
+PASS | Source hash docs/sources/haddad-content/pdf/detecting-microplastics.pdf | match
+PASS | Source hash docs/sources/haddad-content/pdf/digestive-system.pdf | match
+PASS | Source hash docs/sources/haddad-content/pdf/exposome-diagram.pdf | match
+PASS | Source hash docs/sources/haddad-content/pdf/pregnancy-placenta-early-life.pdf | match
+PASS | Source hash docs/sources/haddad-content/pdf/cardiovascular-system.pdf | match
+PASS | Rejected phrase absent: caution can be practical without pretending
+PASS | Rejected phrase absent: build a common relationship with evolving science
+PASS | Rejected phrase absent: do not turn caution into panic
+PASS | Rejected phrase absent: turn caution into panic
+PASS | Accepted phrase not encoded as rejected
+PASS | Home uses approved hero art shell
+PASS | Home hero uses eager responsive image derivatives
+PASS | Home intentionally omits the oversized generations panel after rendered user review
+PASS | Community generations visual uses eager responsive hero image derivatives
+PASS | Home uses all six exposure visuals
+PASS | Dedicated Community page retains the approved generations visual shell
+PASS | TEDx is not a homepage section
+PASS | Home lower-page order is action → book → about → media → community | 5850 < 6807 < 6839 < 7980 < 8748
+PASS | Solutions uses approved kitchen responsive picture
+PASS | Header scroll threshold is within 40-60px blueprint window
+PASS | Mobile menu implements focus return
+PASS | Mobile menu implements background scroll lock
+PASS | Scrolled header uses ~92% Midnight Navy
+PASS | Exposure body copy minimum raised to 16px in restored layer
+PASS | Later rendered review supersedes the live Earth photo while preserving a flat quote field
+PASS | Original Earth-at-night asset remains preserved for provenance
+PASS | Footer legal text restored to 14px
+PASS | Footer touch targets restored to 48px
+PASS | Responsive hero derivative is wired
+PASS | Responsive generations derivative is wired on Community
+PASS | Home SEO title matches blueprint intent
+PASS | Home social share asset is 1200x630 candidate
+PASS | Content preflight package command exists
+PASS | Nothing-left-behind package command exists
+PASS | Blueprint traceability covers all 10 Chapter 1 and 16 Chapter 2 sections | 26 mapped sections
+PASS | Raw transcript traceability covers lines 1-528 without gaps | 45 segments; next expected line 529
+PASS | Every transcript traceability requirement ID exists in the completion matrix | 115 unique mapped IDs
+PASS | Every blueprint traceability requirement ID exists in the completion matrix | 78 unique mapped IDs
+PASS | Master Delivery Register traceability covers all 13 major sections | 13 mapped sections
+PASS | Every Register traceability requirement ID exists in the completion matrix | 160 unique mapped IDs
+PASS | CF-09 is mapped to the cardiovascular transcript segment
+PASS | SC-04 is mapped to the cardiovascular transcript segment
+PASS | No literal airplane/flapping requirement in preserved written transcript | searched literal variants; none found
+PASS | SG-02 preserves independent audio-transcript fidelity review as an open proof gate | 53449969 bytes
+
+Nothing-left-behind audit: 319/319 passed; 0 failed.
+===== lockfile =====
+7915a420ef99c285f0a152256b2ca9742f3b520834be90ab937935af8225e85e  package-lock.json
+===== archive-content-scan =====
+NO_TRANSIENT_CONTENT

@@ -1,0 +1,143 @@
+(node:2336) ExperimentalWarning: Type Stripping is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+[PASS] Seven body-system narratives are present | 7 records
+[PASS] Body-system slugs are unique
+[PASS] Every planned body-system route is represented
+[PASS] cardiovascular-system: canonical narrative has four sections
+[PASS] cardiovascular-system: known/uncertain boundary is substantive
+[PASS] cardiovascular-system: five takeaways retained
+[PASS] cardiovascular-system: source and review provenance are explicit
+[PASS] cardiovascular-system: review state matches the approved gate | verified
+[PASS] female-reproductive-health: canonical narrative has four sections
+[PASS] female-reproductive-health: known/uncertain boundary is substantive
+[PASS] female-reproductive-health: five takeaways retained
+[PASS] female-reproductive-health: source and review provenance are explicit
+[PASS] female-reproductive-health: review state matches the approved gate | partial
+[PASS] endocrine-metabolic-system: canonical narrative has four sections
+[PASS] endocrine-metabolic-system: known/uncertain boundary is substantive
+[PASS] endocrine-metabolic-system: five takeaways retained
+[PASS] endocrine-metabolic-system: source and review provenance are explicit
+[PASS] endocrine-metabolic-system: review state matches the approved gate | source-review
+[PASS] kidneys-urinary-system: canonical narrative has four sections
+[PASS] kidneys-urinary-system: known/uncertain boundary is substantive
+[PASS] kidneys-urinary-system: five takeaways retained
+[PASS] kidneys-urinary-system: source and review provenance are explicit
+[PASS] kidneys-urinary-system: review state matches the approved gate | source-review
+[PASS] skin: canonical narrative has four sections
+[PASS] skin: known/uncertain boundary is substantive
+[PASS] skin: five takeaways retained
+[PASS] skin: source and review provenance are explicit
+[PASS] skin: review state matches the approved gate | source-review
+[PASS] digestive-system: canonical narrative has four sections
+[PASS] digestive-system: known/uncertain boundary is substantive
+[PASS] digestive-system: five takeaways retained
+[PASS] digestive-system: source and review provenance are explicit
+[PASS] digestive-system: review state matches the approved gate | source-review
+[PASS] pregnancy-early-life: canonical narrative has four sections
+[PASS] pregnancy-early-life: known/uncertain boundary is substantive
+[PASS] pregnancy-early-life: five takeaways retained
+[PASS] pregnancy-early-life: source and review provenance are explicit
+[PASS] pregnancy-early-life: review state matches the approved gate | partial
+[PASS] Detection content preserves four-step method framing
+[PASS] Exposome content preserves the five-domain framework
+[PASS] Reduce-exposure content preserves the no-perfection action framework
+[PASS] Reduce exposure: no-perfection and biggest-source framing retained
+[PASS] Reduce exposure: kitchen-material alternatives retained
+[PASS] Reduce exposure: water, heat, storage, single-use, and food priorities retained
+[PASS] Reduce exposure: clothing, dust, HEPA, ventilation, and personal care retained
+[PASS] Reduce exposure: durable-habit and awareness conclusion retained
+[PASS] Female reproductive: system functions and lifelong ovarian-reserve context retained
+[PASS] Female reproductive: ovary, follicular-fluid, uterus, fibroid, and endometriosis topics retained
+[PASS] Female reproductive: BPA/phthalate distinction and non-causation boundary retained
+[PASS] Endocrine: connected gland network retained
+[PASS] Endocrine: broad hormone functions retained
+[PASS] Endocrine: chemical evidence topics retained
+[PASS] Endocrine: particle mechanisms and hormone questions retained
+[PASS] Endocrine: particles and chemicals remain explicitly separate
+[PASS] Kidneys: filtration scale and core functions retained
+[PASS] Kidneys: filter/retain/eliminate research question retained
+[PASS] Kidneys: nanoplastic and laboratory mechanism context retained
+[PASS] Kidneys: no-proven-disease boundary retained
+[PASS] Skin: largest-organ and barrier functions retained
+[PASS] Skin: intact-skin, nanoplastic, and damaged-skin questions retained
+[PASS] Skin: inhalation/ingestion priority and non-major-route framing retained
+[PASS] Skin: cosmetics, personal care, and chemical absorption remain distinct
+[PASS] Detection: invisible-scale and reported human-sample context retained
+[PASS] Detection: collect, prepare, analyze, identify workflow retained
+[PASS] Detection: size, shape, mass, and spectral distinctions retained
+[PASS] Detection: PE, PP, PET, PS, and PVC retained
+[PASS] Detection: contamination-control and QA safeguards retained
+[PASS] Detection: detection-is-not-harm boundary retained
+[PASS] Digestive: food/water route and swallowed-air context retained
+[PASS] Digestive: immune, microbiome, and barrier context retained
+[PASS] Digestive: stool, elimination, and possible crossing retained
+[PASS] Digestive: inflammation and microbiome research retained
+[PASS] Digestive: no-proven-disease boundary retains named conditions
+[PASS] Exposome: all five supplied domains retained
+[PASS] Exposome: air examples retained
+[PASS] Exposome: water and food examples retained
+[PASS] Exposome: product and lifestyle examples retained
+[PASS] Exposome: body-response and long-term framing retained
+[PASS] Pregnancy: placenta and rapid organ-development framing retained
+[PASS] Pregnancy: cord blood, amniotic fluid, meconium, breast milk, and fetal tissue retained as source-review claims
+[PASS] Pregnancy: before-birth and early-infancy framing retained
+[PASS] Pregnancy: non-causation and no-blame boundaries retained
+[PASS] Cardiovascular: established primary risk factors retained
+[PASS] Cardiovascular: vessel-scale context retained
+[PASS] Cardiovascular: plaque and 84/40/32 coronary findings retained
+[PASS] Cardiovascular: polyethylene and inflammatory-marker details retained
+[PASS] Cardiovascular: association-not-causation boundary retained
+[PASS] Canonical route source exists: app/science/body/[slug]/page.tsx
+[PASS] Canonical route source exists: app/science/how-detection-works/page.tsx
+[PASS] Canonical route source exists: app/science/exposome/page.tsx
+[PASS] Canonical route source exists: app/solutions/reduce-exposure/page.tsx
+[PASS] Reusable integration component exists: app/components/BodySystemLibrary.tsx
+[PASS] Reusable integration component exists: app/components/DetectionPrimer.tsx
+[PASS] Reusable integration component exists: app/components/ExposomeMap.tsx
+[PASS] Exposome tab pattern supports arrow, Home, and End keys
+[PASS] Body-system pages expose evidence status, known/uncertain, sources, and medical boundary
+[PASS] Source-review body-system pages are protected from indexing until bibliography review
+[PASS] Body-system pages are statically generated from the shared registry
+[PASS] Home integrates all ten body-system chapters into one scroll journey and removes the separate showcase
+[PASS] Science integrates methods, body systems, and exposome context
+[PASS] Anatomy chapters cross-link to canonical body-system pages
+[PASS] Solutions adds the long-form reduction framework and preserves the existing planner
+[PASS] Every guide can render connected science without changing the 14-guide catalog
+[PASS] Book page reuses topics as questions rather than inventing a table of contents
+[PASS] About page connects Dr. Haddad's philosophy to the exposome
+[PASS] Media and press kit expose evidence briefing routes and downloadable one-page briefs
+[PASS] Community turns all ten supplied topics into a learning curriculum and challenge path
+[PASS] Editorial policy codifies detection/causation, evidence type, contamination, and source-state rules
+[PASS] Medical disclaimer covers the new high-sensitivity topic areas
+[PASS] Recommendations cannot convert body-system evidence into product-treatment claims
+[PASS] Sitemap publishes the new canonical route families
+[PASS] RSS/Field Notes feed includes body systems and new canonical topics
+[PASS] LLM-readable site map explains source-review indexing boundaries
+[PASS] Supplied source is preserved: docs/sources/haddad-content/pdf/reduce-exposure.pdf
+[PASS] Supplied source hash is registered: docs/sources/haddad-content/pdf/reduce-exposure.pdf
+[PASS] Supplied source is preserved: docs/sources/haddad-content/pdf/female-reproductive-health.pdf
+[PASS] Supplied source hash is registered: docs/sources/haddad-content/pdf/female-reproductive-health.pdf
+[PASS] Supplied source is preserved: docs/sources/haddad-content/pdf/endocrine-metabolic-system.pdf
+[PASS] Supplied source hash is registered: docs/sources/haddad-content/pdf/endocrine-metabolic-system.pdf
+[PASS] Supplied source is preserved: docs/sources/haddad-content/pdf/kidneys-urinary-system.pdf
+[PASS] Supplied source hash is registered: docs/sources/haddad-content/pdf/kidneys-urinary-system.pdf
+[PASS] Supplied source is preserved: docs/sources/haddad-content/pdf/skin.pdf
+[PASS] Supplied source hash is registered: docs/sources/haddad-content/pdf/skin.pdf
+[PASS] Supplied source is preserved: docs/sources/haddad-content/pdf/detecting-microplastics.pdf
+[PASS] Supplied source hash is registered: docs/sources/haddad-content/pdf/detecting-microplastics.pdf
+[PASS] Supplied source is preserved: docs/sources/haddad-content/pdf/digestive-system.pdf
+[PASS] Supplied source hash is registered: docs/sources/haddad-content/pdf/digestive-system.pdf
+[PASS] Supplied source is preserved: docs/sources/haddad-content/pdf/exposome-diagram.pdf
+[PASS] Supplied source hash is registered: docs/sources/haddad-content/pdf/exposome-diagram.pdf
+[PASS] Supplied source is preserved: docs/sources/haddad-content/pdf/pregnancy-placenta-early-life.pdf
+[PASS] Supplied source hash is registered: docs/sources/haddad-content/pdf/pregnancy-placenta-early-life.pdf
+[PASS] Supplied source is preserved: docs/sources/haddad-content/pdf/cardiovascular-system.pdf
+[PASS] Supplied source hash is registered: docs/sources/haddad-content/pdf/cardiovascular-system.pdf
+[PASS] Source register maps all ten PDFs to route and review state
+[PASS] Original integration blueprint is preserved in project docs
+[PASS] Package lock remains byte-identical to the v40.9+ approved lock
+[PASS] Build identifier advances without changing production
+[PASS] Current production commerce default remains WooCommerce
+[PASS] Existing welcome-film integration remains mounted
+[PASS] Shared approved wordmark remains in site chrome
+[SUMMARY] 140 passed, 0 failed.

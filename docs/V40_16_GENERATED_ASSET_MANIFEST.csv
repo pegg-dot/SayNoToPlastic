@@ -1,0 +1,10 @@
+path,bytes,sha256,pages,generator,status
+public/downloads/reduce-exposure-worksheet.pdf,292270,ed85bf26b0e096ecccd876337415c0c871c2d51eceaa8416de6c5a939ab45883,2,scripts/generate-v40-16-pdfs.py,review-candidate
+public/downloads/sntp-30-day-challenge.pdf,296972,b575394263df05aa03967fc1de0123f841dd45413f2dbc1cfc8143b3f5b9ac56,5,scripts/generate-v40-16-pdfs.py,review-candidate
+public/downloads/sntp-7-day-challenge.pdf,291287,de38bb8badf38728d4f75f828c4e87c71a8d3051b57876958f116236b3261f31,2,scripts/generate-v40-16-pdfs.py,review-candidate
+public/press-briefs/cardiovascular-system.pdf,290627,124b52bbc97068e77d22f1220dd48b936a0a850e2cfd6b22cd4e067b6e01717e,1,scripts/generate-v40-16-pdfs.py,review-candidate
+public/press-briefs/detection-methods.pdf,290488,836d662f6a17aed58aa3731ca9c7e27f11e3519d94df7b13d87a8208d6ace378,1,scripts/generate-v40-16-pdfs.py,review-candidate
+public/press-briefs/female-reproductive-health.pdf,290437,9424e8ef4e435e9b6cefda53ba8821e5443acf2de41b32ca64944aec70e605ac,1,scripts/generate-v40-16-pdfs.py,review-candidate
+public/press-briefs/particles-vs-endocrine-chemicals.pdf,290452,37ed8acaae4e579daf30577899a0e79b583c2b870f3c3a26af454186d9889a8e,1,scripts/generate-v40-16-pdfs.py,review-candidate
+public/press-briefs/pregnancy-early-life.pdf,290483,7cfab7ab038f4a445e8daa64a7b9e0b0ac696d7e4a337beabe0292bb65e5a376,1,scripts/generate-v40-16-pdfs.py,review-candidate
+public/press-briefs/reduce-exposure.pdf,290500,f26c33aeec15dcabfe4d5c77f3586b435cdb38d1d17c20de84f60c55cad49511,1,scripts/generate-v40-16-pdfs.py,review-candidate

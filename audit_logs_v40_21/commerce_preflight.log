@@ -1,0 +1,23 @@
+[PASS] Loaded environment structure from /mnt/data/homo_v40_21_implementation/homo_plasticus_v40_21/.env.example.
+[PASS] Book product data parses successfully.
+[PASS] Book product field title is set.
+[PASS] Book product field subtitle is set.
+[PASS] Book product field author is set.
+[PASS] Book product field collaborator is set.
+[PASS] Book product field productKey is set.
+[PASS] Book product field price is set.
+[PASS] Book product field currency is set.
+[PASS] Book product field format is set.
+[PASS] Book price format is valid.
+[PASS] D1 binding is declared as DB.
+[PASS] R2 binding is declared as EBOOKS.
+[PASS] Commerce delivery lease migration is present.
+[PASS] Site operations and subscription migration is present.
+[PASS] COMMERCE_MODE is woocommerce.
+[WARN] Publication metadata still needs publicationDate.
+[WARN] Publication metadata still needs pageCount.
+[WARN] Publication metadata still needs isbn.
+[WARN] Preview/sample permission is still pending.
+[WARN] Native commerce activation values were not enforced because COMMERCE_MODE is woocommerce. Run with --strict for a launch-readiness gate.
+[WARN] No --ebook path was supplied, so the final PDF and checksum were not verified.
+[SUMMARY] 16 passed, 6 warnings, 0 failures.

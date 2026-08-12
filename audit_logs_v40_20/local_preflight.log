@@ -1,0 +1,14 @@
+
+> homo-plasticus@0.1.0 local:preflight
+> node scripts/local-portability-audit.mjs
+
+[PASS] install:ci has an explicit macOS path.
+[PASS] macOS install still uses locked npm ci rather than npm install.
+[PASS] macOS install uses an atomic local lock instead of overlapping installs.
+[PASS] macOS install remains bounded by the cross-platform timeout helper.
+[PASS] Sites/Linux defensive install path remains intact.
+[PASS] Build keeps the proven GNU timeout path when available.
+[PASS] Build falls back to the cross-platform timeout helper when GNU timeout is absent.
+[PASS] Timeout helper implements bounded termination and hard-kill fallback.
+[PASS] Timeout helper handles Unix process groups without assuming them on Windows.
+[SUMMARY] 9 passed, 0 failed.

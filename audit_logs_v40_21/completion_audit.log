@@ -1,0 +1,46 @@
+[PASS] Existing anatomy journey directly integrates the four extended systems and complete atlas.
+[PASS] Extended-system viewer exposes concise known/uncertain context with keyboard closure and modal semantics.
+[PASS] Bespoke conceptual body-system visual exists: CardiovascularVisual.
+[PASS] Bespoke conceptual body-system visual exists: FemaleReproductiveVisual.
+[PASS] Bespoke conceptual body-system visual exists: EndocrineVisual.
+[PASS] Bespoke conceptual body-system visual exists: KidneyVisual.
+[PASS] Bespoke conceptual body-system visual exists: SkinVisual.
+[PASS] Bespoke conceptual body-system visual exists: DigestiveVisual.
+[PASS] Bespoke conceptual body-system visual exists: PregnancyVisual.
+[PASS] Canonical body-system template renders the matching conceptual visual.
+[PASS] Homepage includes the explicit progress-not-perfection transition and worksheet route.
+[PASS] Quick Action Card links to the fuller exposure guide.
+[PASS] Exposure guide publishes a literal worksheet anchor for cross-route links.
+[PASS] Exposure worksheet is interactive, device-local, printable, and downloadable.
+[PASS] Exposure worksheet remains usable when browser storage is unavailable.
+[PASS] Community page exposes ten readings, consent-based email enrollment, and both challenges.
+[PASS] Community registry contains ten email lessons and the 30-day challenge.
+[PASS] Challenge UI supports 7-day and 30-day device-local plans with printable PDFs.
+[PASS] Challenge tabs and blocked-storage fallback preserve accessible, session-safe operation.
+[PASS] Shared signup form sends an explicit program without changing ordinary Field Notes enrollment.
+[PASS] Subscribe route can schedule the learning series after consent.
+[PASS] Existing active subscribers receive a fresh pending welcome payload after learning-series token rotation.
+[PASS] Outbox delivers lessons in sequence, advances enrollment, and stops the schedule after terminal failure.
+[PASS] Provider success advances the enrollment before payload scrubbing so a final database update can self-heal on retry.
+[PASS] Unsubscribe cancels unsent learning-series lessons.
+[PASS] Learning-series migration and readiness check are present.
+[PASS] Explicit re-enrollment refreshes the unsent schedule and unsubscribe token instead of leaving stale jobs.
+[PASS] Learning-series activation runbook and contract test are packaged.
+[PASS] Media center exposes downloadable evidence briefings.
+[PASS] Press kit exposes the same source-status briefings.
+[PASS] Press registry defines six downloadable one-page briefs.
+[PASS] Generated PDF is present and structurally recognizable: public/downloads/reduce-exposure-worksheet.pdf.
+[PASS] Generated PDF is present and structurally recognizable: public/downloads/sntp-7-day-challenge.pdf.
+[PASS] Generated PDF is present and structurally recognizable: public/downloads/sntp-30-day-challenge.pdf.
+[PASS] Generated PDF is present and structurally recognizable: public/press-briefs/cardiovascular-system.pdf.
+[PASS] Generated PDF is present and structurally recognizable: public/press-briefs/pregnancy-early-life.pdf.
+[PASS] Generated PDF is present and structurally recognizable: public/press-briefs/female-reproductive-health.pdf.
+[PASS] Generated PDF is present and structurally recognizable: public/press-briefs/detection-methods.pdf.
+[PASS] Generated PDF is present and structurally recognizable: public/press-briefs/particles-vs-endocrine-chemicals.pdf.
+[PASS] Generated PDF is present and structurally recognizable: public/press-briefs/reduce-exposure.pdf.
+[PASS] PDF generation is reproducible from a packaged script.
+[PASS] Generated PDFs have a complete packaged hash/page manifest.
+[PASS] No unsourced lungs/respiratory article was invented.
+[PASS] Build identifier preserves the v40.16 completion baseline or a later compatible candidate.
+[PASS] Package lock remains byte-identical to the approved v40.9+ lock.
+[SUMMARY] 45 passed, 0 failed.

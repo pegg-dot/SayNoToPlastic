@@ -1,0 +1,2 @@
+import { Footer, Header } from "./components/SiteChrome";
+export default function NotFound(){return <><Header/><main id="main-content" tabIndex={-1} className="not-found"><p className="eyebrow">404</p><h1>This path has not been mapped.</h1><p>Return to the evidence, the practical actions, or the Say No to Plastic home page.</p><div><a className="button gold" href="/">Return home</a><a className="text-link" href="/science">Explore the evidence ↗</a></div></main><Footer/></>}

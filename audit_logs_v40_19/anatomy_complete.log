@@ -1,0 +1,64 @@
+
+> homo-plasticus@0.1.0 anatomy:complete
+> node scripts/v40-19-complete-atlas-audit.mjs
+
+[PASS] Home contains neither the retired anatomy card showcase nor the large Exposome block.
+[PASS] The integrated anatomy journey remains in the existing homepage flow.
+[PASS] The shared homepage evidence registry contains ten anatomy chapters.
+[PASS] Extended scroll chapter exists: endocrine-metabolic-system.
+[PASS] Extended scroll chapter exists: kidneys-urinary-system.
+[PASS] Extended scroll chapter exists: skin.
+[PASS] Extended scroll chapter exists: digestive-system.
+[PASS] Visible chapter copy is concise while methods, limits, and sources remain accessible on demand.
+[PASS] All extended chapters can open a focused 3D viewer from the same scroll experience.
+[PASS] A full-width complete-atlas handoff follows the scroll chapters.
+[PASS] The handoff previews every major included system.
+[PASS] The scroll renderer defines at least ten camera states.
+[PASS] Scrollable anatomy renders endocrine geometry.
+[PASS] Scrollable anatomy renders kidneys geometry.
+[PASS] Scrollable anatomy renders digestive geometry.
+[PASS] Scrollable anatomy renders body geometry.
+[PASS] Remote HRA structures lazy-load near their scroll chapters and share the model cache.
+[PASS] Extended chapters occupy distinct synchronized positions in the ten-scene sequence.
+[PASS] Complete atlas has a registered viewer slug.
+[PASS] Complete atlas declares composite mode, focus groups, and a combined model set.
+[PASS] Complete atlas includes Blood vasculature.
+[PASS] Complete atlas includes Brain.
+[PASS] Complete atlas includes Heart.
+[PASS] Complete atlas includes Pelvic skeleton.
+[PASS] Complete atlas includes Uterus.
+[PASS] Complete atlas includes Placenta.
+[PASS] Complete atlas includes Fetal reference surface.
+[PASS] Complete atlas includes Left fallopian tube.
+[PASS] Complete atlas includes Right fallopian tube.
+[PASS] Complete atlas includes Left kidney.
+[PASS] Complete atlas includes Small intestine.
+[PASS] Complete atlas includes Pancreas.
+[PASS] Complete atlas includes Thymus.
+[PASS] Complete atlas exposes a skin focus control.
+[PASS] Complete atlas exposes a brain focus control.
+[PASS] Complete atlas exposes a circulation focus control.
+[PASS] Complete atlas exposes a heart focus control.
+[PASS] Complete atlas exposes a skeleton focus control.
+[PASS] Complete atlas exposes a pregnancy focus control.
+[PASS] Complete atlas exposes a reproductive focus control.
+[PASS] Complete atlas exposes a endocrine focus control.
+[PASS] Complete atlas exposes a urinary focus control.
+[PASS] Complete atlas exposes a digestive focus control.
+[PASS] Complete atlas states the sex-specific compositing boundary instead of fabricating an overlay.
+[PASS] Complete atlas states that it is not a complete clinical body model.
+[PASS] Viewer can isolate or restore each registered system group.
+[PASS] Viewer supports exterior, cutaway, and isolated-system modes.
+[PASS] Complete viewer retains all requested camera controls.
+[PASS] Viewer panel uses a concise known/uncertain summary with optional structure details.
+[PASS] Complete viewer preserves modal focus, Escape, inert-background, and scroll-lock behavior.
+[PASS] Complete atlas has a readable fallback and retry path.
+[PASS] Focused viewers, scroll chapters, and the complete atlas share one cacheable model loader.
+[PASS] Concise chapters, full-width handoff, system controls, and quick-read panel are styled.
+[PASS] v40.19 includes desktop, tablet, mobile, and reduced-motion layout rules.
+[PASS] Runtime anatomy sources retain visible license attribution.
+[PASS] Build identifier is the v40.19 ten-chapter complete-atlas candidate.
+[PASS] Dedicated v40.19 audit is registered.
+[PASS] Package lock remains byte-identical to the approved baseline.
+[PASS] v40.19 change, validation, and architecture records are packaged.
+[SUMMARY] 59 passed, 0 failed.

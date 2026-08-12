@@ -1,0 +1,34 @@
+[PASS] Removed the unnecessary “How to read this page” helper block.
+[PASS] Science hero no longer reserves layout space for the removed helper block.
+[PASS] Primary Science headline remains unchanged.
+[PASS] Science hero retains the evidence counts and advances the approved body-system library to seven overviews.
+[PASS] Science hero still communicates primary-source coverage.
+[PASS] User-supplied full-body visual is wired into the Science hero.
+[PASS] Hero body visual is decorative and removed from the accessibility reading order.
+[PASS] Hero body visual is deliberately subdued rather than pasted in at full strength.
+[PASS] Hero has a readability blend between live headline text and the background visual.
+[PASS] Individual blood science visual exists as its own runtime asset.
+[PASS] Individual brain science visual exists as its own runtime asset.
+[PASS] Individual heart-arteries science visual exists as its own runtime asset.
+[PASS] Individual placenta science visual exists as its own runtime asset.
+[PASS] Individual ovary science visual exists as its own runtime asset.
+[PASS] Individual testicular-tissue science visual exists as its own runtime asset.
+[PASS] All six supplied organ/system visuals are independently wired into the Science page.
+[PASS] The supplied collage is not rendered as one giant combined image.
+[PASS] Below-fold chapter imagery is lazy-loaded.
+[PASS] Individual evidence visuals have a consistent editorial frame.
+[PASS] Brain study and source remain intact after visual integration.
+[PASS] 2026 European Heart Journal coronary-blood record remains intact.
+[PASS] Distinct 2024 carotid-plaque record remains intact.
+[PASS] Human follicular-fluid figures remain intact.
+[PASS] Human testicular-tissue figures remain intact.
+[PASS] Placenta finding remains intact.
+[PASS] Blood finding remains intact.
+[PASS] Later rendered review removes the distracting Earth-at-night photo from the live footer.
+[PASS] Science now inherits the calm flat footer field requested in rendered review.
+[PASS] Footer keeps only a very faint abstract Earth curve.
+[PASS] Earlier Earth footer asset remains preserved as source provenance rather than being deleted.
+[PASS] Original Science screenshot is preserved as review provenance.
+[PASS] User-supplied full-body reference is preserved as review provenance.
+[PASS] User-supplied organ collage is preserved as review provenance.
+[SUMMARY] 33 passed, 0 failed.

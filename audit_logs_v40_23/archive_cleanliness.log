@@ -1,0 +1,3 @@
+[CHECK] prohibited generated artifacts
+[PASS] no npm debug logs, compile caches, Python bytecode, build output, node_modules, or editor litter
+[SUMMARY] 603 clean project files

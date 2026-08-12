@@ -1,0 +1,6 @@
+
+> homo-plasticus@0.1.0 syntax:audit
+> node scripts/syntax-audit.mjs
+
+[PASS] 124 TypeScript/TSX files have no parser diagnostics.
+[SUMMARY] 124 files checked, 0 syntax failures.

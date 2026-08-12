@@ -1,0 +1,29 @@
+
+> homo-plasticus@0.1.0 homepage:final
+> node scripts/v40-18-homepage-final-audit.mjs
+
+[PASS] The large Exposome feature remains removed from Home.
+[PASS] The dedicated Exposome route and reusable map remain available elsewhere.
+[PASS] Home preserves the anatomy journey and everyday-exposure section.
+[PASS] The separate light anatomy showcase is retired instead of duplicated.
+[PASS] Homepage evidence includes endocrine-metabolic-system.
+[PASS] endocrine-metabolic-system has a direct 3D action inside the scroll journey.
+[PASS] Homepage evidence includes kidneys-urinary-system.
+[PASS] kidneys-urinary-system has a direct 3D action inside the scroll journey.
+[PASS] Homepage evidence includes skin.
+[PASS] skin has a direct 3D action inside the scroll journey.
+[PASS] Homepage evidence includes digestive-system.
+[PASS] digestive-system has a direct 3D action inside the scroll journey.
+[PASS] Homepage evidence registry exposes at least ten anatomy chapters.
+[PASS] The anatomy renderer exposes at least ten camera scenes.
+[PASS] Chapter copy is concise by default with details available on demand.
+[PASS] A full-width complete-atlas handoff follows the ten scroll chapters.
+[PASS] Complete atlas combines the major local and HRA anatomy surfaces.
+[PASS] The integrated journey and complete-atlas handoff have dedicated visual styling.
+[PASS] The final homepage anatomy treatment includes tablet, mobile, and reduced-motion rules.
+[PASS] The complete atlas provides styled per-system focus controls.
+[PASS] Build identifier advances beyond v40.18 to v40.19.
+[PASS] Dedicated homepage-final audit remains registered.
+[PASS] Package lock remains byte-identical to the approved baseline.
+[PASS] v40.18 baseline records remain packaged.
+[SUMMARY] 24 passed, 0 failed.

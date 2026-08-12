@@ -1,0 +1,10 @@
+[PASS] applied 0000_keen_maddog.sql
+[PASS] applied 0001_outstanding_mach_iv.sql
+[PASS] applied 0002_colossal_hannibal_king.sql
+[PASS] applied 0003_native_commerce.sql
+[PASS] applied 0004_commerce_delivery_leases.sql
+[PASS] applied 0005_site_operations.sql
+[PASS] applied 0006_learning_series.sql
+[SUMMARY] 10 application tables
+[SUMMARY] 20 non-auto indexes
+[SUMMARY] PRAGMA integrity_check => ok

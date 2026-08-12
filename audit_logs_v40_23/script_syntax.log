@@ -1,0 +1,3 @@
+[PASS] 36 .mjs files passed node --check
+[PASS] 5 Python files passed AST parsing
+[PASS] 4 shell files passed bash -n

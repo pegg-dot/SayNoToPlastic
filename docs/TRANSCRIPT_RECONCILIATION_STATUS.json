@@ -1,0 +1,48 @@
+{
+  "version": "v37",
+  "auditedAt": "2026-08-06",
+  "sourceOfTruth": "Say No to Plastic Master Delivery Register derived from the full Dr. Haddad transcript",
+  "rawTranscriptBundled": false,
+  "currentPhase": "dependency-backed build and rendered browser QA of the clarified and operationally resilient experience",
+  "nextPhase": "rendered defect correction, then owner asset insertion and non-production provider integration",
+  "status": {
+    "brandBoundary": "complete-source",
+    "informationArchitecture": "complete-source",
+    "homepageNarrative": "complete-source-visual-qa-pending",
+    "welcomeFilm": "complete-infrastructure-owner-asset-pending",
+    "anatomyNarrative": "structurally-reconciled-clinical-visual-qa-pending",
+    "science": "substantially-complete-editorial-qa-pending",
+    "solutionsGuides": "clarity-reconciled-source-owner-approval-pending",
+    "bookExperience": "substantially-complete-visual-owner-qa-pending",
+    "media": "complete-infrastructure-owner-inventory-pending",
+    "affiliate": "complete-infrastructure-owner-catalog-pending",
+    "nativeCommerce": "complete-infrastructure-provider-activation-pending",
+    "launchOperations": "complete-source-provider-scheduler-and-rendered-proof-pending"
+  },
+  "highestPriorityOpenItems": [
+    "dependency-backed build and rendered browser QA of v37",
+    "licensed recognizable ovary and follicular inset",
+    "maternal-fetal clinical-art registration review",
+    "book/home responsive collision review",
+    "final owner assets and approvals",
+    "non-production provider and scheduled-operations lifecycle tests"
+  ],
+  "clarityDecision": {
+    "source": "User clarification on 2026-08-06, consistent with Dr. Haddad feedback recorded in the delivery register",
+    "firstPrinciple": "Use less plastic where practical",
+    "priority": "Heat and high-frequency food/drink contact first",
+    "behavior": "Choose one change at a time",
+    "optionalDepth": "12-step card, guides, and science remain available without competing with the first step"
+  },
+  "operationsDecision": {
+    "principle": "Record important intent first, deliver second, retry safely, stop visibly",
+    "siteOutboxAttempts": 8,
+    "commerceFulfillmentAttempts": 8,
+    "leaseMinutes": 10,
+    "protectedEndpoints": [
+      "GET /api/internal/readiness",
+      "POST /api/internal/email-outbox"
+    ],
+    "externalDependency": "Approved hosted secret, scheduler, provider configuration, monitoring, and owner"
+  }
+}

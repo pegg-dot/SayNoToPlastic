@@ -1,0 +1,22 @@
+{
+  "title": "Homo Plasticus",
+  "subtitle": "The Most Dangerous Pollutant Is the One Already Inside Us",
+  "author": "Elie R. Haddad, MD",
+  "collaborator": "Dr. Rudolph Eberwein",
+  "productKey": "homo-plasticus-ebook",
+  "price": "9.97",
+  "currency": "USD",
+  "format": "Digital ebook",
+  "publication": {
+    "edition": "Digital edition",
+    "language": "English",
+    "publicationDate": null,
+    "pageCount": null,
+    "isbn": null,
+    "previewPermission": "pending"
+  },
+  "delivery": {
+    "successLinkDays": 7,
+    "emailLinkDays": 30
+  }
+}

@@ -129,18 +129,21 @@
   color: #d7a967;
 }
 
-.reason {
-  max-width: 1240px;
+/* The body of this page now follows one editorial reading axis instead of
+   repeatedly splitting text into opposing left/right columns. */
+.reason,
+.story {
+  width: min(1120px, calc(100% - 96px));
   margin: 0 auto;
-  padding: 92px max(4vw, 48px) 82px;
-  display: grid;
-  grid-template-columns: minmax(180px, .36fr) minmax(0, 1.64fr);
-  gap: clamp(44px, 7vw, 110px);
+}
+
+.reason {
+  padding: 72px 0 68px;
   border-bottom: 1px solid #cfc3ae;
 }
 
 .sectionIndex {
-  margin: 8px 0 0;
+  margin: 0 0 16px;
   color: #8b642f;
   font-size: 10px;
   font-weight: 700;
@@ -149,120 +152,135 @@
 }
 
 .sectionCopy {
-  max-width: 900px;
+  max-width: 920px;
 }
 
 .sectionCopy h2 {
-  margin: 0 0 26px;
-  font-size: clamp(46px, 4.6vw, 70px);
-  line-height: 1;
+  max-width: 900px;
+  margin: 0 0 24px;
+  font-size: clamp(48px, 4.6vw, 68px);
+  line-height: 1.02;
 }
 
 .sectionCopy p {
+  max-width: 860px;
   margin: 0;
   color: #544e45;
-  font: 17px/1.7 Georgia, 'Times New Roman', serif;
+  font: 17px/1.72 Georgia, 'Times New Roman', serif;
 }
 
 .sectionCopy p + p {
-  margin-top: 16px;
+  margin-top: 15px;
 }
 
 .story {
-  max-width: 1240px;
-  margin: 0 auto;
-  padding: 80px max(4vw, 48px) 88px;
+  padding: 68px 0 76px;
 }
 
 .storyHeading {
-  display: grid;
-  grid-template-columns: minmax(220px, .55fr) minmax(0, 1.45fr);
-  gap: clamp(42px, 7vw, 104px);
-  align-items: end;
-  margin-bottom: 36px;
+  max-width: 920px;
+  margin-bottom: 30px;
+}
+
+.storyHeading > div {
+  max-width: 900px;
 }
 
 .storyHeading h2 {
+  max-width: 900px;
   margin: 0;
-  font-size: clamp(44px, 4.4vw, 66px);
-  line-height: 1;
+  font-size: clamp(46px, 4.5vw, 66px);
+  line-height: 1.02;
 }
 
-.storyHeading p:last-child {
-  margin: 0;
-  max-width: 680px;
+.storyHeading > p:last-child {
+  max-width: 820px;
+  margin: 20px 0 0;
   color: #625b50;
-  font: 16px/1.65 Georgia, 'Times New Roman', serif;
+  font: 16.5px/1.68 Georgia, 'Times New Roman', serif;
 }
 
 .storyRows {
+  max-width: 980px;
   border-top: 1px solid #bfb29d;
 }
 
 .storyRow {
   display: grid;
-  grid-template-columns: 72px minmax(190px, .7fr) minmax(0, 1.3fr);
-  gap: 28px;
-  padding: 24px 0 26px;
+  grid-template-columns: 58px minmax(0, 1fr);
+  column-gap: 28px;
+  row-gap: 7px;
+  padding: 22px 0 24px;
   border-bottom: 1px solid #cfc3ae;
 }
 
 .storyRow > span {
+  grid-row: 1 / span 2;
   color: #9a6d34;
   font: 16px/1.5 Georgia, 'Times New Roman', serif;
 }
 
 .storyRow h3 {
+  grid-column: 2;
   margin: 0;
-  font: 400 24px/1.2 Georgia, 'Times New Roman', serif;
+  font: 400 25px/1.2 Georgia, 'Times New Roman', serif;
 }
 
 .storyRow p {
+  grid-column: 2;
+  max-width: 790px;
   margin: 0;
   color: #5d564c;
-  font: 16px/1.62 Georgia, 'Times New Roman', serif;
+  font: 16px/1.65 Georgia, 'Times New Roman', serif;
 }
 
 .closing {
-  padding: 82px max(5.5vw, 64px) 94px;
-  display: grid;
-  grid-template-columns: minmax(0, 1.05fr) minmax(360px, .95fr);
-  gap: clamp(56px, 7vw, 112px);
+  padding: 72px max(5.5vw, 64px) 78px;
+  display: block;
   background: #09121f;
   color: #f5f1e8;
 }
 
+.closingCopy,
+.linkList,
+.deeper {
+  width: min(920px, 100%);
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .closingCopy {
-  max-width: 720px;
+  max-width: 920px;
 }
 
 .closingCopy h2 {
-  margin: 0 0 22px;
-  font-size: clamp(46px, 4.8vw, 72px);
-  line-height: 1;
+  max-width: 880px;
+  margin: 0 0 20px;
+  font-size: clamp(46px, 4.6vw, 68px);
+  line-height: 1.02;
 }
 
 .closingCopy > p:not(.sectionIndex) {
+  max-width: 800px;
   margin: 0;
-  max-width: 650px;
   color: rgba(255,255,255,.66);
-  font: 17px/1.65 Georgia, 'Times New Roman', serif;
+  font: 17px/1.67 Georgia, 'Times New Roman', serif;
 }
 
 .linkList {
-  align-self: end;
+  margin-top: 38px;
   border-top: 1px solid rgba(255,255,255,.2);
 }
 
 .linkList a {
-  min-height: 64px;
+  min-height: 60px;
   display: grid;
   grid-template-columns: 1fr auto;
   align-items: center;
   gap: 20px;
   border-bottom: 1px solid rgba(255,255,255,.18);
   color: #f5f1e8;
-  font: 400 20px/1.25 Georgia, 'Times New Roman', serif;
+  font: 400 19px/1.25 Georgia, 'Times New Roman', serif;
 }
 
 .linkList a span {
@@ -272,14 +290,13 @@
 }
 
 .deeper {
-  grid-column: 1 / -1;
-  margin-top: 4px;
+  margin-top: 22px;
   border-top: 1px solid rgba(255,255,255,.18);
   border-bottom: 1px solid rgba(255,255,255,.18);
 }
 
 .deeper summary {
-  min-height: 58px;
+  min-height: 56px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -309,8 +326,8 @@
 }
 
 .deeperBody {
-  max-width: 860px;
-  padding: 0 0 26px;
+  max-width: 820px;
+  padding: 0 0 24px;
   color: rgba(255,255,255,.64);
   font: 16px/1.7 Georgia, 'Times New Roman', serif;
 }
@@ -336,14 +353,12 @@
 
   .reason,
   .story {
-    padding-left: 40px;
-    padding-right: 40px;
+    width: calc(100% - 80px);
   }
 
   .closing {
     padding-left: 40px;
     padding-right: 40px;
-    grid-template-columns: 1fr 1fr;
   }
 }
 
@@ -396,10 +411,13 @@
     justify-content: center;
   }
 
+  .reason,
+  .story {
+    width: calc(100% - 44px);
+  }
+
   .reason {
-    padding: 68px 22px 62px;
-    grid-template-columns: 1fr;
-    gap: 20px;
+    padding: 56px 0 52px;
   }
 
   .sectionCopy h2 {
@@ -411,27 +429,30 @@
   }
 
   .story {
-    padding: 64px 22px 70px;
+    padding: 54px 0 60px;
   }
 
   .storyHeading {
-    grid-template-columns: 1fr;
-    gap: 18px;
-    margin-bottom: 28px;
+    margin-bottom: 24px;
   }
 
   .storyHeading h2 {
     font-size: clamp(39px, 11vw, 52px);
   }
 
-  .storyRow {
-    grid-template-columns: 38px 1fr;
-    gap: 10px 16px;
+  .storyHeading > p:last-child {
+    margin-top: 16px;
+    font-size: 15.5px;
   }
 
-  .storyRow h3,
-  .storyRow p {
-    grid-column: 2;
+  .storyRow {
+    grid-template-columns: 34px minmax(0, 1fr);
+    gap: 7px 14px;
+    padding: 20px 0 22px;
+  }
+
+  .storyRow h3 {
+    font-size: 22px;
   }
 
   .storyRow p {
@@ -439,9 +460,7 @@
   }
 
   .closing {
-    padding: 64px 22px 72px;
-    grid-template-columns: 1fr;
-    gap: 38px;
+    padding: 56px 22px 62px;
   }
 
   .closingCopy h2 {
@@ -453,7 +472,7 @@
     font-size: 16px;
   }
 
-  .deeper {
-    grid-column: auto;
+  .linkList {
+    margin-top: 30px;
   }
 }

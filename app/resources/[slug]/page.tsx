@@ -5,6 +5,7 @@ import { TrackedLink } from "../../components/TrackedLink";
 import { SITE_URL } from "../../config";
 import { getGuide, guides } from "../../content/guides";
 import { getGuideScienceConnections } from "../../content/science-connections";
+import styles from "./guide.module.css";
 
 export function generateStaticParams() {
   return guides.map(({ slug }) => ({ slug }));
@@ -49,14 +50,18 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
     mainEntityOfPage: `${SITE_URL}/resources/${guide.slug}`,
   };
 
-  return <><Header/><main id="main-content" tabIndex={-1} className="guide-page guide-page-v25 guide-page-v26">
+  return <><Header/><main id="main-content" tabIndex={-1} className={`${styles.guidePage} guide-page guide-page-v25 guide-page-v26`}>
     <header className="guide-hero guide-hero-v25">
-      <div>
+      <div className={styles.heroCopy}>
         <p className="eyebrow">{guide.category} field guide</p>
         <h1>{guide.title}</h1>
         <p>{guide.description}</p>
-        <div className="guide-hero-meta"><span>{guide.readingTime}</span><span>Updated {formatDate(updated)}</span><a href="/editorial-policy">How we source guides →</a></div>
       </div>
+      <aside className={styles.heroMeta} aria-label="Guide details">
+        <div><span>Read</span><strong>{guide.readingTime}</strong></div>
+        <div><span>Updated</span><strong>{formatDate(updated)}</strong></div>
+        <a href="/editorial-policy">How we source guides →</a>
+      </aside>
     </header>
 
     <article className="guide-article guide-article-v25">
@@ -74,14 +79,16 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
           <p>{guide.takeaway}</p>
         </section>
 
-        <section id="evidence" className="guide-prose-section">
-          <p className="eyebrow dark">The evidence</p>
-          <h2>What the evidence supports</h2>
-          <div className="guide-prose-copy">
-            {guide.known.map((item) => <p key={item}>{item}</p>)}
+        <section id="evidence" className={`${styles.evidenceGrid} guide-prose-section`}>
+          <div className={styles.evidenceColumn}>
+            <p className="eyebrow dark">The evidence</p>
+            <h2>What the evidence supports</h2>
+            <div className="guide-prose-copy">
+              {guide.known.map((item) => <p key={item}>{item}</p>)}
+            </div>
           </div>
 
-          <div className="guide-uncertainty-v25">
+          <div className={styles.uncertaintyColumn}>
             <p className="eyebrow dark">Where the evidence stops</p>
             <h3>What remains uncertain</h3>
             <div className="guide-prose-copy">

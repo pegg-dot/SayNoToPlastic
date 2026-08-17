@@ -3,15 +3,46 @@ import { Footer, Header } from "../components/SiteChrome";
 import { guides } from "../content/guides";
 import { TrackedLink } from "../components/TrackedLink";
 import { GuideLibrary } from "../components/GuideLibrary";
+import styles from "./resources.module.css";
 
-const description = "Evidence-aware guides to microplastics in water, food, indoor dust, pregnancy, infant feeding, textiles, personal care, cardiovascular research, and connected body-system science.";
+const description = "Evidence-aware guides to microplastics in water, food, indoor air and dust, clothing, fast fashion, skin, cosmetics, personal care, families, and connected science.";
 export const metadata: Metadata = { title: "Microplastics Guides | Say No to Plastic", description, alternates: { canonical: "/resources" }, openGraph: { title: "Microplastics Guides | Say No to Plastic", description, url: "/resources", siteName: "Say No to Plastic", type: "website", images: [{ url: "/kitchen.webp", width: 1536, height: 1024, alt: "A practical reading room for lower-plastic household choices" }] }, twitter: { card: "summary_large_image", title: "Microplastics Guides | Say No to Plastic", description, images: ["/kitchen.webp"] } };
 
-const readingPaths = [
-  { label: "Start here", title: "Use less plastic where it matters most", text: "Begin with heat, food, drinking water, and the plastic items used every day.", href: "/solutions" },
-  { label: "Understand the body", title: "Move from a practical question into the science", text: "Explore heart, reproductive, digestive, kidney, endocrine, skin, and early-life overviews.", href: "/science#body-system-overviews" },
-  { label: "For families", title: "Pregnancy, infant feeding, and children", text: "Use a no-blame hierarchy that keeps established medical and safety guidance first.", href: "/resources/children-household-plastic-priorities" },
-  { label: "Evaluate a claim", title: "Known, uncertain, and original sources", text: "Every guide shows where the evidence stops and links beyond the summary.", href: "/editorial-policy" },
+const topicRoutes = [
+  { number: "01", label: "Water", href: "/resources/microplastics-drinking-water-filter-guide" },
+  { number: "02", label: "Food + storage", href: "/resources/heating-food-in-plastic" },
+  { number: "03", label: "Air + indoor dust", href: "/resources/microplastics-indoor-dust" },
+  { number: "04", label: "Clothing + fast fashion", href: "/resources/synthetic-clothing-microfibers" },
+  { number: "05", label: "Skin + personal care", href: "/resources/personal-care-cosmetics-plastic" },
 ];
 
-export default function ResourcesPage(){return <><Header/><main id="main-content" tabIndex={-1} className="inner-page resources-v2"><section className="inner-hero resource-hero"><div><p className="eyebrow">The Say No to Plastic reading room</p><h1>Start simple. Go deeper when you need to.</h1><p>Use less plastic first. Open a guide when you have a specific question about water, food, dust, clothing, personal care, or the evidence.</p></div><div className="inner-hero-note"><span>Editorial promise</span><p>We update conclusions when stronger evidence changes the picture. Dates and source links stay visible.</p><dl><div><dt>Guides</dt><dd>{guides.length}</dd></div><div><dt>Topics</dt><dd>{new Set(guides.map((guide)=>guide.category)).size}</dd></div></dl></div></section><section className="resource-pathways"><p className="eyebrow">Choose a route</p><div>{readingPaths.map((path,index)=><TrackedLink key={path.title} href={path.href} eventName="cta_click" label={`resources-path-${index+1}`}><span>0{index+1} · {path.label}</span><h2>{path.title}</h2><p>{path.text}</p><b>Open →</b></TrackedLink>)}</div></section><section className="resource-library ivory"><div className="resource-library-inner"><GuideLibrary guides={guides}/></div></section><section className="resource-editorial-link"><TrackedLink className="editorial-callout" href="/editorial-policy" eventName="cta_click" label="resources-editorial-policy"><strong>Need the sourcing policy?</strong><span>Read the corrections, review, affiliate, and AI-assistance standards →</span></TrackedLink></section></main><Footer/></>}
+export default function ResourcesPage(){return <><Header/><main id="main-content" tabIndex={-1} className="inner-page resources-v2">
+  <section className="inner-hero resource-hero">
+    <div>
+      <p className="eyebrow">Guides</p>
+      <h1>Start simple. Go deeper when you need to.</h1>
+      <p>Solutions gives you the short version. These guides are for the moment you want the why, the evidence, the tradeoffs, and the practical detail behind a specific question.</p>
+    </div>
+    <div className="inner-hero-note">
+      <span>Reading room</span>
+      <p>{guides.length} deeper guides. Read one when it is useful; you do not need to work through the whole library.</p>
+      <dl><div><dt>Guides</dt><dd>{guides.length}</dd></div><div><dt>Approach</dt><dd>Practical</dd></div></dl>
+    </div>
+  </section>
+
+  <section className={styles.topicIntro} aria-labelledby="guide-topics-title">
+    <div className={styles.topicIntroHeader}>
+      <div><p className="eyebrow">Go deeper by question</p><h2 id="guide-topics-title">Choose the subject you actually need.</h2></div>
+      <p>Water, food, inhalation and indoor dust, clothing and fast fashion, and skin or personal-care questions each have a clear starting point. The complete library continues below.</p>
+    </div>
+    <nav className={styles.topicLinks} aria-label="Featured guide topics">
+      {topicRoutes.map((topic) => <TrackedLink key={topic.href} className={styles.topicLink} href={topic.href} eventName="resource_open" label={`resources-topic-${topic.number}`}><span>{topic.number}</span><strong>{topic.label} →</strong></TrackedLink>)}
+    </nav>
+  </section>
+
+  <section id="guide-library" className="resource-library ivory">
+    <div className={styles.libraryShell}><GuideLibrary guides={guides}/></div>
+  </section>
+
+  <section className="resource-editorial-link"><TrackedLink className="editorial-callout" href="/editorial-policy" eventName="cta_click" label="resources-editorial-policy"><strong>How are these guides sourced?</strong><span>Read the review, corrections, affiliate, and AI-assistance standards →</span></TrackedLink></section>
+</main><Footer/></>}

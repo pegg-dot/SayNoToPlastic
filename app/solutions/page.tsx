@@ -38,7 +38,7 @@ export default function SolutionsPage() {
         <aside>
           <span>Dr. Haddad’s approach</span>
           <strong>Keep it simple.</strong>
-          <p>Remove what you can, start with what repeats, and make one change at a time.</p>
+          <p>Use less plastic where you can, start with what repeats, and make one practical change at a time.</p>
         </aside>
       </section>
 
@@ -75,7 +75,7 @@ export default function SolutionsPage() {
               <span>02 · Kitchen</span><h3>Replace the plastic used around heat and food.</h3><p>Start with storage, drinkware, utensils, plates, cups, and the items used every day.</p><b>Open the kitchen guide →</b>
             </TrackedLink>
             <TrackedLink href="/resources/single-use-plastic-foodware" eventName="cta_click" label="solutions-direct-single-use">
-              <span>03 · Single-use</span><h3>Remove disposable plastic foodware where practical.</h3><p>Focus on cups, plates, utensils, takeout containers, and the recurring event or meal that creates the most waste.</p><b>Open the single-use guide →</b>
+              <span>03 · Single-use</span><h3>Reduce disposable plastic foodware where practical.</h3><p>Focus on cups, plates, utensils, takeout containers, and the recurring event or meal that creates the most waste.</p><b>Open the single-use guide →</b>
             </TrackedLink>
           </div>
         </div>
@@ -84,8 +84,8 @@ export default function SolutionsPage() {
       <section className="solutions-exposure-framework" aria-labelledby="solutions-exposure-title">
         <header>
           <p className="eyebrow">Beyond the first three rules</p>
-          <h2 id="solutions-exposure-title">Build a lower-plastic environment without turning it into a purity test.</h2>
-          <p>Dr. Haddad's supplied exposure-reduction draft expands the same simple philosophy across food, water, indoor air, clothing, personal care, and the habits that repeat for years.</p>
+          <h2 id="solutions-exposure-title">Use less plastic. Build from there.</h2>
+          <p>This is about reduction, not perfection. Apply the same simple approach across food, water, indoor air, clothing, personal care, and the habits that repeat for years.</p>
           <TrackedLink className="button outline" href="/solutions/reduce-exposure" eventName="cta_click" label="solutions-full-reduce-exposure">Read the complete exposure-reduction guide <span>→</span></TrackedLink>
         </header>
         <div>
@@ -106,7 +106,7 @@ export default function SolutionsPage() {
       <section className="solutions-next">
         <div>
           <p className="eyebrow">More detail, when you need it</p>
-          <h2>The first step is simple. The rest is optional depth.</h2>
+          <h2>Start with one change. Go deeper when you need to.</h2>
           <p>Use the full action card for a checklist, the guides for specific questions, or the science record for the evidence behind the recommendations.</p>
         </div>
         <div>

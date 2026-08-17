@@ -10,7 +10,6 @@ const read = (p) => readFileSync(join(root,p),"utf8");
 const exists = (p) => existsSync(join(root,p));
 const expect = (ok,label) => checks.push({ok:Boolean(ok),label});
 const sha = (p) => createHash("sha256").update(readFileSync(join(root,p))).digest("hex");
-
 const build = read("app/build-version.ts");
 const env = read(".env.example");
 const current = read("CURRENT_STATE.md");
@@ -21,7 +20,6 @@ const scene = read("app/components/AnatomyScene.tsx");
 const journey = read("app/components/BodyJourney.tsx");
 const config = read("app/config.ts");
 const mediaPage = read("app/media/page.tsx");
-
 expect(build.includes("v40.34-deployment-release-candidate"), "Build identifier is v40.34 deployment release candidate.");
 expect(current.startsWith("# Current State — v40.34"), "CURRENT_STATE begins with the current v40.34 release.");
 expect(handoff.startsWith("# Handoff — v40.34"), "HANDOFF begins with the current v40.34 release.");
@@ -32,68 +30,31 @@ expect(env.includes("PUBLIC_SITE_URL=https://saynotoplastic.com"), "Canonical pu
 expect(config.includes("https://homoplasticus.com/checkout/?add-to-cart=27&quantity=1"), "Legacy WooCommerce checkout fallback remains explicit for owner verification.");
 expect(hosting.project_id === "appgprj_6a7123d6fe008191953f038d7221380e" && hosting.d1 === "DB" && hosting.r2 === "EBOOKS", "Existing Sites project identity and storage binding names remain preserved.");
 expect(sha("package-lock.json") === "7915a420ef99c285f0a152256b2ca9742f3b520834be90ab937935af8225e85e", "Approved package lock remains byte-identical.");
-
 const block=evidence.slice(evidence.indexOf("export const homepageJourney"),evidence.indexOf("export const homepageEvidence"));
 const slugs=[...block.matchAll(/slug: "([^"]+)"/g)].map(m=>m[1]);
 expect(slugs.length===10 && slugs.at(-1)==="testicular-tissue", "Anatomy remains ten chapters with testicular tissue last.");
 expect(scene.includes("MICROPLASTIC_FLOW_DEFINITIONS") && scene.includes("SystemAwareMicroplasticFlow") && journey.includes("journey-complete-atlas-compact"), "v40.33 system-aware particle flow and compact atlas handoff remain intact.");
-
-function walk(dir){
-  const out=[];
-  for(const name of readdirSync(dir)){
-    const p=join(dir,name); const st=statSync(p);
-    if(st.isDirectory()) out.push(...walk(p)); else out.push(p);
-  }
-  return out;
-}
+function walk(dir){const out=[];for(const name of readdirSync(dir)){const p=join(dir,name);const st=statSync(p);if(st.isDirectory())out.push(...walk(p));else out.push(p);}return out;}
 const publicFiles=walk(join(root,"public")).map(p=>p.slice(join(root,"public").length+1));
 expect(!publicFiles.some(p=>/(^|\/)(homo[-_ ]?plasticus|ebook|book)[^/]*\.pdf$/i.test(p)), "No final ebook PDF is packaged under public/.");
 const trackedSecretFiles=walk(root).filter(p=>/(^|\/)(\.env|\.env\.local|credentials\.json)$/i.test(p.slice(root.length+1)));
 expect(trackedSecretFiles.length===0, "No populated .env or credential file is packaged.");
-
-// Phase 11: the removed media slot is replaced by the owner-directed Homo Plasticus sculpture story.
-const sculptureAssets = [
-  "public/media/homo-plasticus-full.webp",
-  "public/media/homo-plasticus-detail-side.webp",
-  "public/media/homo-plasticus-detail-front.webp",
-];
+const sculptureAssets=["public/media/homo-plasticus-full.webp","public/media/homo-plasticus-detail-side.webp","public/media/homo-plasticus-detail-front.webp"];
 expect(sculptureAssets.every(exists), "All three owner-supplied Homo Plasticus sculpture views are packaged as web assets.");
 expect(exists("app/media/media.module.css"), "Homo Plasticus media feature has dedicated responsive layout styling.");
 expect(mediaPage.includes("Art makes the invisible visible."), "Homo Plasticus feature uses the approved art-makes-the-invisible-visible framing.");
 expect(mediaPage.includes("The Silent Invasion of Human Health"), "Homo Plasticus feature carries the approved sculpture subtitle.");
 expect(mediaPage.includes("The artwork is not presented as scientific evidence."), "Sculpture feature explicitly separates artistic interpretation from scientific evidence.");
-expect(mediaPage.includes("Attention") && mediaPage.includes("Curiosity") && mediaPage.includes("Science") && mediaPage.includes("Memory"), "Sculpture story preserves the attention-to-curiosity-to-science-to-memory sequence.");
+expect(mediaPage.includes("Attention")&&mediaPage.includes("Curiosity")&&mediaPage.includes("Science")&&mediaPage.includes("Memory"), "Sculpture story preserves the attention-to-curiosity-to-science-to-memory sequence.");
 expect(!mediaPage.includes("PendingMedia id=\"homo-plasticus-conversation\""), "The former long-form media slot is no longer rendered where the sculpture story belongs.");
-
-// Final zero-survival gate for the intentionally removed Dr. Rudy podcast.
-// Scan every public/runtime source path plus generated build output when present.
-const forbiddenRuntimePattern = /\brudy\b/i;
-const textExtensions = new Set([".ts", ".tsx", ".js", ".jsx", ".mjs", ".cjs", ".json", ".html", ".css", ".txt", ".xml", ".map"]);
-const runtimeRoots = ["app", "public", "worker", "build"].filter(exists);
-const forbiddenRuntimeHits = [];
-for (const runtimeRoot of runtimeRoots) {
-  for (const file of walk(join(root, runtimeRoot))) {
-    const rel = relative(root, file);
-    if (forbiddenRuntimePattern.test(rel)) {
-      forbiddenRuntimeHits.push(`${rel} (path)`);
-      continue;
-    }
-    if (!textExtensions.has(extname(file).toLowerCase())) continue;
-    try {
-      const body = readFileSync(file, "utf8");
-      if (forbiddenRuntimePattern.test(body)) forbiddenRuntimeHits.push(`${rel} (content)`);
-    } catch {
-      // Binary or unreadable files are still covered by the filename/path check above.
-    }
-  }
-}
-if (forbiddenRuntimeHits.length) {
-  console.error("[DETAIL] Removed podcast references detected:");
-  for (const hit of forbiddenRuntimeHits.slice(0, 20)) console.error(`  - ${hit}`);
-}
+const forbiddenRuntimePattern=/\brudy\b/i;
+const textExtensions=new Set([".ts",".tsx",".js",".jsx",".mjs",".cjs",".json",".html",".css",".txt",".xml",".map"]);
+const runtimeRoots=["app","public","worker","build"].filter(exists);
+const forbiddenRuntimeHits=[];
+for(const runtimeRoot of runtimeRoots){for(const file of walk(join(root,runtimeRoot))){const rel=relative(root,file);if(forbiddenRuntimePattern.test(rel)){forbiddenRuntimeHits.push(`${rel} (path)`);continue;}if(!textExtensions.has(extname(file).toLowerCase()))continue;try{const body=readFileSync(file,"utf8");if(forbiddenRuntimePattern.test(body))forbiddenRuntimeHits.push(`${rel} (content)`);}catch{}}}
+if(forbiddenRuntimeHits.length){console.error("[DETAIL] Removed podcast references detected:");for(const hit of forbiddenRuntimeHits.slice(0,20))console.error(`  - ${hit}`);}
 expect(forbiddenRuntimeHits.length===0, "Removed Dr. Rudy podcast has zero public/runtime references, routes, metadata, cards, hidden navigation, or assets.");
-
-for(const c of checks) console.log(`[${c.ok?"PASS":"FAIL"}] ${c.label}`);
+for(const c of checks)console.log(`[${c.ok?"PASS":"FAIL"}] ${c.label}`);
 const failed=checks.filter(c=>!c.ok).length;
 console.log(`[SUMMARY] ${checks.length-failed} passed, ${failed} failed.`);
-if(failed) process.exit(1);
+if(failed)process.exit(1);

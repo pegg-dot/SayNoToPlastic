@@ -1,0 +1,208 @@
+.guidePage :global(.guide-hero-v25) {
+  min-height: auto !important;
+  padding: 126px max(6vw, 64px) 46px !important;
+  display: grid !important;
+  grid-template-columns: minmax(0, 1.45fr) minmax(230px, .55fr);
+  gap: 5vw;
+  align-items: end;
+  border-bottom: 1px solid #d3c7b6;
+}
+
+.heroCopy {
+  max-width: 980px;
+}
+
+.guidePage :global(.guide-hero-v25 h1) {
+  max-width: 960px !important;
+  margin-bottom: 18px !important;
+  font-size: clamp(50px, 5.35vw, 78px) !important;
+  line-height: .98 !important;
+}
+
+.guidePage :global(.guide-hero-v25 > div > p:not(.eyebrow)) {
+  max-width: 760px !important;
+  margin-bottom: 0 !important;
+  font-size: 16px !important;
+  line-height: 1.55 !important;
+}
+
+.heroMeta {
+  align-self: end;
+  padding-top: 16px;
+  border-top: 1px solid #c8bda9;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px 22px;
+}
+
+.heroMeta div {
+  display: grid;
+  gap: 5px;
+}
+
+.heroMeta span {
+  color: #8b642f;
+  font: 700 8px/1.2 Arial, sans-serif;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+}
+
+.heroMeta strong {
+  color: #403a32;
+  font: 400 14px/1.35 Georgia, 'Times New Roman', serif;
+}
+
+.heroMeta a {
+  grid-column: 1 / -1;
+  padding-top: 12px;
+  border-top: 1px solid #ded4c5;
+  color: #8b642f;
+  font: 700 8px/1.2 Arial, sans-serif;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+}
+
+.guidePage :global(.guide-article-v25) {
+  padding: 32px max(6vw, 64px) 62px !important;
+}
+
+.guidePage :global(.guide-inline-nav) {
+  max-width: 1100px !important;
+  margin: 0 auto 26px !important;
+  padding: 11px 0 !important;
+}
+
+.guidePage :global(.guide-reading-column) {
+  max-width: 1100px !important;
+}
+
+.guidePage :global(.guide-lead-v25) {
+  display: grid;
+  grid-template-columns: 170px minmax(0, 1fr);
+  gap: 34px;
+  align-items: start;
+  margin: 0 0 34px !important;
+  padding: 22px 0 30px !important;
+}
+
+.guidePage :global(.guide-lead-v25 .eyebrow) {
+  margin: 4px 0 0 !important;
+}
+
+.guidePage :global(.guide-lead-v25 > p:last-child) {
+  max-width: 860px;
+  font-size: 23px !important;
+  line-height: 1.42 !important;
+}
+
+.evidenceGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 54px;
+  align-items: start;
+}
+
+.guidePage .evidenceGrid {
+  margin-bottom: 38px !important;
+  padding-bottom: 38px !important;
+}
+
+.evidenceColumn h2,
+.uncertaintyColumn h3 {
+  margin: 0 0 18px;
+  font: 400 clamp(30px, 2.8vw, 42px)/1.05 Georgia, 'Times New Roman', serif;
+  letter-spacing: -.025em;
+}
+
+.uncertaintyColumn {
+  padding-left: 44px;
+  border-left: 1px solid #d3c7b6;
+}
+
+.guidePage :global(.guide-prose-copy p) {
+  margin-bottom: 15px !important;
+  font-size: 16px !important;
+  line-height: 1.58 !important;
+}
+
+.guidePage :global(.guide-prose-section) {
+  margin-bottom: 38px !important;
+  padding-bottom: 38px !important;
+}
+
+.guidePage :global(.guide-actions-v25 ol) {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 42px;
+}
+
+.guidePage :global(.guide-actions-v25 li) {
+  padding: 15px 0 !important;
+}
+
+.guidePage :global(.guide-deeper-science-v25) {
+  margin-bottom: 30px !important;
+  padding: 18px 0 !important;
+}
+
+.guidePage :global(.guide-sources-v25) {
+  margin-bottom: 28px !important;
+}
+
+.guidePage :global(.medical-note-v25) {
+  margin-top: 22px !important;
+}
+
+@media (max-width: 900px) {
+  .guidePage :global(.guide-hero-v25) {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    padding: 122px 32px 42px !important;
+  }
+
+  .heroMeta {
+    max-width: 520px;
+  }
+
+  .guidePage :global(.guide-article-v25) {
+    padding: 28px 32px 56px !important;
+  }
+
+  .guidePage :global(.guide-lead-v25) {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .evidenceGrid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .uncertaintyColumn {
+    padding: 28px 0 0;
+    border-left: 0;
+    border-top: 1px solid #d3c7b6;
+  }
+
+  .guidePage :global(.guide-actions-v25 ol) {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 680px) {
+  .guidePage :global(.guide-hero-v25) {
+    padding: 116px 22px 36px !important;
+  }
+
+  .guidePage :global(.guide-hero-v25 h1) {
+    font-size: clamp(42px, 13vw, 60px) !important;
+  }
+
+  .guidePage :global(.guide-article-v25) {
+    padding: 24px 22px 48px !important;
+  }
+
+  .heroMeta {
+    grid-template-columns: 1fr 1fr;
+  }
+}

@@ -4,6 +4,7 @@ import { FeatureVideo } from "../components/FeatureVideo";
 import { SignupForm } from "../components/SignupForm";
 import { TrackedLink } from "../components/TrackedLink";
 import { getMediaEntry, MEDIA_KIT, toVideoFeature, WELCOME_FILM } from "../content/media-content";
+import styles from "./media.module.css";
 
 const description = "Explore Dr. Elie R. Haddad's media work, the Homo Plasticus sculpture story, current press resources, and the approval status of upcoming talks and public appearances.";
 export const metadata: Metadata = {
@@ -33,7 +34,7 @@ function PendingMedia({ id }: { id: string }) {
 export default function MediaPage() {
   const tedx = getMediaEntry("tedx-invisible-inheritance");
 
-  return <><Header/><main id="main-content" tabIndex={-1} className="media-page">
+  return <><Header/><main id="main-content" tabIndex={-1} className={`media-page ${styles.phase11}`}>
     <section className="media-hero">
       <div><p className="eyebrow">Media & speaking</p><h1>Make the science clear enough to act on.</h1><p>Dr. Elie R. Haddad brings a physician&apos;s perspective to plastic exposure, human biology, and practical prevention. The talks, artwork, and press resources here are different ways into the same evidence-first conversation.</p><div className="media-hero-actions"><a className="button gold" href="#homo-plasticus-art">See Homo Plasticus <span>↓</span></a><TrackedLink className="text-link" href="/contact" eventName="cta_click" label="media-hero-contact">Request a conversation <span>→</span></TrackedLink></div></div>
       <aside><span>Media desk</span><strong>Talks, artwork, and press resources</strong><p>Public work lives here so the homepage can stay focused on the evidence and practical action.</p><a href="/media/press-kit">Open the press kit →</a></aside>

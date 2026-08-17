@@ -27,6 +27,14 @@ function formatDate(value: string) {
   return new Intl.DateTimeFormat("en-US", { year: "numeric", month: "short", day: "numeric", timeZone: "UTC" }).format(new Date(`${value}T00:00:00Z`));
 }
 
+function paragraphize(items: string[], sentencesPerParagraph = 2) {
+  const paragraphs: string[] = [];
+  for (let index = 0; index < items.length; index += sentencesPerParagraph) {
+    paragraphs.push(items.slice(index, index + sentencesPerParagraph).join(" "));
+  }
+  return paragraphs;
+}
+
 export default async function GuidePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const guide = getGuide(slug);
@@ -38,6 +46,9 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
     ...guides.filter((item) => item.slug !== guide.slug && item.category !== guide.category),
   ].slice(0, 3);
   const scienceConnections = getGuideScienceConnections(guide.category).slice(0, 2);
+  const knownParagraphs = paragraphize(guide.known, 2);
+  const uncertaintyParagraphs = paragraphize(guide.uncertain, 2);
+  const actionParagraphs = paragraphize(guide.actions, 2);
   const schema = {
     "@context": "https://schema.org",
     "@type": "Article",
@@ -84,23 +95,26 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
             <p className="eyebrow dark">The evidence</p>
             <h2>What the evidence supports</h2>
             <div className="guide-prose-copy">
-              {guide.known.map((item) => <p key={item}>{item}</p>)}
+              {knownParagraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
             </div>
           </div>
 
           <div className={styles.uncertaintyColumn}>
             <p className="eyebrow dark">Where the evidence stops</p>
-            <h3>What remains uncertain</h3>
+            <h2>What remains uncertain</h2>
             <div className="guide-prose-copy">
-              {guide.uncertain.map((item) => <p key={item}>{item}</p>)}
+              {uncertaintyParagraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
             </div>
           </div>
         </section>
 
-        <section id="actions" className="guide-prose-section guide-actions-v25">
+        <section id="actions" className={`guide-prose-section guide-actions-v25 ${styles.actionSection}`}>
           <p className="eyebrow dark">Practical response</p>
           <h2>What you can do now</h2>
-          <ol>{guide.actions.map((item, index) => <li key={item}><span>{String(index + 1).padStart(2, "0")}</span><p>{item}</p></li>)}</ol>
+          <p className={styles.sectionIntro}>The point is not to make everyday life perfect. Use the evidence to make a few practical changes that are realistic enough to keep.</p>
+          <div className="guide-prose-copy">
+            {actionParagraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+          </div>
         </section>
 
         {scienceConnections.length > 0 && <aside className="guide-deeper-science-v25">

@@ -30,6 +30,7 @@ export function Header({ skipToContent = true }: { skipToContent?: boolean }) {
   const [scrolled, setScrolled] = useState(false);
   const toggleRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLElement>(null);
+  const forceSolid = pathname.startsWith("/resources/");
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 48);
@@ -107,7 +108,7 @@ export function Header({ skipToContent = true }: { skipToContent?: boolean }) {
     return pathname === href;
   };
   return (
-    <header className={`site-header${scrolled ? " is-scrolled" : ""}`}>
+    <header className={`site-header${scrolled || forceSolid ? " is-scrolled" : ""}`}>
       {skipToContent && <a className="skip-link" href="#main-content">Skip to main content</a>}
       <Wordmark />
       <button ref={toggleRef} className="menu-button" type="button" aria-expanded={menuOpen} aria-controls="mobile-menu" aria-haspopup="true" onClick={() => setMenuOpen(!menuOpen)}>

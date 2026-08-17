@@ -20,6 +20,7 @@ const evidence = read("app/content/evidence.ts");
 const scene = read("app/components/AnatomyScene.tsx");
 const journey = read("app/components/BodyJourney.tsx");
 const config = read("app/config.ts");
+const mediaPage = read("app/media/page.tsx");
 
 expect(build.includes("v40.34-deployment-release-candidate"), "Build identifier is v40.34 deployment release candidate.");
 expect(current.startsWith("# Current State — v40.34"), "CURRENT_STATE begins with the current v40.34 release.");
@@ -49,6 +50,20 @@ const publicFiles=walk(join(root,"public")).map(p=>p.slice(join(root,"public").l
 expect(!publicFiles.some(p=>/(^|\/)(homo[-_ ]?plasticus|ebook|book)[^/]*\.pdf$/i.test(p)), "No final ebook PDF is packaged under public/.");
 const trackedSecretFiles=walk(root).filter(p=>/(^|\/)(\.env|\.env\.local|credentials\.json)$/i.test(p.slice(root.length+1)));
 expect(trackedSecretFiles.length===0, "No populated .env or credential file is packaged.");
+
+// Phase 11: the removed media slot is replaced by the owner-directed Homo Plasticus sculpture story.
+const sculptureAssets = [
+  "public/media/homo-plasticus-full.webp",
+  "public/media/homo-plasticus-detail-side.webp",
+  "public/media/homo-plasticus-detail-front.webp",
+];
+expect(sculptureAssets.every(exists), "All three owner-supplied Homo Plasticus sculpture views are packaged as web assets.");
+expect(exists("app/media/media.module.css"), "Homo Plasticus media feature has dedicated responsive layout styling.");
+expect(mediaPage.includes("Art makes the invisible visible."), "Homo Plasticus feature uses the approved art-makes-the-invisible-visible framing.");
+expect(mediaPage.includes("The Silent Invasion of Human Health"), "Homo Plasticus feature carries the approved sculpture subtitle.");
+expect(mediaPage.includes("The artwork is not presented as scientific evidence."), "Sculpture feature explicitly separates artistic interpretation from scientific evidence.");
+expect(mediaPage.includes("Attention") && mediaPage.includes("Curiosity") && mediaPage.includes("Science") && mediaPage.includes("Memory"), "Sculpture story preserves the attention-to-curiosity-to-science-to-memory sequence.");
+expect(!mediaPage.includes("PendingMedia id=\"homo-plasticus-conversation\""), "The former long-form media slot is no longer rendered where the sculpture story belongs.");
 
 // Final zero-survival gate for the intentionally removed Dr. Rudy podcast.
 // Scan every public/runtime source path plus generated build output when present.

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import { createHash } from "node:crypto";
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
-import { dirname, join } from "node:path";
+import { dirname, extname, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = dirname(dirname(fileURLToPath(import.meta.url)));
@@ -49,6 +49,34 @@ const publicFiles=walk(join(root,"public")).map(p=>p.slice(join(root,"public").l
 expect(!publicFiles.some(p=>/(^|\/)(homo[-_ ]?plasticus|ebook|book)[^/]*\.pdf$/i.test(p)), "No final ebook PDF is packaged under public/.");
 const trackedSecretFiles=walk(root).filter(p=>/(^|\/)(\.env|\.env\.local|credentials\.json)$/i.test(p.slice(root.length+1)));
 expect(trackedSecretFiles.length===0, "No populated .env or credential file is packaged.");
+
+// Final zero-survival gate for the intentionally removed Dr. Rudy podcast.
+// Scan every public/runtime source path plus generated build output when present.
+const forbiddenRuntimePattern = /\brudy\b/i;
+const textExtensions = new Set([".ts", ".tsx", ".js", ".jsx", ".mjs", ".cjs", ".json", ".html", ".css", ".txt", ".xml", ".map"]);
+const runtimeRoots = ["app", "public", "worker", "build"].filter(exists);
+const forbiddenRuntimeHits = [];
+for (const runtimeRoot of runtimeRoots) {
+  for (const file of walk(join(root, runtimeRoot))) {
+    const rel = relative(root, file);
+    if (forbiddenRuntimePattern.test(rel)) {
+      forbiddenRuntimeHits.push(`${rel} (path)`);
+      continue;
+    }
+    if (!textExtensions.has(extname(file).toLowerCase())) continue;
+    try {
+      const body = readFileSync(file, "utf8");
+      if (forbiddenRuntimePattern.test(body)) forbiddenRuntimeHits.push(`${rel} (content)`);
+    } catch {
+      // Binary or unreadable files are still covered by the filename/path check above.
+    }
+  }
+}
+if (forbiddenRuntimeHits.length) {
+  console.error("[DETAIL] Removed podcast references detected:");
+  for (const hit of forbiddenRuntimeHits.slice(0, 20)) console.error(`  - ${hit}`);
+}
+expect(forbiddenRuntimeHits.length===0, "Removed Dr. Rudy podcast has zero public/runtime references, routes, metadata, cards, hidden navigation, or assets.");
 
 for(const c of checks) console.log(`[${c.ok?"PASS":"FAIL"}] ${c.label}`);
 const failed=checks.filter(c=>!c.ok).length;

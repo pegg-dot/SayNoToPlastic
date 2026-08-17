@@ -1,18 +1,10 @@
-# Say No to Plastic
+# Homo Plasticus / Say No to Plastic — v40.34 deployment release candidate
 
-This repository contains the Say No to Plastic / Homo Plasticus website release candidate.
+v40.34 is the final portable release-candidate handoff built directly on v40.33. The visible site behavior is unchanged from v40.33. This pass aligns the historical regression suite and release documentation with the final approved architecture and provides the definitive deployment/owner-input runbooks.
 
-## Local development
+Start with:
+- `VALIDATION_REPORT_V40_34.md`
+- `docs/V40_34_SITES_DEPLOYMENT.md`
+- `docs/V40_34_EXTERNAL_INPUTS_FROM_DR_HADDAD.md`
 
-```bash
-npm run install:ci
-npm run dev
-```
-
-## Release validation
-
-```bash
-npm run release:audit
-```
-
-The release audit includes regression gates for the integrated anatomy experience, deployment configuration, the intentionally removed Dr. Rudy podcast, and the Homo Plasticus sculpture feature on Events & Media.
+Production remains unchanged until an explicit publish in the existing ChatGPT Site.

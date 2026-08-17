@@ -31,18 +31,18 @@ export function GuideLibrary({ guides }: { guides: Guide[] }) {
 
   return <>
     <div className={styles.libraryHeader}>
-      <div><p className="eyebrow dark">The complete library</p><h2>Fourteen guides. Read the one you need.</h2></div>
-      <p>The guides are longer on purpose: each one explains the practical question, what the evidence supports, what remains uncertain, what you can do, and where the underlying sources live.</p>
+      <div><p className="eyebrow dark">The complete library</p><h2>{guides.length} practical guides</h2></div>
+      <p>Pick the question that matters now. Each guide separates what the evidence supports, what remains uncertain, and what you can realistically do.</p>
     </div>
 
     <div className={styles.controls}>
-      <label className={styles.searchLabel}>Search the reading room<input value={query} onChange={(event) => setQuery(event.target.value)} type="search" aria-label="Search guides" placeholder="Water, dust, clothing, cosmetics…" /></label>
+      <label className={styles.searchLabel}>Search guides<input value={query} onChange={(event) => setQuery(event.target.value)} type="search" aria-label="Search guides" placeholder="Water, dust, clothing, cosmetics…" /></label>
       <div className={styles.filters} role="group" aria-label="Filter guides by topic">
         {categories.map((item) => <button type="button" key={item} onClick={() => setCategory(item)} aria-pressed={category === item}>{item === "All" ? "All guides" : displayCategory(item)}</button>)}
       </div>
     </div>
 
-    <p className={styles.resultCount} role="status">Showing {visibleGuides.length} of {guides.length} guides</p>
+    <p className={styles.resultCount} role="status">Showing {visibleGuides.length} of {guides.length}</p>
 
     {visibleGuides.length ? <div className={styles.readingList}>
       {visibleGuides.map((guide) => {
@@ -51,7 +51,7 @@ export function GuideLibrary({ guides }: { guides: Guide[] }) {
           <span className={styles.rowNumber}>{guideNumber}</span>
           <div className={styles.rowTopic}><span>{displayCategory(guide.category)}</span><small>{guide.audience || "Deeper reading"}</small></div>
           <div className={styles.rowCopy}><h3>{guide.title}</h3><p>{guide.description}</p></div>
-          <div className={styles.rowAction}><span>{guide.readingTime}</span><b>Read guide →</b></div>
+          <div className={styles.rowAction}><span>{guide.readingTime}</span><b>Read →</b></div>
         </TrackedLink>;
       })}
     </div> : <div className={styles.empty} role="status"><strong>No guide matches that search.</strong><p>Try a broader term or choose a different topic.</p></div>}

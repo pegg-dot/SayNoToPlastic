@@ -88,7 +88,7 @@ export default function AboutPage() {
         <section className={styles.story} aria-labelledby="story-title">
           <div className={styles.storyHeading}>
             <div><p className={styles.sectionIndex}>02 · The path</p><h2 id="story-title">From cardiology to environmental inquiry.</h2></div>
-            <p>The important part is the path, not a full CV: clinical work led to a broader question, the question led to research, and the research led to public education.</p>
+            <p>Clinical work led to a broader question; that question led to research, and the research led to public education.</p>
           </div>
           <div className={styles.storyRows}>
             {story.map((item, index) => (

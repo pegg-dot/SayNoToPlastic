@@ -5,15 +5,14 @@ import { SignupForm } from "../components/SignupForm";
 import { TrackedLink } from "../components/TrackedLink";
 import { getMediaEntry, MEDIA_KIT, toVideoFeature, WELCOME_FILM } from "../content/media-content";
 
-const description = "Explore Dr. Elie R. Haddad's media work, current press resources, and the approval status of upcoming talks, interviews, and public appearances.";
+const description = "Explore Dr. Elie R. Haddad's media work, the Homo Plasticus sculpture story, current press resources, and the approval status of upcoming talks and public appearances.";
 export const metadata: Metadata = {
   title: "Events & Media | Say No to Plastic",
   description,
   alternates: { canonical: "/media" },
-  openGraph: { title: "Events & Media | Say No to Plastic", description, url: "/media", siteName: "Say No to Plastic", type: "website", images: [{ url: "/tedx.webp", width: 1536, height: 1024, alt: "Elie R. Haddad, MD, speaking at TEDxMiami" }] },
-  twitter: { card: "summary_large_image", title: "Events & Media | Say No to Plastic", description, images: ["/tedx.webp"] },
+  openGraph: { title: "Events & Media | Say No to Plastic", description, url: "/media", siteName: "Say No to Plastic", type: "website", images: [{ url: "/media/homo-plasticus-full.webp", width: 672, height: 1536, alt: "Homo Plasticus sculpture, a standing figure holding a fetus with visible plastic fragments embedded through the body" }] },
+  twitter: { card: "summary_large_image", title: "Events & Media | Say No to Plastic", description, images: ["/media/homo-plasticus-full.webp"] },
 };
-
 
 function PendingMedia({ id }: { id: string }) {
   const entry = getMediaEntry(id);
@@ -33,20 +32,50 @@ function PendingMedia({ id }: { id: string }) {
 
 export default function MediaPage() {
   const tedx = getMediaEntry("tedx-invisible-inheritance");
-  const conversation = getMediaEntry("homo-plasticus-conversation");
 
   return <><Header/><main id="main-content" tabIndex={-1} className="media-page">
     <section className="media-hero">
-      <div><p className="eyebrow">Media & speaking</p><h1>Make the science clear enough to act on.</h1><p>Dr. Elie R. Haddad brings a physician&apos;s perspective to plastic exposure, human biology, and practical prevention. Watch the current talks and conversations below; the temporary TEDx recording will be replaced when the official release arrives.</p><div className="media-hero-actions"><a className="button gold" href="#featured-talk">View media status <span>↓</span></a><TrackedLink className="text-link" href="/contact" eventName="cta_click" label="media-hero-contact">Request a conversation <span>→</span></TrackedLink></div></div>
-      <aside><span>Media desk</span><strong>Talks, interviews, and press resources</strong><p>TEDx and other public appearances live here—not on the homepage—so the main story remains focused on evidence and action.</p><a href="/media/press-kit">Open the press kit →</a></aside>
+      <div><p className="eyebrow">Media & speaking</p><h1>Make the science clear enough to act on.</h1><p>Dr. Elie R. Haddad brings a physician&apos;s perspective to plastic exposure, human biology, and practical prevention. The talks, artwork, and press resources here are different ways into the same evidence-first conversation.</p><div className="media-hero-actions"><a className="button gold" href="#homo-plasticus-art">See Homo Plasticus <span>↓</span></a><TrackedLink className="text-link" href="/contact" eventName="cta_click" label="media-hero-contact">Request a conversation <span>→</span></TrackedLink></div></div>
+      <aside><span>Media desk</span><strong>Talks, artwork, and press resources</strong><p>Public work lives here so the homepage can stay focused on the evidence and practical action.</p><a href="/media/press-kit">Open the press kit →</a></aside>
+    </section>
+
+    <section id="homo-plasticus-art" className="media-sculpture" aria-labelledby="homo-plasticus-art-title">
+      <div className="media-sculpture-visuals">
+        <figure className="media-sculpture-primary">
+          <img src="/media/homo-plasticus-full.webp" width="672" height="1536" loading="eager" alt="Homo Plasticus sculpture, a standing figure holding a fetus with visible plastic fragments embedded through the body" />
+          <figcaption><strong>Homo Plasticus</strong><span>The Silent Invasion of Human Health</span></figcaption>
+        </figure>
+        <figure className="media-sculpture-detail media-sculpture-detail-one">
+          <img src="/media/homo-plasticus-detail-side.webp" width="792" height="1004" loading="lazy" alt="Side detail of the Homo Plasticus sculpture showing the figure holding the fetus" />
+        </figure>
+        <figure className="media-sculpture-detail media-sculpture-detail-two">
+          <img src="/media/homo-plasticus-detail-front.webp" width="784" height="1018" loading="lazy" alt="Frontal detail of the Homo Plasticus sculpture showing plastic fragments visible through the torso and fetus" />
+        </figure>
+      </div>
+
+      <div className="media-sculpture-copy">
+        <p className="eyebrow">Homo Plasticus · The Silent Invasion of Human Health</p>
+        <h2 id="homo-plasticus-art-title">Art makes the invisible visible.</h2>
+        <p className="media-sculpture-lead">Scientific evidence can be difficult to hold onto when it stays abstract. <em>Homo Plasticus</em> turns an invisible problem into something a visitor can see, question, and remember.</p>
+        <p>The sculpture depicts a woman holding a fetus, with visible plastic fragments embedded throughout both forms. The artwork is not presented as scientific evidence. It is the point of attention that makes someone want to understand the evidence.</p>
+        <p>That curiosity is the bridge. Art opens the door; the science explains what has been detected, what remains uncertain, and what practical exposure reduction can look like.</p>
+
+        <div className="media-sculpture-sequence" aria-label="How the sculpture supports the science story">
+          <div><span>01</span><strong>Attention</strong><p>An unfamiliar image interrupts the ordinary.</p></div>
+          <div><span>02</span><strong>Curiosity</strong><p>The visible fragments create a question.</p></div>
+          <div><span>03</span><strong>Science</strong><p>The evidence gives that question context and limits.</p></div>
+          <div><span>04</span><strong>Memory</strong><p>Emotion helps the scientific message stay with the viewer.</p></div>
+        </div>
+
+        <blockquote>“The artwork creates the question. The science carries the answer.”</blockquote>
+        <div className="media-sculpture-links"><TrackedLink className="button gold" href="/science" eventName="cta_click" label="sculpture-science">Explore the science <span>→</span></TrackedLink><TrackedLink className="text-link" href="/homo-plasticus" eventName="cta_click" label="sculpture-book">Explore Homo Plasticus <span>→</span></TrackedLink></div>
+      </div>
     </section>
 
     <section id="featured-talk" className="media-feature ivory">
       <div className="media-feature-copy"><p className="eyebrow dark">TEDxMiami · temporary recording</p><h2>{tedx?.title ?? "The Invisible Inheritance of Nanoplastics"}</h2><p>A temporary audience-recorded YouTube video is available now. It is not the official TEDx release and will be replaced as soon as the official public video arrives.</p><dl><div><dt>Speaker</dt><dd>Elie R. Haddad, MD</dd></div><div><dt>Platform</dt><dd>{tedx?.platform ?? "TEDxMiami"}</dd></div><div><dt>Status</dt><dd>Temporary audience recording</dd></div></dl></div>
       <PendingMedia id="tedx-invisible-inheritance" />
     </section>
-
-    <section className="media-conversation"><div><p className="eyebrow">Long-form conversation · available now</p><h2>{conversation?.title ?? "A longer conversation"}</h2><p>Watch a longer Homo Plasticus conversation about how the project began, what the emerging human evidence shows, and which practical changes deserve attention.</p></div><PendingMedia id="homo-plasticus-conversation" /></section>
 
     <section className="media-welcome ivory"><div><p className="eyebrow dark">The welcome film</p><h2>{WELCOME_FILM.title}</h2><p>{WELCOME_FILM.description}</p><span>{WELCOME_FILM.status === "ready" ? `Video live · ${WELCOME_FILM.durationLabel} · captions/transcript pending` : "Welcome film link pending · popup infrastructure live"}</span></div><figure>{WELCOME_FILM.status === "ready" && WELCOME_FILM.hostedVideoSrc ? <video controls playsInline preload="metadata" poster={WELCOME_FILM.posterSrc} aria-label={WELCOME_FILM.title}><source src={WELCOME_FILM.hostedVideoSrc} type="video/mp4"/>Your browser does not support embedded video.</video> : <img src={WELCOME_FILM.posterSrc} width="900" height="1024" loading="lazy" alt={WELCOME_FILM.posterAlt}/>}<figcaption>{WELCOME_FILM.durationLabel}</figcaption></figure></section>
 

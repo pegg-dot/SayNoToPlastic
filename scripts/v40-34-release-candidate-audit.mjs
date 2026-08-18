@@ -80,6 +80,7 @@ expect(actionPlans.includes("Use these as a guide, not a scorecard.") && actionP
 expect(communityPrograms.includes("Notice what repeats") && communityPrograms.includes("Change one hot-food habit") && communityPrograms.includes("Choose a reusable drink container") && communityPrograms.includes("Store one meal differently"), "Seven-day plan includes the approved recurring-contact, hot-food, reusable-drink, and meal-storage actions.");
 expect(communityPrograms.includes("export const thirtyDayChallenge") && communityPrograms.includes("Close the loop") && communityPrograms.includes("Choose the next month’s habit"), "Thirty-day plan provides the approved extended practice path through day 30.");
 expect(reduceExposurePage.includes('/community#action-plans') && reduceExposurePage.includes("Open the 7-day / 30-day plans"), "Reduce-exposure guidance links directly to the printable action plans.");
+expect(!exists("public/downloads/sntp-7-day-challenge.pdf") && !exists("public/downloads/sntp-30-day-challenge.pdf"), "Obsolete public challenge PDFs are removed; Phase 17 uses the live Print / Save plan flow.");
 
 const forbiddenRuntimePattern=/\brudy\b/i;
 const textExtensions=new Set([".ts",".tsx",".js",".jsx",".mjs",".cjs",".json",".html",".css",".txt",".xml",".map"]);

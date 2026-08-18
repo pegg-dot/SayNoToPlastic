@@ -105,10 +105,9 @@ export const MEDIA_KIT = {
     "How scientists detect microplastics and prevent laboratory contamination",
     "What artery-plaque and coronary-blood studies found about cardiovascular association",
     "The exposome: how air, water, food, products, lifestyle, and time fit together",
-    "Why plastic particles and endocrine-disrupting chemicals require separate evidence standards",
+    "What are endocrine-disrupting chemicals?",
     "The intergenerational questions raised by pregnancy and reproductive research",
     "Practical ways to reduce repeated plastic exposure without demanding perfection",
-    "Communicating emerging health science with accuracy and proportion",
   ],
   facts: [
     ["Movement", "Say No to Plastic"],

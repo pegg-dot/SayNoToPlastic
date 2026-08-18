@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Footer, Header } from "./components/SiteChrome";
-import { SignupForm } from "./components/SignupForm";
 import { BodyJourney } from "./components/BodyJourney";
 import { coreRules } from "./content/actions";
 import { BOOK } from "./config";
@@ -120,12 +119,11 @@ export default function Home() {
 
       <section id="join" className="hp-join">
         <div className="hp-join-copy" data-reveal>
-          <div className="hp-section-index light"><span>07</span><p>Continue the investigation</p></div>
-          <p className="eyebrow">The Say No to Plastic field notes</p>
-          <h2>Know what the newest research actually found.</h2>
-          <p>Receive clear study breakdowns, exposure-reduction guidance, and new work from Dr. Haddad.</p>
-          <SignupForm />
-          <small>Unsubscribe at any time. Read our <a href="/privacy-policy">Privacy Policy</a>.</small>
+          <div className="hp-section-index light"><span>07</span><p>Stay connected</p></div>
+          <p className="eyebrow">Field Notes / Newsletter</p>
+          <h2>Coming soon.</h2>
+          <p>Research summaries, practical guides, book news, and project updates will be available by email once the mailing platform is connected.</p>
+          <small>No email addresses are being collected at launch.</small>
         </div>
       </section>
 

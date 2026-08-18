@@ -22,6 +22,9 @@ const config = read("app/config.ts");
 const mediaPage = read("app/media/page.tsx");
 const mediaContent = read("app/content/media-content.ts");
 const pressKitPage = read("app/media/press-kit/page.tsx");
+const homePage = read("app/page.tsx");
+const communityPage = read("app/community/page.tsx");
+const subscribeRoute = read("app/api/subscribe/route.ts");
 expect(build.includes("v40.34-deployment-release-candidate"), "Build identifier is v40.34 deployment release candidate.");
 expect(current.startsWith("# Current State — v40.34"), "CURRENT_STATE begins with the current v40.34 release.");
 expect(handoff.startsWith("# Handoff — v40.34"), "HANDOFF begins with the current v40.34 release.");
@@ -58,6 +61,14 @@ expect(pressTopics.length===7, "Press Kit shows exactly seven approved interview
 expect(pressTopics.includes("What are endocrine-disrupting chemicals?"), "Press Kit uses the approved endocrine-disrupting chemicals interview question verbatim.");
 expect(!topicsBlock.includes("Why plastic particles and endocrine-disrupting chemicals require separate evidence standards"), "Superseded endocrine-disruptor topic wording is removed from the Press Kit source.");
 expect(!topicsBlock.includes("Communicating emerging health science with accuracy and proportion"), "Removed topic #8 has zero survival in the Press Kit topic registry.");
+
+// Phase 16: newsletter launch safety. No provider means no collection.
+expect(homePage.includes("Field Notes / Newsletter") && homePage.includes("Coming soon.") && !homePage.includes("SignupForm"), "Homepage shows Field Notes / Newsletter as Coming Soon and does not render a signup form.");
+expect(communityPage.includes("Field Notes / Newsletter") && communityPage.includes("Coming soon.") && !communityPage.includes("SignupForm"), "Community page shows Field Notes / Newsletter as Coming Soon and does not render a signup form.");
+expect(subscribeRoute.includes("newsletter_coming_soon") && subscribeRoute.includes("No email addresses are collected at launch") && !subscribeRoute.includes("subscribers") && !subscribeRoute.includes("emailOutbox") && !subscribeRoute.includes("deliverEmailOutboxJob") && !subscribeRoute.includes("enrollInLearningSeries") && !subscribeRoute.includes("getDb"), "Newsletter API is hard-disabled at launch and cannot persist or queue subscriber data.");
+const publicSignupPages=walk(join(root,"app")).filter(file=>file.endsWith("page.tsx")&&readFileSync(file,"utf8").includes("SignupForm")).map(file=>relative(root,file));
+if(publicSignupPages.length){console.error("[DETAIL] Public signup forms detected while newsletter provider is disabled:");for(const hit of publicSignupPages)console.error(`  - ${hit}`);}
+expect(publicSignupPages.length===0, "No public route renders SignupForm while the newsletter provider is unconfigured.");
 
 const forbiddenRuntimePattern=/\brudy\b/i;
 const textExtensions=new Set([".ts",".tsx",".js",".jsx",".mjs",".cjs",".json",".html",".css",".txt",".xml",".map"]);

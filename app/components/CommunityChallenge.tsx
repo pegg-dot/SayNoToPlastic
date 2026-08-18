@@ -46,7 +46,7 @@ export function CommunityChallenge() {
       localStorage.setItem(`${STORAGE_PREFIX}-7`, JSON.stringify(checked7));
       localStorage.setItem(`${STORAGE_PREFIX}-30`, JSON.stringify(checked30));
     } catch {
-      // Challenge progress still works for the current session.
+      // Plan checkmarks still work for the current session.
     }
   }, [checked7, checked30, ready]);
 
@@ -67,7 +67,7 @@ export function CommunityChallenge() {
 
   function changePlan(next: Plan) {
     setPlan(next);
-    void trackEvent("community_challenge_select", { label: `${next}-day` });
+    void trackEvent("community_challenge_select", { label: `${next}-day-plan` });
   }
 
   function moveTab(event: React.KeyboardEvent<HTMLButtonElement>) {
@@ -85,20 +85,20 @@ export function CommunityChallenge() {
     } catch {
       // State has already been reset in memory.
     }
-    void trackEvent("community_challenge_reset", { label: `${plan}-day` });
+    void trackEvent("community_challenge_reset", { label: `${plan}-day-plan` });
   }
 
   function print() {
-    void trackEvent("cta_click", { label: `community-challenge-${plan}-print` });
+    void trackEvent("cta_click", { label: `community-${plan}-day-plan-print-save` });
     window.print();
   }
 
-  return <section className="community-challenge" aria-labelledby="community-challenge-title" data-print-section>
-    <header><div><p className="eyebrow dark">Self-paced challenge</p><h2 id="community-challenge-title">Turn information into a routine you can keep.</h2><p>Use seven days for one focused reset or thirty days for a slower learning-and-action path. This is not a detox, treatment, or purity test.</p></div><aside aria-live="polite"><strong>{checked.length}</strong><span>of {tasks.length} days complete</span><div><i style={{ width: `${(checked.length / tasks.length) * 100}%` }}/></div></aside></header>
-    <div className="community-challenge-tabs" role="tablist" aria-label="Challenge length"><button id="challenge-tab-7" type="button" role="tab" aria-selected={plan === "7"} aria-controls="challenge-panel" tabIndex={plan === "7" ? 0 : -1} onKeyDown={moveTab} onClick={() => changePlan("7")}>7-day reset</button><button id="challenge-tab-30" type="button" role="tab" aria-selected={plan === "30"} aria-controls="challenge-panel" tabIndex={plan === "30" ? 0 : -1} onKeyDown={moveTab} onClick={() => changePlan("30")}>30-day practice</button></div>
+  return <section id="action-plans" className="community-challenge" aria-labelledby="community-challenge-title" data-print-section>
+    <header><div><p className="eyebrow dark">Printable action plans</p><h2 id="community-challenge-title">Try a week. Or give the changes a month.</h2><p>Use these as a guide, not a scorecard. The 7-day plan focuses on a few recurring plastic contacts; the 30-day plan gives the same ideas more room to become routine. Check what is useful, skip what is not, and keep the changes that fit your life.</p></div><aside aria-live="polite"><strong>{checked.length}</strong><span>of {tasks.length} steps marked</span><div><i style={{ width: `${(checked.length / tasks.length) * 100}%` }}/></div></aside></header>
+    <div className="community-challenge-tabs" role="tablist" aria-label="Action plan length"><button id="challenge-tab-7" type="button" role="tab" aria-selected={plan === "7"} aria-controls="challenge-panel" tabIndex={plan === "7" ? 0 : -1} onKeyDown={moveTab} onClick={() => changePlan("7")}>7-day plan</button><button id="challenge-tab-30" type="button" role="tab" aria-selected={plan === "30"} aria-controls="challenge-panel" tabIndex={plan === "30" ? 0 : -1} onKeyDown={moveTab} onClick={() => changePlan("30")}>30-day plan</button></div>
     <div id="challenge-panel" className="community-challenge-body" role="tabpanel" aria-labelledby={`challenge-tab-${plan}`} tabIndex={0}>
-      {weeks.map((week, index) => plan === "30" ? <details key={index} open={index === 0}><summary>Week {index + 1}<span>{week.filter((task) => checked.includes(task.day)).length} / {week.length}</span></summary><ol>{week.map((task) => <TaskRow key={task.day} task={task} checked={checked.includes(task.day)} onToggle={() => toggle(task.day)}/>)}</ol></details> : <ol key="seven-day">{week.map((task) => <TaskRow key={task.day} task={task} checked={checked.includes(task.day)} onToggle={() => toggle(task.day)}/>)}</ol>)}
+      {weeks.map((week, index) => plan === "30" ? <details key={index} open={index === 0}><summary>Week {index + 1}<span>{week.filter((task) => checked.includes(task.day)).length} / {week.length} marked</span></summary><ol>{week.map((task) => <TaskRow key={task.day} task={task} checked={checked.includes(task.day)} onToggle={() => toggle(task.day)}/>)}</ol></details> : <ol key="seven-day">{week.map((task) => <TaskRow key={task.day} task={task} checked={checked.includes(task.day)} onToggle={() => toggle(task.day)}/>)}</ol>)}
     </div>
-    <footer><div><button className="button navy" type="button" onClick={print}>Print this plan <span>↗</span></button><a className="button outline" href={plan === "7" ? "/downloads/sntp-7-day-challenge.pdf" : "/downloads/sntp-30-day-challenge.pdf"} download>Download blank PDF <span>↓</span></a></div><button className="challenge-reset" type="button" onClick={reset}>Reset {plan}-day progress</button><p>Your progress is stored only on this device. Keep medical care, hygiene, food safety, infant feeding, accessibility, and emergencies ahead of plastic-reduction goals.</p></footer>
+    <footer><div><button className="button navy" type="button" onClick={print}>Print / save {plan}-day plan <span>↗</span></button></div><button className="challenge-reset" type="button" onClick={reset}>Clear {plan}-day checkmarks</button><p>Your checkmarks stay only on this device. There is no score and no requirement to complete every item. Keep medical care, hygiene, food safety, infant feeding, accessibility, and emergencies ahead of plastic-reduction goals.</p></footer>
   </section>;
 }

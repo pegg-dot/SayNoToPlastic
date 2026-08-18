@@ -25,6 +25,9 @@ const pressKitPage = read("app/media/press-kit/page.tsx");
 const homePage = read("app/page.tsx");
 const communityPage = read("app/community/page.tsx");
 const subscribeRoute = read("app/api/subscribe/route.ts");
+const actionPlans = read("app/components/CommunityChallenge.tsx");
+const communityPrograms = read("app/content/community-programs.ts");
+const reduceExposurePage = read("app/solutions/reduce-exposure/page.tsx");
 expect(build.includes("v40.34-deployment-release-candidate"), "Build identifier is v40.34 deployment release candidate.");
 expect(current.startsWith("# Current State — v40.34"), "CURRENT_STATE begins with the current v40.34 release.");
 expect(handoff.startsWith("# Handoff — v40.34"), "HANDOFF begins with the current v40.34 release.");
@@ -69,6 +72,14 @@ expect(subscribeRoute.includes("newsletter_coming_soon") && subscribeRoute.inclu
 const publicSignupPages=walk(join(root,"app")).filter(file=>file.endsWith("page.tsx")&&readFileSync(file,"utf8").includes("SignupForm")).map(file=>relative(root,file));
 if(publicSignupPages.length){console.error("[DETAIL] Public signup forms detected while newsletter provider is disabled:");for(const hit of publicSignupPages)console.error(`  - ${hit}`);}
 expect(publicSignupPages.length===0, "No public route renders SignupForm while the newsletter provider is unconfigured.");
+
+// Phase 17: approved seven-day and thirty-day practical plans.
+expect(actionPlans.includes('id="action-plans"') && actionPlans.includes(">7-day plan<") && actionPlans.includes(">30-day plan<"), "Community exposes distinct 7-day and 30-day action plans.");
+expect(actionPlans.includes("Print / save {plan}-day plan") && actionPlans.includes("window.print()") && actionPlans.includes("data-print-section"), "Both action plans support browser print and Save as PDF through the dedicated print section.");
+expect(actionPlans.includes("Use these as a guide, not a scorecard.") && actionPlans.includes("There is no score and no requirement to complete every item."), "Action-plan language stays useful and worksheet-like rather than homework-like.");
+expect(communityPrograms.includes("Notice what repeats") && communityPrograms.includes("Change one hot-food habit") && communityPrograms.includes("Choose a reusable drink container") && communityPrograms.includes("Store one meal differently"), "Seven-day plan includes the approved recurring-contact, hot-food, reusable-drink, and meal-storage actions.");
+expect(communityPrograms.includes("export const thirtyDayChallenge") && communityPrograms.includes("Close the loop") && communityPrograms.includes("Choose the next month’s habit"), "Thirty-day plan provides the approved extended practice path through day 30.");
+expect(reduceExposurePage.includes('/community#action-plans') && reduceExposurePage.includes("Open the 7-day / 30-day plans"), "Reduce-exposure guidance links directly to the printable action plans.");
 
 const forbiddenRuntimePattern=/\brudy\b/i;
 const textExtensions=new Set([".ts",".tsx",".js",".jsx",".mjs",".cjs",".json",".html",".css",".txt",".xml",".map"]);

@@ -20,6 +20,8 @@ const scene = read("app/components/AnatomyScene.tsx");
 const journey = read("app/components/BodyJourney.tsx");
 const config = read("app/config.ts");
 const mediaPage = read("app/media/page.tsx");
+const mediaContent = read("app/content/media-content.ts");
+const pressKitPage = read("app/media/press-kit/page.tsx");
 expect(build.includes("v40.34-deployment-release-candidate"), "Build identifier is v40.34 deployment release candidate.");
 expect(current.startsWith("# Current State — v40.34"), "CURRENT_STATE begins with the current v40.34 release.");
 expect(handoff.startsWith("# Handoff — v40.34"), "HANDOFF begins with the current v40.34 release.");
@@ -47,6 +49,16 @@ expect(mediaPage.includes("The Silent Invasion of Human Health"), "Homo Plasticu
 expect(mediaPage.includes("The artwork is not presented as scientific evidence."), "Sculpture feature explicitly separates artistic interpretation from scientific evidence.");
 expect(mediaPage.includes("Attention")&&mediaPage.includes("Curiosity")&&mediaPage.includes("Science")&&mediaPage.includes("Memory"), "Sculpture story preserves the attention-to-curiosity-to-science-to-memory sequence.");
 expect(!mediaPage.includes("PendingMedia id=\"homo-plasticus-conversation\""), "The former long-form media slot is no longer rendered where the sculpture story belongs.");
+
+// Phase 14: owner-approved Press Kit topic decisions.
+const topicsBlock = mediaContent.slice(mediaContent.indexOf("topics: ["), mediaContent.indexOf("facts: ["));
+const pressTopics = [...topicsBlock.matchAll(/^\s*"([^"]+)"/gm)].map((match) => match[1]);
+expect(pressKitPage.includes("Media contact") && pressKitPage.includes("Short bio") && pressKitPage.includes("Extended bio") && pressKitPage.includes("Interview topics") && pressKitPage.includes("Downloadable evidence briefings") && pressKitPage.includes("Current web assets"), "Press Kit visibly includes contact, short bio, extended bio, interview topics, and press resources.");
+expect(pressTopics.length===7, "Press Kit shows exactly seven approved interview topics after removal of topic #8.");
+expect(pressTopics.includes("What are endocrine-disrupting chemicals?"), "Press Kit uses the approved endocrine-disrupting chemicals interview question verbatim.");
+expect(!topicsBlock.includes("Why plastic particles and endocrine-disrupting chemicals require separate evidence standards"), "Superseded endocrine-disruptor topic wording is removed from the Press Kit source.");
+expect(!topicsBlock.includes("Communicating emerging health science with accuracy and proportion"), "Removed topic #8 has zero survival in the Press Kit topic registry.");
+
 const forbiddenRuntimePattern=/\brudy\b/i;
 const textExtensions=new Set([".ts",".tsx",".js",".jsx",".mjs",".cjs",".json",".html",".css",".txt",".xml",".map"]);
 const runtimeRoots=["app","public","worker","build"].filter(exists);

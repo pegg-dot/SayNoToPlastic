@@ -1,7 +1,7 @@
 import bookProduct from "./content/book-product.json";
 
 const DEFAULT_SITE_URL = "https://saynotoplastic.com";
-const DEFAULT_SUPPORT_EMAIL = "support@saynotoplastic.com";
+const DEFAULT_SUPPORT_EMAIL = "WeAreHomoplasticus@gmail.com";
 
 function normalizeSiteUrl(value: string | undefined) {
   const candidate = (value || DEFAULT_SITE_URL).trim().replace(/\/$/, "");

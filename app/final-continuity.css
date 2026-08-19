@@ -1,0 +1,35 @@
+/* Final screenshot-driven continuity corrections. Loaded after globals.css. */
+.home-v2 .journey-complete-atlas-compact {
+  background: #040b12 !important;
+}
+
+.home-v2 .journey-complete-atlas-compact::before {
+  display: none !important;
+}
+
+.site-footer,
+.home-v2 + .site-footer,
+.site-footer .earth {
+  background: #040b12 !important;
+}
+
+.site-footer .earth::before,
+.site-footer .earth::after {
+  display: none !important;
+  content: none !important;
+}
+
+.site-footer .earth {
+  border-top: 1px solid rgba(255,255,255,.12);
+  border-bottom: 1px solid rgba(255,255,255,.12);
+}
+
+.footer-newsletter-status {
+  display: inline-block;
+  width: max-content;
+  margin-top: 2px;
+  color: #d7a967;
+  font: 700 10px/1.2 Arial, sans-serif;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import "./final-continuity.css";
 import { ConsentAnalytics } from "./components/ConsentAnalytics";
 import { BOOK, SITE_URL } from "./config";
 import { VersionGuard } from "./components/VersionGuard";

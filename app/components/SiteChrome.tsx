@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { BOOK } from "../config";
-import { SignupForm } from "./SignupForm";
 import { CheckoutButton } from "./CheckoutButton";
 import { useBodyScrollLock } from "./useBodyScrollLock";
 import { clearAnalyticsConsent } from "./privacy-consent";
@@ -100,7 +99,6 @@ export function Header({ skipToContent = true }: { skipToContent?: boolean }) {
     };
   }, [menuOpen]);
 
-
   const close = () => setMenuOpen(false);
   const isCurrent = (href: string) => {
     if (href === "/") return pathname === "/";
@@ -140,7 +138,7 @@ export function Footer() {
         <div><Wordmark footer /><p>Science, clarity, and practical action for a world living with plastic.</p><span className="movement-mark" aria-hidden="true"><img src="/brand/sntp-wordmark-microplastic-nav.png" width="900" height="150" alt="" decoding="async" /></span></div>
         <div><strong>Explore</strong><a href="/science">The evidence</a><a href="/science/how-detection-works">How detection works</a><a href="/science/exposome">The exposome</a><a href="/solutions">Practical action</a><a href="/homo-plasticus">The book</a><a href="/purchase/recover">Book access</a><a href="/resources">Guides</a><a href="/recommendations">Product review standard</a></div>
         <div><strong>Project</strong><a href="/about-dr-elie-haddad">Dr. Haddad</a><a href="/media">Talk and media</a><a href="/community">Field notes</a><a href="/contact">Contact</a><a href="/editorial-policy">Editorial standard</a></div>
-        <div className="footer-signup"><strong>Field notes</strong><p>New research summaries and practical exposure-reduction guidance.</p><SignupForm compact /><small>Unsubscribe at any time. <a href="/privacy-policy">Privacy details</a>.</small></div>
+        <div className="footer-signup"><strong>Field Notes / Newsletter</strong><p>Research summaries and practical exposure-reduction guidance will be available by email once the mailing platform is connected.</p><b className="footer-newsletter-status">Coming soon.</b><small>No email addresses are being collected at launch.</small></div>
       </div>
       <div className="footer-bottom"><span>© {year} Say No to Plastic</span><span><a href="/privacy-policy">Privacy</a> &nbsp; <button className="privacy-choice-link" type="button" onClick={resetPrivacy}>Privacy choices</button> &nbsp; <a href="/terms">Terms</a> &nbsp; <a href="/refunds-and-returns">Refunds</a> &nbsp; <a href="/affiliate-disclosure">Affiliate disclosure</a> &nbsp; <a href="/medical-disclaimer">Medical disclaimer</a> &nbsp; <a href="/accessibility">Accessibility</a> &nbsp; <a href="/contact">Media inquiries</a></span></div>
     </footer>

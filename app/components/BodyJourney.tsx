@@ -187,8 +187,8 @@ export function BodyJourney() {
         <div className="journey-story">
           <header className="journey-intro" data-reveal>
             <p className="eyebrow">The evidence, organ by organ</p>
-            <h2 id="body-journey-title">Ten chapters. One connected body.</h2>
-            <p>All available anatomy stays together in the body while the active chapter brightens and the camera moves closer. Methods, limits, and sources remain available without crowding the screen.</p>
+            <h2 id="body-journey-title">Ten chapters. Anatomy in context.</h2>
+            <p>Each chapter uses the reference anatomy appropriate to that question. Sex- and life-stage-specific models are kept in their own context rather than being presented as one literal person's body.</p>
           </header>
 
           {findings.map((item, index) => {
@@ -229,7 +229,7 @@ export function BodyJourney() {
                         aria-haspopup="dialog"
                         onClick={(event) => openViewer(viewerSlug, event.currentTarget)}
                       >
-                        {viewerSlug === "whole-body-atlas" ? "Open complete 3D" : "Open interactive 3D"} <span>↗</span>
+                        {viewerSlug === "whole-body-atlas" ? "Open reference atlas" : "Open interactive 3D"} <span>↗</span>
                       </button>
                     )}
                     {systemLinks[item.slug] && (
@@ -279,8 +279,8 @@ export function BodyJourney() {
       <section className="journey-complete-atlas-compact" aria-labelledby="complete-atlas-title" data-reveal>
         <div className="journey-complete-atlas-compact-copy">
           <p className="eyebrow">Interactive anatomy</p>
-          <h2 id="complete-atlas-title">Explore the complete anatomy atlas.</h2>
-          <p>Rotate the reference body, isolate systems, and switch between exterior, cutaway, and system-only views.</p>
+          <h2 id="complete-atlas-title">Explore the anatomy reference atlas.</h2>
+          <p>Rotate the female reference body and focus the available general systems. Pregnancy, fetal, and reproductive anatomy stay in their dedicated chapters instead of being overlaid into one literal body.</p>
         </div>
         <div className="journey-complete-atlas-compact-actions">
           <button
@@ -293,7 +293,7 @@ export function BodyJourney() {
           </button>
           <TrackedLink className="text-link" href="/science" eventName="cta_click" label="home-complete-atlas-science">Explore the science <span>→</span></TrackedLink>
         </div>
-        <small>Educational composite. Particle motion in the anatomy journey is an illustrative spatial cue, not a measured transport trajectory.</small>
+        <small>Educational reference assembly, not a clinical or patient-specific atlas. Particle motion in the anatomy journey is an illustrative spatial cue, not a measured transport trajectory.</small>
       </section>
 
       {openSlug && <AnatomySystemViewer slug={openSlug} onClose={closeViewer} />}

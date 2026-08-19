@@ -135,21 +135,18 @@ const fallopianLeft = hraModel("fallopian-left", "Left fallopian tube", "VH_F_Fa
 const fallopianRight = hraModel("fallopian-right", "Right fallopian tube", "VH_F_Fallopian_Tube_R.glb", "#c97876", "#4e282b", "reproductive");
 
 const groups: AnatomySystemGroup[] = [
-  { id: "all", label: "All included", color: "#e1ad63" },
+  { id: "all", label: "General anatomy", color: "#e1ad63" },
   { id: "skin", label: "Exterior", color: "#d9aa87" },
   { id: "brain", label: "Brain", color: "#d3a36f" },
   { id: "circulation", label: "Circulation", color: "#a95743" },
   { id: "heart", label: "Heart", color: "#a84e40" },
   { id: "skeleton", label: "Pelvis", color: "#b8a895" },
-  { id: "pregnancy", label: "Placenta + fetus", color: "#c57358" },
-  { id: "reproductive", label: "Reproductive", color: "#d68d7f" },
   { id: "endocrine", label: "Endocrine", color: "#d5ad6f" },
   { id: "urinary", label: "Kidneys + urinary", color: "#b45f55" },
   { id: "digestive", label: "Digestive", color: "#a9bf76" },
 ];
 
 const localHraSource = "https://3d.nih.gov/collections/hra";
-const fetalSource = "https://github.com/MedicalVisionGroup/fetal-smpl";
 
 /** Shared calibration that keeps the local brain surface inside the reference head. */
 export const BRAIN_ALIGNMENT: AnatomyViewerTransform = {
@@ -160,27 +157,17 @@ export const BRAIN_ALIGNMENT: AnatomyViewerTransform = {
   scale: 0.9,
 };
 
+/*
+ * The reference atlas deliberately excludes pregnancy/fetal and reproductive
+ * overlays. Those are sex- and life-stage-specific reference contexts and stay
+ * in their dedicated evidence chapters instead of being presented as anatomy
+ * that necessarily coexists in one literal individual.
+ */
 const completeModels: AnatomyViewerModel[] = [
   localModel("complete-vasculature", "Blood vasculature", "vasculature-female.glb", "#a95743", "#4d211a", "circulation", localHraSource),
   localModel("complete-brain", "Brain", "brain.glb", "#d3a36f", "#563a21", "brain", localHraSource, BRAIN_ALIGNMENT),
   localModel("complete-heart", "Heart", "heart.glb", "#a84e40", "#4b1f1b", "heart", localHraSource),
   localModel("complete-pelvis", "Pelvic skeleton", "pelvis-female.glb", "#b8a895", "#3d3730", "skeleton", localHraSource),
-  localModel("complete-uterus", "Uterus", "uterus-female.glb", "#b56a62", "#4c2928", "reproductive", localHraSource),
-  localModel("complete-placenta", "Placenta", "placenta.glb", "#b76050", "#4a221d", "pregnancy", localHraSource),
-  localModel(
-    "complete-fetus",
-    "Fetal reference surface",
-    "fetus-mri.glb",
-    "#d58b73",
-    "#5a3027",
-    "pregnancy",
-    fetalSource,
-    { position: [-0.006, 0.177, 0.074], rotation: [-Math.PI / 2, 0, -0.08], scale: 0.61 },
-  ),
-  { ...reproductiveOvaryLeft, id: "complete-ovary-left" },
-  { ...reproductiveOvaryRight, id: "complete-ovary-right" },
-  { ...fallopianLeft, id: "complete-fallopian-left" },
-  { ...fallopianRight, id: "complete-fallopian-right" },
   { ...thymus, id: "complete-thymus" },
   { ...endocrinePancreas, id: "complete-endocrine-pancreas" },
   { ...kidneyLeft, id: "complete-kidney-left" },
@@ -254,27 +241,25 @@ export const anatomySystemModels: Record<AnatomySystemSlug, AnatomySystemModelCo
   },
   "whole-body-atlas": {
     slug: "whole-body-atlas",
-    title: "Complete body atlas",
-    shortTitle: "Complete atlas",
+    title: "Reference anatomy atlas",
+    shortTitle: "Anatomy atlas",
     route: "/science",
     accent: "#d7a75e",
-    summary: "Rotate one combined body, switch layers, or focus a single included system.",
-    panelKnown: "This scene brings the licensed reference surfaces used across the anatomy journey into one movable body.",
-    panelUncertain: "It is an educational composite—not a complete clinical atlas or a patient-specific reconstruction.",
+    summary: "Rotate a female reference body, switch general anatomy layers, or focus one available system at a time.",
+    panelKnown: "This viewer places compatible licensed reference surfaces into one navigation space for orientation. It does not imply that every model on the site belongs to one individual or life stage.",
+    panelUncertain: "Reference geometry varies by source model and body context. This is an educational reference assembly, not a complete clinical atlas or a patient-specific reconstruction.",
     structures: [
-      "Exterior skin surface",
+      "Female exterior reference surface",
       "Brain, heart, and blood vasculature",
       "Pelvic skeleton",
-      "Uterus, ovaries, and fallopian tubes",
-      "Placenta and fetal reference surface",
-      "Selected endocrine tissues",
+      "Selected endocrine tissues: thymus and pancreas",
       "Kidneys, ureters, and bladder",
       "Small and large intestine, liver, and pancreas",
     ],
-    scopeNote: "The separate male testicular chapter is not overlaid onto the female reference body. The composite also does not include every organ, gland, bone, or microscopic tissue layer.",
+    scopeNote: "Pregnancy, fetal, female-reproductive, and male testicular reference models remain in their dedicated chapters and are intentionally not overlaid here. The atlas also does not include every organ, gland, bone, or microscopic tissue layer.",
     compositeSystem: true,
     reviewStatus: "partial",
-    statusLabel: "Combined educational atlas",
+    statusLabel: "Educational reference assembly",
     groups,
     models: completeModels,
   },

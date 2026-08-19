@@ -10,6 +10,7 @@ const read = (p) => readFileSync(join(root,p),"utf8");
 const exists = (p) => existsSync(join(root,p));
 const expect = (ok,label) => checks.push({ok:Boolean(ok),label});
 const sha = (p) => createHash("sha256").update(readFileSync(join(root,p))).digest("hex");
+const isWebP = (p) => { if (!exists(p)) return false; const b=readFileSync(join(root,p)); return b.length>12 && b.subarray(0,4).toString("ascii")==="RIFF" && b.subarray(8,12).toString("ascii")==="WEBP"; };
 const build = read("app/build-version.ts");
 const env = read(".env.example");
 const current = read("CURRENT_STATE.md");
@@ -52,6 +53,7 @@ const trackedSecretFiles=walk(root).filter(p=>/(^|\/)(\.env|\.env\.local|credent
 expect(trackedSecretFiles.length===0, "No populated .env or credential file is packaged.");
 const sculptureAssets=["public/media/homo-plasticus-full.webp","public/media/homo-plasticus-detail-side.webp","public/media/homo-plasticus-detail-front.webp"];
 expect(sculptureAssets.every(exists), "All three owner-supplied Homo Plasticus sculpture views are packaged as web assets.");
+expect(sculptureAssets.every(isWebP), "All three Homo Plasticus sculpture assets are valid WebP image files, not corrupted placeholders.");
 expect(exists("app/media/media.module.css"), "Homo Plasticus media feature has dedicated responsive layout styling.");
 expect(mediaPage.includes("Art makes the invisible visible."), "Homo Plasticus feature uses the approved art-makes-the-invisible-visible framing.");
 expect(mediaPage.includes("The Silent Invasion of Human Health"), "Homo Plasticus feature carries the approved sculpture subtitle.");
@@ -71,6 +73,7 @@ expect(!topicsBlock.includes("Communicating emerging health science with accurac
 // Phase 16: newsletter launch safety. No provider means no collection.
 expect(homePage.includes("Field Notes / Newsletter") && homePage.includes("Coming soon.") && !homePage.includes("SignupForm"), "Homepage shows Field Notes / Newsletter as Coming Soon and does not render a signup form.");
 expect(communityPage.includes("Field Notes / Newsletter") && communityPage.includes("Coming soon.") && !communityPage.includes("SignupForm"), "Community page shows Field Notes / Newsletter as Coming Soon and does not render a signup form.");
+expect(mediaPage.includes("Field Notes / Newsletter") && mediaPage.includes("Coming soon.") && !mediaPage.includes("SignupForm"), "Media page shows Field Notes / Newsletter as Coming Soon and does not render a signup form.");
 expect(subscribeRoute.includes("newsletter_coming_soon") && subscribeRoute.includes("No email addresses are collected at launch") && !subscribeRoute.includes("subscribers") && !subscribeRoute.includes("emailOutbox") && !subscribeRoute.includes("deliverEmailOutboxJob") && !subscribeRoute.includes("enrollInLearningSeries") && !subscribeRoute.includes("getDb"), "Newsletter API is hard-disabled at launch and cannot persist or queue subscriber data.");
 const publicSignupPages=walk(join(root,"app")).filter(file=>file.endsWith("page.tsx")&&readFileSync(file,"utf8").includes("SignupForm")).map(file=>relative(root,file));
 if(publicSignupPages.length){console.error("[DETAIL] Public signup forms detected while newsletter provider is disabled:");for(const hit of publicSignupPages)console.error(`  - ${hit}`);}

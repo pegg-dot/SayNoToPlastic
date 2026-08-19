@@ -35,6 +35,9 @@ expect(exists("docs/V40_34_SITES_DEPLOYMENT.md") && exists("docs/V40_34_EXTERNAL
 expect(exists("V40_34_CHANGE_MANIFEST.md"), "v40.34 change manifest is packaged.");
 expect(env.includes("COMMERCE_MODE=woocommerce") && env.includes("AUDIENCE_PROVIDER=none"), "Safe launch defaults keep WooCommerce active and audience provider unchosen.");
 expect(env.includes("PUBLIC_SITE_URL=https://saynotoplastic.com"), "Canonical public origin defaults to saynotoplastic.com.");
+expect(config.includes('DEFAULT_SUPPORT_EMAIL = "WeAreHomoplasticus@gmail.com"'), "Approved WeAreHomoplasticus Gmail inbox is the source-code fallback for public contact.");
+expect(env.includes("NEXT_PUBLIC_SUPPORT_EMAIL=WeAreHomoplasticus@gmail.com") && env.includes("SUPPORT_EMAIL=WeAreHomoplasticus@gmail.com"), "Environment template uses the approved public contact inbox for browser and server contact flows.");
+expect(!config.includes("support@saynotoplastic.com") && !env.includes("support@saynotoplastic.com"), "Superseded placeholder support@saynotoplastic.com is removed from launch contact configuration.");
 expect(config.includes("https://homoplasticus.com/checkout/?add-to-cart=27&quantity=1"), "Legacy WooCommerce checkout fallback remains explicit for owner verification.");
 expect(hosting.project_id === "appgprj_6a7123d6fe008191953f038d7221380e" && hosting.d1 === "DB" && hosting.r2 === "EBOOKS", "Existing Sites project identity and storage binding names remain preserved.");
 expect(sha("package-lock.json") === "7915a420ef99c285f0a152256b2ca9742f3b520834be90ab937935af8225e85e", "Approved package lock remains byte-identical.");

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import "./final-continuity.css";
 import { ConsentAnalytics } from "./components/ConsentAnalytics";
+import { AnatomyAtlasEvidenceSync } from "./components/AnatomyAtlasEvidenceSync";
 import { BOOK, SITE_URL } from "./config";
 import { VersionGuard } from "./components/VersionGuard";
 import { WelcomeVideoModal } from "./components/WelcomeVideoModal";
@@ -55,5 +56,5 @@ const schema = {
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="en"><body><div id="site-shell">{children}<VersionGuard/><ConsentAnalytics/></div><WelcomeVideoModal/><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} /></body></html>;
+  return <html lang="en"><body><div id="site-shell">{children}<VersionGuard/><ConsentAnalytics/></div><WelcomeVideoModal/><AnatomyAtlasEvidenceSync/><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} /></body></html>;
 }

@@ -13,6 +13,7 @@ const layout = read("app/layout.tsx");
 const footer = read("app/components/SiteChrome.tsx");
 const journey = read("app/components/BodyJourney.tsx");
 const registry = read("app/content/anatomy-system-models.ts");
+const atlasEvidenceSync = read("app/components/AnatomyAtlasEvidenceSync.tsx");
 
 expect(layout.includes('import "./final-continuity.css";'), "Final continuity overrides load after the global stylesheet.");
 expect(continuity.includes(".home-v2 .journey-complete-atlas-compact") && continuity.includes("background: #040b12 !important"), "Anatomy handoff uses the homepage story-night background without a separate gradient field.");
@@ -34,6 +35,22 @@ expect(!atlasBlock.includes("Rotate one combined body") && !atlasBlock.includes(
 expect(journey.includes("Ten chapters. Anatomy in context.") && journey.includes("Sex- and life-stage-specific models are kept in their own context"), "Homepage anatomy journey explains the contextual reference-model approach.");
 expect(journey.includes("Explore the anatomy reference atlas.") && journey.includes("Pregnancy, fetal, and reproductive anatomy stay in their dedicated chapters"), "Atlas handoff repeats the contextual anatomy boundary before the viewer opens.");
 expect(!journey.includes("Ten chapters. One connected body.") && !journey.includes("Explore the complete anatomy atlas."), "Superseded complete/literal-body framing is removed from the visible homepage handoff.");
+
+expect(layout.includes("AnatomyAtlasEvidenceSync") && layout.includes("<AnatomyAtlasEvidenceSync/>"), "Root layout mounts the system-aware atlas evidence synchronizer.");
+for (const token of [
+  'brain: "brain"',
+  'circulation: "blood"',
+  'heart: "heart-arteries"',
+  'endocrine: "endocrine-metabolic-system"',
+  'urinary: "kidneys-urinary-system"',
+  'digestive: "digestive-system"',
+]) {
+  expect(atlasEvidenceSync.includes(token), `Atlas evidence synchronizer maps ${token.replace(/[:\"]/g, " ").trim()} to the matching evidence record.`);
+}
+expect(atlasEvidenceSync.includes('findingHeading: "What the evidence says"') && atlasEvidenceSync.includes('uncertaintyHeading: "What it does not prove"'), "Selected systems surface a concise finding and limitation in the right panel.");
+expect(atlasEvidenceSync.includes("Study snapshot") && atlasEvidenceSync.includes("evidence.sources.slice(0, 2)"), "Verified system selections can show the key study number and direct source links without requiring page scroll.");
+expect(atlasEvidenceSync.includes("does not currently present a human microplastic study specific to the pelvic bones"), "Pelvis selection states the evidence boundary instead of inventing a pelvis-specific study.");
+expect(continuity.includes(".anatomy-viewer-study-stat") && continuity.includes(".anatomy-viewer-panel-sources"), "System-specific evidence snapshot and source links have dedicated atlas-panel styling.");
 
 for (const check of checks) console.log(`[${check.ok ? "PASS" : "FAIL"}] ${check.label}`);
 const failed = checks.filter((check) => !check.ok).length;

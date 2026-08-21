@@ -48,7 +48,7 @@ for (const token of [
   expect(atlasEvidenceSync.includes(token), `Atlas evidence synchronizer maps ${token.replace(/[:\"]/g, " ").trim()} to the matching evidence record.`);
 }
 expect(atlasEvidenceSync.includes('findingHeading: "What the evidence says"') && atlasEvidenceSync.includes('uncertaintyHeading: "What it does not prove"'), "Selected systems surface a concise finding and limitation in the right panel.");
-expect(atlasEvidenceSync.includes("Study snapshot") && atlasEvidenceSync.includes("evidence.sources.slice(0, 2)"), "Verified system selections can show the key study number and direct source links without requiring page scroll.");
+expect(atlasEvidenceSync.includes("Study snapshot") && atlasEvidenceSync.includes("copy.sources.slice(0, 2)"), "Verified system selections can show the key study number and direct source links without requiring page scroll.");
 expect(atlasEvidenceSync.includes("does not currently present a human microplastic study specific to the pelvic bones"), "Pelvis selection states the evidence boundary instead of inventing a pelvis-specific study.");
 expect(continuity.includes(".anatomy-viewer-study-stat") && continuity.includes(".anatomy-viewer-panel-sources"), "System-specific evidence snapshot and source links have dedicated atlas-panel styling.");
 

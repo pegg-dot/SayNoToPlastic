@@ -1,6 +1,7 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import "./final-continuity.css";
+import "./mobile-hardening.css";
 import { ConsentAnalytics } from "./components/ConsentAnalytics";
 import { AnatomyAtlasEvidenceSync } from "./components/AnatomyAtlasEvidenceSync";
 import { BOOK, SITE_URL } from "./config";
@@ -8,6 +9,11 @@ import { VersionGuard } from "./components/VersionGuard";
 import { WelcomeVideoModal } from "./components/WelcomeVideoModal";
 
 const socialDescription = "Physician-led science, practical exposure reduction, and clear next steps for a world living with plastic.";
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

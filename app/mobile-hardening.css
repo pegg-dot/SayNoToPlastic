@@ -1,0 +1,392 @@
+/* Phone and small-screen hardening.
+   Loaded after the main visual system so these rules only resolve viewport,
+   touch, wrapping, and small-screen usability issues without redesigning pages. */
+
+html,
+body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
+}
+
+body {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+#site-shell,
+main,
+section,
+article,
+header,
+footer,
+nav,
+figure,
+form,
+div {
+  min-width: 0;
+}
+
+img,
+picture,
+video,
+iframe,
+canvas,
+svg {
+  max-width: 100%;
+}
+
+p,
+li,
+blockquote,
+figcaption,
+dd {
+  overflow-wrap: break-word;
+}
+
+@media (max-width: 760px) {
+  [id] {
+    scroll-margin-top: 86px;
+  }
+
+  .site-header {
+    padding-left: max(20px, env(safe-area-inset-left));
+    padding-right: max(20px, env(safe-area-inset-right));
+  }
+
+  .brand {
+    max-width: calc(100vw - 92px);
+  }
+
+  .brand-main {
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .mobile-nav {
+    padding-left: max(22px, env(safe-area-inset-left));
+    padding-right: max(22px, env(safe-area-inset-right));
+    padding-bottom: max(48px, env(safe-area-inset-bottom));
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .mobile-nav > a,
+  .mobile-nav button,
+  .menu-button,
+  .button,
+  .action-choice-list button,
+  .organ-nav button,
+  .recommendation-controls button,
+  .consent-actions button,
+  .purchase-status-card .button,
+  .purchase-recovery-form .button {
+    min-height: 48px;
+  }
+
+  input,
+  select,
+  textarea {
+    min-width: 0;
+    max-width: 100%;
+    font-size: 16px !important;
+  }
+
+  textarea {
+    resize: vertical;
+  }
+
+  .hero-actions,
+  .book-actions,
+  .hp-hero-actions,
+  .hp-book-actions,
+  .solutions-hero-actions,
+  .quick-card-intro > div {
+    max-width: 100%;
+  }
+
+  .inner-hero h1,
+  .split-hero h1,
+  .guide-hero h1,
+  .recommendation-hero h1,
+  .about-v2-hero h1,
+  .book-page-hero h1,
+  .tedx-page-hero h1,
+  .community-hero h1,
+  .contact-hero h1,
+  .press-kit-hero h1,
+  .purchase-hero h1,
+  .purchase-recovery-hero h1,
+  .commerce-preview-page > section > div:first-child h1,
+  .legal-page h1,
+  .not-found h1 {
+    max-width: 100%;
+    font-size: clamp(46px, 14vw, 58px);
+    line-height: .94;
+    text-wrap: balance;
+  }
+
+  .section-heading h2,
+  .actions-copy h2,
+  .author-copy h2,
+  .tedx-copy h2,
+  .join-copy h2,
+  .guide-body h2,
+  .uncertainty-box h2,
+  .recommendation-principles h2,
+  .recommendation-categories > h2,
+  .recommendation-honesty h2,
+  .purchase-help h2,
+  .media-welcome h2,
+  .media-kit-preview h2 {
+    max-width: 100%;
+    font-size: clamp(38px, 11vw, 52px);
+    line-height: 1;
+    text-wrap: balance;
+  }
+
+  .hp-hero {
+    min-height: max(760px, 100svh);
+  }
+
+  .hp-hero-copy {
+    max-width: none;
+    bottom: max(92px, calc(74px + env(safe-area-inset-bottom)));
+  }
+
+  .hp-hero h1 {
+    max-width: 100%;
+    font-size: clamp(46px, 13vw, 58px);
+    line-height: .94;
+    text-wrap: balance;
+  }
+
+  .hp-revelation,
+  .hp-actions-copy,
+  .hp-book-section,
+  .hp-author-copy,
+  .hp-tedx-copy,
+  .hp-join-copy,
+  .solutions-hero,
+  .solutions-core,
+  .action-planner,
+  .solutions-boundary,
+  .solutions-next,
+  .quick-card-page {
+    padding-left: max(22px, env(safe-area-inset-left));
+    padding-right: max(22px, env(safe-area-inset-right));
+  }
+
+  .journey-stage {
+    max-height: 560px;
+  }
+
+  .journey-stage-copy,
+  .journey-progress,
+  .organ-nav {
+    max-width: calc(100vw - 48px);
+  }
+
+  .organ-nav,
+  .exposure-grid,
+  .recommendation-controls > div:last-child {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-inline: contain;
+    scrollbar-width: none;
+  }
+
+  .organ-nav::-webkit-scrollbar,
+  .exposure-grid::-webkit-scrollbar,
+  .recommendation-controls > div:last-child::-webkit-scrollbar {
+    display: none;
+  }
+
+  .exposure-grid {
+    scroll-padding-inline: 24px;
+  }
+
+  .exposure-grid article {
+    flex-basis: min(88vw, 390px);
+  }
+
+  .body-step {
+    min-height: 86svh;
+  }
+
+  .finding-stat strong {
+    font-size: clamp(58px, 19vw, 76px);
+  }
+
+  .hp-author-portrait {
+    min-height: min(145vw, 620px);
+  }
+
+  .about-v2-portrait {
+    position: relative;
+    top: auto;
+  }
+
+  .quick-card-sheet,
+  .commerce-preview-card,
+  .purchase-status-card,
+  .guide-takeaway,
+  .uncertainty-box {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .quick-card-sheet {
+    box-shadow: 0 14px 36px rgba(45,35,20,.08);
+  }
+
+  .recommendation-controls > div:last-child {
+    padding-bottom: 10px;
+  }
+
+  .recommendation-controls button {
+    flex: 0 0 auto;
+    padding-inline: 14px;
+  }
+
+  .recommendation-product-grid article > img {
+    height: min(72vw, 300px);
+  }
+
+  .contact-form,
+  .purchase-recovery-form,
+  .signup-form,
+  .commerce-preview-card {
+    min-width: 0;
+  }
+
+  .welcome-film-trigger {
+    right: max(14px, env(safe-area-inset-right));
+    bottom: max(14px, env(safe-area-inset-bottom));
+  }
+
+  .welcome-film-backdrop {
+    padding-bottom: max(8px, env(safe-area-inset-bottom));
+  }
+
+  .welcome-film-dialog {
+    width: calc(100vw - 16px);
+    max-width: calc(100vw - 16px);
+    max-height: calc(100dvh - 16px);
+  }
+
+  .welcome-film-copy {
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .welcome-film-copy .button,
+  .welcome-film-continue {
+    min-height: 48px;
+  }
+
+  .consent-banner {
+    left: max(12px, env(safe-area-inset-left));
+    right: max(12px, env(safe-area-inset-right));
+    bottom: max(12px, env(safe-area-inset-bottom));
+    max-height: calc(100dvh - 24px);
+    overflow-y: auto;
+  }
+
+  .footer-grid,
+  .footer-bottom {
+    padding-left: max(22px, env(safe-area-inset-left));
+    padding-right: max(22px, env(safe-area-inset-right));
+  }
+
+  table {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+@media (max-width: 420px) {
+  .brand-prefix {
+    font-size: 8px;
+    letter-spacing: .24em;
+  }
+
+  .brand-main {
+    font-size: 14px;
+    letter-spacing: .055em;
+  }
+
+  .eyebrow {
+    letter-spacing: .18em;
+  }
+
+  .hp-hero {
+    min-height: max(720px, 100svh);
+  }
+
+  .hp-hero-copy {
+    left: 20px;
+    right: 20px;
+  }
+
+  .journey-story,
+  .exposure-section > header {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .exposure-grid {
+    padding-left: 20px;
+    padding-right: 20px;
+    scroll-padding-inline: 20px;
+  }
+
+  .exposure-grid article {
+    flex-basis: calc(100vw - 40px);
+  }
+
+  .action-choice-list button {
+    grid-template-columns: 36px minmax(0,1fr) 30px;
+    gap: 10px;
+  }
+
+  .action-choice-list button strong {
+    font-size: 18px;
+  }
+
+  .commerce-preview-product {
+    grid-template-columns: 72px minmax(0,1fr);
+    gap: 14px;
+  }
+
+  .commerce-preview-product img {
+    width: 72px;
+    height: 94px;
+  }
+}
+
+@media (max-height: 540px) and (max-width: 1000px) {
+  .mobile-nav {
+    gap: 14px;
+    padding-top: 22px;
+  }
+
+  .mobile-nav > a {
+    min-height: 42px;
+  }
+
+  .welcome-film-trigger {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .organ-nav,
+  .exposure-grid,
+  .recommendation-controls > div:last-child {
+    scroll-behavior: auto;
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "say-no-to-plastic",
+  "main": "./worker/index.ts",
+  "compatibility_date": "2026-08-25",
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
+  "workers_dev": true,
+
+  "assets": {
+    "binding": "ASSETS"
+  },
+
+  "images": {
+    "binding": "IMAGES"
+  },
+
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "saynotoplastic-db",
+      "database_id": "e38267d3-beee-4459-b890-3fa1b313e7c7",
+      "migrations_dir": "drizzle"
+    }
+  ],
+
+  "vars": {
+    "PUBLIC_SITE_URL": "https://saynotoplastic.com",
+    "COMMERCE_MODE": "woocommerce",
+    "AUDIENCE_PROVIDER": "none",
+    "SUPPORT_EMAIL": "WeAreHomoplasticus@gmail.com",
+    "NEXT_PUBLIC_SUPPORT_EMAIL": "WeAreHomoplasticus@gmail.com"
+  }
+}

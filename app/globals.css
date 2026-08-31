@@ -3345,3 +3345,20 @@ body[data-anatomy-viewer-open="true"] .welcome-film-trigger{display:none!importa
   .journey-complete-atlas-compact-copy>p:not(.eyebrow){font-size:15px}
   .journey-complete-atlas-compact-actions{align-items:flex-start;flex-direction:column;gap:18px}
 }
+
+.mobile-nav-secondary{display:grid;grid-template-columns:1fr 1fr;gap:10px 20px;margin-top:4px;padding:22px 0;border-top:1px solid rgba(255,255,255,.15);border-bottom:1px solid rgba(255,255,255,.15)}.mobile-nav-secondary>span{grid-column:1/-1;margin-bottom:3px;font:700 8px Arial,sans-serif;text-transform:uppercase;letter-spacing:.18em;color:var(--gold-light)}.mobile-nav-secondary>a{min-height:36px;display:flex;align-items:center;font:15px/1.25 Georgia,serif;color:rgba(255,255,255,.68)}
+
+/* v40.35.1 primary navigation hierarchy: keep the expanded platform nav readable before the mobile breakpoint. */
+@media(min-width:1001px) and (max-width:1280px){
+  .site-header{grid-template-columns:165px 1fr auto;padding-left:3vw;padding-right:3vw}
+  .desktop-nav{gap:20px;font-size:10px;letter-spacing:.08em}
+  .header-cta{font-size:10px;letter-spacing:.08em}
+}
+
+
+/* v40.35.2 primary navigation */
+@media(min-width:1001px) and (max-width:1380px){
+  .site-header{grid-template-columns:165px 1fr auto;padding-left:3vw;padding-right:3vw}
+  .desktop-nav{gap:14px;font-size:9.5px;letter-spacing:.07em}
+  .header-cta{font-size:10px;letter-spacing:.08em}
+}

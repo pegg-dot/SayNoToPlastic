@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { BOOK } from "../config";
+import { TEDX_RELEASE } from "../content/publications";
 import { CheckoutButton } from "./CheckoutButton";
 import { useBodyScrollLock } from "./useBodyScrollLock";
 import { clearAnalyticsConsent } from "./privacy-consent";
@@ -102,9 +103,25 @@ export function Header({ skipToContent = true }: { skipToContent?: boolean }) {
   const close = () => setMenuOpen(false);
   const isCurrent = (href: string) => {
     if (href === "/") return pathname === "/";
-    if (["/resources", "/media", "/purchase"].includes(href)) return pathname.startsWith(href);
+    if (href === "/science") return pathname.startsWith("/science");
+    if (href === "/solutions") return pathname.startsWith("/solutions") || pathname.startsWith("/resources") || pathname.startsWith("/recommendations");
+    if (href === "/podcast") return pathname.startsWith("/podcast");
+    if (href === "/homo-plasticus") return pathname.startsWith("/homo-plasticus") || pathname.startsWith("/shop") || pathname.startsWith("/purchase");
+    if (href === "/tedx") return pathname.startsWith("/tedx");
+    if (href === "/media") return pathname.startsWith("/media");
+    if (href === "/about-dr-elie-haddad") return pathname.startsWith("/about-dr-elie-haddad");
     return pathname === href;
   };
+  const primaryNav = [
+    { href: "/", label: "Home" },
+    { href: "/science", label: "The Science" },
+    { href: "/solutions", label: "Take Action" },
+    { href: "/podcast", label: "Podcast" },
+    ...(TEDX_RELEASE.published ? [{ href: "/tedx", label: "TEDx Talk" }] : []),
+    { href: "/homo-plasticus", label: "The Book" },
+    { href: "/media", label: "Events & Media" },
+    { href: "/about-dr-elie-haddad", label: "About" },
+  ];
   return (
     <header className={`site-header${scrolled || forceSolid ? " is-scrolled" : ""}`}>
       {skipToContent && <a className="skip-link" href="#main-content">Skip to main content</a>}
@@ -113,12 +130,16 @@ export function Header({ skipToContent = true }: { skipToContent?: boolean }) {
         <span className="sr-only">{menuOpen ? "Close" : "Open"} navigation</span><i /><i />
       </button>
       <nav className="desktop-nav" aria-label="Primary navigation">
-        <a href="/" aria-current={pathname === "/" ? "page" : undefined}>Home</a><a href="/science" aria-current={pathname === "/science" ? "page" : undefined}>Science</a><a href="/solutions" aria-current={pathname === "/solutions" ? "page" : undefined}>Solutions</a><a href="/resources" aria-current={pathname.startsWith("/resources") ? "page" : undefined}>Guides</a><a href="/homo-plasticus" aria-current={pathname === "/homo-plasticus" ? "page" : undefined}>The book</a><a href="/about-dr-elie-haddad" aria-current={pathname === "/about-dr-elie-haddad" ? "page" : undefined}>Dr. Haddad</a><a href="/media" aria-current={pathname.startsWith("/media") ? "page" : undefined}>Events &amp; Media</a><a href="/community" aria-current={pathname === "/community" ? "page" : undefined}>Community</a>
+        {primaryNav.map((item) => <a key={item.href} href={item.href} aria-current={isCurrent(item.href) ? "page" : undefined}>{item.label}</a>)}
       </nav>
       <CheckoutButton className="header-cta" label="header">Get the book <span>↗</span></CheckoutButton>
       {menuOpen && (
         <nav ref={menuRef} id="mobile-menu" className="mobile-nav" aria-label="Mobile navigation">
-          <a onClick={close} href="/" aria-current={isCurrent("/") ? "page" : undefined}>Home</a><a onClick={close} href="/science" aria-current={isCurrent("/science") ? "page" : undefined}>Science</a><a onClick={close} href="/solutions" aria-current={isCurrent("/solutions") ? "page" : undefined}>Solutions</a><a onClick={close} href="/resources" aria-current={isCurrent("/resources") ? "page" : undefined}>Guides</a><a onClick={close} href="/homo-plasticus" aria-current={isCurrent("/homo-plasticus") ? "page" : undefined}>The book</a><a onClick={close} href="/about-dr-elie-haddad" aria-current={isCurrent("/about-dr-elie-haddad") ? "page" : undefined}>Dr. Haddad</a><a onClick={close} href="/media" aria-current={isCurrent("/media") ? "page" : undefined}>Events &amp; media</a><a onClick={close} href="/community" aria-current={isCurrent("/community") ? "page" : undefined}>Community</a><CheckoutButton label="mobile-menu" onStarted={close}>Get the ebook · ${BOOK.price}</CheckoutButton>
+          {primaryNav.map((item) => <a key={item.href} onClick={close} href={item.href} aria-current={isCurrent(item.href) ? "page" : undefined}>{item.label}</a>)}
+          <div className="mobile-nav-secondary" aria-label="More from Say No to Plastic">
+            <span>More</span><a onClick={close} href="/resources">Guides</a><a onClick={close} href="/community">Community</a><a onClick={close} href="/media/press-kit">Press kit</a><a onClick={close} href="/contact">Contact</a>
+          </div>
+          <CheckoutButton label="mobile-menu" onStarted={close}>Get the ebook · ${BOOK.price}</CheckoutButton>
         </nav>
       )}
     </header>
@@ -137,7 +158,7 @@ export function Footer() {
       <div className="footer-grid">
         <div><Wordmark footer /><p>Science, clarity, and practical action for a world living with plastic.</p><span className="movement-mark" aria-hidden="true"><img src="/brand/sntp-wordmark-microplastic-nav.png" width="900" height="150" alt="" decoding="async" /></span></div>
         <div><strong>Explore</strong><a href="/science">The evidence</a><a href="/science/how-detection-works">How detection works</a><a href="/science/exposome">The exposome</a><a href="/solutions">Practical action</a><a href="/homo-plasticus">The book</a><a href="/purchase/recover">Book access</a><a href="/resources">Guides</a><a href="/recommendations">Product review standard</a></div>
-        <div><strong>Project</strong><a href="/about-dr-elie-haddad">Dr. Haddad</a><a href="/media">Talk and media</a><a href="/community">Field notes</a><a href="/contact">Contact</a><a href="/editorial-policy">Editorial standard</a></div>
+        <div><strong>Project</strong><a href="/podcast">Beyond Plastic podcast</a>{TEDX_RELEASE.published && <a href="/tedx">TEDx Talk</a>}<a href="/about-dr-elie-haddad">Dr. Haddad</a><a href="/media">Talk and media</a><a href="/community">Field notes</a><a href="/contact">Contact</a><a href="/editorial-policy">Editorial standard</a></div>
         <div className="footer-signup"><strong>Field Notes / Newsletter</strong><p>Research summaries and practical exposure-reduction guidance will be available by email once the mailing platform is connected.</p><b className="footer-newsletter-status">Coming soon.</b><small>No email addresses are being collected at launch.</small></div>
       </div>
       <div className="footer-bottom"><span>© {year} Say No to Plastic</span><span><a href="/privacy-policy">Privacy</a> &nbsp; <button className="privacy-choice-link" type="button" onClick={resetPrivacy}>Privacy choices</button> &nbsp; <a href="/terms">Terms</a> &nbsp; <a href="/refunds-and-returns">Refunds</a> &nbsp; <a href="/affiliate-disclosure">Affiliate disclosure</a> &nbsp; <a href="/medical-disclaimer">Medical disclaimer</a> &nbsp; <a href="/accessibility">Accessibility</a> &nbsp; <a href="/contact">Media inquiries</a></span></div>

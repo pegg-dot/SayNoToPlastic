@@ -8,6 +8,9 @@ import { CheckoutButton } from "./components/CheckoutButton";
 import { MatterField } from "./components/MatterField";
 import { BookJourney } from "./components/BookJourney";
 import { ExposureRouteVisual, type ExposureRouteVisualKind } from "./components/ExposureRouteVisual";
+import { BEYOND_PLASTIC } from "./content/publications";
+import homeStyles from "./home-additions.module.css";
+import { SignupForm } from "./components/SignupForm";
 
 const description = "A physician-led platform translating microplastic and nanoplastic research into practical steps that help protect human health and future generations.";
 export const metadata: Metadata = {
@@ -51,7 +54,6 @@ export default function Home() {
 
       <BodyJourney />
 
-
       <section id="exposure" className="exposure-section">
         <header data-reveal>
           <div className="hp-section-index light"><span>03</span><p>How it reaches us</p></div>
@@ -76,9 +78,7 @@ export default function Home() {
         <div className="hp-actions-visual" aria-label="Three simple starting rules from Say No to Plastic">
           <p className="eyebrow dark">Start here</p>
           <h3>First: use less plastic.</h3>
-          <ol>
-            {coreRules.map((rule) => <li key={rule.number}><span>{rule.number}</span><strong>{rule.title}</strong><small>{rule.detail}</small></li>)}
-          </ol>
+          <ol>{coreRules.map((rule) => <li key={rule.number}><span>{rule.number}</span><strong>{rule.title}</strong><small>{rule.detail}</small></li>)}</ol>
         </div>
         <div className="hp-actions-copy" data-reveal>
           <div className="hp-section-index"><span>04</span><p>Practical action</p></div>
@@ -104,39 +104,25 @@ export default function Home() {
         </figure>
       </section>
 
-      <section className="hp-media-bridge" aria-labelledby="home-tedx-title">
-        <div data-reveal>
-          <p className="eyebrow">Watch the TEDx Talk</p>
-          <h2 id="home-tedx-title">The Invisible Inheritance of Nanoplastics</h2>
-          <p>What happens when an environmental pollutant becomes part of the human story?</p>
-        </div>
-        <aside data-reveal>
-          <strong>TEDxMiami</strong>
-          <p>Dr. Elie Haddad explores the emerging science of micro- and nanoplastics in the human body.</p>
-          <TrackedLink className="button gold" href="/tedx" eventName="cta_click" label="home-tedx">Watch the talk <span>→</span></TrackedLink>
-        </aside>
+      <section className={homeStyles.podcastFeature} aria-labelledby="home-podcast-title">
+        <figure className={homeStyles.art} data-reveal><img src={BEYOND_PLASTIC.artwork} width="1200" height="1200" loading="lazy" alt={BEYOND_PLASTIC.artworkAlt} /><figcaption>Beyond Plastic · Where Science Meets Consciousness</figcaption></figure>
+        <div className={homeStyles.copy} data-reveal><p className={homeStyles.eyebrow}>Beyond Plastic</p><h2 id="home-podcast-title"><em>Where Science Meets Consciousness</em></h2><p className={homeStyles.lead}>A podcast exploring the ideas that shape our health, our lives, and ultimately, our humanity.</p><p>Beginning with <strong>The Plastic Age</strong> — and going far beyond it.</p><TrackedLink className={homeStyles.cta} href="/podcast" eventName="cta_click" label="home-podcast">Explore the podcast <span>→</span></TrackedLink></div>
       </section>
 
+      <section className={homeStyles.tedxFeature} aria-labelledby="home-tedx-title"><div className={homeStyles.tedxRule}><span>TEDxMiami</span></div><div className={homeStyles.tedxCopy} data-reveal><p className={homeStyles.tedxEyebrow}>Watch the TEDx Talk</p><h2 id="home-tedx-title">The Invisible Inheritance of Nanoplastics</h2><p>What happens when an environmental pollutant becomes part of the human story?</p><TrackedLink className={homeStyles.tedxCta} href="/tedx" eventName="cta_click" label="home-tedx">Watch the talk <span>→</span></TrackedLink></div></section>
+
       <section className="hp-media-bridge" aria-labelledby="home-media-title">
-        <div data-reveal>
-          <p className="eyebrow">Events &amp; Media</p>
-          <h2 id="home-media-title">Follow the public conversation.</h2>
-          <p>Talks, interviews, public appearances, and press resources live in one dedicated media center, separate from the homepage’s core science-to-action journey.</p>
-        </div>
-        <aside data-reveal>
-          <strong>Media desk</strong>
-          <p>Explore verified appearances now and add future links without redesigning the site.</p>
-          <TrackedLink className="button gold" href="/media" eventName="cta_click" label="home-media">Open Events &amp; Media <span>→</span></TrackedLink>
-        </aside>
+        <div data-reveal><p className="eyebrow">Events &amp; Media</p><h2 id="home-media-title">Follow the public conversation.</h2><p>Talks, interviews, public appearances, and press resources live in one dedicated media center.</p></div>
+        <aside data-reveal><strong>Media desk</strong><p>Explore verified appearances and press resources.</p><TrackedLink className="button gold" href="/media" eventName="cta_click" label="home-media">Open Events &amp; Media <span>→</span></TrackedLink></aside>
       </section>
 
       <section id="join" className="hp-join">
         <div className="hp-join-copy" data-reveal>
           <div className="hp-section-index light"><span>07</span><p>Stay connected</p></div>
           <p className="eyebrow">Field Notes / Newsletter</p>
-          <h2>Coming soon.</h2>
-          <p>Research summaries, practical guides, book news, and project updates will be available by email once the mailing platform is connected.</p>
-          <small>No email addresses are being collected at launch.</small>
+          <h2>Stay close to the research.</h2>
+          <p>Receive new research summaries, practical exposure-reduction guidance, book news, and updates from the movement.</p>
+          <SignupForm buttonLabel="Join the movement" successTitle="You&apos;re in. Welcome to the movement." successText="Thanks for joining Say No to Plastic." />
         </div>
       </section>
 

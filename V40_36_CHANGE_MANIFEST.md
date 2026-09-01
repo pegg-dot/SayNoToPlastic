@@ -20,18 +20,20 @@ This release candidate reconciles the latest Dr. Haddad finalization request wit
 
 Before production newsletter capture is considered live:
 
-1. Configure a Mailchimp Marketing API key as a Cloudflare secret.
-2. Configure the Mailchimp Audience ID as a Cloudflare secret.
-3. Confirm single-opt-in versus double-opt-in policy. The current candidate uses immediate subscription for new members.
-4. Verify a real signup reaches Mailchimp and D1, then verify unsubscribe behavior.
-5. Confirm Mailchimp sender/reply-to identity, required physical mailing address, and campaign-domain authentication before sending campaigns.
+1. Configure the Mailchimp Marketing API credential as a Cloudflare Worker secret.
+2. Configure the intended Mailchimp Audience/List ID as a Cloudflare Worker secret.
+3. Verify a real signup reaches Mailchimp and D1, then verify unsubscribe behavior.
+4. Confirm Mailchimp sender/reply-to identity, required physical mailing address, and campaign-domain authentication before sending campaigns.
 
-The official TEDx video and exact direct Spotify / Apple show URLs remain replaceable follow-up inputs and are not blockers for this release candidate.
+Single opt-in is confirmed for new Field Notes subscribers. Cloudflare authorization to the existing Worker has been verified. The official TEDx video and exact direct Spotify / Apple show URLs remain replaceable follow-up inputs and are not blockers for this release candidate.
 
 ## Validation
 
-- Release audit: 45/45
-- Final anatomy audit: 24/24
+- v40.36 release audit: 21/21
+- inherited complete anatomy audit: 37/37
 - Podcast / TEDx / newsletter audit: 14/14
-- Syntax audit: 127 files, 0 failures
-- Mailchimp audience preflight and adapter contract: pass
+- audience preflight: 13/13
+- audience adapter contract: pass
+- syntax audit: 127 files, 0 failures
+- clean macOS locked install: pass
+- dependency-backed Vinext production build: pass

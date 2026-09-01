@@ -8,7 +8,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const routes = [
     "", "/science", "/science/how-detection-works", "/science/exposome",
     "/solutions", "/solutions/reduce-exposure", "/quick-action-card", "/resources",
-    "/homo-plasticus", "/recommendations", "/about-dr-elie-haddad", "/media",
+    "/homo-plasticus", "/recommendations", "/about-dr-elie-haddad", "/tedx", "/media",
     "/media/press-kit", "/community", "/contact", "/editorial-policy",
     "/medical-disclaimer", "/affiliate-disclosure", "/privacy-policy",
     "/refunds-and-returns", "/terms", "/accessibility",
@@ -16,7 +16,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     ...routes.map((path, index) => ({
       url: `${base}${path}`,
-      lastModified: new Date("2026-08-08"),
+      lastModified: new Date("2026-08-31"),
       changeFrequency: (index === 0 ? "weekly" : "monthly") as "weekly" | "monthly",
       priority: index === 0 ? 1 : .7,
     })),

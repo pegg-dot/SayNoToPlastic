@@ -104,6 +104,19 @@ export default function Home() {
         </figure>
       </section>
 
+      <section className="hp-media-bridge" aria-labelledby="home-tedx-title">
+        <div data-reveal>
+          <p className="eyebrow">Watch the TEDx Talk</p>
+          <h2 id="home-tedx-title">The Invisible Inheritance of Nanoplastics</h2>
+          <p>What happens when an environmental pollutant becomes part of the human story?</p>
+        </div>
+        <aside data-reveal>
+          <strong>TEDxMiami</strong>
+          <p>Dr. Elie Haddad explores the emerging science of micro- and nanoplastics in the human body.</p>
+          <TrackedLink className="button gold" href="/tedx" eventName="cta_click" label="home-tedx">Watch the talk <span>→</span></TrackedLink>
+        </aside>
+      </section>
+
       <section className="hp-media-bridge" aria-labelledby="home-media-title">
         <div data-reveal>
           <p className="eyebrow">Events &amp; Media</p>

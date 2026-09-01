@@ -4,17 +4,20 @@
 
 ### Mailchimp access
 
-The final client pass activates visible Field Notes signup surfaces and selects Mailchimp as the audience provider. Production deployment therefore requires:
+The final client pass activates visible Field Notes signup surfaces and selects Mailchimp as the audience provider. The remaining production inputs are:
 
-- a Mailchimp Marketing API key entered as the Cloudflare Worker secret `MAILCHIMP_API_KEY`
-- the intended Mailchimp Audience/List ID entered as the Cloudflare Worker secret `MAILCHIMP_AUDIENCE_ID`
-- owner confirmation of single opt-in versus double opt-in before launch
+- a Mailchimp Marketing API credential entered as the existing Cloudflare Worker's `MAILCHIMP_API_KEY` secret
+- the intended Mailchimp Audience/List ID entered as the existing Cloudflare Worker's `MAILCHIMP_AUDIENCE_ID` secret
 
-Secret values must not be committed to GitHub or pasted into ordinary chat history.
+Single opt-in has been confirmed for launch. Secret values must not be committed to GitHub or pasted into ordinary chat history.
 
 ### Cloudflare authorization
 
-An authenticated Cloudflare account with permission to deploy the existing `say-no-to-plastic` Worker is required. Validate access with `npx wrangler whoami` from the project directory. This is an authorization requirement, not a source-code requirement.
+Authorization has been verified through Wrangler for the existing `say-no-to-plastic` Worker. The authenticated account can read the current deployment history and has Worker/D1 write permissions. No new Worker or Cloudflare project is required.
+
+### Build validation
+
+A clean macOS clone completed `npm run install:ci` and the full dependency-backed `npm run build` successfully. The generated deployment artifact preserves the existing D1 binding and Worker configuration. The remaining build warning about missing Mailchimp secrets is expected until those production values are configured securely.
 
 ## Required before sending Mailchimp campaigns
 
@@ -41,3 +44,5 @@ The Podcast page provides Spotify and Apple Podcasts platform-search destination
 - The corrected Beyond Plastic artwork has been recovered from the owner-supplied file and is included in the v40.36 build preparation.
 - Dr. Haddad's exact TEDx title, speaker line, body copy, homepage feature copy, and primary-navigation direction are implemented.
 - The requested explanatory small-print line under the podcast platforms is removed.
+- Single opt-in policy is confirmed.
+- Cloudflare deployment authorization is verified.

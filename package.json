@@ -5,7 +5,10 @@
   "engines": { "node": ">=22.13.0" },
   "scripts": {
     "install:ci": "bash scripts/install-ci.sh",
+    "prepare:podcast-artwork": "node scripts/prepare-podcast-artwork.mjs",
+    "predev": "npm run prepare:podcast-artwork",
     "dev": "WRANGLER_LOG_PATH=.wrangler/wrangler.log vite",
+    "prebuild": "npm run prepare:podcast-artwork",
     "build": "bash scripts/build-verified.sh",
     "start": "WRANGLER_LOG_PATH=.wrangler/wrangler.log vinext start",
     "test": "npm run build && node --test tests/rendered-html.test.mjs",
@@ -51,7 +54,8 @@
     "anatomy:order": "node scripts/v40-28-testicular-final-audit.mjs",
     "anatomy:microplastics": "node scripts/v40-33-system-aware-microplastic-flow-audit.mjs",
     "anatomy:flow": "node scripts/v40-33-system-aware-microplastic-flow-audit.mjs",
-    "release:audit": "node scripts/v40-34-release-candidate-audit.mjs && node scripts/final-home-anatomy-audit.mjs"
+    "release:audit": "node scripts/v40-34-release-candidate-audit.mjs && node scripts/final-home-anatomy-audit.mjs && node scripts/podcast-tedx-audit.mjs",
+    "podcast:launch-audit": "node scripts/podcast-tedx-audit.mjs"
   },
   "dependencies": {
     "@react-three/fiber": "^9.7.0",

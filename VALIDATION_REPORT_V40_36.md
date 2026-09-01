@@ -1,6 +1,6 @@
 # v40.36 validation report
 
-## Portable validation completed
+## Validation completed
 
 - `npm run release:audit`
   - v40.36 release audit: 21 passed, 0 failed
@@ -9,15 +9,20 @@
 - `npm run audience:preflight`: 13 passed, 0 failed
 - `npm run audience:test`: pass for none / Resend / Mailchimp adapter contracts
 - `npm run syntax:audit`: 127 TypeScript/TSX files checked, 0 parser failures
+- `npm run install:ci`: pass on a clean macOS clone; locked dependencies installed and Vinext available
+- `npm run build`: pass; Vinext completed all five build phases and produced the validated Cloudflare deployment artifact
 
-## Dependency-backed build status
+## Build notes
 
-`npm run build` reached the repository's verified build wrapper but stopped because `vinext` was unavailable locally.
+The production build completed successfully. It emitted two non-blocking warning classes:
 
-The prescribed `npm run install:ci` retry then failed while downloading the locked Vinext package because this sandbox could not resolve `registry.npmjs.org` (`curl: (6) Could not resolve host`). This is an environment/network gate, not a reported TypeScript/parser failure.
+- the two required Mailchimp Worker secrets are not present in the local build environment; this is expected because secret values are intentionally not stored in source control
+- one or more client chunks exceed Vinext/Vite's 500 kB advisory threshold; this is a performance advisory, not a build failure
 
-The deployment runbook therefore requires `npm run install:ci` and `npm run build` to succeed in the authenticated networked deployment environment before production deployment.
+No TypeScript/parser failure or build-stopping application error was reported.
 
 ## Production safety
 
-The Wrangler config declares `MAILCHIMP_API_KEY` and `MAILCHIMP_AUDIENCE_ID` as required secrets. A production deploy must not proceed until both are configured on the existing Worker. Secret values are not committed to the repository.
+The Wrangler config declares the two Mailchimp values as required Worker secrets. Production deployment remains intentionally blocked until they are configured on the existing `say-no-to-plastic` Worker. Secret values are not committed to the repository.
+
+Cloudflare authorization to the existing Worker has been verified through Wrangler. Single opt-in is confirmed for new Field Notes subscribers.

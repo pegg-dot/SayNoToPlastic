@@ -36,7 +36,8 @@ expect(subscribe.includes("audienceConfiguration") && subscribe.includes("syncAu
 expect(wrangler.includes('"AUDIENCE_PROVIDER": "mailchimp"') && env.includes("AUDIENCE_PROVIDER=mailchimp"), "Deployment configuration selects Mailchimp without embedding credentials.");
 expect(audience.includes("mailchimpServerPrefix") && audience.includes("status_if_new: \"subscribed\""), "Mailchimp adapter can derive its server prefix and currently uses immediate subscription.");
 expect(privacy.includes("Mailchimp may process subscriber") && privacy.includes("Mailchimp for newsletter audience"), "Privacy policy discloses Mailchimp processing.");
-expect(!wrangler.includes("MAILCHIMP_API_KEY") && !wrangler.includes("MAILCHIMP_AUDIENCE_ID"), "Mailchimp secrets are not committed in Wrangler configuration.");
+expect(wrangler.includes('"required"') && wrangler.includes('"MAILCHIMP_API_KEY"') && wrangler.includes('"MAILCHIMP_AUDIENCE_ID"'), "Wrangler blocks deployment until both Mailchimp secrets are configured.");
+expect(!/"MAILCHIMP_API_KEY"\s*:\s*"[^\"]+"/.test(wrangler) && !/"MAILCHIMP_AUDIENCE_ID"\s*:\s*"[^\"]+"/.test(wrangler), "No Mailchimp secret values are committed in Wrangler configuration.");
 expect(env.includes("MAILCHIMP_API_KEY=") && env.includes("MAILCHIMP_AUDIENCE_ID="), "Mailchimp secret names are documented without values.");
 expect(wrangler.includes('"database_name": "saynotoplastic-db"') && wrangler.includes('"PUBLIC_SITE_URL": "https://saynotoplastic.com"'), "Existing Cloudflare D1 and production origin remain preserved.");
 expect(wrangler.includes('"COMMERCE_MODE": "woocommerce"'), "Existing WooCommerce production commerce mode remains preserved.");

@@ -28,7 +28,7 @@
   "vars": {
     "PUBLIC_SITE_URL": "https://saynotoplastic.com",
     "COMMERCE_MODE": "woocommerce",
-    "AUDIENCE_PROVIDER": "none",
+    "AUDIENCE_PROVIDER": "mailchimp",
     "SUPPORT_EMAIL": "WeAreHomoplasticus@gmail.com",
     "NEXT_PUBLIC_SUPPORT_EMAIL": "WeAreHomoplasticus@gmail.com"
   }

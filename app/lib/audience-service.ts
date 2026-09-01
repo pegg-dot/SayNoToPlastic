@@ -103,16 +103,24 @@ function basicAuthorization(apiKey: string) {
   return `Basic ${btoa(`say-no-to-plastic:${apiKey}`)}`;
 }
 
+function mailchimpServerPrefix(env: AudienceEnv) {
+  const explicit = env.MAILCHIMP_SERVER_PREFIX?.trim();
+  if (explicit) return explicit;
+  const match = env.MAILCHIMP_API_KEY?.trim().match(/-([a-z0-9]+)$/i);
+  return match?.[1] || "";
+}
+
 async function mailchimpRequest(
   env: AudienceEnv,
   path: string,
   body: Record<string, unknown>,
   method: "PUT" | "PATCH",
 ): Promise<AudienceResult> {
-  if (!env.MAILCHIMP_API_KEY || !env.MAILCHIMP_SERVER_PREFIX || !env.MAILCHIMP_AUDIENCE_ID) {
+  const serverPrefix = mailchimpServerPrefix(env);
+  if (!env.MAILCHIMP_API_KEY || !serverPrefix || !env.MAILCHIMP_AUDIENCE_ID) {
     return { configured: false, provider: "mailchimp" };
   }
-  const response = await fetch(`https://${env.MAILCHIMP_SERVER_PREFIX}.api.mailchimp.com/3.0${path}`, {
+  const response = await fetch(`https://${serverPrefix}.api.mailchimp.com/3.0${path}`, {
     method,
     headers: {
       Authorization: basicAuthorization(env.MAILCHIMP_API_KEY),
@@ -155,7 +163,7 @@ export async function audienceConfiguration() {
   const configured = provider === "resend"
     ? Boolean(env.RESEND_API_KEY)
     : provider === "mailchimp"
-      ? Boolean(env.MAILCHIMP_API_KEY && env.MAILCHIMP_SERVER_PREFIX && env.MAILCHIMP_AUDIENCE_ID)
+      ? Boolean(env.MAILCHIMP_API_KEY && mailchimpServerPrefix(env) && env.MAILCHIMP_AUDIENCE_ID)
       : false;
   return { provider, configured };
 }

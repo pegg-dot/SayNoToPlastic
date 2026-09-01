@@ -2,17 +2,19 @@ import type { MetadataRoute } from "next";
 import { guides } from "./content/guides";
 import { bodySystems } from "./content/body-systems";
 import { SITE_URL } from "./config";
+import { TEDX_RELEASE } from "./content/publications";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = SITE_URL;
   const routes = [
     "", "/science", "/science/how-detection-works", "/science/exposome",
     "/solutions", "/solutions/reduce-exposure", "/quick-action-card", "/resources",
-    "/homo-plasticus", "/recommendations", "/about-dr-elie-haddad", "/tedx", "/media",
+    "/homo-plasticus", "/recommendations", "/about-dr-elie-haddad", "/podcast", "/media",
     "/media/press-kit", "/community", "/contact", "/editorial-policy",
     "/medical-disclaimer", "/affiliate-disclosure", "/privacy-policy",
     "/refunds-and-returns", "/terms", "/accessibility",
   ];
+  if (TEDX_RELEASE.published) routes.push("/tedx");
   return [
     ...routes.map((path, index) => ({
       url: `${base}${path}`,

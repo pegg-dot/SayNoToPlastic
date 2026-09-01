@@ -12,12 +12,14 @@ v40.36 reconciles the latest Dr. Haddad finalization request with the current Cl
 - Field Notes / Newsletter signup restored on Home, footer, Community, and Events & Media.
 - `/api/subscribe` restored with consent/D1 persistence and direct Mailchimp audience sync for ordinary Field Notes capture.
 - Mailchimp server prefix derivation added; production requires only API key and Audience ID secrets.
-- Privacy policy updated for Mailchimp audience processing.
+- Privacy policy updated for Mailchimp processing.
 - Existing D1 database, `saynotoplastic.com` origin, WooCommerce mode, and Cloudflare Worker identity preserved.
+- Single opt-in confirmed for new Field Notes subscribers.
+- Cloudflare authorization to the existing `say-no-to-plastic` Worker verified with Wrangler.
 
 ## Validation
 
-Portable v40.36 source validation passes:
+v40.36 validation passes:
 
 - v40.36 release audit: 21/21
 - inherited complete anatomy audit: 37/37
@@ -25,12 +27,14 @@ Portable v40.36 source validation passes:
 - audience preflight: 13/13
 - audience adapter contract: pass
 - syntax audit: 127 files, 0 failures
+- clean macOS `npm run install:ci`: pass; locked dependencies installed and Vinext available
+- dependency-backed `npm run build`: pass; Cloudflare deployment artifact produced successfully
 
-A dependency-backed Vinext build could not be completed in the current sandbox because the environment cannot resolve `registry.npmjs.org`; `npm run install:ci` fails at the network/DNS download step before application compilation. The production runbook therefore requires the build to be repeated from an authenticated, networked deployment environment before `wrangler deploy`.
+The build emits the expected warning that the two required Mailchimp Worker secrets are absent from the local environment. Those values are intentionally not committed and remain the production activation gate.
 
 ## Remaining production gates
 
-1. Confirm Mailchimp single opt-in versus double opt-in.
-2. Configure `MAILCHIMP_API_KEY` and `MAILCHIMP_AUDIENCE_ID` as Cloudflare Worker secrets.
-3. Complete the full dependency-backed build in the networked deployment environment.
-4. Deploy the existing Worker and perform the production acceptance checks in `docs/V40_36_DEPLOYMENT.md`.
+1. Obtain the Mailchimp Marketing API credential and intended Audience/List ID.
+2. Configure the two required Mailchimp values securely on the existing Cloudflare Worker.
+3. Deploy the existing Worker and perform the production acceptance checks in `docs/V40_36_DEPLOYMENT.md`.
+4. Verify a real test signup reaches both Mailchimp and D1, and verify unsubscribe behavior.

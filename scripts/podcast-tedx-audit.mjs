@@ -27,7 +27,8 @@ expect(home.includes("A podcast exploring the ideas that shape our health, our l
 expect(podcast.includes("Beyond Plastic is a podcast about the ideas that shape our health, our lives, and ultimately, our humanity.") && podcast.includes("Future series will venture beyond plastic"), "Podcast page preserves supplied copy.");
 expect(!podcast.match(/episode\s+[0-9]/i), "Podcast page does not duplicate an episode feed.");
 expect(pub.includes('name: "Spotify"') && pub.includes('name: "Apple Podcasts"') && pub.includes('name: "YouTube"'), "Spotify, Apple Podcasts, and YouTube are represented.");
-expect(!podcast.includes("Spotify and Apple Podcasts are live platform-search links"), "Requested podcast platform fine print is removed.");
+expect(!podcast.includes("Spotify and Apple Podcasts are live platform-search links"), "Requested podcast platform explanatory fine print is removed.");
+expect(!podcast.includes("Find Beyond Plastic") && !podcast.includes("Open Beyond Plastic"), "Requested small platform sublabels are removed beneath Spotify, Apple Podcasts, and YouTube.");
 expect(tedx.includes("The Invisible Inheritance of Nanoplastics") && tedx.includes("What if one of the greatest environmental stories") && tedx.includes("temporary audience recording") && !tedx.includes("notFound()"), "Dedicated TEDx page is public now with supplied copy and transparent temporary-video status.");
 expect(chrome.includes('{ href: "/tedx", label: "TEDx Talk" }') && home.includes('href="/tedx"') && sitemap.includes('"/tedx"'), "TEDx is visible in navigation, homepage, and sitemap.");
 expect(sitemap.includes('"/podcast"'), "Podcast is included in the sitemap.");

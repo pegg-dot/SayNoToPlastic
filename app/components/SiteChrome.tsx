@@ -108,6 +108,7 @@ export function Header({ skipToContent = true }: { skipToContent?: boolean }) {
     { href: "/", label: "Home" },
     { href: "/science", label: "The Science" },
     { href: "/solutions", label: "Take Action" },
+    { href: "/quick-action-card", label: "Guides" },
     { href: "/podcast", label: "Podcast" },
     { href: "/tedx", label: "TEDx Talk" },
     { href: "/about-dr-elie-haddad", label: "About" },
@@ -127,7 +128,7 @@ export function Header({ skipToContent = true }: { skipToContent?: boolean }) {
         <nav ref={menuRef} id="mobile-menu" className="mobile-nav" aria-label="Mobile navigation">
           {primaryNav.map((item) => <a key={item.href} onClick={close} href={item.href} aria-current={isCurrent(item.href) ? "page" : undefined}>{item.label}</a>)}
           <div className="mobile-nav-secondary" aria-label="More from Say No to Plastic">
-            <span>More</span><a onClick={close} href="/resources">Guides</a><a onClick={close} href="/homo-plasticus">The book</a><a onClick={close} href="/media">Events &amp; Media</a><a onClick={close} href="/community">Community</a>
+            <span>More</span><a onClick={close} href="/resources">Guide library</a><a onClick={close} href="/homo-plasticus">The book</a><a onClick={close} href="/media">Events &amp; Media</a><a onClick={close} href="/community">Community</a>
           </div>
           <CheckoutButton label="mobile-menu" onStarted={close}>Get the ebook · ${BOOK.price}</CheckoutButton>
         </nav>
@@ -147,9 +148,9 @@ export function Footer() {
       <div className="earth"><p>“The greatest inheritance we can leave our children isn't wealth. <em>It's health.</em>”</p></div>
       <div className="footer-grid">
         <div><Wordmark footer /><p>Science, clarity, and practical action for a world living with plastic.</p><span className="movement-mark" aria-hidden="true"><img src="/brand/sntp-wordmark-microplastic-nav.png" width="900" height="150" alt="" decoding="async" /></span></div>
-        <div><strong>Explore</strong><a href="/science">The evidence</a><a href="/science/how-detection-works">How detection works</a><a href="/science/exposome">The exposome</a><a href="/solutions">Practical action</a><a href="/homo-plasticus">The book</a><a href="/purchase/recover">Book access</a><a href="/resources">Guides</a><a href="/recommendations">Product review standard</a></div>
+        <div><strong>Explore</strong><a href="/science">The evidence</a><a href="/science/how-detection-works">How detection works</a><a href="/science/exposome">The exposome</a><a href="/solutions">Practical action</a><a href="/quick-action-card">12-step guide</a><a href="/homo-plasticus">The book</a><a href="/purchase/recover">Book access</a><a href="/resources">Guide library</a><a href="/recommendations">Product review standard</a></div>
         <div><strong>Project</strong><a href="/podcast">Beyond Plastic podcast</a><a href="/tedx">TEDx Talk</a><a href="/about-dr-elie-haddad">Dr. Haddad</a><a href="/media">Talk and media</a><a href="/community">Field notes</a><a href="/contact">Contact</a><a href="/editorial-policy">Editorial standard</a></div>
-        <div className="footer-signup"><strong>Field Notes / Newsletter</strong><p>Research summaries and practical exposure-reduction guidance, sent by email.</p><SignupForm compact buttonLabel="Join the movement" successTitle="You&apos;re in." successText="Welcome to the movement." /></div>
+        <div className="footer-signup"><strong>Field Notes / Newsletter</strong><p>Research summaries and practical exposure-reduction guidance, sent by email.</p><SignupForm compact buttonLabel="Join the movement" successTitle="You&apos;re in." successText="You&apos;re subscribed. No confirmation email is required." /></div>
       </div>
       <div className="footer-bottom"><span>© {year} Say No to Plastic</span><span><a href="/privacy-policy">Privacy</a> &nbsp; <button className="privacy-choice-link" type="button" onClick={resetPrivacy}>Privacy choices</button> &nbsp; <a href="/terms">Terms</a> &nbsp; <a href="/refunds-and-returns">Refunds</a> &nbsp; <a href="/affiliate-disclosure">Affiliate disclosure</a> &nbsp; <a href="/medical-disclaimer">Medical disclaimer</a> &nbsp; <a href="/accessibility">Accessibility</a> &nbsp; <a href="/contact">Media inquiries</a></span></div>
     </footer>

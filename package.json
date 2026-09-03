@@ -54,7 +54,7 @@
     "anatomy:order": "node scripts/v40-28-testicular-final-audit.mjs",
     "anatomy:microplastics": "node scripts/v40-33-system-aware-microplastic-flow-audit.mjs",
     "anatomy:flow": "node scripts/v40-33-system-aware-microplastic-flow-audit.mjs",
-    "release:audit": "npm run prepare:podcast-artwork && node scripts/v40-36-release-audit.mjs && node scripts/v40-19-complete-atlas-audit.mjs && node scripts/podcast-tedx-audit.mjs",
+    "release:audit": "npm run prepare:podcast-artwork && node scripts/v40-37-owner-review-audit.mjs && node scripts/v40-19-complete-atlas-audit.mjs && node scripts/podcast-tedx-audit.mjs",
     "podcast:launch-audit": "npm run prepare:podcast-artwork && node scripts/podcast-tedx-audit.mjs"
   },
   "dependencies": {
@@ -70,9 +70,10 @@
     "@tailwindcss/postcss": "4.2.1",
     "@types/node": "22.19.19",
     "@types/react": "19.2.14",
-    "@types/react-dom": "19.2.3",
+    "@types/react-dom": "19.2.6",
     "@vitejs/plugin-react": "6.0.2",
     "@vitejs/plugin-rsc": "0.5.26",
+    "cloudflare": "4.92.0",
     "drizzle-kit": "0.31.10",
     "eslint": "9.39.4",
     "eslint-config-next": "16.2.6",

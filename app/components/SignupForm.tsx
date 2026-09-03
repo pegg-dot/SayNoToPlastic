@@ -61,7 +61,7 @@ export function SignupForm({
   }
 
   if (state === "success") {
-    return <div className="success" role="status"><span>✓</span><h3>{successTitle || "You're in."}</h3><p>{successText || (program === "learning-series" ? "Your subscription is saved and the ten-part learning series is scheduled. Lesson one begins when the approved email service and scheduler are active." : "Your subscription is saved. Welcome to the Say No to Plastic field notes.")}</p></div>;
+    return <div className="success" role="status"><span>✓</span><h3>{successTitle || "You're in."}</h3><p>{successText || (program === "learning-series" ? "Your subscription is saved and the ten-part learning series is scheduled. Lesson one begins when the approved email service and scheduler are active." : "You're subscribed to Field Notes. No confirmation email is required.")}</p></div>;
   }
 
   return (

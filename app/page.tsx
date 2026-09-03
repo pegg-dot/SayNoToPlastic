@@ -122,7 +122,7 @@ export default function Home() {
           <p className="eyebrow">Field Notes / Newsletter</p>
           <h2>Stay close to the research.</h2>
           <p>Receive new research summaries, practical exposure-reduction guidance, book news, and updates from the movement.</p>
-          <SignupForm buttonLabel="Join the movement" successTitle="You&apos;re in. Welcome to the movement." successText="Thanks for joining Say No to Plastic." />
+          <SignupForm buttonLabel="Join the movement" successTitle="You&apos;re in." successText="You&apos;re subscribed. No confirmation email is required." />
         </div>
       </section>
 

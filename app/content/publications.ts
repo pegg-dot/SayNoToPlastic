@@ -18,10 +18,12 @@ export const BEYOND_PLASTIC = {
   ] satisfies PodcastPlatform[],
 } as const;
 
+// Compatibility registry for homepage/sitemap consumers. This remains the current
+// owner-approved temporary recording until TEDx publishes the official release.
 export const TEDX_RELEASE = {
   published: true,
   title: "The Invisible Inheritance of Nanoplastics",
   speakerLine: "Dr. Elie Haddad | TEDxMiami",
-  officialVideoUrl: "https://www.youtube.com/watch?v=MVnY2vw99SY",
-  officialYoutubeId: "MVnY2vw99SY",
+  officialVideoUrl: "https://www.youtube.com/shorts/6juPFhIh68I",
+  officialYoutubeId: "6juPFhIh68I",
 } as const;

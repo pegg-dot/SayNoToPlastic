@@ -11,14 +11,13 @@ Only these email identities are accepted by the application layer:
 
 The application verifies the Cloudflare Access JWT and then checks the email claim against this allowlist. Adding an email only in Cloudflare Access is not enough to bypass the application allowlist.
 
-## Protected paths
+## Protected path
 
 Create one Cloudflare Access self-hosted application covering:
 
 - `saynotoplastic.com/admin*`
-- `saynotoplastic.com/api/admin/*`
 
-Do not protect the rest of the public site.
+The admin page and its write API both live under this one protected prefix, so they share one Cloudflare Access Application Audience (AUD) tag. Do not protect the rest of the public site.
 
 The Access policy should allow only the two approved emails above. Do not use an `Everyone` allow rule.
 
@@ -27,7 +26,7 @@ The Access policy should allow only the two approved emails above. Do not use an
 After creating the Access application, copy:
 
 1. the Cloudflare Access team domain, for example `your-team.cloudflareaccess.com`
-2. the Application Audience (AUD) tag for the Access application
+2. the Application Audience (AUD) tag for that single `/admin*` application
 
 Set them on the production Worker without committing values to Git:
 
@@ -86,10 +85,10 @@ Those remain developer-controlled because a general-purpose CMS would create unn
 
 1. Run the full test/build stack on the release branch.
 2. Apply `0007_owner_admin.sql` to the existing production D1 database.
-3. Configure the Cloudflare Access application and two-email allow policy.
+3. Configure one Cloudflare Access application for `saynotoplastic.com/admin*` with a two-email allow policy.
 4. Set `CF_ACCESS_TEAM_DOMAIN` and `CF_ACCESS_AUD` on the Worker.
 5. Deploy the validated release.
-6. Visit `/admin` from both approved accounts and confirm unapproved access is rejected.
+6. Visit `/admin` from both approved accounts and confirm an unapproved account is rejected.
 7. Change a harmless field, verify the public page updates, then clear it back to the source default.
 
 If the migration or admin configuration is unavailable, public TEDx/podcast pages fall back to the source-code values instead of failing.

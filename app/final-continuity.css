@@ -98,3 +98,30 @@
   text-decoration: underline;
   text-underline-offset: 3px;
 }
+
+/* Optional owner-managed public notice. It stays out of the header layout until content exists. */
+.site-owner-notice {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(720px, calc(100vw - 32px));
+  padding: 9px 14px;
+  border: 1px solid rgba(215,169,103,.35);
+  border-radius: 999px;
+  background: rgba(7,17,29,.94);
+  box-shadow: 0 10px 30px rgba(0,0,0,.22);
+  color: #efe6d6;
+  text-align: center;
+  font: 600 11px/1.45 Arial, sans-serif;
+  letter-spacing: .01em;
+  pointer-events: none;
+}
+
+@media (max-width: 720px) {
+  .site-owner-notice {
+    top: calc(100% + 8px);
+    border-radius: 12px;
+    font-size: 10px;
+  }
+}

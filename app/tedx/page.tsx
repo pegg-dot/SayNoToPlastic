@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { Footer, Header } from "../components/SiteChrome";
 import { FeatureVideo } from "../components/FeatureVideo";
 import { TrackedLink } from "../components/TrackedLink";
-import { getMediaEntry, toVideoFeature } from "../content/media-content";
+import { toVideoFeature } from "../content/media-content";
+import { getEffectiveTedxEntry } from "../lib/publication-overrides";
 
 const title = "The Invisible Inheritance of Nanoplastics";
 const description = "Dr. Elie Haddad's TEDxMiami talk on microplastics, nanoplastics, human health, and the relationship between the world around us and the world within us.";
@@ -22,8 +23,8 @@ export const metadata: Metadata = {
   twitter: { card: "summary_large_image", title: `${title} | Dr. Elie Haddad | TEDxMiami`, description, images: ["/tedx.webp"] },
 };
 
-export default function TedxPage() {
-  const entry = getMediaEntry("tedx-invisible-inheritance");
+export default async function TedxPage() {
+  const entry = await getEffectiveTedxEntry();
   const video = entry ? toVideoFeature(entry) : null;
 
   return (
@@ -50,7 +51,7 @@ export default function TedxPage() {
             {entry?.temporary ? (
               <p>The official TEDx video has not yet been released. The current video is a temporary audience recording and will be replaced here as soon as the official TEDx release becomes available.</p>
             ) : (
-              <p>Watch Dr. Haddad&apos;s TEDxMiami talk.</p>
+              <p>Watch Dr. Haddad&apos;s official TEDxMiami talk.</p>
             )}
           </div>
           {video ? (
@@ -58,7 +59,7 @@ export default function TedxPage() {
           ) : (
             <figure className="media-pending-card">
               <img src="/tedx.webp" width="1536" height="1024" alt="Dr. Elie Haddad speaking on a TEDxMiami stage" />
-              <figcaption><strong>Official TEDx video coming soon</strong></figcaption>
+              <figcaption><strong>TEDx video coming soon</strong></figcaption>
             </figure>
           )}
         </section>

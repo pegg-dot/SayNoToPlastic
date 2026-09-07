@@ -1,4 +1,4 @@
-import { mailchimpSubscriberHash, resolveAudienceProvider } from "./audience-service";
+import { mailchimpSubscriberHash, resolveAudienceProvider } from "./audience-service.ts";
 
 type MailchimpEventEnv = {
   AUDIENCE_PROVIDER?: string;

@@ -42,7 +42,7 @@ expect(overrides.includes("getEffectivePodcastPlatforms") && podcast.includes("g
 expect(publicNotice.includes('getAdminContentValue("site.notice")') && read("app/components/SiteChrome.tsx").includes("site-owner-notice"), "Optional owner site notice is wired to the public header.");
 expect(media.includes('getPublicOwnerNotice("media.owner_update")') && media.includes("Latest from Dr. Haddad"), "Events & Media owner update is wired to the public page.");
 expect(worker.includes('url.pathname.startsWith("/admin")') && worker.includes('headers.set("X-Robots-Tag", "noindex, nofollow")'), "Worker disables caching/indexing for admin routes.");
-expect(setup.includes("saynotoplastic.com/admin*") && !setup.includes("saynotoplastic.com/api/admin"), "One Cloudflare Access application protects the admin page and admin API with one AUD.");
+expect(setup.includes("saynotoplastic.com/admin`") && setup.includes("saynotoplastic.com/admin/*`") && !setup.includes("saynotoplastic.com/api/admin"), "One Cloudflare Access application covers both the /admin parent and child paths with one AUD.");
 expect(existsSync(join(root, "OWNER_ADMIN_SETUP.md")), "Owner admin setup and deployment guide is packaged.");
 expect(wrangler.includes('"database_name": "saynotoplastic-db"') && wrangler.includes('"PUBLIC_SITE_URL": "https://saynotoplastic.com"') && wrangler.includes('"COMMERCE_MODE": "woocommerce"'), "Existing production D1, origin, and WooCommerce mode remain preserved.");
 expect(mailchimpEvents.includes('FIELD_NOTES_SIGNUP_EVENT = "website_field_notes_signup"'), "Mailchimp welcome-event integration remains intact.");

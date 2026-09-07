@@ -38,7 +38,7 @@ export const ADMIN_CONTENT_FIELDS: AdminFieldSpec[] = [
   {
     key: "tedx.status",
     label: "TEDx video status",
-    description: "Keep this Temporary until TEDx publishes the official release.",
+    description: "Keep this Temporary until TEDx publishes the official release. Official requires an owner-supplied TEDx video URL.",
     kind: "enum",
     maxLength: 20,
     allowedValues: ["temporary", "official"],
@@ -195,6 +195,26 @@ export async function getAdminContentValue(key: AdminContentKey) {
   }
 }
 
+async function enforceTedxStateConsistency(
+  db: Awaited<ReturnType<typeof getDb>>,
+  key: AdminContentKey,
+  value: string,
+) {
+  if (key === "tedx.status" && value === "official") {
+    const [video] = await db.select().from(adminContent).where(eq(adminContent.key, "tedx.video_url")).limit(1);
+    if (!video?.value) {
+      throw new Error("Add and save the official TEDx video URL before marking the release official.");
+    }
+  }
+
+  if (key === "tedx.video_url" && !value) {
+    const [status] = await db.select().from(adminContent).where(eq(adminContent.key, "tedx.status")).limit(1);
+    if (status?.value === "official") {
+      throw new Error("Set TEDx status back to temporary before resetting the official video URL.");
+    }
+  }
+}
+
 export async function setAdminContentValue(input: {
   key: AdminContentKey;
   value: unknown;
@@ -211,10 +231,12 @@ export async function setAdminContentValue(input: {
     throw error;
   }
 
+  await enforceTedxStateConsistency(db, input.key, value);
+
   const nextVersion = (existing?.version ?? 0) + 1;
   const now = new Date().toISOString();
 
-  await db.insert(adminContentRevisions).values({
+  const revisionInsert = db.insert(adminContentRevisions).values({
     key: input.key,
     value,
     version: nextVersion,
@@ -222,7 +244,7 @@ export async function setAdminContentValue(input: {
     createdAt: now,
   });
 
-  await db.insert(adminContent).values({
+  const currentUpsert = db.insert(adminContent).values({
     key: input.key,
     value,
     version: nextVersion,
@@ -237,6 +259,8 @@ export async function setAdminContentValue(input: {
       updatedAt: now,
     },
   });
+
+  await db.batch([revisionInsert, currentUpsert]);
 
   return {
     key: input.key,

@@ -28,9 +28,21 @@ export function Header({ skipToContent = true }: { skipToContent?: boolean }) {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [notice, setNotice] = useState("");
   const toggleRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLElement>(null);
   const forceSolid = pathname.startsWith("/resources/");
+
+  useEffect(() => {
+    const controller = new AbortController();
+    void fetch("/api/public/site-notice", { signal: controller.signal })
+      .then((response) => response.ok ? response.json() : null)
+      .then((body: { notice?: string } | null) => setNotice(body?.notice?.trim() || ""))
+      .catch((error) => {
+        if (error instanceof Error && error.name === "AbortError") return;
+      });
+    return () => controller.abort();
+  }, []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 48);
@@ -116,6 +128,7 @@ export function Header({ skipToContent = true }: { skipToContent?: boolean }) {
   return (
     <header className={`site-header${scrolled || forceSolid ? " is-scrolled" : ""}`}>
       {skipToContent && <a className="skip-link" href="#main-content">Skip to main content</a>}
+      {notice && <div className="site-owner-notice" role="status"><span>{notice}</span></div>}
       <Wordmark />
       <button ref={toggleRef} className="menu-button" type="button" aria-expanded={menuOpen} aria-controls="mobile-menu" aria-haspopup="true" onClick={() => setMenuOpen(!menuOpen)}>
         <span className="sr-only">{menuOpen ? "Close" : "Open"} navigation</span><i /><i />

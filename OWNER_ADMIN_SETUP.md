@@ -11,22 +11,23 @@ Only these email identities are accepted by the application layer:
 
 The application verifies the Cloudflare Access JWT and then checks the email claim against this allowlist. Adding an email only in Cloudflare Access is not enough to bypass the application allowlist.
 
-## Protected path
+## Protected paths
 
-Create one Cloudflare Access self-hosted application covering:
+Create **one** Cloudflare Access self-hosted application and add both of these public-hostname destinations to that same application:
 
-- `saynotoplastic.com/admin*`
+- `saynotoplastic.com/admin`
+- `saynotoplastic.com/admin/*`
 
-The admin page and its write API both live under this one protected prefix, so they share one Cloudflare Access Application Audience (AUD) tag. Do not protect the rest of the public site.
+Cloudflare documents that a wildcard child path such as `/admin/*` does not cover the parent `/admin` path itself, so both destinations are intentional. Keeping them in the same Access application gives the page and its write API one Application Audience (AUD) tag.
 
-The Access policy should allow only the two approved emails above. Do not use an `Everyone` allow rule.
+Do not protect the rest of the public site. The Access policy should allow only the two approved emails above. Do not use an `Everyone` allow rule.
 
 ## Worker configuration
 
 After creating the Access application, copy:
 
 1. the Cloudflare Access team domain, for example `your-team.cloudflareaccess.com`
-2. the Application Audience (AUD) tag for that single `/admin*` application
+2. the Application Audience (AUD) tag for that single admin application
 
 Set them on the production Worker without committing values to Git:
 
@@ -85,7 +86,7 @@ Those remain developer-controlled because a general-purpose CMS would create unn
 
 1. Run the full test/build stack on the release branch.
 2. Apply `0007_owner_admin.sql` to the existing production D1 database.
-3. Configure one Cloudflare Access application for `saynotoplastic.com/admin*` with a two-email allow policy.
+3. Configure one Cloudflare Access application with both `saynotoplastic.com/admin` and `saynotoplastic.com/admin/*` destinations and the two-email allow policy.
 4. Set `CF_ACCESS_TEAM_DOMAIN` and `CF_ACCESS_AUD` on the Worker.
 5. Deploy the validated release.
 6. Visit `/admin` from both approved accounts and confirm an unapproved account is rejected.

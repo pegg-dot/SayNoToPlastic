@@ -30,7 +30,7 @@ function secureResponse(request: Request, response: Response) {
   if (url.protocol === "https:" && !["localhost", "127.0.0.1"].includes(url.hostname)) {
     headers.set("Strict-Transport-Security", "max-age=31536000; includeSubDomains");
   }
-  if (url.pathname.startsWith("/api/") || url.pathname.startsWith("/purchase/") || url.pathname.startsWith("/email-preferences") || url.pathname.startsWith("/go/")) {
+  if (url.pathname.startsWith("/api/") || url.pathname.startsWith("/admin") || url.pathname.startsWith("/purchase/") || url.pathname.startsWith("/email-preferences") || url.pathname.startsWith("/go/")) {
     headers.set("Cache-Control", "no-store");
     headers.set("X-Robots-Tag", "noindex, nofollow");
   }

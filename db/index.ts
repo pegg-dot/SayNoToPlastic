@@ -1,5 +1,8 @@
 import { drizzle } from "drizzle-orm/d1";
-import * as schema from "./schema";
+import * as coreSchema from "./schema";
+import * as adminSchema from "./admin-schema";
+
+const schema = { ...coreSchema, ...adminSchema };
 
 export async function getDb() {
   const { env } = await import("cloudflare:workers");

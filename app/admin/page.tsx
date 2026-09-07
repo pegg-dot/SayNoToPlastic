@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { getAdminUser, adminAllowlist } from "../lib/admin-auth";
-import { ADMIN_CONTENT_FIELDS, listAdminContent } from "../lib/admin-content";
+import { ADMIN_CONTENT_FIELDS, listAdminContent, listAdminContentRevisions } from "../lib/admin-content";
 import { AdminPanel } from "./AdminPanel";
 import styles from "./admin.module.css";
 
@@ -28,8 +28,12 @@ export default async function AdminPage() {
   }
 
   let content;
+  let revisions;
   try {
-    content = await listAdminContent();
+    [content, revisions] = await Promise.all([
+      listAdminContent(),
+      listAdminContentRevisions(),
+    ]);
   } catch (error) {
     console.error("admin_page_content_failed", error);
     return (
@@ -63,7 +67,7 @@ export default async function AdminPage() {
         <p>Changes are validated, versioned, and recorded with the editor email. API keys, hosting, payments, deployments, and source code are not exposed here.</p>
       </section>
 
-      <AdminPanel fields={ADMIN_CONTENT_FIELDS} initialContent={content} />
+      <AdminPanel fields={ADMIN_CONTENT_FIELDS} initialContent={content} initialRevisions={revisions} />
 
       <footer className={styles.footer}>
         <a href="/">Return to Say No To Plastic</a>

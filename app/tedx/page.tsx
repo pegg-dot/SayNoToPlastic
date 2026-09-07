@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { Footer, Header } from "../components/SiteChrome";
 import { FeatureVideo } from "../components/FeatureVideo";
 import { TrackedLink } from "../components/TrackedLink";
-import { getEffectiveTedxEntry, getEffectiveTedxVideo } from "../lib/publication-overrides";
+import { toVideoFeature } from "../content/media-content";
+import { getEffectiveTedxEntry } from "../lib/publication-overrides";
 
 const title = "The Invisible Inheritance of Nanoplastics";
 const description = "Dr. Elie Haddad's TEDxMiami talk on microplastics, nanoplastics, human health, and the relationship between the world around us and the world within us.";
@@ -23,10 +24,8 @@ export const metadata: Metadata = {
 };
 
 export default async function TedxPage() {
-  const [entry, video] = await Promise.all([
-    getEffectiveTedxEntry(),
-    getEffectiveTedxVideo(),
-  ]);
+  const entry = await getEffectiveTedxEntry();
+  const video = entry ? toVideoFeature(entry) : null;
 
   return (
     <>

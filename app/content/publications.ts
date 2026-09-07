@@ -1,5 +1,5 @@
 export type PodcastPlatform = {
-  name: "Spotify" | "Apple Podcasts" | "YouTube";
+  name: "Spotify" | "Apple Podcasts" | "YouTube" | "Amazon Music";
   href: string;
   direct: boolean;
   note?: string;

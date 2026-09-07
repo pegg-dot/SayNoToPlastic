@@ -24,13 +24,14 @@ const wrangler = read("wrangler.jsonc");
 const migration = read("drizzle/0007_owner_admin.sql");
 const setup = read("OWNER_ADMIN_SETUP.md");
 const mailchimpEvents = read("app/lib/mailchimp-events.ts");
+const tsconfig = read("tsconfig.json");
 
 expect(build.includes("v40.38-owner-admin"), "Build is marked v40.38 owner admin.");
 expect(auth.includes('"dreliebeyondplastic@gmail.com"') && auth.includes('"pegg@gymfinityapp.com"'), "Application allowlist contains the two approved owner identities.");
 expect(auth.includes('jwtHeader.alg !== "RS256"') && auth.includes("crypto.subtle.verify") && auth.includes("/cdn-cgi/access/certs"), "Cloudflare Access JWT signature is verified with Access public keys.");
 expect(auth.includes("audienceMatches") && auth.includes("payload.exp <= now") && auth.includes("payload.nbf") && auth.includes("!payload.iss"), "Access JWT audience, issuer, and time claims are required and validated.");
 expect(auth.includes("JWKS_CACHE_MS") && auth.includes("forceRefresh"), "Access signing keys are cached briefly and refreshed when a rotated kid is not found.");
-expect(env.includes("CF_ACCESS_TEAM_DOMAIN=") && env.includes("CF_ACCESS_AUD="), "Cloudflare Access runtime settings are documented without committed values.");
+expect(env.includes("CF_ACCESS_TEAM_DOMAIN=") && env.includes("CF_ACCESS_AUD=") && env.includes("/admin and /admin/*"), "Cloudflare Access runtime settings and protected paths are documented without committed values.");
 expect(adminPage.includes("robots: { index: false, follow: false }") && adminPage.includes("getAdminUser"), "Admin page is noindex and protected by authenticated identity.");
 expect(adminPanel.includes('fetch("/admin/api/content"') && !adminPanel.includes('fetch("/api/admin/content"'), "Admin writes remain inside the single protected /admin path.");
 expect(adminApi.includes("isSameOrigin(request)") && adminApi.includes("bodyIsReasonable(request, 4_000)") && adminApi.includes("getAdminUser"), "Admin writes require authentication, same-origin requests, and bounded request bodies.");
@@ -47,6 +48,7 @@ expect(publicNotice.includes('getAdminContentValue("site.notice")') && read("app
 expect(media.includes('getPublicOwnerNotice("media.owner_update")') && media.includes("Latest from Dr. Haddad"), "Events & Media owner update is wired to the public page.");
 expect(worker.includes('url.pathname.startsWith("/admin")') && worker.includes('headers.set("X-Robots-Tag", "noindex, nofollow")'), "Worker disables caching/indexing for admin routes.");
 expect(setup.includes("saynotoplastic.com/admin`") && setup.includes("saynotoplastic.com/admin/*`") && !setup.includes("saynotoplastic.com/api/admin"), "One Cloudflare Access application covers both the /admin parent and child paths with one AUD.");
+expect(mailchimpEvents.includes('from "./audience-service.ts"') && tsconfig.includes('"allowImportingTsExtensions": true'), "Mailchimp event contract remains directly executable under Node 26 TypeScript stripping.");
 expect(existsSync(join(root, "OWNER_ADMIN_SETUP.md")), "Owner admin setup and deployment guide is packaged.");
 expect(wrangler.includes('"database_name": "saynotoplastic-db"') && wrangler.includes('"PUBLIC_SITE_URL": "https://saynotoplastic.com"') && wrangler.includes('"COMMERCE_MODE": "woocommerce"'), "Existing production D1, origin, and WooCommerce mode remain preserved.");
 expect(mailchimpEvents.includes('FIELD_NOTES_SIGNUP_EVENT = "website_field_notes_signup"'), "Mailchimp welcome-event integration remains intact.");

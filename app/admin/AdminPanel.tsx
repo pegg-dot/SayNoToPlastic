@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import type { AdminContentKey, AdminContentRecord } from "../lib/admin-content";
+import type { AdminContentKey, AdminContentRecord, AdminContentRevision } from "../lib/admin-content";
 import styles from "./admin.module.css";
 
 type Field = {
@@ -16,18 +16,32 @@ type Field = {
 
 type SaveState = "idle" | "saving" | "saved" | "error";
 
+function revisionSummary(value: string) {
+  if (!value) return "Source default / hidden";
+  return value.length > 92 ? `${value.slice(0, 89)}…` : value;
+}
+
+function revisionTime(value: string) {
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return value;
+  return date.toLocaleString();
+}
+
 export function AdminPanel({
   fields,
   initialContent,
+  initialRevisions,
 }: {
   fields: Field[];
   initialContent: AdminContentRecord[];
+  initialRevisions: AdminContentRevision[];
 }) {
   const initialMap = useMemo(() => new Map(initialContent.map((record) => [record.key, record])), [initialContent]);
   const [records, setRecords] = useState(() => Object.fromEntries(initialContent.map((record) => [record.key, record])) as Record<AdminContentKey, AdminContentRecord>);
   const [drafts, setDrafts] = useState(() => Object.fromEntries(fields.map((field) => [field.key, initialMap.get(field.key)?.value ?? ""])) as Record<AdminContentKey, string>);
   const [saveStates, setSaveStates] = useState(() => Object.fromEntries(fields.map((field) => [field.key, "idle"])) as Record<AdminContentKey, SaveState>);
   const [messages, setMessages] = useState(() => Object.fromEntries(fields.map((field) => [field.key, ""])) as Record<AdminContentKey, string>);
+  const [revisions, setRevisions] = useState(initialRevisions);
 
   async function save(key: AdminContentKey) {
     setSaveStates((current) => ({ ...current, [key]: "saving" }));
@@ -46,8 +60,17 @@ export function AdminPanel({
       const body = await response.json() as { error?: string; saved?: AdminContentRecord };
       if (!response.ok || !body.saved) throw new Error(body.error || "Save failed.");
 
-      setRecords((current) => ({ ...current, [key]: body.saved as AdminContentRecord }));
-      setDrafts((current) => ({ ...current, [key]: body.saved?.value ?? current[key] }));
+      const saved = body.saved;
+      setRecords((current) => ({ ...current, [key]: saved }));
+      setDrafts((current) => ({ ...current, [key]: saved.value }));
+      setRevisions((current) => [{
+        id: -Date.now(),
+        key,
+        value: saved.value,
+        version: saved.version,
+        updatedBy: saved.updatedBy || "owner",
+        createdAt: saved.updatedAt || new Date().toISOString(),
+      }, ...current].slice(0, 60));
       setSaveStates((current) => ({ ...current, [key]: "saved" }));
       setMessages((current) => ({ ...current, [key]: "Saved" }));
       window.setTimeout(() => {
@@ -81,6 +104,7 @@ export function AdminPanel({
               const record = records[key];
               const changed = drafts[key] !== (record?.value ?? "");
               const state = saveStates[key];
+              const fieldRevisions = revisions.filter((revision) => revision.key === key).slice(0, 3);
 
               return (
                 <div className={styles.fieldCard} key={key}>
@@ -123,12 +147,40 @@ export function AdminPanel({
                       {record?.updatedBy ? ` · last changed by ${record.updatedBy}` : ""}
                     </span>
                     <div>
+                      <button className={styles.resetButton} type="button" disabled={!drafts[key]} onClick={() => setDrafts((current) => ({ ...current, [key]: "" }))}>
+                        Reset to source default
+                      </button>
                       {messages[key] && <small className={state === "error" ? styles.error : styles.success}>{messages[key]}</small>}
                       <button type="button" disabled={!changed || state === "saving"} onClick={() => void save(key)}>
                         {state === "saving" ? "Saving…" : "Save change"}
                       </button>
                     </div>
                   </div>
+
+                  {fieldRevisions.length > 0 && (
+                    <details className={styles.history}>
+                      <summary>Recent versions</summary>
+                      <div className={styles.historyList}>
+                        {fieldRevisions.map((revision) => (
+                          <div className={styles.historyRow} key={`${revision.id}-${revision.version}`}>
+                            <div>
+                              <strong>v{revision.version}</strong>
+                              <span>{revisionSummary(revision.value)}</span>
+                              <small>{revision.updatedBy} · {revisionTime(revision.createdAt)}</small>
+                            </div>
+                            <button
+                              type="button"
+                              disabled={revision.value === drafts[key]}
+                              onClick={() => setDrafts((current) => ({ ...current, [key]: revision.value }))}
+                            >
+                              Use this version
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                      <p className={styles.historyNote}>Restoring a version only loads it into the field. Click Save change to publish it as a new version, so the history stays intact.</p>
+                    </details>
+                  )}
                 </div>
               );
             })}

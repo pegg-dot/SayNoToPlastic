@@ -16,7 +16,6 @@ type AccessJwtPayload = {
 };
 
 type AccessJwk = JsonWebKey & { kid?: string };
-
 type AccessJwks = { keys?: AccessJwk[] };
 
 function base64UrlToBytes(value: string) {
@@ -64,8 +63,7 @@ async function verifyAccessJwt(token: string, teamDomain: string, expectedAudien
 
   const response = await fetch(`${base}/cdn-cgi/access/certs`, {
     headers: { Accept: "application/json" },
-    cf: { cacheTtl: 300, cacheEverything: true },
-  } as RequestInit);
+  });
   if (!response.ok) return null;
 
   const jwks = await response.json() as AccessJwks;

@@ -34,7 +34,7 @@ export function AdminPanel({
     setMessages((current) => ({ ...current, [key]: "" }));
 
     try {
-      const response = await fetch("/api/admin/content", {
+      const response = await fetch("/admin/api/content", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

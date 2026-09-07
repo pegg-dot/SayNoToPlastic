@@ -1,4 +1,4 @@
-import { eq } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 import { getDb } from "../../db";
 import { adminContent, adminContentRevisions } from "../../db/admin-schema";
 
@@ -103,6 +103,15 @@ export type AdminContentRecord = {
   updatedAt: string | null;
 };
 
+export type AdminContentRevision = {
+  id: number;
+  key: AdminContentKey;
+  value: string;
+  version: number;
+  updatedBy: string;
+  createdAt: string;
+};
+
 function normalizeHostname(hostname: string) {
   return hostname.toLowerCase().replace(/^www\./, "");
 }
@@ -154,6 +163,24 @@ export async function listAdminContent(): Promise<AdminContentRecord[]> {
       updatedBy: row?.updatedBy ?? null,
       updatedAt: row?.updatedAt ?? null,
     };
+  });
+}
+
+export async function listAdminContentRevisions(limit = 60): Promise<AdminContentRevision[]> {
+  const db = await getDb();
+  const safeLimit = Math.min(Math.max(Math.trunc(limit), 1), 100);
+  const rows = await db.select().from(adminContentRevisions).orderBy(desc(adminContentRevisions.id)).limit(safeLimit);
+
+  return rows.flatMap((row) => {
+    if (!isAdminContentKey(row.key)) return [];
+    return [{
+      id: row.id,
+      key: row.key,
+      value: row.value,
+      version: row.version,
+      updatedBy: row.updatedBy,
+      createdAt: row.createdAt,
+    } satisfies AdminContentRevision];
   });
 }
 

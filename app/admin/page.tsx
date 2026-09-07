@@ -27,8 +27,8 @@ export default async function AdminPage() {
     );
   }
 
-  let content;
-  let revisions;
+  let content: Awaited<ReturnType<typeof listAdminContent>>;
+  let revisions: Awaited<ReturnType<typeof listAdminContentRevisions>>;
   try {
     [content, revisions] = await Promise.all([
       listAdminContent(),

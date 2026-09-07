@@ -1,4 +1,4 @@
-import { getMediaEntry, toVideoFeature, type MediaEntry } from "../content/media-content";
+import { getMediaEntry, type MediaEntry } from "../content/media-content";
 import { BEYOND_PLASTIC, type PodcastPlatform } from "../content/publications";
 import { getAdminContentValue } from "./admin-content";
 
@@ -29,8 +29,8 @@ export async function getEffectiveTedxEntry(): Promise<MediaEntry | null> {
 
   const videoUrl = videoUrlOverride || source.mediaUrl || source.sourceUrl;
   const youtubeId = youtubeIdFromUrl(videoUrl) || source.youtubeId;
-  const official = statusOverride === "official";
-  const temporary = statusOverride === "temporary" ? true : statusOverride === "official" ? false : Boolean(source.temporary);
+  const official = statusOverride === "official" && Boolean(videoUrlOverride);
+  const temporary = statusOverride === "temporary" ? true : official ? false : Boolean(source.temporary);
 
   return {
     ...source,
@@ -42,11 +42,6 @@ export async function getEffectiveTedxEntry(): Promise<MediaEntry | null> {
   };
 }
 
-export async function getEffectiveTedxVideo() {
-  const entry = await getEffectiveTedxEntry();
-  return entry ? toVideoFeature(entry) : null;
-}
-
 export async function getEffectivePodcastPlatforms(): Promise<PodcastPlatform[]> {
   const [spotify, apple, youtube, amazon] = await Promise.all([
     getAdminContentValue("podcast.spotify_url"),
@@ -55,11 +50,20 @@ export async function getEffectivePodcastPlatforms(): Promise<PodcastPlatform[]>
     getAdminContentValue("podcast.amazon_url"),
   ]);
 
-  const sourceByName = new Map(BEYOND_PLASTIC.platforms.map((platform) => [platform.name, platform]));
+  const sourceByName = new Map<string, PodcastPlatform>(
+    BEYOND_PLASTIC.platforms.map((platform) => [platform.name, { ...platform }]),
+  );
+  const spotifySource = sourceByName.get("Spotify");
+  const appleSource = sourceByName.get("Apple Podcasts");
+  const youtubeSource = sourceByName.get("YouTube");
+  if (!spotifySource || !appleSource || !youtubeSource) {
+    throw new Error("Podcast source registry is incomplete.");
+  }
+
   const platforms: PodcastPlatform[] = [
-    spotify ? { name: "Spotify", href: spotify, direct: true } : sourceByName.get("Spotify")!,
-    apple ? { name: "Apple Podcasts", href: apple, direct: true } : sourceByName.get("Apple Podcasts")!,
-    youtube ? { name: "YouTube", href: youtube, direct: true } : sourceByName.get("YouTube")!,
+    spotify ? { name: "Spotify", href: spotify, direct: true } : spotifySource,
+    apple ? { name: "Apple Podcasts", href: apple, direct: true } : appleSource,
+    youtube ? { name: "YouTube", href: youtube, direct: true } : youtubeSource,
   ];
 
   if (amazon) platforms.push({ name: "Amazon Music", href: amazon, direct: true });

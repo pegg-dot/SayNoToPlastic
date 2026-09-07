@@ -1,0 +1,277 @@
+.page,
+.locked {
+  min-height: 100vh;
+  background: #08111d;
+  color: #f6f1e7;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.page {
+  padding: 48px clamp(20px, 4vw, 64px) 64px;
+}
+
+.locked {
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.locked section {
+  width: min(620px, 100%);
+  border: 1px solid rgba(255,255,255,.12);
+  background: #0d1826;
+  padding: 36px;
+  border-radius: 18px;
+}
+
+.locked h1,
+.header h1,
+.group h2 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 400;
+}
+
+.locked h1,
+.header h1 {
+  margin: 8px 0 14px;
+  font-size: clamp(38px, 5vw, 64px);
+  line-height: 1;
+}
+
+.locked p,
+.header p,
+.safety p,
+.groupHeading p,
+.fieldMeta p {
+  color: #aeb7c2;
+  line-height: 1.6;
+}
+
+.small {
+  font-size: 14px;
+}
+
+.eyebrow {
+  margin: 0;
+  color: #d1a361 !important;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+.header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 28px;
+  align-items: end;
+  max-width: 1180px;
+  margin: 0 auto 28px;
+}
+
+.header > div {
+  max-width: 760px;
+}
+
+.header aside {
+  min-width: 270px;
+  border: 1px solid rgba(255,255,255,.12);
+  background: #0d1826;
+  border-radius: 16px;
+  padding: 18px 20px;
+  display: grid;
+  gap: 5px;
+}
+
+.header aside span,
+.header aside small {
+  color: #8994a1;
+  font-size: 12px;
+}
+
+.header aside strong {
+  font-size: 14px;
+  word-break: break-word;
+}
+
+.safety {
+  max-width: 1180px;
+  margin: 0 auto 32px;
+  padding: 18px 20px;
+  border-left: 3px solid #b7843f;
+  background: rgba(183,132,63,.08);
+}
+
+.safety p {
+  margin: 7px 0 0;
+  font-size: 14px;
+}
+
+.groups {
+  max-width: 1180px;
+  margin: 0 auto;
+  display: grid;
+  gap: 26px;
+}
+
+.group {
+  background: #0d1826;
+  border: 1px solid rgba(255,255,255,.11);
+  border-radius: 18px;
+  overflow: hidden;
+}
+
+.groupHeading {
+  padding: 24px 26px 20px;
+  border-bottom: 1px solid rgba(255,255,255,.09);
+}
+
+.groupHeading h2 {
+  margin: 0;
+  font-size: 28px;
+}
+
+.groupHeading p {
+  margin: 7px 0 0;
+  font-size: 13px;
+}
+
+.fields {
+  display: grid;
+}
+
+.fieldCard {
+  padding: 24px 26px;
+  border-bottom: 1px solid rgba(255,255,255,.07);
+}
+
+.fieldCard:last-child {
+  border-bottom: 0;
+}
+
+.fieldMeta label {
+  display: block;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.fieldMeta p {
+  margin: 5px 0 14px;
+  font-size: 13px;
+}
+
+.fieldCard input,
+.fieldCard select,
+.fieldCard textarea {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid rgba(255,255,255,.16);
+  border-radius: 10px;
+  background: #07101b;
+  color: #fff;
+  font: inherit;
+  padding: 12px 14px;
+  outline: none;
+}
+
+.fieldCard textarea {
+  min-height: 116px;
+  resize: vertical;
+}
+
+.fieldCard input:focus,
+.fieldCard select:focus,
+.fieldCard textarea:focus {
+  border-color: #d1a361;
+  box-shadow: 0 0 0 3px rgba(209,163,97,.14);
+}
+
+.fieldFooter {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  align-items: center;
+  margin-top: 12px;
+}
+
+.fieldFooter > span {
+  color: #7f8a98;
+  font-size: 11px;
+}
+
+.fieldFooter > div {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.fieldFooter button {
+  border: 0;
+  border-radius: 8px;
+  background: #b7843f;
+  color: #07101b;
+  font-weight: 700;
+  padding: 10px 14px;
+  cursor: pointer;
+}
+
+.fieldFooter button:disabled {
+  opacity: .35;
+  cursor: default;
+}
+
+.success,
+.error {
+  font-size: 12px;
+}
+
+.success { color: #b6d2b3; }
+.error { color: #f2aaa4; }
+
+.footer {
+  max-width: 1180px;
+  margin: 30px auto 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  color: #788391;
+  font-size: 12px;
+}
+
+.footer a {
+  color: #d1a361;
+}
+
+@media (max-width: 760px) {
+  .page {
+    padding: 28px 16px 44px;
+  }
+
+  .header {
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+
+  .header aside {
+    min-width: 0;
+  }
+
+  .fieldCard,
+  .groupHeading {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .fieldFooter {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .fieldFooter > div {
+    justify-content: space-between;
+  }
+
+  .footer {
+    flex-direction: column;
+  }
+}

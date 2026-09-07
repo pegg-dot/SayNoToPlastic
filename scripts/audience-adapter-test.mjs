@@ -7,6 +7,7 @@ import {
   syncAudienceSubscriber,
   unsubscribeAudienceSubscriber,
 } from "../app/lib/audience-service.ts";
+import { emitFieldNotesSignupEvent, FIELD_NOTES_SIGNUP_EVENT } from "../app/lib/mailchimp-events.ts";
 
 assert.equal(resolveAudienceProvider(undefined), "none");
 assert.equal(resolveAudienceProvider("MAILCHIMP"), "mailchimp");
@@ -33,10 +34,18 @@ assert.equal(requests[0].method, "PUT");
 assert.deepEqual(requests[0].body.merge_fields, { FNAME: "Reader" });
 assert.equal(requests[0].body.status_if_new, "subscribed");
 
+const eventResult = await emitFieldNotesSignupEvent({ email: "Reader@Example.com", source: "/community" });
+assert.equal(eventResult.configured, true);
+assert.equal(eventResult.recorded, true);
+assert.match(requests[1].url, /us21\.api\.mailchimp\.com\/3\.0\/lists\/audience-123\/members\/[a-f0-9]{32}\/events$/);
+assert.equal(requests[1].method, "POST");
+assert.equal(requests[1].body.name, FIELD_NOTES_SIGNUP_EVENT);
+assert.deepEqual(requests[1].body.properties, { source: "/community" });
+
 result = await unsubscribeAudienceSubscriber("Reader@Example.com");
 assert.equal(result.configured, true);
-assert.equal(requests[1].method, "PATCH");
-assert.equal(requests[1].body.status, "unsubscribed");
+assert.equal(requests[2].method, "PATCH");
+assert.equal(requests[2].body.status, "unsubscribed");
 
 requests.length = 0;
 process.env.AUDIENCE_PROVIDER = "resend";
@@ -45,6 +54,9 @@ result = await syncAudienceSubscriber({ email: "reader@example.com", firstName: 
 assert.equal(result.provider, "resend");
 assert.equal(requests[0].url, "https://api.resend.com/contacts");
 assert.equal(requests[0].body.unsubscribed, false);
+const nonMailchimpEvent = await emitFieldNotesSignupEvent({ email: "reader@example.com", source: "/" });
+assert.equal(nonMailchimpEvent.configured, false);
+assert.equal(requests.length, 1);
 
 requests.length = 0;
 process.env.AUDIENCE_PROVIDER = "none";
@@ -52,4 +64,4 @@ result = await syncAudienceSubscriber({ email: "reader@example.com", firstName: 
 assert.equal(result.configured, false);
 assert.equal(requests.length, 0);
 
-console.log("[PASS] Audience provider adapter contract passed for none, Resend, and Mailchimp.");
+console.log("[PASS] Audience provider adapter contract passed for none, Resend, and Mailchimp, including the Field Notes Mailchimp event trigger.");

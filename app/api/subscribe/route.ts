@@ -5,6 +5,7 @@ import { POLICY_VERSION } from "../../config";
 import { audienceConfiguration, syncAudienceSubscriber } from "../../lib/audience-service";
 import { deliverEmailOutboxJob } from "../../lib/email-outbox";
 import { enrollInLearningSeries } from "../../lib/learning-series";
+import { emitFieldNotesSignupEvent } from "../../lib/mailchimp-events";
 import { bodyIsReasonable, isSameOrigin, readJsonBody } from "../../lib/request-safety";
 import { createUnsubscribeToken, hashUnsubscribeToken, publicSiteOrigin } from "../../lib/subscription";
 
@@ -15,6 +16,16 @@ type SignupProgram = "field-notes" | "learning-series";
 async function configuredSiteUrl() {
   try { const { env } = await import("cloudflare:workers"); return typeof env.PUBLIC_SITE_URL === "string" ? env.PUBLIC_SITE_URL : undefined; }
   catch { return process.env.PUBLIC_SITE_URL; }
+}
+
+async function recordFieldNotesWelcomeTrigger(email: string, source: string) {
+  try {
+    const event = await emitFieldNotesSignupEvent({ email, source });
+    return event.recorded ? "recorded" : "not_configured";
+  } catch (error) {
+    console.error("field_notes_welcome_event_failed", error);
+    return "failed";
+  }
 }
 
 export async function POST(request: Request) {
@@ -41,12 +52,14 @@ export async function POST(request: Request) {
     const siteOrigin = publicSiteOrigin(request.url, await configuredSiteUrl());
 
     if (existingSubscriber?.status === "active" && program === "field-notes") {
+      let welcomeTrigger = "already_subscribed";
       if (existingSubscriber.providerStatus !== "synced") {
         const contact = await syncAudienceSubscriber({ email, firstName, source });
         if (!contact.configured) return Response.json({ error: "Newsletter signup is temporarily unavailable. Please try again shortly." }, { status: 503 });
         await db.update(subscribers).set({ firstName, source, providerStatus: "synced", providerId: contact.id || null, updatedAt: now }).where(eq(subscribers.email, email));
+        welcomeTrigger = await recordFieldNotesWelcomeTrigger(email, source);
       }
-      return Response.json({ ok: true, delivery: "synced" }, { status: 200 });
+      return Response.json({ ok: true, delivery: "synced", welcomeTrigger }, { status: 200 });
     }
 
     if (existingSubscriber?.status === "active" && program === "learning-series") {
@@ -68,7 +81,8 @@ export async function POST(request: Request) {
       const contact = await syncAudienceSubscriber({ email, firstName, source });
       if (!contact.configured) return Response.json({ error: "Newsletter signup is temporarily unavailable. Please try again shortly." }, { status: 503 });
       await db.update(subscribers).set({ providerStatus: "synced", providerId: contact.id || null, updatedAt: now }).where(eq(subscribers.email, email));
-      return Response.json({ ok: true, delivery: "synced" }, { status: 201 });
+      const welcomeTrigger = await recordFieldNotesWelcomeTrigger(email, source);
+      return Response.json({ ok: true, delivery: "synced", welcomeTrigger }, { status: 201 });
     }
 
     const [job] = await db.insert(emailOutbox).values({ kind: "welcome", recipient: email, status: "pending", payload: JSON.stringify({ firstName, source, unsubscribeToken, siteOrigin }), updatedAt: now }).returning({ id: emailOutbox.id });

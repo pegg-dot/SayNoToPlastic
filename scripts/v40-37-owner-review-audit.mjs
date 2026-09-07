@@ -18,12 +18,13 @@ const media = read("app/media/page.tsx");
 const community = read("app/community/page.tsx");
 const subscribe = read("app/api/subscribe/route.ts");
 const audience = read("app/lib/audience-service.ts");
+const mailchimpEvents = read("app/lib/mailchimp-events.ts");
 const privacy = read("app/privacy-policy/page.tsx");
 const sitemap = read("app/sitemap.ts");
 const wrangler = read("wrangler.jsonc");
 const env = read(".env.example");
 
-expect(build.includes("v40.37-owner-review"), "Build is marked v40.37 owner review.");
+expect(build.includes("v40.37.1-mailchimp-welcome-event"), "Build is marked v40.37.1 Mailchimp welcome event hotfix.");
 expect(existsSync(join(root, "V40_37_CHANGE_MANIFEST.md")), "v40.37 owner-review manifest is packaged.");
 expect(chrome.includes('{ href: "/science", label: "The Science" }') && chrome.includes('{ href: "/solutions", label: "Take Action" }') && chrome.includes('{ href: "/quick-action-card", label: "Guides" }') && chrome.includes('{ href: "/podcast", label: "Podcast" }') && chrome.includes('{ href: "/tedx", label: "TEDx Talk" }'), "Primary navigation includes Science, Take Action, 12-step Guides, Podcast, and TEDx.");
 expect(chrome.indexOf('{ href: "/solutions", label: "Take Action" }') < chrome.indexOf('{ href: "/quick-action-card", label: "Guides" }'), "Guides appears immediately after Take Action in the primary navigation definition.");
@@ -35,6 +36,8 @@ expect(tedx.includes("temporary audience recording") && tedx.includes("official 
 expect(home.includes("No confirmation email is required") && chrome.includes("No confirmation email is required") && community.includes("No confirmation email is required") && media.includes("No confirmation email is required"), "Field Notes signup surfaces clearly explain single-opt-in success behavior.");
 expect(subscribe.includes("syncAudienceSubscriber") && subscribe.includes('program === "field-notes"') && wrangler.includes('"AUDIENCE_PROVIDER": "mailchimp"'), "Field Notes remains wired to Mailchimp.");
 expect(audience.includes('status_if_new: "subscribed"'), "Mailchimp adapter remains single opt-in for new contacts.");
+expect(mailchimpEvents.includes('FIELD_NOTES_SIGNUP_EVENT = "website_field_notes_signup"') && mailchimpEvents.includes('/events`') && mailchimpEvents.includes('method: "POST"'), "Field Notes has an explicit Mailchimp Event API trigger for the welcome automation.");
+expect(subscribe.includes("emitFieldNotesSignupEvent") && subscribe.includes("welcomeTrigger"), "New Field Notes signups record the Mailchimp welcome trigger without making signup depend on email delivery.");
 expect(wrangler.includes('"required"') && wrangler.includes('"MAILCHIMP_API_KEY"') && wrangler.includes('"MAILCHIMP_AUDIENCE_ID"'), "Wrangler continues to require both Mailchimp secrets.");
 expect(!/"MAILCHIMP_API_KEY"\s*:\s*"[^\"]+"/.test(wrangler) && !/"MAILCHIMP_AUDIENCE_ID"\s*:\s*"[^\"]+"/.test(wrangler), "No Mailchimp secret values are committed.");
 expect(env.includes("MAILCHIMP_API_KEY=") && env.includes("MAILCHIMP_AUDIENCE_ID="), "Mailchimp secret names remain documented without values.");

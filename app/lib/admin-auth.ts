@@ -5,6 +5,8 @@ const ADMIN_EMAILS = new Set([
   "pegg@gymfinityapp.com",
 ]);
 
+const JWKS_CACHE_MS = 5 * 60 * 1000;
+
 type AccessJwtPayload = {
   aud?: string | string[];
   email?: string;
@@ -17,6 +19,14 @@ type AccessJwtPayload = {
 
 type AccessJwk = JsonWebKey & { kid?: string };
 type AccessJwks = { keys?: AccessJwk[] };
+
+type JwksCache = {
+  base: string;
+  expiresAt: number;
+  value: AccessJwks;
+};
+
+let jwksCache: JwksCache | null = null;
 
 function base64UrlToBytes(value: string) {
   const normalized = value.replace(/-/g, "+").replace(/_/g, "/");
@@ -50,6 +60,33 @@ async function runtimeAdminEnv() {
   }
 }
 
+async function loadAccessJwks(base: string, forceRefresh = false) {
+  if (!forceRefresh && jwksCache?.base === base && jwksCache.expiresAt > Date.now()) {
+    return jwksCache.value;
+  }
+
+  const response = await fetch(`${base}/cdn-cgi/access/certs`, {
+    headers: { Accept: "application/json" },
+  });
+  if (!response.ok) throw new Error(`access_jwks_${response.status}`);
+
+  const value = await response.json() as AccessJwks;
+  if (!Array.isArray(value.keys) || value.keys.length === 0) throw new Error("access_jwks_empty");
+
+  jwksCache = { base, value, expiresAt: Date.now() + JWKS_CACHE_MS };
+  return value;
+}
+
+async function signingKeyForKid(base: string, kid: string) {
+  let jwks = await loadAccessJwks(base);
+  let jwk = jwks.keys?.find((candidate) => candidate.kid === kid);
+  if (!jwk) {
+    jwks = await loadAccessJwks(base, true);
+    jwk = jwks.keys?.find((candidate) => candidate.kid === kid);
+  }
+  return jwk ?? null;
+}
+
 async function verifyAccessJwt(token: string, teamDomain: string, expectedAudience: string) {
   const parts = token.split(".");
   if (parts.length !== 3) return null;
@@ -61,13 +98,7 @@ async function verifyAccessJwt(token: string, teamDomain: string, expectedAudien
   const base = normalizeTeamDomain(teamDomain);
   if (!base) return null;
 
-  const response = await fetch(`${base}/cdn-cgi/access/certs`, {
-    headers: { Accept: "application/json" },
-  });
-  if (!response.ok) return null;
-
-  const jwks = await response.json() as AccessJwks;
-  const jwk = jwks.keys?.find((candidate) => candidate.kid === jwtHeader.kid);
+  const jwk = await signingKeyForKid(base, jwtHeader.kid);
   if (!jwk) return null;
 
   const key = await crypto.subtle.importKey(
@@ -90,8 +121,9 @@ async function verifyAccessJwt(token: string, teamDomain: string, expectedAudien
   const now = Math.floor(Date.now() / 1000);
   if (!payload.email || !payload.exp || payload.exp <= now) return null;
   if (payload.nbf && payload.nbf > now) return null;
+  if (payload.iat && payload.iat > now + 60) return null;
   if (!audienceMatches(payload, expectedAudience)) return null;
-  if (payload.iss && payload.iss.replace(/\/$/, "") !== base) return null;
+  if (!payload.iss || payload.iss.replace(/\/$/, "") !== base) return null;
 
   const email = payload.email.trim().toLowerCase();
   if (!ADMIN_EMAILS.has(email)) return null;

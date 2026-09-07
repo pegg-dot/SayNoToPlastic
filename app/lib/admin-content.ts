@@ -158,9 +158,14 @@ export async function listAdminContent(): Promise<AdminContentRecord[]> {
 }
 
 export async function getAdminContentValue(key: AdminContentKey) {
-  const db = await getDb();
-  const [row] = await db.select().from(adminContent).where(eq(adminContent.key, key)).limit(1);
-  return row?.value ?? "";
+  try {
+    const db = await getDb();
+    const [row] = await db.select().from(adminContent).where(eq(adminContent.key, key)).limit(1);
+    return row?.value ?? "";
+  } catch (error) {
+    console.warn("admin_public_override_unavailable", key, error);
+    return "";
+  }
 }
 
 export async function setAdminContentValue(input: {

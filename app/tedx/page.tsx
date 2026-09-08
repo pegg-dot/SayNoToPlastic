@@ -5,6 +5,8 @@ import { TrackedLink } from "../components/TrackedLink";
 import { toVideoFeature } from "../content/media-content";
 import { getEffectiveTedxEntry } from "../lib/publication-overrides";
 
+export const dynamic = "force-dynamic";
+
 const title = "The Invisible Inheritance of Nanoplastics";
 const description = "Dr. Elie Haddad's TEDxMiami talk on microplastics, nanoplastics, human health, and the relationship between the world around us and the world within us.";
 

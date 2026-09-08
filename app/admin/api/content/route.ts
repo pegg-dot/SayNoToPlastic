@@ -7,6 +7,7 @@ import {
 import { bodyIsReasonable, isSameOrigin, readJsonBody } from "../../../lib/request-safety";
 
 export const dynamic = "force-dynamic";
+const MAX_ADMIN_BODY_BYTES = 32_000;
 
 export async function GET() {
   const user = await getAdminUser();
@@ -24,12 +25,12 @@ export async function GET() {
 export async function PUT(request: Request) {
   const user = await getAdminUser();
   if (!user) return Response.json({ error: "Admin access required." }, { status: 401 });
-  if (!isSameOrigin(request) || !bodyIsReasonable(request, 4_000)) {
+  if (!isSameOrigin(request) || !bodyIsReasonable(request, MAX_ADMIN_BODY_BYTES)) {
     return Response.json({ error: "Request rejected." }, { status: 400 });
   }
 
   try {
-    const body = await readJsonBody<{ key?: unknown; value?: unknown; expectedVersion?: unknown }>(request, 4_000);
+    const body = await readJsonBody<{ key?: unknown; value?: unknown; expectedVersion?: unknown }>(request, MAX_ADMIN_BODY_BYTES);
     if (!isAdminContentKey(body.key)) {
       return Response.json({ error: "Unknown admin field." }, { status: 400 });
     }

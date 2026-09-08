@@ -11,12 +11,14 @@ const build = read("app/build-version.ts");
 const adminContent = read("app/lib/admin-content.ts");
 const adminPanel = read("app/admin/AdminPanel.tsx");
 const adminPage = read("app/admin/page.tsx");
+const adminApi = read("app/admin/api/content/route.ts");
 const home = read("app/page.tsx");
 const media = read("app/media/page.tsx");
 const mediaCss = read("app/media/media.module.css");
 const podcast = read("app/podcast/page.tsx");
 const pressKit = read("app/media/press-kit/page.tsx");
 const auth = read("app/lib/admin-auth.ts");
+const setup = read("OWNER_ADMIN_SETUP.md");
 const wrangler = read("wrangler.jsonc");
 const mailchimpEvents = read("app/lib/mailchimp-events.ts");
 
@@ -26,6 +28,7 @@ expect(adminContent.includes('"media.hero_heading"') && adminContent.includes('"
 expect(adminContent.includes('"podcast.series_heading"') && adminContent.includes('"podcast.series_body"'), "Podcast series copy is owner-editable.");
 expect(adminContent.includes('"press.short_bio"') && adminContent.includes('"press.long_bio"') && adminContent.includes('"press.contact_email"'), "Press biography and contact fields are owner-editable.");
 expect(adminContent.includes("Keep the owner-managed media list to 20 items or fewer") && adminContent.includes('url.protocol !== "https:"') && adminContent.includes("validateEmail"), "Owner inputs retain bounded-list, HTTPS, and email validation.");
+expect(adminApi.includes("MAX_ADMIN_BODY_BYTES = 32_000") && adminApi.includes("bodyIsReasonable(request, MAX_ADMIN_BODY_BYTES)"), "Admin write payloads remain bounded while supporting structured media lists.");
 expect(adminContent.includes("db.batch([revisionInsert, currentUpsert])") && adminContent.includes("AdminContentConflict"), "New editorial fields inherit atomic history and optimistic concurrency protections.");
 expect(adminPanel.includes('type SectionId = "overview" | "homepage" | "media" | "podcast" | "press"') && adminPanel.includes("Owner workspace"), "Admin is organized around owner workflows rather than raw configuration.");
 expect(adminPanel.includes("+ Add appearance") && adminPanel.includes("Published") && adminPanel.includes("Draft") && adminPanel.includes("Save appearances"), "Admin supports draft/published appearance management.");
@@ -37,6 +40,7 @@ expect(podcast.includes('ownerCopy["podcast.series_label"]') && podcast.includes
 expect(pressKit.includes('ownerCopy["press.short_bio"]') && pressKit.includes('ownerCopy["press.long_bio"]') && pressKit.includes('ownerCopy["press.contact_email"]'), "Press kit consumes owner-managed biography and contact data.");
 expect(auth.includes('"dreliebeyondplastic@gmail.com"') && auth.includes('"pegg@gymfinityapp.com"'), "Admin access remains restricted to the two approved owner identities.");
 expect(!adminContent.includes('"science.') && !adminContent.includes('"medical.'), "No science or medical content keys were added to owner self-publishing.");
+expect(setup.includes("expanded v40.39 editorial workspace") && setup.includes("does **not** need another schema migration"), "Deployment guide documents that v40.39 reuses the existing owner-admin tables.");
 expect(wrangler.includes('"database_name": "saynotoplastic-db"') && wrangler.includes('"COMMERCE_MODE": "woocommerce"'), "Existing production database and commerce mode remain preserved.");
 expect(mailchimpEvents.includes('FIELD_NOTES_SIGNUP_EVENT = "website_field_notes_signup"'), "Mailchimp welcome-event integration remains intact.");
 

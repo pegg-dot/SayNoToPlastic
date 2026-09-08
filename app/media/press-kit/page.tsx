@@ -5,6 +5,8 @@ import { SUPPORT_EMAIL } from "../../config";
 import { pressBriefs } from "../../content/press-briefs";
 import { getAdminContentValues } from "../../lib/admin-content";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Press Kit | Say No to Plastic",
   description: "Current web biography, interview topics, project facts, and available media assets for Dr. Elie R. Haddad and Homo Plasticus.",

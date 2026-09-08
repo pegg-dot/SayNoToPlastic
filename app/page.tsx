@@ -11,6 +11,7 @@ import { ExposureRouteVisual, type ExposureRouteVisualKind } from "./components/
 import { BEYOND_PLASTIC } from "./content/publications";
 import homeStyles from "./home-additions.module.css";
 import { SignupForm } from "./components/SignupForm";
+import { getAdminContentValues } from "./lib/admin-content";
 
 const description = "A physician-led platform translating microplastic and nanoplastic research into practical steps that help protect human health and future generations.";
 export const metadata: Metadata = {
@@ -30,7 +31,25 @@ const exposureRoutes: Array<{ number: string; name: string; kind: ExposureRouteV
   { number: "06", name: "Skincare and cosmetics", kind: "personal-care", text: "Personal-care products and their packaging deserve the same deliberate attention as food-contact materials.", href: "/science/body/skin", linkLabel: "Explore skin and contact" },
 ];
 
-export default function Home() {
+export default async function Home() {
+  const ownerCopy = await getAdminContentValues([
+    "home.hero_eyebrow",
+    "home.hero_headline",
+    "home.hero_deck",
+    "home.media_heading",
+    "home.media_body",
+    "home.newsletter_heading",
+    "home.newsletter_body",
+  ]);
+
+  const heroEyebrow = ownerCopy["home.hero_eyebrow"] || "Physician-led · evidence-based";
+  const heroHeadline = ownerCopy["home.hero_headline"] || "The most dangerous pollutant is the one already inside us.";
+  const heroDeck = ownerCopy["home.hero_deck"] || "Human evidence, explained clearly—then practical places to start.";
+  const mediaHeading = ownerCopy["home.media_heading"] || "Follow the public conversation.";
+  const mediaBody = ownerCopy["home.media_body"] || "Talks, interviews, public appearances, and press resources live in one dedicated media center.";
+  const newsletterHeading = ownerCopy["home.newsletter_heading"] || "Stay close to the research.";
+  const newsletterBody = ownerCopy["home.newsletter_body"] || "Receive new research summaries, practical exposure-reduction guidance, book news, and updates from the movement.";
+
   return (
     <>
       <Header />
@@ -41,9 +60,9 @@ export default function Home() {
         <div className="hp-hero-shade" />
         <picture className="hp-hero-approved-art" aria-hidden="true"><source media="(max-width: 767px)" srcSet="/hero-mobile.webp"/><img src="/hero-desktop.webp" width="1536" height="980" fetchPriority="high" alt=""/></picture>
         <div className="hp-hero-copy">
-          <p className="eyebrow"><span />Physician-led · evidence-based</p>
-          <h1><em>The most dangerous pollutant is the one already inside us.</em></h1>
-          <p className="hp-hero-deck">Human evidence, explained clearly—then practical places to start.</p>
+          <p className="eyebrow"><span />{heroEyebrow}</p>
+          <h1><em>{heroHeadline}</em></h1>
+          <p className="hp-hero-deck">{heroDeck}</p>
           <div className="hp-hero-actions">
             <CheckoutButton className="button gold" label="homepage-hero">Get the ebook · ${BOOK.price} <span>↗</span></CheckoutButton>
             <a className="text-link" href="#evidence">Enter the body <span>↓</span></a>
@@ -112,7 +131,7 @@ export default function Home() {
       <section className={homeStyles.tedxFeature} aria-labelledby="home-tedx-title"><div className={homeStyles.tedxRule}><span>TEDxMiami</span></div><div className={homeStyles.tedxCopy} data-reveal><p className={homeStyles.tedxEyebrow}>Watch the TEDx Talk</p><h2 id="home-tedx-title">The Invisible Inheritance of Nanoplastics</h2><p>What happens when an environmental pollutant becomes part of the human story?</p><TrackedLink className={homeStyles.tedxCta} href="/tedx" eventName="cta_click" label="home-tedx">Watch the talk <span>→</span></TrackedLink></div></section>
 
       <section className="hp-media-bridge" aria-labelledby="home-media-title">
-        <div data-reveal><p className="eyebrow">Events &amp; Media</p><h2 id="home-media-title">Follow the public conversation.</h2><p>Talks, interviews, public appearances, and press resources live in one dedicated media center.</p></div>
+        <div data-reveal><p className="eyebrow">Events &amp; Media</p><h2 id="home-media-title">{mediaHeading}</h2><p>{mediaBody}</p></div>
         <aside data-reveal><strong>Media desk</strong><p>Explore verified appearances and press resources.</p><TrackedLink className="button gold" href="/media" eventName="cta_click" label="home-media">Open Events &amp; Media <span>→</span></TrackedLink></aside>
       </section>
 
@@ -120,8 +139,8 @@ export default function Home() {
         <div className="hp-join-copy" data-reveal>
           <div className="hp-section-index light"><span>07</span><p>Stay connected</p></div>
           <p className="eyebrow">Field Notes / Newsletter</p>
-          <h2>Stay close to the research.</h2>
-          <p>Receive new research summaries, practical exposure-reduction guidance, book news, and updates from the movement.</p>
+          <h2>{newsletterHeading}</h2>
+          <p>{newsletterBody}</p>
           <SignupForm buttonLabel="Join the movement" successTitle="You&apos;re in." successText="You&apos;re subscribed. No confirmation email is required." />
         </div>
       </section>

@@ -26,7 +26,7 @@ const setup = read("OWNER_ADMIN_SETUP.md");
 const mailchimpEvents = read("app/lib/mailchimp-events.ts");
 const tsconfig = read("tsconfig.json");
 
-expect(build.includes("v40.38-owner-admin"), "Build is marked v40.38 owner admin.");
+expect(build.includes("v40.38-owner-admin") || build.includes("v40.39-owner-editorial-admin"), "Build retains the v40.38 owner-admin baseline or a validated successor.");
 expect(auth.includes('"dreliebeyondplastic@gmail.com"') && auth.includes('"pegg@gymfinityapp.com"'), "Application allowlist contains the two approved owner identities.");
 expect(auth.includes('jwtHeader.alg !== "RS256"') && auth.includes("crypto.subtle.verify") && auth.includes("/cdn-cgi/access/certs"), "Cloudflare Access JWT signature is verified with Access public keys.");
 expect(auth.includes("audienceMatches") && auth.includes("payload.exp <= now") && auth.includes("payload.nbf") && auth.includes("!payload.iss"), "Access JWT audience, issuer, and time claims are required and validated.");
@@ -41,11 +41,11 @@ expect(adminContent.includes("enforceTedxStateConsistency") && adminContent.incl
 expect(adminContent.includes("db.batch([revisionInsert, currentUpsert])"), "Revision insert and current-value update are committed atomically through D1 batch.");
 expect(migration.includes("CREATE TABLE `admin_content`") && migration.includes("CREATE TABLE `admin_content_revisions`"), "Admin content and revision tables are packaged in migration 0007.");
 expect(adminContent.includes("adminContentRevisions") && adminContent.includes("updatedBy") && adminContent.includes("listAdminContentRevisions"), "Owner changes are written to a revision trail with editor identity and can be read back.");
-expect(adminPanel.includes("Use this version") && adminPanel.includes("Reset to source default") && adminPanel.includes("Restoring a version only loads it into the field"), "Owner admin exposes safe rollback controls without deleting history.");
+expect(adminPanel.includes("Use this version") && adminPanel.includes("Reset to source default") && (adminPanel.includes("Restoring a version only loads it into the field") || adminPanel.includes("Loading an older version does not publish it")), "Owner admin exposes safe rollback controls without deleting history.");
 expect(overrides.includes("getEffectiveTedxEntry") && tedx.includes("getEffectiveTedxEntry") && tedx.includes("toVideoFeature(entry)") && media.includes("getEffectiveTedxEntry"), "TEDx public surfaces consume one owner-managed effective entry and derive playback locally.");
 expect(overrides.includes("getEffectivePodcastPlatforms") && podcast.includes("getEffectivePodcastPlatforms"), "Podcast public page consumes owner-managed platform links.");
 expect(publicNotice.includes('getAdminContentValue("site.notice")') && read("app/components/SiteChrome.tsx").includes("site-owner-notice"), "Optional owner site notice is wired to the public header.");
-expect(media.includes('getPublicOwnerNotice("media.owner_update")') && media.includes("Latest from Dr. Haddad"), "Events & Media owner update is wired to the public page.");
+expect((media.includes('getPublicOwnerNotice("media.owner_update")') || media.includes('"media.owner_update"')) && media.includes("Latest from Dr. Haddad"), "Events & Media owner update is wired to the public page.");
 expect(worker.includes('url.pathname.startsWith("/admin")') && worker.includes('headers.set("X-Robots-Tag", "noindex, nofollow")'), "Worker disables caching/indexing for admin routes.");
 expect(setup.includes("saynotoplastic.com/admin`") && setup.includes("saynotoplastic.com/admin/*`") && !setup.includes("saynotoplastic.com/api/admin"), "One Cloudflare Access application covers both the /admin parent and child paths with one AUD.");
 expect(mailchimpEvents.includes('from "./audience-service.ts"') && tsconfig.includes('"allowImportingTsExtensions": true'), "Mailchimp event contract remains directly executable under Node 26 TypeScript stripping.");

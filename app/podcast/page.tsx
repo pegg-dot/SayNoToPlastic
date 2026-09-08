@@ -6,6 +6,8 @@ import { getEffectivePodcastPlatforms } from "../lib/publication-overrides";
 import { getAdminContentValues } from "../lib/admin-content";
 import styles from "./podcast.module.css";
 
+export const dynamic = "force-dynamic";
+
 const description = "Beyond Plastic: Where Science Meets Consciousness is Dr. Elie Haddad's podcast exploring health, medicine, human experience, consciousness, and the forces shaping how we live.";
 export const metadata: Metadata = {
   title: "Beyond Plastic Podcast | Say No to Plastic", description, alternates: { canonical: "/podcast" },

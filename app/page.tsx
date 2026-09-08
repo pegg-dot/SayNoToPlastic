@@ -13,6 +13,8 @@ import homeStyles from "./home-additions.module.css";
 import { SignupForm } from "./components/SignupForm";
 import { getAdminContentValues } from "./lib/admin-content";
 
+export const dynamic = "force-dynamic";
+
 const description = "A physician-led platform translating microplastic and nanoplastic research into practical steps that help protect human health and future generations.";
 export const metadata: Metadata = {
   alternates: { canonical: "/" },

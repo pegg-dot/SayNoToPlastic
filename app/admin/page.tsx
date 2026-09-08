@@ -41,7 +41,7 @@ export default async function AdminPage() {
         <section>
           <p className={styles.eyebrow}>Authenticated as {user.email}</p>
           <h1>Admin database setup required</h1>
-          <p>The admin login is working, but the owner-content database migration has not been applied yet.</p>
+          <p>The protected login is working, but the owner-content database migration still needs to be applied before changes can be saved.</p>
         </section>
       </main>
     );
@@ -51,27 +51,28 @@ export default async function AdminPage() {
     <main className={styles.page}>
       <header className={styles.header}>
         <div>
-          <p className={styles.eyebrow}>Say No To Plastic · Owner controls</p>
+          <p className={styles.eyebrow}>Say No To Plastic · Owner workspace</p>
           <h1>Site admin</h1>
-          <p>Update approved public links and short notices without touching source code or deployment settings.</p>
+          <p>Keep the public site current without touching code. Update homepage messaging, appearances, TEDx, Beyond Plastic, and press information from one protected workspace.</p>
         </div>
         <aside>
           <span>Signed in</span>
           <strong>{user.email}</strong>
           <small>{adminAllowlist().length} approved owner accounts</small>
+          <a href="/" target="_blank" rel="noreferrer">Open live site ↗</a>
         </aside>
       </header>
 
       <section className={styles.safety}>
-        <strong>Protected editing only</strong>
-        <p>Changes are validated, versioned, and recorded with the editor email. API keys, hosting, payments, deployments, and source code are not exposed here.</p>
+        <strong>Owner editing with guardrails</strong>
+        <p>Changes are plain text or validated links, versioned automatically, and recorded with the editor email. Scientific evidence, medical claims, hosting, payments, deployments, source code, and API credentials remain developer-controlled.</p>
       </section>
 
       <AdminPanel fields={ADMIN_CONTENT_FIELDS} initialContent={content} initialRevisions={revisions} />
 
       <footer className={styles.footer}>
         <a href="/">Return to Say No To Plastic</a>
-        <span>Owner admin · noindex</span>
+        <span>Protected owner admin · noindex · revision history enabled</span>
       </footer>
     </main>
   );

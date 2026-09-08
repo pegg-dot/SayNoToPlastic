@@ -43,7 +43,7 @@ expect(pressKit.includes('ownerCopy["press.short_bio"]') && pressKit.includes('o
 expect(tedx.includes("getEffectiveTedxEntry") && tedx.includes('export const dynamic = "force-dynamic"'), "TEDx page reads the owner-managed video/status live.");
 expect(auth.includes('"dreliebeyondplastic@gmail.com"') && auth.includes('"pegg@gymfinityapp.com"'), "Admin access remains restricted to the two approved owner identities.");
 expect(!adminContent.includes('"science.') && !adminContent.includes('"medical.'), "No science or medical content keys were added to owner self-publishing.");
-expect(setup.includes("expanded v40.39 editorial workspace") && setup.includes("does **not** need another schema migration"), "Deployment guide documents that v40.39 reuses the existing owner-admin tables.");
+expect(setup.includes("expanded v40.39 editorial workspace") && (setup.includes("does **not** need another schema migration") || setup.includes("neither needs another schema migration")), "Deployment guide documents that later owner-admin releases reuse the existing owner-admin tables.");
 expect(wrangler.includes('"database_name": "saynotoplastic-db"') && wrangler.includes('"COMMERCE_MODE": "woocommerce"'), "Existing production database and commerce mode remain preserved.");
 expect(mailchimpEvents.includes('FIELD_NOTES_SIGNUP_EVENT = "website_field_notes_signup"'), "Mailchimp welcome-event integration remains intact.");
 

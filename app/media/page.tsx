@@ -8,6 +8,8 @@ import { getEffectiveTedxEntry } from "../lib/publication-overrides";
 import { getAdminContentValues, getOwnerMediaItems } from "../lib/admin-content";
 import styles from "./media.module.css";
 
+export const dynamic = "force-dynamic";
+
 const description = "Explore Dr. Elie R. Haddad's media work, the Homo Plasticus sculpture story, current press resources, and the approval status of upcoming talks and public appearances.";
 
 export const metadata: Metadata = {

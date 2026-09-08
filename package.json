@@ -54,7 +54,7 @@
     "anatomy:order": "node scripts/v40-28-testicular-final-audit.mjs",
     "anatomy:microplastics": "node scripts/v40-33-system-aware-microplastic-flow-audit.mjs",
     "anatomy:flow": "node scripts/v40-33-system-aware-microplastic-flow-audit.mjs",
-    "release:audit": "npm run prepare:podcast-artwork && node scripts/v40-37-owner-review-audit.mjs && node scripts/v40-38-owner-admin-audit.mjs && node scripts/v40-39-owner-editorial-audit.mjs && node scripts/v40-19-complete-atlas-audit.mjs && node scripts/podcast-tedx-audit.mjs",
+    "release:audit": "npm run prepare:podcast-artwork && node scripts/v40-37-owner-review-audit.mjs && node scripts/v40-38-owner-admin-audit.mjs && node scripts/v40-39-owner-editorial-audit.mjs && node scripts/v40-40-owner-admin-usability-audit.mjs && node scripts/v40-19-complete-atlas-audit.mjs && node scripts/podcast-tedx-audit.mjs",
     "podcast:launch-audit": "npm run prepare:podcast-artwork && node scripts/podcast-tedx-audit.mjs"
   },
   "dependencies": {

@@ -54,15 +54,36 @@ Migration `0007_owner_admin.sql` adds:
 - `admin_content`
 - `admin_content_revisions`
 
-It does not replace or modify the existing subscriber, analytics, commerce, or learning-series tables. The expanded v40.39 editorial workspace reuses these same two tables, so it does **not** need another schema migration.
+It does not replace or modify the existing subscriber, analytics, commerce, or learning-series tables. The expanded v40.39 editorial workspace and v40.40 usability/metrics dashboard reuse existing tables, so neither needs another schema migration.
 
 ## Owner workflows
 
-The owner workspace is organized around five practical areas:
+The owner workspace is organized around five practical areas.
 
-### Overview
+### Dashboard
 
-Shows the number of active overrides, published owner-managed appearances, recent revision history, and quick links into each editing area.
+The dashboard is designed to answer two questions without requiring technical knowledge: **What do I want to update?** and **How is the site doing?**
+
+It includes direct actions for:
+
+- changing homepage messaging
+- adding an event or appearance
+- replacing the TEDx video
+- updating Beyond Plastic
+- updating the press biography or media contact
+
+It also shows owner-relevant metrics from data the site already collects:
+
+- consented anonymous visitors in the last 30 days
+- consented page views in the last 30 days
+- active newsletter subscribers and new subscribers
+- newsletter provider-sync health
+- contact requests in the last 30 days
+- consented book checkout starts
+- most-viewed pages
+- recent owner changes
+
+Visitor, page-view, and checkout metrics only represent users who accepted optional anonymous analytics. Subscriber and contact counts come from the operational site database. The dashboard shows aggregate counts and page paths, not subscriber emails, inquiry names, or inquiry email addresses.
 
 ### Homepage
 
@@ -77,7 +98,7 @@ Owner-editable:
 
 Blank values fall back to the reviewed source-code copy.
 
-### Events & Media
+### Events & TEDx
 
 Owner-editable:
 
@@ -87,7 +108,7 @@ Owner-editable:
 - TEDx temporary/official status
 - structured appearances and events
 
-Appearances can be created as drafts and published only when ready. Supported owner-managed item types are event, talk, interview, podcast appearance, and press. Each item can include a date, outlet/venue/platform, HTTPS destination URL, and public description. The list is capped and validated before saving.
+Appearances can be saved as drafts and shown publicly only when **Show on site** is enabled. Supported owner-managed item types are event, talk, interview, podcast appearance, and press. Each item can include a date, outlet/venue/platform, HTTPS destination URL, and public description. The list is capped and validated before saving.
 
 ### Beyond Plastic podcast
 
@@ -122,10 +143,10 @@ All owner changes:
 - increment a version number
 - write the revision and current value atomically
 - use optimistic concurrency checks so two editors cannot silently overwrite each other
-- can be reset to the reviewed source default
+- can be restored to the reviewed original site text
 - keep recent versions available in the admin UI
 
-Restoring an older version creates a new current version instead of deleting history.
+Loading an older version does not publish it immediately. The owner must explicitly save it to make it current, preserving the audit trail.
 
 ## Deliberately excluded
 
@@ -151,7 +172,8 @@ Those remain developer-controlled because a general-purpose CMS would create unn
 4. Set `CF_ACCESS_TEAM_DOMAIN` and `CF_ACCESS_AUD` on the Worker with the exact secret names above.
 5. Deploy the validated release.
 6. Visit `/admin` from both approved accounts and confirm an unapproved account is rejected.
-7. Save a harmless draft or copy override, verify the intended public page changes, then reset it to the source default.
-8. Add one draft appearance, confirm it is not public, then publish it and confirm it appears on Events & Media.
+7. Save a harmless draft or copy override, verify the intended public page changes, then restore the original site text.
+8. Add one draft appearance, confirm it is not public, then enable Show on site, save, and confirm it appears on Events & Media.
+9. Confirm the dashboard metrics load without exposing subscriber or inquiry PII.
 
 If the admin database is unavailable, owner-managed public copy and media fall back to source-code defaults instead of taking the public site down.

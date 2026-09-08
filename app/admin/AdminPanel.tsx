@@ -8,6 +8,7 @@ import type {
   OwnerMediaItem,
   OwnerMediaItemType,
 } from "../lib/admin-content";
+import type { AdminDashboardMetrics } from "../lib/admin-metrics";
 import styles from "./admin.module.css";
 
 type Field = {
@@ -22,17 +23,17 @@ type Field = {
 };
 
 type SaveState = "idle" | "saving" | "saved" | "error";
-type SectionId = "overview" | "homepage" | "media" | "podcast" | "press";
+type SectionId = "dashboard" | "homepage" | "media" | "podcast" | "press";
 
 const sections: Array<{ id: SectionId; label: string; hint: string }> = [
-  { id: "overview", label: "Overview", hint: "What you can safely update" },
-  { id: "homepage", label: "Homepage", hint: "Hero, media, newsletter" },
-  { id: "media", label: "Events & Media", hint: "Appearances, updates, TEDx" },
-  { id: "podcast", label: "Podcast", hint: "Series copy and listening links" },
-  { id: "press", label: "Press kit", hint: "Biography and media contact" },
+  { id: "dashboard", label: "Dashboard", hint: "Start here" },
+  { id: "homepage", label: "Homepage", hint: "Main message & newsletter" },
+  { id: "media", label: "Events & TEDx", hint: "Appearances, updates, video" },
+  { id: "podcast", label: "Podcast", hint: "Beyond Plastic" },
+  { id: "press", label: "Press kit", hint: "Bio & contact" },
 ];
 
-const fieldGroups: Record<Exclude<SectionId, "overview">, AdminContentKey[]> = {
+const fieldGroups: Record<Exclude<SectionId, "dashboard">, AdminContentKey[]> = {
   homepage: [
     "site.notice",
     "home.hero_eyebrow",
@@ -62,8 +63,35 @@ const fieldGroups: Record<Exclude<SectionId, "overview">, AdminContentKey[]> = {
   press: ["press.short_bio", "press.long_bio", "press.contact_email"],
 };
 
+const sectionCopy: Record<Exclude<SectionId, "dashboard">, { title: string; body: string; previewHref: string; previewLabel: string }> = {
+  homepage: {
+    title: "Update what visitors see first.",
+    body: "Change the homepage wording you manage. Leave any field blank to keep the current site wording.",
+    previewHref: "/",
+    previewLabel: "Open homepage",
+  },
+  media: {
+    title: "Keep events, appearances, and TEDx current.",
+    body: "Add new public appearances as drafts first. Nothing appears on the live Events & Media page until you choose Show on site and save.",
+    previewHref: "/media",
+    previewLabel: "Open Events & Media",
+  },
+  podcast: {
+    title: "Keep Beyond Plastic up to date.",
+    body: "Update the current series wording and verified listening links. Blank fields keep the current site values.",
+    previewHref: "/podcast",
+    previewLabel: "Open podcast page",
+  },
+  press: {
+    title: "Keep your press information accurate.",
+    body: "Update your short bio, extended bio, and media contact. The rest of the press kit stays reviewed and protected.",
+    previewHref: "/media/press-kit",
+    previewLabel: "Open press kit",
+  },
+};
+
 function revisionSummary(value: string) {
-  if (!value) return "Source default / hidden";
+  if (!value) return "Original site text";
   return value.length > 92 ? `${value.slice(0, 89)}…` : value;
 }
 
@@ -96,23 +124,48 @@ function blankMediaItem(): OwnerMediaItem {
   };
 }
 
+function metricNumber(value: number) {
+  return new Intl.NumberFormat("en-US").format(value);
+}
+
+function pageName(path: string) {
+  const known: Record<string, string> = {
+    "/": "Homepage",
+    "/science": "The Science",
+    "/solutions": "Take Action",
+    "/quick-action-card": "12-Step Guide",
+    "/podcast": "Podcast",
+    "/tedx": "TEDx",
+    "/media": "Events & Media",
+    "/homo-plasticus": "Homo Plasticus",
+    "/about-dr-elie-haddad": "About Dr. Haddad",
+  };
+  return known[path] || path;
+}
+
 export function AdminPanel({
   fields,
   initialContent,
   initialRevisions,
+  metrics,
 }: {
   fields: Field[];
   initialContent: AdminContentRecord[];
   initialRevisions: AdminContentRevision[];
+  metrics: AdminDashboardMetrics;
 }) {
   const initialMap = useMemo(() => new Map(initialContent.map((record) => [record.key, record])), [initialContent]);
-  const [section, setSection] = useState<SectionId>("overview");
+  const [section, setSection] = useState<SectionId>("dashboard");
   const [records, setRecords] = useState(() => Object.fromEntries(initialContent.map((record) => [record.key, record])) as Record<AdminContentKey, AdminContentRecord>);
   const [drafts, setDrafts] = useState(() => Object.fromEntries(fields.map((field) => [field.key, initialMap.get(field.key)?.value ?? ""])) as Record<AdminContentKey, string>);
   const [saveStates, setSaveStates] = useState(() => Object.fromEntries(fields.map((field) => [field.key, "idle"])) as Record<AdminContentKey, SaveState>);
   const [messages, setMessages] = useState(() => Object.fromEntries(fields.map((field) => [field.key, ""])) as Record<AdminContentKey, string>);
   const [revisions, setRevisions] = useState(initialRevisions);
   const [mediaItems, setMediaItems] = useState(() => readMediaItems(initialMap.get("media.entries_json")?.value));
+
+  function fieldLabel(key: AdminContentKey) {
+    return fields.find((field) => field.key === key)?.label || key;
+  }
 
   async function saveValue(key: AdminContentKey, value: string) {
     setSaveStates((current) => ({ ...current, [key]: "saving" }));
@@ -139,10 +192,10 @@ export function AdminPanel({
         createdAt: saved.updatedAt || new Date().toISOString(),
       }, ...current].slice(0, 80));
       setSaveStates((current) => ({ ...current, [key]: "saved" }));
-      setMessages((current) => ({ ...current, [key]: "Saved" }));
+      setMessages((current) => ({ ...current, [key]: "Saved to the live site" }));
       window.setTimeout(() => {
         setSaveStates((current) => ({ ...current, [key]: current[key] === "saved" ? "idle" : current[key] }));
-      }, 1800);
+      }, 2200);
       return saved;
     } catch (error) {
       setSaveStates((current) => ({ ...current, [key]: "error" }));
@@ -165,6 +218,12 @@ export function AdminPanel({
     setMediaItems((current) => current.map((item) => item.id === id ? { ...item, ...patch } : item));
   }
 
+  function removeMediaItem(id: string, title: string) {
+    const label = title.trim() || "this item";
+    if (!window.confirm(`Remove ${label}? This will not affect the live site until you click Save media changes.`)) return;
+    setMediaItems((current) => current.filter((candidate) => candidate.id !== id));
+  }
+
   function renderField(key: AdminContentKey) {
     const field = fields.find((candidate) => candidate.key === key);
     if (!field || field.surface === "media" || field.kind === "json") return null;
@@ -182,8 +241,8 @@ export function AdminPanel({
 
         {field.kind === "enum" ? (
           <select id={key} value={drafts[key]} onChange={(event) => setDrafts((current) => ({ ...current, [key]: event.target.value }))}>
-            <option value="">Use source default</option>
-            {field.allowedValues?.map((value) => <option value={value} key={value}>{value}</option>)}
+            <option value="">Keep current site setting</option>
+            {field.allowedValues?.map((value) => <option value={value} key={value}>{value === "official" ? "Official release" : value === "temporary" ? "Temporary recording" : value}</option>)}
           </select>
         ) : field.maxLength > 250 ? (
           <textarea id={key} value={drafts[key]} maxLength={field.maxLength} placeholder={field.placeholder} onChange={(event) => setDrafts((current) => ({ ...current, [key]: event.target.value }))} />
@@ -192,33 +251,30 @@ export function AdminPanel({
         )}
 
         <div className={styles.fieldFooter}>
-          <span>
-            {record?.version ? `Version ${record.version}` : "Using source default"}
-            {record?.updatedBy ? ` · last changed by ${record.updatedBy}` : ""}
-          </span>
+          <span>{record?.updatedAt ? `Last saved ${revisionTime(record.updatedAt)}` : "Using the current site wording"}</span>
           <div>
-            <button className={styles.resetButton} type="button" disabled={!drafts[key]} onClick={() => setDrafts((current) => ({ ...current, [key]: "" }))}>Reset to source default</button>
+            <button className={styles.resetButton} type="button" disabled={!drafts[key]} onClick={() => setDrafts((current) => ({ ...current, [key]: "" }))}>Restore original</button>
             {messages[key] && <small className={state === "error" ? styles.error : styles.success}>{messages[key]}</small>}
-            <button type="button" disabled={!changed || state === "saving"} onClick={() => void saveField(key)}>{state === "saving" ? "Saving…" : "Save change"}</button>
+            <button type="button" disabled={!changed || state === "saving"} onClick={() => void saveField(key)}>{state === "saving" ? "Saving…" : "Save to live site"}</button>
           </div>
         </div>
 
         {fieldRevisions.length > 0 && (
           <details className={styles.history}>
-            <summary>Recent versions</summary>
+            <summary>Undo or view previous versions</summary>
             <div className={styles.historyList}>
               {fieldRevisions.map((revision) => (
                 <div className={styles.historyRow} key={`${revision.id}-${revision.version}`}>
                   <div>
-                    <strong>v{revision.version}</strong>
+                    <strong>{revisionTime(revision.createdAt)}</strong>
                     <span>{revisionSummary(revision.value)}</span>
-                    <small>{revision.updatedBy} · {revisionTime(revision.createdAt)}</small>
+                    <small>Changed by {revision.updatedBy}</small>
                   </div>
-                  <button type="button" disabled={revision.value === drafts[key]} onClick={() => setDrafts((current) => ({ ...current, [key]: revision.value }))}>Use this version</button>
+                  <button type="button" disabled={revision.value === drafts[key]} onClick={() => setDrafts((current) => ({ ...current, [key]: revision.value }))}>Load this version</button>
                 </div>
               ))}
             </div>
-            <p className={styles.historyNote}>Loading an older version does not publish it. Click Save change to make it current while preserving the full history.</p>
+            <p className={styles.historyNote}>Loading a previous version does not change the live site until you click Save to live site.</p>
           </details>
         )}
       </div>
@@ -229,13 +285,15 @@ export function AdminPanel({
   const mediaDirty = JSON.stringify(mediaItems) !== (mediaRecord?.value || "");
   const publishedMediaCount = mediaItems.filter((item) => item.published).length;
   const overriddenFields = Object.values(records).filter((record) => Boolean(record?.value)).length;
+  const recentRevisions = revisions.slice(0, 5);
+  const topPageMax = Math.max(1, ...metrics.topPages30d.map((item) => item.views));
 
   return (
     <div className={styles.workspace}>
       <nav className={styles.sidebar} aria-label="Admin sections">
         <div className={styles.sidebarIntro}>
-          <span>Owner workspace</span>
-          <strong>Content controls</strong>
+          <span>Site manager</span>
+          <strong>What do you want to update?</strong>
         </div>
         {sections.map((item) => (
           <button key={item.id} type="button" className={section === item.id ? styles.navActive : ""} onClick={() => setSection(item.id)}>
@@ -244,91 +302,139 @@ export function AdminPanel({
           </button>
         ))}
         <div className={styles.sidebarBoundary}>
-          <strong>Science stays reviewed</strong>
-          <p>Medical claims, evidence summaries, body-system content, guides, payments, deployments, and API credentials are intentionally not editable here.</p>
+          <strong>You can undo changes.</strong>
+          <p>Each saved text or link change keeps a history. Scientific and medical content stays protected from accidental editing.</p>
         </div>
       </nav>
 
       <div className={styles.contentArea}>
-        {section === "overview" && (
+        {section === "dashboard" && (
           <div className={styles.overview}>
             <div className={styles.sectionHeading}>
-              <p className={styles.eyebrow}>Overview</p>
-              <h2>A simple place to keep the public site current.</h2>
-              <p>This dashboard is for the changes Dr. Haddad is likely to make over time: public announcements, homepage messaging, appearances, TEDx, podcast links, and press information.</p>
-            </div>
-
-            <div className={styles.stats}>
-              <article><span>Editable overrides</span><strong>{overriddenFields}</strong><small>Fields currently different from source defaults</small></article>
-              <article><span>Published appearances</span><strong>{publishedMediaCount}</strong><small>Owner-managed items visible on Events & Media</small></article>
-              <article><span>Revision history</span><strong>{revisions.length}</strong><small>Recent saved versions available for rollback</small></article>
+              <p className={styles.eyebrow}>Dashboard</p>
+              <h2>What would you like to do today?</h2>
+              <p>Choose a task below. You do not need to know how the website is built, and every editable text or link change can be restored later.</p>
             </div>
 
             <div className={styles.quickGrid}>
-              <button type="button" onClick={() => setSection("homepage")}><span>Homepage</span><strong>Change public-facing messaging</strong><small>Hero, announcement, media feature, newsletter</small></button>
-              <button type="button" onClick={() => setSection("media")}><span>Events & Media</span><strong>Add an appearance or update TEDx</strong><small>Draft first, publish when ready</small></button>
-              <button type="button" onClick={() => setSection("podcast")}><span>Podcast</span><strong>Keep Beyond Plastic current</strong><small>Series copy and verified listening links</small></button>
-              <button type="button" onClick={() => setSection("press")}><span>Press kit</span><strong>Update biography and contact</strong><small>Plain text, versioned, reversible</small></button>
+              <button type="button" onClick={() => setSection("homepage")}><span>Homepage</span><strong>Change the homepage message</strong><small>Headline, announcement, newsletter wording</small></button>
+              <button type="button" onClick={() => setSection("media")}><span>Events & TEDx</span><strong>Add an event or appearance</strong><small>Keep it as a draft until you are ready</small></button>
+              <button type="button" onClick={() => setSection("media")}><span>TEDx</span><strong>Replace the TEDx video</strong><small>Update the link when the official release arrives</small></button>
+              <button type="button" onClick={() => setSection("podcast")}><span>Podcast</span><strong>Update Beyond Plastic</strong><small>Series wording and listening links</small></button>
+              <button type="button" onClick={() => setSection("press")}><span>Press kit</span><strong>Update biography or contact</strong><small>Short bio, extended bio, media email</small></button>
             </div>
 
-            <section className={styles.guardrail}>
-              <div><span>Publishing boundary</span><h3>Owner editing without turning the site into an unsafe general-purpose CMS.</h3></div>
-              <p>Every editable field is constrained by type and length. Links are validated, changes are recorded with the signed-in email, and source defaults remain available as a one-click reset.</p>
+            <section className={styles.metricsSection}>
+              <div className={styles.metricsHeading}>
+                <div><p className={styles.eyebrow}>At a glance</p><h3>How the site is doing</h3></div>
+                <span>Last 30 days unless noted</span>
+              </div>
+
+              {metrics.available ? (
+                <>
+                  <div className={styles.metricsGrid}>
+                    <article><span>Visitors</span><strong>{metricNumber(metrics.visitors30d)}</strong><small>Anonymous analytics sessions</small></article>
+                    <article><span>Page views</span><strong>{metricNumber(metrics.pageViews30d)}</strong><small>Pages viewed with analytics consent</small></article>
+                    <article><span>Newsletter subscribers</span><strong>{metricNumber(metrics.newsletterActive)}</strong><small>{metricNumber(metrics.newsletterNew30d)} new in the last 30 days</small></article>
+                    <article><span>Contact requests</span><strong>{metricNumber(metrics.contacts30d)}</strong><small>Submitted in the last 30 days</small></article>
+                    <article><span>Book checkout starts</span><strong>{metricNumber(metrics.checkoutStarts30d)}</strong><small>Anonymous tracked clicks</small></article>
+                    <article className={metrics.newsletterNeedsSync > 0 ? styles.metricAttention : styles.metricHealthy}><span>Newsletter sync</span><strong>{metrics.newsletterNeedsSync > 0 ? metricNumber(metrics.newsletterNeedsSync) : "Good"}</strong><small>{metrics.newsletterNeedsSync > 0 ? "Active subscribers still need provider sync" : "Active subscribers are synced"}</small></article>
+                  </div>
+
+                  <div className={styles.insightGrid}>
+                    <section className={styles.topPages}>
+                      <div><span>Most viewed pages</span><small>Anonymous analytics · 30 days</small></div>
+                      {metrics.topPages30d.length ? metrics.topPages30d.map((item) => (
+                        <div className={styles.topPageRow} key={item.path}>
+                          <div><strong>{pageName(item.path)}</strong><small>{item.path}</small></div>
+                          <div className={styles.topPageMeter}><i style={{ width: `${Math.max(8, Math.round((item.views / topPageMax) * 100))}%` }} /></div>
+                          <b>{metricNumber(item.views)}</b>
+                        </div>
+                      )) : <p className={styles.emptyMetric}>No consented page-view data has been recorded in the last 30 days yet.</p>}
+                    </section>
+
+                    <section className={styles.recentChanges}>
+                      <div><span>Recent site changes</span><small>Saved through this admin</small></div>
+                      {recentRevisions.length ? recentRevisions.map((revision) => (
+                        <div className={styles.recentChangeRow} key={`${revision.id}-${revision.version}`}>
+                          <strong>{fieldLabel(revision.key)}</strong>
+                          <span>{revisionSummary(revision.value)}</span>
+                          <small>{revisionTime(revision.createdAt)} · {revision.updatedBy}</small>
+                        </div>
+                      )) : <p className={styles.emptyMetric}>No owner edits yet. The site is still using its reviewed built-in content.</p>}
+                    </section>
+                  </div>
+
+                  <p className={styles.analyticsNote}>Visitor, page-view, and checkout numbers only include people who chose anonymous analytics. Newsletter and contact totals come directly from the site database.</p>
+                </>
+              ) : (
+                <div className={styles.metricsUnavailable}><strong>Metrics are temporarily unavailable.</strong><p>You can still edit the site normally. This does not affect the public website.</p></div>
+              )}
+            </section>
+
+            <section className={styles.statusStrip}>
+              <div><span>Live website</span><strong>Online</strong><small>Open saynotoplastic.com to preview</small></div>
+              <div><span>Owner access</span><strong>Protected</strong><small>Only approved accounts can enter</small></div>
+              <div><span>Current owner edits</span><strong>{overriddenFields}</strong><small>Fields different from built-in site text</small></div>
+              <div><span>Published appearances</span><strong>{publishedMediaCount}</strong><small>Owner-managed items visible publicly</small></div>
             </section>
           </div>
         )}
 
-        {section !== "overview" && (
+        {section !== "dashboard" && (
           <>
-            <div className={styles.sectionHeading}>
-              <p className={styles.eyebrow}>{sections.find((item) => item.id === section)?.label}</p>
-              <h2>{section === "homepage" ? "Edit the parts visitors see first." : section === "media" ? "Keep public work and appearances current." : section === "podcast" ? "Update Beyond Plastic without touching code." : "Keep press information accurate."}</h2>
-              <p>{section === "media" ? "New appearances start as drafts. Publish only after the title, date, description, and destination link are ready." : "Blank fields automatically fall back to the reviewed source copy currently in the site."}</p>
+            <div className={styles.sectionHeadingRow}>
+              <div className={styles.sectionHeading}>
+                <p className={styles.eyebrow}>{sections.find((item) => item.id === section)?.label}</p>
+                <h2>{sectionCopy[section].title}</h2>
+                <p>{sectionCopy[section].body}</p>
+              </div>
+              <a className={styles.previewLink} href={sectionCopy[section].previewHref} target="_blank" rel="noreferrer">{sectionCopy[section].previewLabel} ↗</a>
             </div>
 
             {section === "media" && (
               <section className={styles.mediaManager}>
                 <div className={styles.mediaManagerHeader}>
-                  <div><span>Appearances & events</span><h3>Public media timeline</h3><p>Add talks, interviews, press, podcast appearances, and events. Draft items stay private until Published is checked and saved.</p></div>
-                  <button type="button" onClick={() => setMediaItems((current) => [blankMediaItem(), ...current])}>+ Add appearance</button>
+                  <div><span>Events & appearances</span><h3>Add something new</h3><p>Create the item, leave it as Draft while you review it, then turn on Show on site when it is ready for the public.</p></div>
+                  <button type="button" onClick={() => setMediaItems((current) => [blankMediaItem(), ...current])}>+ Add new item</button>
                 </div>
 
                 <div className={styles.mediaItems}>
-                  {mediaItems.length === 0 && <div className={styles.emptyState}><strong>No owner-managed appearances yet.</strong><p>Add one when there is something new to publish. The existing TEDx feature remains separate below.</p></div>}
+                  {mediaItems.length === 0 && <div className={styles.emptyState}><strong>No owner-added events or appearances yet.</strong><p>Click Add new item when you have a talk, interview, event, podcast appearance, or press mention to add.</p></div>}
                   {mediaItems.map((item) => (
                     <article className={styles.mediaEditorCard} key={item.id}>
                       <div className={styles.mediaEditorTop}>
-                        <select value={item.type} aria-label="Appearance type" onChange={(event) => updateMediaItem(item.id, { type: event.target.value as OwnerMediaItemType })}>
+                        <select value={item.type} aria-label="Item type" onChange={(event) => updateMediaItem(item.id, { type: event.target.value as OwnerMediaItemType })}>
                           <option value="event">Event</option><option value="talk">Talk</option><option value="interview">Interview</option><option value="podcast">Podcast appearance</option><option value="press">Press</option>
                         </select>
-                        <label className={styles.publishToggle}><input type="checkbox" checked={item.published} onChange={(event) => updateMediaItem(item.id, { published: event.target.checked })} /><span>{item.published ? "Published" : "Draft"}</span></label>
+                        <label className={styles.publishToggle}><input type="checkbox" checked={item.published} onChange={(event) => updateMediaItem(item.id, { published: event.target.checked })} /><span>{item.published ? "Show on site" : "Draft"}</span></label>
                       </div>
-                      <input type="text" value={item.title} maxLength={140} placeholder="Appearance title" aria-label="Appearance title" onChange={(event) => updateMediaItem(item.id, { title: event.target.value })} />
+                      <label className={styles.mediaInputLabel}>Title<input type="text" value={item.title} maxLength={140} placeholder="Example: Dr. Haddad at TEDxMiami" onChange={(event) => updateMediaItem(item.id, { title: event.target.value })} /></label>
                       <div className={styles.mediaEditorRow}>
-                        <input type="date" value={item.date} aria-label="Appearance date" onChange={(event) => updateMediaItem(item.id, { date: event.target.value })} />
-                        <input type="text" value={item.platform} maxLength={100} placeholder="Outlet, venue, or platform" aria-label="Outlet, venue, or platform" onChange={(event) => updateMediaItem(item.id, { platform: event.target.value })} />
+                        <label className={styles.mediaInputLabel}>Date<input type="date" value={item.date} onChange={(event) => updateMediaItem(item.id, { date: event.target.value })} /></label>
+                        <label className={styles.mediaInputLabel}>Where it appeared<input type="text" value={item.platform} maxLength={100} placeholder="Outlet, venue, or platform" onChange={(event) => updateMediaItem(item.id, { platform: event.target.value })} /></label>
                       </div>
-                      <input type="url" value={item.url} maxLength={500} placeholder="https://... (optional)" aria-label="Appearance URL" onChange={(event) => updateMediaItem(item.id, { url: event.target.value })} />
-                      <textarea value={item.description} maxLength={700} placeholder="Short public description" aria-label="Appearance description" onChange={(event) => updateMediaItem(item.id, { description: event.target.value })} />
+                      <label className={styles.mediaInputLabel}>Link <small>Optional</small><input type="url" value={item.url} maxLength={500} placeholder="https://..." onChange={(event) => updateMediaItem(item.id, { url: event.target.value })} /></label>
+                      <label className={styles.mediaInputLabel}>Short description<textarea value={item.description} maxLength={700} placeholder="What should a visitor know about this appearance?" onChange={(event) => updateMediaItem(item.id, { description: event.target.value })} /></label>
                       <div className={styles.mediaEditorActions}>
-                        <small>Internal ID: {item.id}</small>
-                        <button type="button" className={styles.dangerButton} onClick={() => setMediaItems((current) => current.filter((candidate) => candidate.id !== item.id))}>Remove</button>
+                        <span>{item.published ? "This item will be visible after you save." : "This item stays private after you save."}</span>
+                        <button type="button" className={styles.dangerButton} onClick={() => removeMediaItem(item.id, item.title)}>Remove item</button>
                       </div>
                     </article>
                   ))}
                 </div>
 
                 <div className={styles.mediaSaveBar}>
-                  <div>{messages["media.entries_json"] && <small className={saveStates["media.entries_json"] === "error" ? styles.error : styles.success}>{messages["media.entries_json"]}</small>}<span>{mediaRecord?.version ? `Version ${mediaRecord.version}` : "No owner media list saved yet"}</span></div>
-                  <button type="button" disabled={!mediaDirty || saveStates["media.entries_json"] === "saving"} onClick={() => void saveMediaItems()}>{saveStates["media.entries_json"] === "saving" ? "Saving…" : "Save appearances"}</button>
+                  <div>{messages["media.entries_json"] && <small className={saveStates["media.entries_json"] === "error" ? styles.error : styles.success}>{messages["media.entries_json"]}</small>}<span>{mediaDirty ? "You have unsaved media changes" : "All media changes are saved"}</span></div>
+                  <button type="button" disabled={!mediaDirty || saveStates["media.entries_json"] === "saving"} onClick={() => void saveMediaItems()}>{saveStates["media.entries_json"] === "saving" ? "Saving…" : "Save media changes"}</button>
                 </div>
               </section>
             )}
 
             <section className={styles.group}>
               <div className={styles.groupHeading}>
-                <h3>{section === "homepage" ? "Homepage content" : section === "media" ? "Events, TEDx, and public updates" : section === "podcast" ? "Beyond Plastic" : "Press kit"}</h3>
-                <p>Each change can be reset to the reviewed source default and recent versions remain available below the field.</p>
+                <h3>{section === "homepage" ? "Homepage wording" : section === "media" ? "Page wording and TEDx" : section === "podcast" ? "Beyond Plastic" : "Biography and contact"}</h3>
+                <p>Only change what you want. Blank fields keep the current built-in site content.</p>
               </div>
               <div className={styles.fields}>{fieldGroups[section].map(renderField)}</div>
             </section>

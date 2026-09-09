@@ -2,42 +2,58 @@
 
 **Live site:** https://saynotoplastic.com
 
-Say No to Plastic is an interactive educational website about microplastics, plastic exposure, the human body, and practical ways to reduce everyday exposure.
+Say No to Plastic is an interactive educational website about microplastics, human exposure, and the growing body of research around how plastic-derived material is showing up in the body.
 
-I built the project for fun as a way to turn a complicated subject into something more visual, understandable, and useful than a collection of research papers or generic health advice.
+I built the site for fun as a design and engineering project. The goal was to take a subject that is usually presented through dense papers, scattered headlines, and generic advice and turn it into something visual, understandable, and useful for a normal person.
 
-## About
+## About the project
 
-Say No to Plastic is designed for people who are curious about microplastics and want a clearer way to understand where exposure comes from, what researchers are studying, how different parts of the body fit into the conversation, and what realistic changes people can make in everyday life.
+The site is for people who are curious about microplastics but do not want to start by reading medical journals. It brings the science, the limits of the evidence, interactive anatomy, everyday exposure routes, practical changes, and the broader *Homo Plasticus* project into one place.
 
-The site combines science, interactive anatomy, visual storytelling, practical guides, media, and community resources into one experience. Rather than asking visitors to read everything at once, it lets them move from the big picture into deeper material when they want it.
+A major part of the experience is the body journey. Visitors can move through evidence involving blood, brain tissue, cardiovascular tissue, pregnancy and placenta, reproductive tissue, the endocrine system, kidneys, skin, the digestive system, and other areas while seeing what a study found and, just as importantly, what it did **not** prove.
 
-The project was developed with content and direction from **Dr. Elie R. Haddad**, whose work around *Homo Plasticus* helped shape the educational material and broader message behind the site. Say No to Plastic extends that work into a public digital experience built to make the subject easier to explore.
+The project also connects the research to practical exposure-reduction ideas around food storage, heating plastic, bottled water, synthetic clothing, indoor air, and other repeated sources of everyday contact.
 
-## What is in the site
+## Dr. Elie R. Haddad and *Homo Plasticus*
 
-- **Interactive anatomy** that helps visitors explore body systems and exposure concepts visually.
-- **Science and evidence** covering exposure routes, detection methods, research, and source-aware educational content.
-- **Practical guides** focused on realistic ways to reduce everyday plastic exposure.
-- **Homo Plasticus** content connecting the website to the larger educational project.
-- **Media and community** including podcast, TEDx and other media material, community resources, and newsletter experiences.
+The educational direction of the project is closely connected to **Elie R. Haddad, MD**, a cardiologist and cardiac electrophysiologist with more than two decades of clinical experience.
+
+Dr. Haddad is the author of *Homo Plasticus*, which explores how the plastic age became a human-exposure and health question. The website turns many of those ideas into an interactive public experience, pairing emerging human evidence with clear explanations of uncertainty and practical action.
+
+The site also includes Dr. Haddad's broader public work around the subject, including the **Beyond Plastic** podcast and his TEDx talk, **The Invisible Inheritance of Nanoplastics**.
 
 ## Who it is for
 
-The site is meant for a general audience. You do not need a scientific or medical background to use it.
+Say No to Plastic is built for a general audience. You do not need a medical or scientific background to use it.
 
-It is especially useful for people who want to:
+It is meant for people who want to:
 
-- understand microplastics without starting with dense academic literature;
-- see how exposure can be explained visually;
-- explore practical ways to reduce plastic use and exposure;
-- learn more about the ideas behind *Homo Plasticus* and Dr. Haddad's work.
+- understand what researchers are actually finding about microplastics in humans;
+- separate evidence from overstatement or fear-based claims;
+- explore the body and exposure routes visually;
+- make realistic changes without trying to eliminate every piece of plastic from their life;
+- learn more about *Homo Plasticus* and Dr. Haddad's work.
+
+## What I built
+
+The site includes:
+
+- an interactive whole-body microplastics journey;
+- organ-by-organ evidence chapters with study context and limitations;
+- interactive 3D anatomy references;
+- practical exposure-reduction guides;
+- *Homo Plasticus* book content and previews;
+- the Beyond Plastic podcast experience;
+- TEDx and media pages;
+- newsletter and community flows;
+- source, editorial, accessibility, and medical-disclaimer infrastructure;
+- owner-facing tools for maintaining content without editing source code directly.
 
 ## Technology
 
-The site is built with a modern TypeScript and React stack, including Next.js, Three.js, React Three Fiber, Vite/Vinext, Cloudflare tooling, Drizzle ORM, and Tailwind CSS.
+The project uses a modern TypeScript and React stack with Next.js, Three.js, React Three Fiber, Vite/Vinext, Cloudflare tooling, Drizzle ORM, and Tailwind CSS.
 
-A large part of the project also involved building custom validation and regression tooling for visual changes, content integration, source tracking, accessibility-related checks, media, and release verification.
+A large part of the build also involved custom validation and regression tooling for visual changes, content integration, source traceability, accessibility-related checks, media, and release verification.
 
 ## Repository structure
 
@@ -54,7 +70,7 @@ docs/           Project documentation and retained historical records
 
 ## Historical project records
 
-The site went through many tightly scoped review releases while it was being built. The old validation reports, change manifests, and audit logs are still preserved for traceability, but they live under `docs/archive/` instead of taking over the repository root.
+The site went through many tightly scoped review releases while it was being built. The old validation reports, change manifests, and audit logs are preserved for traceability under `docs/archive/` instead of taking over the repository root.
 
 ## Note
 

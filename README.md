@@ -1,73 +1,43 @@
 # Say No to Plastic
 
-An interactive science and education platform about plastic exposure, microplastics, the human body, and practical ways to reduce everyday exposure.
-
 **Live site:** https://saynotoplastic.com
 
-Say No to Plastic translates the ideas behind *Homo Plasticus* into a web experience built around accessible science, visual storytelling, interactive anatomy, practical guides, media, and community resources.
+Say No to Plastic is an interactive educational website about microplastics, plastic exposure, the human body, and practical ways to reduce everyday exposure.
+
+I built the project for fun as a way to turn a complicated subject into something more visual, understandable, and useful than a collection of research papers or generic health advice.
 
 ## About
 
-The project is designed to make a complicated subject easier to explore without turning it into a wall of research papers or a list of generic lifestyle tips. Visitors can move from the underlying science to the body systems affected by exposure, then into concrete actions they can take in daily life.
+Say No to Plastic is designed for people who are curious about microplastics and want a clearer way to understand where exposure comes from, what researchers are studying, how different parts of the body fit into the conversation, and what realistic changes people can make in everyday life.
 
-The site includes work developed with content and direction from Dr. Elie R. Haddad and connects the broader *Homo Plasticus* project with a public-facing digital experience.
+The site combines science, interactive anatomy, visual storytelling, practical guides, media, and community resources into one experience. Rather than asking visitors to read everything at once, it lets them move from the big picture into deeper material when they want it.
+
+The project was developed with content and direction from **Dr. Elie R. Haddad**, whose work around *Homo Plasticus* helped shape the educational material and broader message behind the site. Say No to Plastic extends that work into a public digital experience built to make the subject easier to explore.
 
 ## What is in the site
 
-- **Interactive anatomy:** a guided body journey and 3D anatomy viewers for exploring how plastic exposure can relate to different systems.
-- **Science and evidence:** body-system pages, exposure routes, detection methods, source-aware educational content, and supporting references.
-- **Solutions and guides:** practical exposure-reduction guidance organized around realistic changes rather than all-or-nothing behavior.
-- **Homo Plasticus:** a dedicated book experience that connects the website to the larger educational project.
-- **Media and community:** podcast, TEDx/media material, community resources, learning-series infrastructure, and newsletter flows.
-- **Owner tools:** an authenticated admin experience for managing content and operational parts of the site without editing source code directly.
+- **Interactive anatomy** that helps visitors explore body systems and exposure concepts visually.
+- **Science and evidence** covering exposure routes, detection methods, research, and source-aware educational content.
+- **Practical guides** focused on realistic ways to reduce everyday plastic exposure.
+- **Homo Plasticus** content connecting the website to the larger educational project.
+- **Media and community** including podcast, TEDx and other media material, community resources, and newsletter experiences.
+
+## Who it is for
+
+The site is meant for a general audience. You do not need a scientific or medical background to use it.
+
+It is especially useful for people who want to:
+
+- understand microplastics without starting with dense academic literature;
+- see how exposure can be explained visually;
+- explore practical ways to reduce plastic use and exposure;
+- learn more about the ideas behind *Homo Plasticus* and Dr. Haddad's work.
 
 ## Technology
 
-The current application uses:
+The site is built with a modern TypeScript and React stack, including Next.js, Three.js, React Three Fiber, Vite/Vinext, Cloudflare tooling, Drizzle ORM, and Tailwind CSS.
 
-- Next.js 16 and React 19
-- TypeScript
-- Three.js and React Three Fiber for interactive 3D scenes
-- Vite / Vinext and Cloudflare tooling
-- Drizzle ORM for structured application data
-- Tailwind CSS
-- Node-based validation and regression tooling
-
-## Run locally
-
-### Requirements
-
-- Node.js 22.13 or newer
-- npm
-
-### Setup
-
-```bash
-git clone https://github.com/pegg-dot/SayNoToPlastic.git
-cd SayNoToPlastic
-cp .env.example .env.local
-npm run install:ci
-npm run dev
-```
-
-Then open the local URL printed by Vite.
-
-The repository includes an `.env.example` describing the available environment variables. Some integrations, commerce features, admin functionality, and production services require their own credentials or configuration.
-
-## Verification
-
-The project has an unusually deep validation layer because the site evolved through repeated visual, content, accessibility, source, and deployment reviews.
-
-For a normal development pass, the most useful checks are:
-
-```bash
-npm run lint
-npm run build
-npm test
-npm run release:audit
-```
-
-More focused audit commands remain available in `package.json` for anatomy, content integration, accessibility-adjacent UI checks, media, commerce, source traceability, and release-specific regression testing.
+A large part of the project also involved building custom validation and regression tooling for visual changes, content integration, source tracking, accessibility-related checks, media, and release verification.
 
 ## Repository structure
 
@@ -82,17 +52,13 @@ drizzle/        Database migrations and metadata
 docs/           Project documentation and retained historical records
 ```
 
-## Historical validation records
+## Historical project records
 
-This project went through many tightly scoped review releases. The corresponding validation reports, change manifests, and older audit logs are intentionally preserved for traceability, but they are archived under `docs/archive/` so they do not dominate the public repository root.
+The site went through many tightly scoped review releases while it was being built. The old validation reports, change manifests, and audit logs are still preserved for traceability, but they live under `docs/archive/` instead of taking over the repository root.
 
-See [`docs/archive/README.md`](docs/archive/README.md) for the archive structure.
+## Note
 
-## Project notes
-
-The website is an educational resource, not a patient-specific medical tool. Scientific and health-related material should remain source-aware and should not be interpreted as individualized medical advice.
-
-Operational documentation such as owner setup, commerce setup, QA checklists, and project-state records is retained in the repository because those files are still useful to maintainers.
+Say No to Plastic is an educational project, not a patient-specific medical product. Scientific and health-related material should not be interpreted as individualized medical advice.
 
 ## License
 

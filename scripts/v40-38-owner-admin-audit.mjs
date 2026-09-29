@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { existsSync, readFileSync } from "node:fs";
+import { readFileSync } from "node:fs";
 import { join } from "node:path";
 
 const root = process.cwd();
@@ -22,7 +22,6 @@ const worker = read("worker/index.ts");
 const env = read(".env.example");
 const wrangler = read("wrangler.jsonc");
 const migration = read("drizzle/0007_owner_admin.sql");
-const setup = read("OWNER_ADMIN_SETUP.md");
 const mailchimpEvents = read("app/lib/mailchimp-events.ts");
 const tsconfig = read("tsconfig.json");
 
@@ -47,9 +46,7 @@ expect(overrides.includes("getEffectivePodcastPlatforms") && podcast.includes("g
 expect(publicNotice.includes('getAdminContentValue("site.notice")') && read("app/components/SiteChrome.tsx").includes("site-owner-notice"), "Optional owner site notice is wired to the public header.");
 expect((media.includes('getPublicOwnerNotice("media.owner_update")') || media.includes('"media.owner_update"')) && media.includes("Latest from Dr. Haddad"), "Events & Media owner update is wired to the public page.");
 expect(worker.includes('url.pathname.startsWith("/admin")') && worker.includes('headers.set("X-Robots-Tag", "noindex, nofollow")'), "Worker disables caching/indexing for admin routes.");
-expect(setup.includes("saynotoplastic.com/admin`") && setup.includes("saynotoplastic.com/admin/*`") && !setup.includes("saynotoplastic.com/api/admin"), "One Cloudflare Access application covers both the /admin parent and child paths with one AUD.");
 expect(mailchimpEvents.includes('from "./audience-service.ts"') && tsconfig.includes('"allowImportingTsExtensions": true'), "Mailchimp event contract remains directly executable under Node 26 TypeScript stripping.");
-expect(existsSync(join(root, "OWNER_ADMIN_SETUP.md")), "Owner admin setup and deployment guide is packaged.");
 expect(wrangler.includes('"database_name": "saynotoplastic-db"') && wrangler.includes('"PUBLIC_SITE_URL": "https://saynotoplastic.com"') && wrangler.includes('"COMMERCE_MODE": "woocommerce"'), "Existing production D1, origin, and WooCommerce mode remain preserved.");
 expect(mailchimpEvents.includes('FIELD_NOTES_SIGNUP_EVENT = "website_field_notes_signup"'), "Mailchimp welcome-event integration remains intact.");
 

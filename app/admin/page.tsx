@@ -22,7 +22,7 @@ export default async function AdminPage() {
           <p className={styles.eyebrow}>Say No To Plastic</p>
           <h1>Website manager</h1>
           <p>This is a private page for approved site owners.</p>
-          <p className={styles.small}>Open saynotoplastic.com/admin and sign in with an approved email address.</p>
+          <p className={styles.small}>Sign in with your approved owner email. Cloudflare Access will send a one-time code to that inbox; enter the code and you will be brought back here.</p>
         </section>
       </main>
     );

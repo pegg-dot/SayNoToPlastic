@@ -23,6 +23,8 @@ expect(adminPage.includes("Cloudflare Access will send a one-time code"), "Admin
 expect(auth.includes('"dreliebeyondplastic@gmail.com"') && auth.includes('"pegg@gymfinityapp.com"'), "Owner allowlist remains unchanged.");
 expect(subscribe.includes("syncAudienceSubscriber") && audience.includes('status_if_new: "subscribed"'), "Website newsletter signup still syncs directly to Mailchimp.");
 expect(mailchimpEvents.includes('FIELD_NOTES_SIGNUP_EVENT = "website_field_notes_signup"'), "Welcome automation event contract remains intact.");
+expect(read("app/page.tsx").indexOf('id="join"') < read("app/page.tsx").indexOf('id="exposure"'), "Primary newsletter signup is surfaced before the longer exposure and content sections.");
+expect(!read("app/page.tsx").includes("<BookJourney") && read("app/page.tsx").includes("homeStyles.bookFeature"), "Homepage uses a concise static book feature instead of the long book scrollytelling section.");
 
 for (const check of checks) console.log(`[${check.ok ? "PASS" : "FAIL"}] ${check.label}`);
 const failed = checks.filter((check) => !check.ok).length;

@@ -26,7 +26,7 @@ const setup = read("OWNER_ADMIN_SETUP.md");
 const mailchimpEvents = read("app/lib/mailchimp-events.ts");
 const tsconfig = read("tsconfig.json");
 
-expect(build.includes("v40.38-owner-admin") || build.includes("v40.39-owner-editorial-admin") || build.includes("v40.40-owner-admin-usability-metrics") || build.includes("v40.41-owner-admin-simple-ui"), "Build retains the v40.38 owner-admin baseline or a validated successor.");
+expect(build.includes("v40.38-owner-admin") || build.includes("v40.39-owner-editorial-admin") || build.includes("v40.40-owner-admin-usability-metrics") || build.includes("v40.41-owner-admin-simple-ui") || build.includes("v40.42-owner-cms-phase-1"), "Build retains the v40.38 owner-admin baseline or a validated successor.");
 expect(auth.includes('"dreliebeyondplastic@gmail.com"') && auth.includes('"pegg@gymfinityapp.com"'), "Application allowlist contains the two approved owner identities.");
 expect(auth.includes('jwtHeader.alg !== "RS256"') && auth.includes("crypto.subtle.verify") && auth.includes("/cdn-cgi/access/certs"), "Cloudflare Access JWT signature is verified with Access public keys.");
 expect(auth.includes("audienceMatches") && auth.includes("payload.exp <= now") && auth.includes("payload.nbf") && auth.includes("!payload.iss"), "Access JWT audience, issuer, and time claims are required and validated.");

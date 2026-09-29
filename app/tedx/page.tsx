@@ -48,13 +48,8 @@ export default async function TedxPage() {
 
         <section className="media-feature ivory" aria-labelledby="tedx-video-title">
           <div className="media-feature-copy">
-            <p className="eyebrow dark">Watch the TEDx talk</p>
+            <p className="eyebrow dark">TEDxMiami</p>
             <h2 id="tedx-video-title">{title}</h2>
-            {entry?.temporary ? (
-              <p>The official TEDx video has not yet been released. The current video is a temporary audience recording and will be replaced here as soon as the official TEDx release becomes available.</p>
-            ) : (
-              <p>Watch Dr. Haddad&apos;s official TEDxMiami talk.</p>
-            )}
           </div>
           {video ? (
             <FeatureVideo video={video} analyticsLabel="tedx-page" className="media-video" />

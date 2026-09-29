@@ -17,7 +17,7 @@ const schema = read("db/schema.ts");
 const wrangler = read("wrangler.jsonc");
 const mailchimpEvents = read("app/lib/mailchimp-events.ts");
 
-expect(build.includes("v40.40-owner-admin-usability-metrics") || build.includes("v40.41-owner-admin-simple-ui"), "Build retains the v40.40 usability/metrics baseline or a validated successor.");
+expect(build.includes("v40.40-owner-admin-usability-metrics") || build.includes("v40.41-owner-admin-simple-ui") || build.includes("v40.42-owner-cms-phase-1"), "Build retains the v40.40 usability/metrics baseline or a validated successor.");
 expect(page.includes("Manage the website") && page.includes("Nothing updates on the live website") && page.includes("Private"), "Owner landing copy explains the workspace in plain language.");
 expect(panel.includes('type SectionId = "dashboard" | "homepage" | "media" | "podcast" | "press"') && panel.includes("What do you want to change?"), "Admin opens to a task-oriented dashboard.");
 expect(panel.includes("Edit the homepage") && panel.includes("Add an event or appearance") && panel.includes("Replace the TEDx video") && panel.includes("Update the podcast") && panel.includes("Update bio or press contact"), "Dashboard exposes the owner's likely tasks directly.");

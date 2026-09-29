@@ -20,8 +20,9 @@
       "publicationApproval": "user_authorized",
       "temporary": true,
       "replaceWhenOfficialAvailable": true,
-      "displayStatus": "Temporary audience recording · official TEDx release coming soon",
-      "playLabel": "Watch the temporary recording",
+      "displayStatus": "TEDxMiami",
+      "playLabel": "Play the TEDx talk",
+      "showPosterText": false,
       "useThumbnailAsPoster": true
     },
     {

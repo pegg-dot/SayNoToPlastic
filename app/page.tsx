@@ -6,7 +6,6 @@ import { BOOK } from "./config";
 import { TrackedLink } from "./components/TrackedLink";
 import { CheckoutButton } from "./components/CheckoutButton";
 import { MatterField } from "./components/MatterField";
-import { BookJourney } from "./components/BookJourney";
 import { ExposureRouteVisual, type ExposureRouteVisualKind } from "./components/ExposureRouteVisual";
 import { BEYOND_PLASTIC } from "./content/publications";
 import homeStyles from "./home-additions.module.css";
@@ -75,6 +74,16 @@ export default async function Home() {
 
       <BodyJourney />
 
+      <section id="join" className="hp-join">
+        <div className="hp-join-copy" data-reveal>
+          <div className="hp-section-index light"><span>07</span><p>Stay connected</p></div>
+          <p className="eyebrow">Field Notes / Newsletter</p>
+          <h2>{newsletterHeading}</h2>
+          <p>{newsletterBody}</p>
+          <SignupForm buttonLabel="Join the movement" successTitle="You&apos;re in." successText="You&apos;re subscribed. No confirmation email is required." />
+        </div>
+      </section>
+
       <section id="exposure" className="exposure-section">
         <header data-reveal>
           <div className="hp-section-index light"><span>03</span><p>How it reaches us</p></div>
@@ -109,7 +118,22 @@ export default async function Home() {
         </div>
       </section>
 
-      <BookJourney />
+      <section className={homeStyles.bookFeature} aria-labelledby="home-book-title">
+        <figure className={homeStyles.bookVisual} data-reveal>
+          <img src="/book-official.webp" width="1122" height="1402" loading="lazy" alt={`${BOOK.title} book by ${BOOK.author}`} />
+        </figure>
+        <div className={homeStyles.bookCopy} data-reveal>
+          <p className={homeStyles.eyebrow}>The book</p>
+          <h2 id="home-book-title">Homo Plasticus</h2>
+          <p className={homeStyles.bookLead}>A physician-led investigation into how plastic moved from the environment into the human-health conversation.</p>
+          <p>Read the deeper story behind the research, exposure pathways, practical response, and the choices that come next.</p>
+          <div className={homeStyles.bookMeta}><strong>${BOOK.price}</strong><span>Digital ebook · instant access</span></div>
+          <div className={homeStyles.bookActions}>
+            <CheckoutButton className="button gold" label="homepage-book">Get the ebook <span>↗</span></CheckoutButton>
+            <TrackedLink className={homeStyles.bookLink} href="/homo-plasticus" eventName="cta_click" label="home-book-details">Explore the book <span>→</span></TrackedLink>
+          </div>
+        </div>
+      </section>
 
       <section id="about" className="hp-author ivory">
         <div className="hp-author-copy" data-reveal>
@@ -135,16 +159,6 @@ export default async function Home() {
       <section className="hp-media-bridge" aria-labelledby="home-media-title">
         <div data-reveal><p className="eyebrow">Events &amp; Media</p><h2 id="home-media-title">{mediaHeading}</h2><p>{mediaBody}</p></div>
         <aside data-reveal><strong>Media desk</strong><p>Explore verified appearances and press resources.</p><TrackedLink className="button gold" href="/media" eventName="cta_click" label="home-media">Open Events &amp; Media <span>→</span></TrackedLink></aside>
-      </section>
-
-      <section id="join" className="hp-join">
-        <div className="hp-join-copy" data-reveal>
-          <div className="hp-section-index light"><span>07</span><p>Stay connected</p></div>
-          <p className="eyebrow">Field Notes / Newsletter</p>
-          <h2>{newsletterHeading}</h2>
-          <p>{newsletterBody}</p>
-          <SignupForm buttonLabel="Join the movement" successTitle="You&apos;re in." successText="You&apos;re subscribed. No confirmation email is required." />
-        </div>
       </section>
 
       </main>

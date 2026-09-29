@@ -41,6 +41,7 @@ export type MediaEntry = {
   displayStatus?: string;
   playLabel?: string;
   useThumbnailAsPoster?: boolean;
+  showPosterText?: boolean;
 };
 
 export type VideoFeature = {
@@ -53,6 +54,7 @@ export type VideoFeature = {
   posterWidth?: number;
   posterHeight?: number;
   posterAlt?: string;
+  showPosterText?: boolean;
 };
 
 export const MEDIA_ENTRIES = mediaCatalog.entries as MediaEntry[];
@@ -74,6 +76,7 @@ export function toVideoFeature(entry: MediaEntry): VideoFeature | null {
     posterWidth: entry.useThumbnailAsPoster === false ? undefined : 1536,
     posterHeight: entry.useThumbnailAsPoster === false ? undefined : 1024,
     posterAlt: entry.useThumbnailAsPoster === false ? undefined : entry.thumbnailAlt,
+    showPosterText: entry.showPosterText !== false,
   };
 }
 

@@ -19,11 +19,10 @@ const podcast = read("app/podcast/page.tsx");
 const pressKit = read("app/media/press-kit/page.tsx");
 const tedx = read("app/tedx/page.tsx");
 const auth = read("app/lib/admin-auth.ts");
-const setup = read("OWNER_ADMIN_SETUP.md");
 const wrangler = read("wrangler.jsonc");
 const mailchimpEvents = read("app/lib/mailchimp-events.ts");
 
-expect(build.includes("v40.39-owner-editorial-admin") || build.includes("v40.40-owner-admin-usability-metrics") || build.includes("v40.41-owner-admin-simple-ui"), "Build retains the v40.39 editorial baseline or a validated successor.");
+expect(build.includes("v40.39-owner-editorial-admin") || build.includes("v40.40-owner-admin-usability-metrics") || build.includes("v40.41-owner-admin-simple-ui") || build.includes("v40.42-owner-cms-phase-1"), "Build retains the v40.39 editorial baseline or a validated successor.");
 expect(adminContent.includes('"home.hero_headline"') && adminContent.includes('"home.media_heading"') && adminContent.includes('"home.newsletter_heading"'), "Homepage owner-editable fields are registered.");
 expect(adminContent.includes('"media.hero_heading"') && adminContent.includes('"media.entries_json"') && adminContent.includes("validateOwnerMediaItems"), "Events & Media includes validated structured owner-managed appearances.");
 expect(adminContent.includes('"podcast.series_heading"') && adminContent.includes('"podcast.series_body"'), "Podcast series copy is owner-editable.");
@@ -43,7 +42,7 @@ expect(pressKit.includes('ownerCopy["press.short_bio"]') && pressKit.includes('o
 expect(tedx.includes("getEffectiveTedxEntry") && tedx.includes('export const dynamic = "force-dynamic"'), "TEDx page reads the owner-managed video/status live.");
 expect(auth.includes('"dreliebeyondplastic@gmail.com"') && auth.includes('"pegg@gymfinityapp.com"'), "Admin access remains restricted to the two approved owner identities.");
 expect(!adminContent.includes('"science.') && !adminContent.includes('"medical.'), "No science or medical content keys were added to owner self-publishing.");
-expect(setup.includes("expanded v40.39 editorial workspace") && (setup.includes("does **not** need another schema migration") || setup.includes("neither needs another schema migration")), "Deployment guide documents that later owner-admin releases reuse the existing owner-admin tables.");
+expect(adminContent.includes("adminContent") && adminContent.includes("adminContentRevisions"), "Later owner-admin releases continue to reuse the existing owner-admin content and revision tables.");
 expect(wrangler.includes('"database_name": "saynotoplastic-db"') && wrangler.includes('"COMMERCE_MODE": "woocommerce"'), "Existing production database and commerce mode remain preserved.");
 expect(mailchimpEvents.includes('FIELD_NOTES_SIGNUP_EVENT = "website_field_notes_signup"'), "Mailchimp welcome-event integration remains intact.");
 

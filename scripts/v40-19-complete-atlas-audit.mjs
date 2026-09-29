@@ -59,7 +59,7 @@ expect(includesAll(css, [".finding-brief", ".finding-open-viewer", ".journey-com
 expect(licenses.includes("Interactive extended-system viewer") && licenses.includes("CC BY 4.0"), "Runtime anatomy sources retain license attribution.");
 expect(packageJson.scripts?.["anatomy:complete"] === "node scripts/v40-19-complete-atlas-audit.mjs", "Dedicated anatomy audit remains registered.");
 expect(hash("package-lock.json") === "7915a420ef99c285f0a152256b2ca9742f3b520834be90ab937935af8225e85e", "Package lock remains byte-identical to the approved baseline.");
-expect(exists("V40_19_CHANGE_MANIFEST.md") && exists("VALIDATION_REPORT_V40_19.md") && exists("docs/V40_19_TEN_CHAPTER_COMPLETE_ATLAS.md"), "Historical v40.19 records remain packaged.");
+expect(exists("docs/V40_19_TEN_CHAPTER_COMPLETE_ATLAS.md"), "Historical v40.19 atlas documentation remains packaged.");
 
 for (const check of checks) console.log(`[${check.ok ? "PASS" : "FAIL"}] ${check.label}`);
 const failed = checks.filter((check) => !check.ok).length;

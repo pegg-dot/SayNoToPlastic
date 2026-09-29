@@ -16,7 +16,7 @@ const auth = read("app/lib/admin-auth.ts");
 const adminApi = read("app/admin/api/content/route.ts");
 const wrangler = read("wrangler.jsonc");
 
-expect(build.includes("v40.41-owner-admin-simple-ui"), "Build is marked v40.41 simple owner admin UI.");
+expect(build.includes("v40.41-owner-admin-simple-ui") || build.includes("v40.42-owner-cms-phase-1"), "Build retains the v40.41 simple owner admin baseline or phase 1 successor.");
 expect(page.includes("Manage the website") && page.includes("Nothing updates on the live website until you press"), "Entry page tells a non-technical owner exactly how publishing works.");
 expect(panel.includes('type SectionId = "dashboard" | "homepage" | "media" | "podcast" | "press"'), "Admin keeps a small task-based information architecture.");
 expect(panel.includes("What do you want to change?") && panel.includes("Edit the homepage") && panel.includes("Add an event or appearance") && panel.includes("Replace the TEDx video") && panel.includes("Update the podcast") && panel.includes("Update bio or press contact"), "Dashboard starts with the five likely owner tasks.");

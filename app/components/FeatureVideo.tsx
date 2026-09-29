@@ -30,7 +30,7 @@ export function FeatureVideo({ video, analyticsLabel, className = "" }: { video:
         ) : (
           <button className="video-feature-poster" type="button" onClick={start} aria-label={video.playLabel}>
             {video.posterSrc ? <img src={video.posterSrc} width={video.posterWidth} height={video.posterHeight} alt={video.posterAlt} /> : <span className="video-feature-fallback" aria-hidden="true"><i>SNTP</i></span>}
-            <span className="video-feature-play"><i>▶</i><b>{video.playLabel}</b><small>{video.kicker}</small></span>
+            <span className="video-feature-play"><i>▶</i>{video.showPosterText !== false ? <><b>{video.playLabel}</b><small>{video.kicker}</small></> : null}</span>
           </button>
         )}
       </div>

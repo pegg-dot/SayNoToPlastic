@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Footer, Header } from "../components/SiteChrome";
 import { TrackedLink } from "../components/TrackedLink";
+import { getAdminContentValues } from "../lib/admin-content";
 import styles from "./about.module.css";
 
 const description = "Meet Elie R. Haddad, MD, the cardiologist and cardiac electrophysiologist behind Say No to Plastic and Homo Plasticus.";
@@ -39,7 +40,29 @@ const story = [
   },
 ];
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const ownerCopy = await getAdminContentValues([
+    "about.hero_title",
+    "about.hero_lead_primary",
+    "about.hero_lead_secondary",
+    "about.why_title",
+    "about.why_body_primary",
+    "about.why_body_secondary",
+    "about.story_title",
+    "about.story_intro",
+    "about.closing_title",
+    "about.closing_body",
+  ]);
+  const heroTitle = ownerCopy["about.hero_title"] || "Meet Dr. Elie Haddad";
+  const heroLeadPrimary = ownerCopy["about.hero_lead_primary"] || "Dr. Elie R. Haddad is a cardiologist and cardiac electrophysiologist with more than two decades of clinical experience, as well as an author, educator, and TEDx speaker.";
+  const heroLeadSecondary = ownerCopy["about.hero_lead_secondary"] || "Say No to Plastic grew from a physician's question: what environmental influences are we overlooking when illness appears earlier, more often, and in people who do not fit the expected pattern?";
+  const whyTitle = ownerCopy["about.why_title"] || "The question started in the clinic.";
+  const whyBodyPrimary = ownerCopy["about.why_body_primary"] || "Years of caring for people with cardiovascular disease made Dr. Haddad interested not only in how illness is treated, but why it develops and what might be preventable.";
+  const whyBodySecondary = ownerCopy["about.why_body_secondary"] || "That inquiry expanded from genetics and lifestyle to the world around us. Microplastics became one part of a much broader question about repeated environmental exposure across a lifetime.";
+  const storyTitle = ownerCopy["about.story_title"] || "From cardiology to environmental inquiry.";
+  const storyIntro = ownerCopy["about.story_intro"] || "Clinical work led to a broader question; that question led to research, and the research led to public education.";
+  const closingTitle = ownerCopy["about.closing_title"] || "Translate the evidence. Keep the uncertainty visible.";
+  const closingBody = ownerCopy["about.closing_body"] || "Through Say No to Plastic, Dr. Haddad connects emerging human research with practical exposure-reduction guidance, while keeping detection, association, and causation separate.";
   const schema = {
     "@context": "https://schema.org",
     "@type": "Person",
@@ -63,9 +86,9 @@ export default function AboutPage() {
 
           <div className={styles.heroCopy}>
             <p className="eyebrow">Behind the science</p>
-            <h1 id="about-title">Meet Dr. Elie Haddad</h1>
-            <p className={styles.heroLead}>Dr. Elie R. Haddad is a cardiologist and cardiac electrophysiologist with more than two decades of clinical experience, as well as an author, educator, and TEDx speaker.</p>
-            <p className={styles.heroLead}>Say No to Plastic grew from a physician&apos;s question: what environmental influences are we overlooking when illness appears earlier, more often, and in people who do not fit the expected pattern?</p>
+            <h1 id="about-title">{heroTitle}</h1>
+            <p className={styles.heroLead}>{heroLeadPrimary}</p>
+            <p className={styles.heroLead}>{heroLeadSecondary}</p>
             <div className={styles.credentials} aria-label="Professional roles">
               <span>Cardiologist</span><span>Cardiac electrophysiologist</span><span>Author</span><span>TEDx speaker</span>
             </div>
@@ -79,16 +102,16 @@ export default function AboutPage() {
         <section id="why" className={styles.reason} aria-labelledby="why-title">
           <p className={styles.sectionIndex}>01 · Why he cares</p>
           <div className={styles.sectionCopy}>
-            <h2 id="why-title">The question started in the clinic.</h2>
-            <p>Years of caring for people with cardiovascular disease made Dr. Haddad interested not only in how illness is treated, but why it develops and what might be preventable.</p>
-            <p>That inquiry expanded from genetics and lifestyle to the world around us. Microplastics became one part of a much broader question about repeated environmental exposure across a lifetime.</p>
+            <h2 id="why-title">{whyTitle}</h2>
+            <p>{whyBodyPrimary}</p>
+            <p>{whyBodySecondary}</p>
           </div>
         </section>
 
         <section className={styles.story} aria-labelledby="story-title">
           <div className={styles.storyHeading}>
-            <div><p className={styles.sectionIndex}>02 · The path</p><h2 id="story-title">From cardiology to environmental inquiry.</h2></div>
-            <p>Clinical work led to a broader question; that question led to research, and the research led to public education.</p>
+            <div><p className={styles.sectionIndex}>02 · The path</p><h2 id="story-title">{storyTitle}</h2></div>
+            <p>{storyIntro}</p>
           </div>
           <div className={styles.storyRows}>
             {story.map((item, index) => (
@@ -104,8 +127,8 @@ export default function AboutPage() {
         <section className={styles.closing} aria-labelledby="work-title">
           <div className={styles.closingCopy}>
             <p className={styles.sectionIndex}>03 · The work now</p>
-            <h2 id="work-title">Translate the evidence. Keep the uncertainty visible.</h2>
-            <p>Through Say No to Plastic, Dr. Haddad connects emerging human research with practical exposure-reduction guidance, while keeping detection, association, and causation separate.</p>
+            <h2 id="work-title">{closingTitle}</h2>
+            <p>{closingBody}</p>
           </div>
 
           <nav className={styles.linkList} aria-label="Explore Dr. Haddad's work">

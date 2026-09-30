@@ -4,6 +4,8 @@ import { TrackedLink } from "../components/TrackedLink";
 import { getAdminContentValues } from "../lib/admin-content";
 import styles from "./about.module.css";
 
+export const dynamic = "force-dynamic";
+
 const description = "Meet Elie R. Haddad, MD, the cardiologist and cardiac electrophysiologist behind Say No to Plastic and Homo Plasticus.";
 
 export const metadata: Metadata = {

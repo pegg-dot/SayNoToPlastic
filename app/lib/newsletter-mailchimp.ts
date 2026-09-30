@@ -25,7 +25,17 @@ function authHeader(apiKey: string) {
   return `Basic ${btoa(`say-no-to-plastic:${apiKey}`)}`;
 }
 
+function escapeEmailHtml(value: string) {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
 function emailHtml(title: string, contentHtml: string, webUrl: string) {
+  const safeTitle = escapeEmailHtml(title);
+  const safeWebUrl = escapeEmailHtml(webUrl);
   return `<!doctype html>
 <html>
 <body style="margin:0;padding:0;background:#07111d;">
@@ -37,13 +47,13 @@ function emailHtml(title: string, contentHtml: string, webUrl: string) {
 </td></tr>
 <tr><td style="padding:48px 42px 14px;">
 <div style="font:700 10px Arial,sans-serif;letter-spacing:2px;text-transform:uppercase;color:#d7a967;">FIELD NOTES</div>
-<h1 style="margin:15px 0 0;font:400 42px/1.08 Georgia,serif;color:#fff;">${title}</h1>
+<h1 style="margin:15px 0 0;font:400 42px/1.08 Georgia,serif;color:#fff;">${safeTitle}</h1>
 </td></tr>
 <tr><td style="padding:10px 42px 36px;font:17px/1.7 Georgia,serif;color:#d3d8dd;">
 <div class="newsletter-content">${contentHtml}</div>
 </td></tr>
 <tr><td style="padding:0 42px 42px;">
-<a href="${webUrl}" style="display:inline-block;padding:14px 20px;background:#d7a967;color:#07111d;font:700 11px Arial,sans-serif;letter-spacing:1.3px;text-transform:uppercase;text-decoration:none;">Read on the website →</a>
+<a href="${safeWebUrl}" style="display:inline-block;padding:14px 20px;background:#d7a967;color:#07111d;font:700 11px Arial,sans-serif;letter-spacing:1.3px;text-transform:uppercase;text-decoration:none;">Read on the website →</a>
 </td></tr>
 <tr><td style="padding:30px 42px 38px;background:#07111d;text-align:center;color:#8d969f;font:10px/1.7 Arial,sans-serif;">
 <p>You’re receiving this email because you subscribed to Say No To Plastic Field Notes.</p>

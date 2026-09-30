@@ -2,7 +2,9 @@
   "name": "homo-plasticus",
   "version": "0.1.0",
   "private": true,
-  "engines": { "node": ">=22.13.0" },
+  "engines": {
+    "node": ">=22.13.0"
+  },
   "scripts": {
     "install:ci": "bash scripts/install-ci.sh",
     "prepare:podcast-artwork": "node scripts/prepare-podcast-artwork.mjs",
@@ -63,7 +65,8 @@
     "next": "16.2.6",
     "react": "19.2.6",
     "react-dom": "19.2.6",
-    "three": "^0.185.1"
+    "three": "^0.185.1",
+    "fflate": "0.7.4"
   },
   "devDependencies": {
     "@cloudflare/vite-plugin": "1.37.1",

@@ -180,6 +180,12 @@ export async function getPublishedNewsletter(slug: string) {
   return rows[0] || null;
 }
 
+export async function getNewsletterById(id: number) {
+  const db = await getDb();
+  const rows = await db.select().from(newsletters).where(eq(newsletters.id, id)).limit(1);
+  return rows[0] || null;
+}
+
 export async function createNewsletterFromDocx(input: {
   filename: string;
   bytes: Uint8Array;

@@ -245,6 +245,20 @@ export async function updateNewsletter(input: {
   return updated[0];
 }
 
+export async function deleteNewsletter(id: number) {
+  const db = await getDb();
+  const rows = await db.select().from(newsletters).where(eq(newsletters.id, id)).limit(1);
+  const current = rows[0];
+  if (!current) throw new Error("Newsletter not found.");
+
+  await db.delete(newsletters).where(eq(newsletters.id, id));
+  return {
+    id,
+    wasPublished: Boolean(current.published),
+    mailchimpDraftPreserved: Boolean(current.mailchimpCampaignId),
+  };
+}
+
 export async function markNewsletterMailchimpDraft(id: number, campaignId: string) {
   const db = await getDb();
   const now = new Date().toISOString();

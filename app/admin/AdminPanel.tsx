@@ -461,12 +461,13 @@ export function AdminPanel({
 
       {section === "pages" && (() => {
         const page = OWNER_PAGE_DEFINITIONS.find((candidate) => candidate.id === selectedPage) || OWNER_PAGE_DEFINITIONS[0];
+        const isScience = page.kind === "science";
         return (
           <div className={styles.editorPage}>
             <div className={styles.editorHeader}>
               <div>
                 <button className={styles.backButton} type="button" onClick={() => goTo("dashboard")}>← Back to home</button>
-                <p className={styles.kicker}>Page manager</p>
+                <p className={styles.kicker}>Website pages</p>
                 <h2>{page.label}</h2>
                 <p>{page.description}</p>
               </div>
@@ -477,79 +478,78 @@ export function AdminPanel({
               <aside className={styles.pageTree} aria-label="Website pages">
                 <strong>Website pages</strong>
                 {OWNER_PAGE_DEFINITIONS.map((item) => (
-                  <button key={item.id} type="button" className={item.id === selectedPage ? styles.pageTreeActive : ""} onClick={() => { setSelectedPage(item.id); setEditingKey(null); }}>
+                  <button key={item.id} type="button" className={item.id === selectedPage ? styles.pageTreeActive : ""} onClick={() => { setSelectedPage(item.id); setEditingKey(null); clearPreviewFocus(); }}>
                     <span>{item.label}</span>
                     <small>{item.href}</small>
                   </button>
                 ))}
-                <div className={styles.pageTreeLocked}>
-                  <span>Science</span>
-                  <small>Use the dedicated Science tab for structured research records.</small>
-                </div>
               </aside>
 
               <div className={styles.pageCmsMain}>
-                <section className={styles.livePreviewCard}>
-                  <div className={styles.livePreviewHeader}>
-                    <div><span>Live page preview</span><small>Updates reload here after you publish a field.</small></div>
-                    <a href={page.href} target="_blank" rel="noreferrer">Full page ↗</a>
-                  </div>
-                  <div className={styles.livePreviewFrame}>
-                    <iframe key={`${page.id}-${previewRevision}`} src={page.href} title={`${page.label} live preview`} loading="lazy" />
-                  </div>
-                </section>
+                {isScience ? (
+                  <>
+                    <section className={styles.livePreviewCard}>
+                      <div className={styles.livePreviewHeader}>
+                        <div><span>Live Science page</span><small>Science uses structured fields so evidence, sources, and uncertainty stay together.</small></div>
+                        <a href="/science" target="_blank" rel="noreferrer">Full page ↗</a>
+                      </div>
+                      <div className={styles.livePreviewFrame}>
+                        <iframe key={`science-${previewRevision}`} src="/science" title="Science page live preview" loading="lazy" />
+                      </div>
+                    </section>
 
-                {page.note ? <div className={styles.pageEditorNote}><strong>Protected content</strong><span>{page.note}</span></div> : null}
+                    <div className={styles.pageEditorNote}><strong>Why this editor looks different</strong><span>Science is still a website page, but research cannot safely be edited like ordinary marketing copy. The interface keeps study methods, sample, limitations, sources, and review status attached to the claim.</span></div>
 
-                <section className={styles.settingsList}>
-                  <div className={styles.settingsIntro}>
-                    <h3>Editable page content</h3>
-                    <p>Open only the section you want to change. Every saved change keeps revision history and can be restored.</p>
+                    <ScienceManager
+                      value={records["science.entries_json"]?.value ?? ""}
+                      saveState={saveStates["science.entries_json"]}
+                      onSave={(value) => saveValue("science.entries_json", value)}
+                    />
+
+                    <BodySystemManager
+                      value={records["science.body_systems_json"]?.value ?? ""}
+                      saveState={saveStates["science.body_systems_json"]}
+                      previewRevision={previewRevision}
+                      onSave={(value) => saveValue("science.body_systems_json", value)}
+                    />
+                  </>
+                ) : (
+                  <div className={styles.contextEditorLayout}>
+                    <section className={styles.contextFieldPane}>
+                      <div className={styles.settingsIntro}>
+                        <p className={styles.kicker}>Edit in context</p>
+                        <h3>Click a section here or directly in the preview.</h3>
+                        <p>The preview stays beside you. When you choose a field, the exact place it controls is highlighted. Typing into most text fields previews the wording before you publish.</p>
+                      </div>
+                      {page.note ? <div className={styles.pageEditorNote}><strong>Protected content</strong><span>{page.note}</span></div> : null}
+                      <div className={styles.settingsList}>
+                        {page.fields.map(renderField)}
+                      </div>
+                    </section>
+
+                    <section className={`${styles.livePreviewCard} ${styles.contextPreview}`}>
+                      <div className={styles.livePreviewHeader}>
+                        <div><span>Page preview</span><small>Click highlighted text in the page to edit that exact content.</small></div>
+                        <a href={page.href} target="_blank" rel="noreferrer">Full page ↗</a>
+                      </div>
+                      <div className={styles.livePreviewFrame}>
+                        <iframe
+                          ref={previewFrameRef}
+                          key={`${page.id}-${previewRevision}`}
+                          src={page.href}
+                          title={`${page.label} live preview`}
+                          loading="lazy"
+                          onLoad={preparePreview}
+                        />
+                      </div>
+                    </section>
                   </div>
-                  {page.fields.map(renderField)}
-                </section>
+                )}
               </div>
             </div>
           </div>
         );
       })()}
-
-      {section === "science" && (
-        <div className={styles.editorPage}>
-          <div className={styles.editorHeader}>
-            <div>
-              <button className={styles.backButton} type="button" onClick={() => goTo("dashboard")}>← Back to home</button>
-              <p className={styles.kicker}>Science CMS</p>
-              <h2>Research studies</h2>
-              <p>Add new human evidence without turning the Science page into a generic text editor. Every public record keeps its source, method, sample, limitations, and why-it-matters explanation together.</p>
-            </div>
-            <a href="/science" target="_blank" rel="noreferrer">View Science page ↗</a>
-          </div>
-
-          <section className={styles.livePreviewCard}>
-            <div className={styles.livePreviewHeader}>
-              <div><span>Live Science page</span><small>Only studies marked Published and saved appear here.</small></div>
-              <a href="/science" target="_blank" rel="noreferrer">Full page ↗</a>
-            </div>
-            <div className={styles.livePreviewFrame}>
-              <iframe key={`science-${previewRevision}`} src="/science" title="Science page live preview" loading="lazy" />
-            </div>
-          </section>
-
-          <ScienceManager
-            value={records["science.entries_json"]?.value ?? ""}
-            saveState={saveStates["science.entries_json"]}
-            onSave={(value) => saveValue("science.entries_json", value)}
-          />
-
-          <BodySystemManager
-            value={records["science.body_systems_json"]?.value ?? ""}
-            saveState={saveStates["science.body_systems_json"]}
-            previewRevision={previewRevision}
-            onSave={(value) => saveValue("science.body_systems_json", value)}
-          />
-        </div>
-      )}
 
       {section === "newsletters" && (
         <div className={styles.editorPage}>

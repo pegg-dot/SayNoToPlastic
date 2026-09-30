@@ -26,6 +26,7 @@ export const OWNER_PAGE_DEFINITIONS: OwnerPageDefinition[] = [
     href: "/",
     description: "The main landing page, including the opening message, media handoff, and Field Notes signup.",
     fields: [
+      "site.notice",
       "home.hero_eyebrow",
       "home.hero_headline",
       "home.hero_deck",

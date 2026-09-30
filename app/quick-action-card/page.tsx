@@ -5,6 +5,8 @@ import { PrintButton } from "../components/PrintButton";
 import { authoredCardRemember, authoredQuickActionCard, coreRules } from "../content/actions";
 import { getAdminContentValues } from "../lib/admin-content";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Quick Action Card | Say No to Plastic",
   description: "The 12 immediate steps and three core rules from Homo Plasticus, reproduced as accessible live text.",

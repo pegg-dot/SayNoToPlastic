@@ -67,6 +67,12 @@ function emailHtml(title: string, contentHtml: string, webUrl: string) {
 </html>`;
 }
 
+export async function getNewsletterMailchimpAdminUrl() {
+  const env = await runtimeEnv();
+  const prefix = serverPrefix(env);
+  return prefix ? `https://${prefix}.admin.mailchimp.com/campaigns/` : "https://mailchimp.com/";
+}
+
 export async function createNewsletterCampaignDraft(input: {
   title: string;
   slug: string;

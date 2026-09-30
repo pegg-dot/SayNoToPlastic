@@ -41,14 +41,16 @@ export function NewsletterManager() {
   const [uploading, setUploading] = useState(false);
   const [uploadMessage, setUploadMessage] = useState("");
   const [uploadError, setUploadError] = useState("");
+  const [mailchimpUrl, setMailchimpUrl] = useState("https://mailchimp.com/");
 
   async function load() {
     setLoading(true);
     try {
       const response = await fetch("/admin/api/newsletters", { cache: "no-store" });
-      const body = await response.json() as { newsletters?: Newsletter[]; error?: string };
+      const body = await response.json() as { newsletters?: Newsletter[]; mailchimpUrl?: string; error?: string };
       if (!response.ok || !body.newsletters) throw new Error(body.error || "Unable to load newsletters.");
       setRows(body.newsletters.map(toRow));
+      if (body.mailchimpUrl) setMailchimpUrl(body.mailchimpUrl);
     } catch (error) {
       setUploadError(error instanceof Error ? error.message : "Unable to load newsletters.");
     } finally {
@@ -105,18 +107,25 @@ export function NewsletterManager() {
   }
 
   async function createMailchimp(row: RowState) {
+    const mailchimpWindow = window.open("about:blank", "_blank");
     patchRow(row.id, { busy: "mailchimp", message: "", error: "" });
     try {
       const response = await fetch(`/admin/api/newsletters/${row.id}/mailchimp`, { method: "POST" });
       const body = await response.json() as { newsletter?: Newsletter; mailchimpUrl?: string; error?: string };
       if (!response.ok || !body.newsletter) throw new Error(body.error || "Could not create Mailchimp draft.");
       const saved = body.newsletter;
+      const destination = body.mailchimpUrl || mailchimpUrl;
       setRows((current) => current.map((item) => item.id === row.id ? {
         ...toRow(saved),
         message: "Mailchimp draft created. Review and send it from Mailchimp.",
       } : item));
-      if (body.mailchimpUrl) window.open(body.mailchimpUrl, "_blank", "noopener,noreferrer");
+      if (body.mailchimpUrl) setMailchimpUrl(body.mailchimpUrl);
+      if (mailchimpWindow) {
+        mailchimpWindow.opener = null;
+        mailchimpWindow.location.href = destination;
+      }
     } catch (error) {
+      if (mailchimpWindow) mailchimpWindow.close();
       patchRow(row.id, { busy: undefined, error: error instanceof Error ? error.message : "Could not create Mailchimp draft." });
     }
   }
@@ -180,6 +189,7 @@ export function NewsletterManager() {
                 <div className={styles.newsletterLinks}>
                   <a href={`/admin/newsletters/${row.id}/preview`} target="_blank" rel="noreferrer">Preview ↗</a>
                   {row.published ? <a href={`/newsletters/${row.slug}`} target="_blank" rel="noreferrer">Open live issue ↗</a> : null}
+                  {row.mailchimpCampaignId ? <a href={mailchimpUrl} target="_blank" rel="noreferrer">Open Mailchimp ↗</a> : null}
                 </div>
               </div>
 

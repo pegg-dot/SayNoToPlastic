@@ -4,6 +4,8 @@ import { CheckoutButton } from "../components/CheckoutButton";
 import { BOOK } from "../config";
 import { getAdminContentValues } from "../lib/admin-content";
 
+export const dynamic = "force-dynamic";
+
 const description = `${BOOK.subtitle}. By ${BOOK.author}, with collaboration by ${BOOK.collaborator}.`;
 export const metadata: Metadata = { title: `${BOOK.title}, the Book | ${BOOK.author}`, description, alternates: { canonical: "/homo-plasticus" }, openGraph: { title: `${BOOK.title} | ${BOOK.author}`, description, url: "/homo-plasticus", siteName: "Say No to Plastic", type: "book", images: [{ url: "/book-official.webp", width: 1122, height: 1402, alt: `${BOOK.title} by ${BOOK.author}` }] }, twitter: { card: "summary", title: `${BOOK.title} | ${BOOK.author}`, description, images: ["/book-official.webp"] } };
 

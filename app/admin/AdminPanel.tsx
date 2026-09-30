@@ -192,7 +192,7 @@ export function AdminPanel({
     node.classList.add("sntp-owner-preview-target");
     node.scrollIntoView({ behavior: "smooth", block: "center" });
     if (scrollEditor) {
-      window.setTimeout(() => document.querySelector<HTMLElement>(\`[data-admin-field="\${key}"]\`)?.scrollIntoView({ behavior: "smooth", block: "center" }), 120);
+      window.setTimeout(() => document.querySelector<HTMLElement>(`[data-admin-field="${key}"]`)?.scrollIntoView({ behavior: "smooth", block: "center" }), 120);
     }
   }
 
@@ -204,11 +204,11 @@ export function AdminPanel({
     if (!style) {
       style = doc.createElement("style");
       style.id = "sntp-owner-preview-style";
-      style.textContent = \`
+      style.textContent = `
         [data-sntp-owner-field] { cursor: pointer !important; transition: outline-color .15s ease, box-shadow .15s ease; }
         [data-sntp-owner-field]:hover { outline: 2px dashed rgba(183,132,63,.8) !important; outline-offset: 4px !important; }
         .sntp-owner-preview-target { outline: 3px solid #c28b3c !important; outline-offset: 5px !important; box-shadow: 0 0 0 7px rgba(194,139,60,.14) !important; }
-      \`;
+      `;
       doc.head.appendChild(style);
     }
     page.previewTargets?.forEach((target) => {

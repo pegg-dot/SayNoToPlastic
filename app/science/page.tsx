@@ -8,7 +8,7 @@ import { externalStandards } from "../site-data";
 import { ScienceNavigator } from "./ScienceNavigator";
 import { DetectionPrimer } from "../components/DetectionPrimer";
 import { BodySystemLibrary } from "../components/BodySystemLibrary";
-import { bodySystems } from "../content/body-systems";
+import { getEffectiveBodySystems } from "../lib/body-system-overrides";
 
 export const dynamic = "force-dynamic";
 
@@ -141,7 +141,8 @@ function Study({ study, chapterNumber, studyNumber = 0, totalStudies = 0 }: { st
 }
 
 export default async function SciencePage() {
-  const ownerStudies = (await getOwnerScienceStudies()).filter((study) => study.published);
+  const [ownerStudyRecords, effectiveBodySystems] = await Promise.all([getOwnerScienceStudies(), getEffectiveBodySystems()]);
+  const ownerStudies = ownerStudyRecords.filter((study) => study.published);
   const effectiveChapters: EvidenceChapter[] = evidenceChapters.map((chapter) => {
     const additions = ownerStudies
       .filter((study) => study.chapterId === chapter.id)
@@ -244,7 +245,7 @@ export default async function SciencePage() {
 
         <div id="body-system-overviews">
           <BodySystemLibrary
-            items={bodySystems}
+            items={effectiveBodySystems}
             heading="Explore the body system by system."
             intro="Open an overview when you want the broader biological context around a study. The detailed source record stays with each topic."
           />

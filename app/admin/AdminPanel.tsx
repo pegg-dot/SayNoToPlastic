@@ -9,6 +9,7 @@ import type {
   OwnerMediaItemType,
 } from "../lib/admin-content";
 import type { AdminDashboardMetrics } from "../lib/admin-metrics";
+import { OWNER_PAGE_DEFINITIONS, type OwnerPageId } from "../lib/page-editor";
 import styles from "./admin.module.css";
 import { NewsletterManager } from "./NewsletterManager";
 
@@ -24,65 +25,27 @@ type Field = {
 };
 
 type SaveState = "idle" | "saving" | "saved" | "error";
-type SectionId = "dashboard" | "homepage" | "media" | "podcast" | "press" | "newsletters";
+type SectionId = "dashboard" | "pages" | "media" | "press" | "newsletters";
 
 const sections: Array<{ id: SectionId; label: string }> = [
   { id: "dashboard", label: "Home" },
-  { id: "homepage", label: "Homepage" },
-  { id: "media", label: "Events & TEDx" },
-  { id: "podcast", label: "Podcast" },
+  { id: "pages", label: "Pages" },
+  { id: "media", label: "Events & Media" },
   { id: "press", label: "Press kit" },
   { id: "newsletters", label: "Newsletters" },
 ];
 
-const fieldGroups: Record<Exclude<SectionId, "dashboard" | "newsletters">, AdminContentKey[]> = {
-  homepage: [
-    "site.notice",
-    "home.hero_eyebrow",
-    "home.hero_headline",
-    "home.hero_deck",
-    "home.media_heading",
-    "home.media_body",
-    "home.newsletter_heading",
-    "home.newsletter_body",
-  ],
-  media: [
-    "media.hero_heading",
-    "media.hero_intro",
-    "media.owner_update",
-    "tedx.video_url",
-    "tedx.status",
-  ],
-  podcast: [
-    "podcast.series_label",
-    "podcast.series_heading",
-    "podcast.series_body",
-    "podcast.spotify_url",
-    "podcast.apple_url",
-    "podcast.youtube_url",
-    "podcast.amazon_url",
-  ],
+const fieldGroups: Record<"media" | "press", AdminContentKey[]> = {
+  media: ["media.hero_heading", "media.hero_intro", "media.owner_update"],
   press: ["press.short_bio", "press.long_bio", "press.contact_email"],
 };
 
-const sectionCopy: Record<Exclude<SectionId, "dashboard" | "newsletters">, { title: string; body: string; previewHref: string; previewLabel: string }> = {
-  homepage: {
-    title: "Homepage",
-    body: "Change the wording visitors see on the main page. Nothing changes until you press Update live site.",
-    previewHref: "/",
-    previewLabel: "View homepage",
-  },
+const sectionCopy: Record<"media" | "press", { title: string; body: string; previewHref: string; previewLabel: string }> = {
   media: {
-    title: "Events & TEDx",
-    body: "Add appearances, post an update, or replace the TEDx video when the official version is released.",
+    title: "Events & Media",
+    body: "Add appearances or post a current public update.",
     previewHref: "/media",
     previewLabel: "View Events & Media",
-  },
-  podcast: {
-    title: "Beyond Plastic podcast",
-    body: "Update the podcast description and the places where people can listen.",
-    previewHref: "/podcast",
-    previewLabel: "View podcast page",
   },
   press: {
     title: "Press kit",
@@ -184,6 +147,8 @@ export function AdminPanel({
 }) {
   const initialMap = useMemo(() => new Map(initialContent.map((record) => [record.key, record])), [initialContent]);
   const [section, setSection] = useState<SectionId>("dashboard");
+  const [selectedPage, setSelectedPage] = useState<OwnerPageId>("homepage");
+  const [previewRevision, setPreviewRevision] = useState(0);
   const [editingKey, setEditingKey] = useState<AdminContentKey | null>(null);
   const [records, setRecords] = useState(() => Object.fromEntries(initialContent.map((record) => [record.key, record])) as Record<AdminContentKey, AdminContentRecord>);
   const [drafts, setDrafts] = useState(() => Object.fromEntries(fields.map((field) => [field.key, initialMap.get(field.key)?.value ?? ""])) as Record<AdminContentKey, string>);
@@ -199,6 +164,13 @@ export function AdminPanel({
 
   function goTo(next: SectionId, key?: AdminContentKey) {
     setSection(next);
+    setEditingKey(key ?? null);
+    window.setTimeout(() => window.scrollTo({ top: 0, behavior: "smooth" }), 0);
+  }
+
+  function goToPage(page: OwnerPageId, key?: AdminContentKey) {
+    setSelectedPage(page);
+    setSection("pages");
     setEditingKey(key ?? null);
     window.setTimeout(() => window.scrollTo({ top: 0, behavior: "smooth" }), 0);
   }
@@ -226,6 +198,7 @@ export function AdminPanel({
         createdAt: saved.updatedAt || new Date().toISOString(),
       }, ...current].slice(0, 80));
       setSaveStates((current) => ({ ...current, [key]: "saved" }));
+      setPreviewRevision((current) => current + 1);
       setMessages((current) => ({ ...current, [key]: saved.value ? "Updated on the live site" : "Original website content restored" }));
       window.setTimeout(() => setSaveStates((current) => ({ ...current, [key]: current[key] === "saved" ? "idle" : current[key] })), 2200);
       return saved;
@@ -349,10 +322,10 @@ export function AdminPanel({
             <h2>What do you want to change?</h2>
             <p>Pick a task. You will always see a clear button before anything is changed on the live website.</p>
             <div className={styles.actionGrid}>
-              <button type="button" onClick={() => goTo("homepage")}><span>01</span><strong>Edit the homepage</strong><small>Headlines, announcements, newsletter wording</small></button>
+              <button type="button" onClick={() => goTo("pages")}><span>01</span><strong>Edit a website page</strong><small>Choose a page, see it live, and edit its content</small></button>
               <button type="button" onClick={() => goTo("media")}><span>02</span><strong>Add an event or appearance</strong><small>Talks, interviews, press, podcast appearances</small></button>
-              <button type="button" onClick={() => goTo("media", "tedx.video_url")}><span>03</span><strong>Replace the TEDx video</strong><small>Paste the new YouTube link when it is ready</small></button>
-              <button type="button" onClick={() => goTo("podcast")}><span>04</span><strong>Update the podcast</strong><small>Description and listening links</small></button>
+              <button type="button" onClick={() => goToPage("tedx", "tedx.video_url")}><span>03</span><strong>Replace the TEDx video</strong><small>Paste the new YouTube link when it is ready</small></button>
+              <button type="button" onClick={() => goToPage("podcast")}><span>04</span><strong>Update the podcast</strong><small>Opening copy, series details, and listening links</small></button>
               <button type="button" onClick={() => goTo("press")}><span>05</span><strong>Update bio or press contact</strong><small>Biography and media email</small></button>
               <button type="button" onClick={() => goTo("newsletters")}><span>06</span><strong>Publish a newsletter</strong><small>Upload Word, preview, publish, create Mailchimp draft</small></button>
             </div>
@@ -400,6 +373,61 @@ export function AdminPanel({
         </div>
       )}
 
+      {section === "pages" && (() => {
+        const page = OWNER_PAGE_DEFINITIONS.find((candidate) => candidate.id === selectedPage) || OWNER_PAGE_DEFINITIONS[0];
+        return (
+          <div className={styles.editorPage}>
+            <div className={styles.editorHeader}>
+              <div>
+                <button className={styles.backButton} type="button" onClick={() => goTo("dashboard")}>← Back to home</button>
+                <p className={styles.kicker}>Page manager</p>
+                <h2>{page.label}</h2>
+                <p>{page.description}</p>
+              </div>
+              <a href={page.href} target="_blank" rel="noreferrer">Open live page ↗</a>
+            </div>
+
+            <div className={styles.pageCmsLayout}>
+              <aside className={styles.pageTree} aria-label="Website pages">
+                <strong>Website pages</strong>
+                {OWNER_PAGE_DEFINITIONS.map((item) => (
+                  <button key={item.id} type="button" className={item.id === selectedPage ? styles.pageTreeActive : ""} onClick={() => { setSelectedPage(item.id); setEditingKey(null); }}>
+                    <span>{item.label}</span>
+                    <small>{item.href}</small>
+                  </button>
+                ))}
+                <div className={styles.pageTreeLocked}>
+                  <span>Science</span>
+                  <small>Structured research editor comes next</small>
+                </div>
+              </aside>
+
+              <div className={styles.pageCmsMain}>
+                <section className={styles.livePreviewCard}>
+                  <div className={styles.livePreviewHeader}>
+                    <div><span>Live page preview</span><small>Updates reload here after you publish a field.</small></div>
+                    <a href={page.href} target="_blank" rel="noreferrer">Full page ↗</a>
+                  </div>
+                  <div className={styles.livePreviewFrame}>
+                    <iframe key={`${page.id}-${previewRevision}`} src={page.href} title={`${page.label} live preview`} loading="lazy" />
+                  </div>
+                </section>
+
+                {page.note ? <div className={styles.pageEditorNote}><strong>Protected content</strong><span>{page.note}</span></div> : null}
+
+                <section className={styles.settingsList}>
+                  <div className={styles.settingsIntro}>
+                    <h3>Editable page content</h3>
+                    <p>Open only the section you want to change. Every saved change keeps revision history and can be restored.</p>
+                  </div>
+                  {page.fields.map(renderField)}
+                </section>
+              </div>
+            </div>
+          </div>
+        );
+      })()}
+
       {section === "newsletters" && (
         <div className={styles.editorPage}>
           <div className={styles.editorHeader}>
@@ -410,7 +438,7 @@ export function AdminPanel({
         </div>
       )}
 
-      {section !== "dashboard" && section !== "newsletters" && (
+      {(section === "media" || section === "press") && (
         <div className={styles.editorPage}>
           <div className={styles.editorHeader}>
             <div><button className={styles.backButton} type="button" onClick={() => goTo("dashboard")}>← Back to home</button><h2>{sectionCopy[section].title}</h2><p>{sectionCopy[section].body}</p></div>
@@ -447,7 +475,7 @@ export function AdminPanel({
           )}
 
           <section className={styles.settingsList}>
-            <div className={styles.settingsIntro}><h3>{section === "homepage" ? "Homepage text" : section === "media" ? "Page text and TEDx" : section === "podcast" ? "Podcast details" : "Biography and contact"}</h3><p>Click Edit beside only the item you want to change.</p></div>
+            <div className={styles.settingsIntro}><h3>{section === "media" ? "Page text" : "Biography and contact"}</h3><p>Click Edit beside only the item you want to change.</p></div>
             {fieldGroups[section].map(renderField)}
           </section>
         </div>

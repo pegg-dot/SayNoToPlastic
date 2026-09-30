@@ -13,6 +13,7 @@ import { OWNER_PAGE_DEFINITIONS, type OwnerPageId } from "../lib/page-editor";
 import styles from "./admin.module.css";
 import { NewsletterManager } from "./NewsletterManager";
 import { ScienceManager } from "./ScienceManager";
+import { BodySystemManager } from "./BodySystemManager";
 
 type Field = {
   key: AdminContentKey;
@@ -457,6 +458,13 @@ export function AdminPanel({
             value={records["science.entries_json"]?.value ?? ""}
             saveState={saveStates["science.entries_json"]}
             onSave={(value) => saveValue("science.entries_json", value)}
+          />
+
+          <BodySystemManager
+            value={records["science.body_systems_json"]?.value ?? ""}
+            saveState={saveStates["science.body_systems_json"]}
+            previewRevision={previewRevision}
+            onSave={(value) => saveValue("science.body_systems_json", value)}
           />
         </div>
       )}

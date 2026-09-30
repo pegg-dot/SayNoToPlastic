@@ -27,7 +27,7 @@ expect(science.includes("getOwnerScienceStudies") && science.includes("effective
 expect(science.includes('export const dynamic = "force-dynamic"'), "Science page stays dynamic so owner publications appear without deployment.");
 expect(science.includes("totalStudies") && science.includes("researchStudies.length"), "Science study numbering and public counts adapt to owner-added research.");
 expect(admin.includes("Protected by structure") && admin.includes("required sources and limitations"), "Admin explains the structured science publishing boundary.");
-expect(adminApi.includes("MAX_ADMIN_BODY_BYTES = 96_000") && adminApi.includes("bodyIsReasonable(request, MAX_ADMIN_BODY_BYTES)"), "Structured science writes remain bounded and same endpoint protections are retained.");
+expect((adminApi.includes("MAX_ADMIN_BODY_BYTES = 96_000") || adminApi.includes("MAX_ADMIN_BODY_BYTES = 160_000")) && adminApi.includes("bodyIsReasonable(request, MAX_ADMIN_BODY_BYTES)"), "Structured science writes remain bounded and same endpoint protections are retained.");
 expect(build.includes("v40.45-science-cms"), "Build marker identifies structured Science CMS phase 3B.");
 
 for (const check of checks) console.log(`[${check.ok ? "PASS" : "FAIL"}] ${check.label}`);

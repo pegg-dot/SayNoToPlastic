@@ -4,7 +4,10 @@ import { Footer, Header } from "../../../components/SiteChrome";
 import { TrackedLink } from "../../../components/TrackedLink";
 import { BodySystemVisual } from "../../../components/BodySystemVisual";
 import { SITE_URL } from "../../../config";
-import { bodySystems, getBodySystem } from "../../../content/body-systems";
+import { bodySystems } from "../../../content/body-systems";
+import { getEffectiveBodySystem } from "../../../lib/body-system-overrides";
+
+export const dynamic = "force-dynamic";
 
 export function generateStaticParams() {
   return bodySystems.map((item) => ({ slug: item.slug }));
@@ -12,7 +15,7 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  const article = getBodySystem(slug);
+  const article = await getEffectiveBodySystem(slug);
   if (!article) return {};
   const title = `${article.title} and Microplastics | Say No to Plastic`;
   return {
@@ -34,7 +37,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function BodySystemPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const article = getBodySystem(slug);
+  const article = await getEffectiveBodySystem(slug);
   if (!article) notFound();
   const schema = {
     "@context": "https://schema.org",

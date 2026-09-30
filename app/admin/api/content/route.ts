@@ -7,7 +7,7 @@ import {
 import { bodyIsReasonable, isSameOrigin, readJsonBody } from "../../../lib/request-safety";
 
 export const dynamic = "force-dynamic";
-const MAX_ADMIN_BODY_BYTES = 96_000;
+const MAX_ADMIN_BODY_BYTES = 160_000;
 
 export async function GET() {
   const user = await getAdminUser();

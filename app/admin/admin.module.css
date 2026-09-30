@@ -1090,3 +1090,170 @@
   .bodySystemSources > div > button { grid-column: auto; }
   .bodySystemPreviewFrame { height: 350px; }
 }
+
+
+/* v40.47 contextual owner editor: flatter workspace with the live page kept beside the controls. */
+.workspace {
+  width: min(1440px, calc(100% - 32px));
+}
+
+.pageCmsLayout {
+  grid-template-columns: 180px minmax(0, 1fr);
+  gap: 16px;
+}
+
+.pageTree {
+  top: 16px;
+  gap: 1px;
+  padding: 4px 12px 4px 0;
+  border: 0;
+  border-right: 1px solid #ddd8ce;
+  border-radius: 0;
+  background: transparent;
+}
+
+.pageTree > strong {
+  padding: 4px 10px 10px;
+}
+
+.pageTree button {
+  padding: 10px;
+  border: 0;
+  border-left: 2px solid transparent;
+  border-radius: 0;
+}
+
+.pageTree button:hover {
+  border-color: transparent;
+  border-left-color: #d8c3a4;
+  background: rgba(255,255,255,.65);
+}
+
+.pageTreeActive {
+  border: 0 !important;
+  border-left: 2px solid #a97836 !important;
+  border-radius: 0 !important;
+  background: #fff !important;
+  box-shadow: none !important;
+}
+
+.contextEditorLayout {
+  display: grid;
+  grid-template-columns: minmax(360px, .82fr) minmax(500px, 1.18fr);
+  gap: 18px;
+  align-items: start;
+}
+
+.contextFieldPane {
+  min-width: 0;
+  border-top: 1px solid #ddd8ce;
+  background: #fff;
+}
+
+.contextFieldPane > .settingsIntro {
+  padding: 20px 20px 17px;
+  background: #faf8f3;
+}
+
+.contextFieldPane > .settingsIntro h3 {
+  margin: 5px 0 0;
+  font-size: 24px;
+  line-height: 1.12;
+}
+
+.contextFieldPane > .settingsIntro p:last-child {
+  margin-top: 8px;
+  line-height: 1.5;
+}
+
+.contextFieldPane .settingsList {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.contextFieldPane .settingCard {
+  border-bottom: 1px solid #e8e3da;
+}
+
+.contextFieldPane .settingCardOpen {
+  border-left: 3px solid #b7843f;
+  background: #fffaf1;
+}
+
+.contextFieldPane .settingSummary {
+  padding: 16px 18px;
+}
+
+.contextFieldPane .settingStatus b {
+  min-width: 76px;
+  text-align: right;
+}
+
+.contextFieldPane .settingEditor {
+  padding: 0 18px 20px;
+}
+
+.contextPreview {
+  position: sticky;
+  top: 16px;
+  border-radius: 8px;
+  box-shadow: none;
+}
+
+.contextPreview .livePreviewFrame {
+  height: 690px;
+}
+
+.livePreviewCard {
+  border-radius: 8px;
+  box-shadow: none;
+}
+
+.pageEditorNote {
+  margin: 0;
+  border-radius: 4px;
+  box-shadow: none;
+}
+
+@media (max-width: 1180px) {
+  .contextEditorLayout {
+    grid-template-columns: 1fr;
+  }
+  .contextPreview {
+    position: static;
+    grid-row: 1;
+  }
+  .contextPreview .livePreviewFrame {
+    height: 520px;
+  }
+}
+
+@media (max-width: 920px) {
+  .pageCmsLayout {
+    grid-template-columns: 1fr;
+  }
+  .pageTree {
+    position: static;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding: 0 0 12px;
+    border-right: 0;
+    border-bottom: 1px solid #ddd8ce;
+  }
+  .pageTree > strong {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 620px) {
+  .workspace {
+    width: auto;
+  }
+  .pageTree {
+    grid-template-columns: 1fr;
+  }
+  .contextPreview .livePreviewFrame {
+    height: 390px;
+  }
+}

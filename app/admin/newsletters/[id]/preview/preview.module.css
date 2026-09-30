@@ -1,0 +1,23 @@
+.page { min-height:100vh; background:#f4f0e7; color:#13202c; padding-bottom:80px; }
+.locked { min-height:100vh; display:grid; place-items:center; background:#f4f0e7; font-family:Arial,sans-serif; }
+.previewBar { position:sticky; top:0; z-index:5; display:flex; justify-content:space-between; gap:20px; align-items:center; padding:14px max(20px,calc((100vw - 900px)/2)); background:#0b1725; color:#fff; font-family:Arial,sans-serif; }
+.previewBar > div { display:grid; gap:2px; }
+.previewBar strong { font-size:12px; }
+.previewBar span { color:#9bacb9; font-size:10px; }
+.previewBar a { color:#e2ba79; font-size:11px; font-weight:700; text-decoration:none; }
+.article { width:min(760px,calc(100% - 40px)); margin:70px auto 0; }
+.article header { padding-bottom:34px; border-bottom:1px solid #cec7bb; }
+.article header p { margin:0 0 14px; color:#9b6d2e; font:800 10px Arial,sans-serif; letter-spacing:.17em; }
+.article h1 { margin:0; font:400 clamp(44px,7vw,68px)/1 Georgia,serif; letter-spacing:-.035em; }
+.body { padding:44px 0 25px; font:18px/1.78 Georgia,serif; color:#303a3f; }
+.body p { margin:0 0 24px; }
+.body h2 { margin:50px 0 18px; font:400 36px/1.1 Georgia,serif; }
+.body h3 { margin:40px 0 16px; font:400 28px/1.15 Georgia,serif; }
+.body h4 { margin:32px 0 12px; font:700 18px Arial,sans-serif; }
+.body ul { padding-left:24px; margin:0 0 25px; }
+.body li { margin:8px 0; }
+.body blockquote { margin:35px 0; padding-left:22px; border-left:2px solid #b7843f; color:#59625f; font-style:italic; }
+.body a { color:#795525; }
+.article footer { display:grid; gap:4px; padding-top:26px; border-top:1px solid #cec7bb; }
+.article footer strong { font:400 23px Georgia,serif; }
+.article footer span { color:#777; font:11px Arial,sans-serif; }

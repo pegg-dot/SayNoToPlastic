@@ -10,7 +10,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "", "/science", "/science/how-detection-works", "/science/exposome",
     "/solutions", "/solutions/reduce-exposure", "/quick-action-card", "/resources",
     "/homo-plasticus", "/recommendations", "/about-dr-elie-haddad", "/podcast", "/media",
-    "/media/press-kit", "/community", "/contact", "/editorial-policy",
+    "/media/press-kit", "/community", "/newsletters", "/contact", "/editorial-policy",
     "/medical-disclaimer", "/affiliate-disclosure", "/privacy-policy",
     "/refunds-and-returns", "/terms", "/accessibility",
   ];

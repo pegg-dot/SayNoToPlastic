@@ -10,6 +10,7 @@ import type {
 } from "../lib/admin-content";
 import type { AdminDashboardMetrics } from "../lib/admin-metrics";
 import styles from "./admin.module.css";
+import { NewsletterManager } from "./NewsletterManager";
 
 type Field = {
   key: AdminContentKey;
@@ -23,7 +24,7 @@ type Field = {
 };
 
 type SaveState = "idle" | "saving" | "saved" | "error";
-type SectionId = "dashboard" | "homepage" | "media" | "podcast" | "press";
+type SectionId = "dashboard" | "homepage" | "media" | "podcast" | "press" | "newsletters";
 
 const sections: Array<{ id: SectionId; label: string }> = [
   { id: "dashboard", label: "Home" },
@@ -31,9 +32,10 @@ const sections: Array<{ id: SectionId; label: string }> = [
   { id: "media", label: "Events & TEDx" },
   { id: "podcast", label: "Podcast" },
   { id: "press", label: "Press kit" },
+  { id: "newsletters", label: "Newsletters" },
 ];
 
-const fieldGroups: Record<Exclude<SectionId, "dashboard">, AdminContentKey[]> = {
+const fieldGroups: Record<Exclude<SectionId, "dashboard" | "newsletters">, AdminContentKey[]> = {
   homepage: [
     "site.notice",
     "home.hero_eyebrow",
@@ -63,7 +65,7 @@ const fieldGroups: Record<Exclude<SectionId, "dashboard">, AdminContentKey[]> = 
   press: ["press.short_bio", "press.long_bio", "press.contact_email"],
 };
 
-const sectionCopy: Record<Exclude<SectionId, "dashboard">, { title: string; body: string; previewHref: string; previewLabel: string }> = {
+const sectionCopy: Record<Exclude<SectionId, "dashboard" | "newsletters">, { title: string; body: string; previewHref: string; previewLabel: string }> = {
   homepage: {
     title: "Homepage",
     body: "Change the wording visitors see on the main page. Nothing changes until you press Update live site.",
@@ -352,6 +354,7 @@ export function AdminPanel({
               <button type="button" onClick={() => goTo("media", "tedx.video_url")}><span>03</span><strong>Replace the TEDx video</strong><small>Paste the new YouTube link when it is ready</small></button>
               <button type="button" onClick={() => goTo("podcast")}><span>04</span><strong>Update the podcast</strong><small>Description and listening links</small></button>
               <button type="button" onClick={() => goTo("press")}><span>05</span><strong>Update bio or press contact</strong><small>Biography and media email</small></button>
+              <button type="button" onClick={() => goTo("newsletters")}><span>06</span><strong>Publish a newsletter</strong><small>Upload Word, preview, publish, create Mailchimp draft</small></button>
             </div>
           </section>
 
@@ -397,7 +400,17 @@ export function AdminPanel({
         </div>
       )}
 
-      {section !== "dashboard" && (
+      {section === "newsletters" && (
+        <div className={styles.editorPage}>
+          <div className={styles.editorHeader}>
+            <div><button className={styles.backButton} type="button" onClick={() => goTo("dashboard")}>← Back to home</button><h2>Newsletters</h2><p>Upload the Word document, check the private preview, publish it to the Field Notes archive, then create a Mailchimp draft for final review and sending.</p></div>
+            <a href="/newsletters" target="_blank" rel="noreferrer">View Field Notes archive ↗</a>
+          </div>
+          <NewsletterManager />
+        </div>
+      )}
+
+      {section !== "dashboard" && section !== "newsletters" && (
         <div className={styles.editorPage}>
           <div className={styles.editorHeader}>
             <div><button className={styles.backButton} type="button" onClick={() => goTo("dashboard")}>← Back to home</button><h2>{sectionCopy[section].title}</h2><p>{sectionCopy[section].body}</p></div>

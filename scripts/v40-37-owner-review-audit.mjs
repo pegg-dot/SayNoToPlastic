@@ -24,7 +24,7 @@ const sitemap = read("app/sitemap.ts");
 const wrangler = read("wrangler.jsonc");
 const env = read(".env.example");
 
-expect(build.includes("v40.37.1-mailchimp-welcome-event") || build.includes("v40.38-owner-admin") || build.includes("v40.39-owner-editorial-admin") || build.includes("v40.40-owner-admin-usability-metrics") || build.includes("v40.41-owner-admin-simple-ui") || build.includes("v40.42-owner-cms-phase-1"), "Build retains the v40.37.1 owner-review/Mailchimp baseline or a validated successor.");
+expect(build.includes("v40.37.1-mailchimp-welcome-event") || build.includes("v40.38-owner-admin") || build.includes("v40.39-owner-editorial-admin") || build.includes("v40.40-owner-admin-usability-metrics") || build.includes("v40.41-owner-admin-simple-ui") || build.includes("v40.42-owner-cms-phase-1") || build.includes("v40.43-newsletter-manager"), "Build retains the v40.37.1 owner-review/Mailchimp baseline or a validated successor.");
 expect(chrome.includes('{ href: "/science", label: "The Science" }') && chrome.includes('{ href: "/solutions", label: "Take Action" }') && chrome.includes('{ href: "/quick-action-card", label: "Guides" }') && chrome.includes('{ href: "/podcast", label: "Podcast" }') && chrome.includes('{ href: "/tedx", label: "TEDx Talk" }'), "Primary navigation includes Science, Take Action, 12-step Guides, Podcast, and TEDx.");
 expect(chrome.indexOf('{ href: "/solutions", label: "Take Action" }') < chrome.indexOf('{ href: "/quick-action-card", label: "Guides" }'), "Guides appears immediately after Take Action in the primary navigation definition.");
 expect(!media.includes("High-resolution owner-approved media assets are still parked"), "Owner-requested Events & Media parked-assets sentence is removed.");

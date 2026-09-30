@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import type {
   AdminContentKey,
   AdminContentRecord,
@@ -27,12 +27,11 @@ type Field = {
 };
 
 type SaveState = "idle" | "saving" | "saved" | "error";
-type SectionId = "dashboard" | "pages" | "science" | "media" | "press" | "newsletters";
+type SectionId = "dashboard" | "pages" | "media" | "press" | "newsletters";
 
 const sections: Array<{ id: SectionId; label: string }> = [
   { id: "dashboard", label: "Home" },
   { id: "pages", label: "Pages" },
-  { id: "science", label: "Science" },
   { id: "media", label: "Events & Media" },
   { id: "press", label: "Press kit" },
   { id: "newsletters", label: "Newsletters" },
@@ -152,6 +151,7 @@ export function AdminPanel({
   const [section, setSection] = useState<SectionId>("dashboard");
   const [selectedPage, setSelectedPage] = useState<OwnerPageId>("homepage");
   const [previewRevision, setPreviewRevision] = useState(0);
+  const previewFrameRef = useRef<HTMLIFrameElement>(null);
   const [editingKey, setEditingKey] = useState<AdminContentKey | null>(null);
   const [records, setRecords] = useState(() => Object.fromEntries(initialContent.map((record) => [record.key, record])) as Record<AdminContentKey, AdminContentRecord>);
   const [drafts, setDrafts] = useState(() => Object.fromEntries(fields.map((field) => [field.key, initialMap.get(field.key)?.value ?? ""])) as Record<AdminContentKey, string>);
@@ -169,6 +169,88 @@ export function AdminPanel({
     setSection(next);
     setEditingKey(key ?? null);
     window.setTimeout(() => window.scrollTo({ top: 0, behavior: "smooth" }), 0);
+  }
+
+  function pageDefinition() {
+    return OWNER_PAGE_DEFINITIONS.find((candidate) => candidate.id === selectedPage) || OWNER_PAGE_DEFINITIONS[0];
+  }
+
+  function clearPreviewFocus() {
+    const doc = previewFrameRef.current?.contentDocument;
+    if (!doc) return;
+    doc.querySelectorAll(".sntp-owner-preview-target").forEach((node) => node.classList.remove("sntp-owner-preview-target"));
+  }
+
+  function focusPreview(key: AdminContentKey, scrollEditor = false) {
+    const page = pageDefinition();
+    const target = page.previewTargets?.find((item) => item.key === key);
+    const doc = previewFrameRef.current?.contentDocument;
+    if (!target || !doc) return;
+    clearPreviewFocus();
+    const node = doc.querySelector<HTMLElement>(target.selector);
+    if (!node) return;
+    node.classList.add("sntp-owner-preview-target");
+    node.scrollIntoView({ behavior: "smooth", block: "center" });
+    if (scrollEditor) {
+      window.setTimeout(() => document.querySelector<HTMLElement>(\`[data-admin-field="\${key}"]\`)?.scrollIntoView({ behavior: "smooth", block: "center" }), 120);
+    }
+  }
+
+  function preparePreview() {
+    const page = pageDefinition();
+    const doc = previewFrameRef.current?.contentDocument;
+    if (!doc) return;
+    let style = doc.getElementById("sntp-owner-preview-style");
+    if (!style) {
+      style = doc.createElement("style");
+      style.id = "sntp-owner-preview-style";
+      style.textContent = \`
+        [data-sntp-owner-field] { cursor: pointer !important; transition: outline-color .15s ease, box-shadow .15s ease; }
+        [data-sntp-owner-field]:hover { outline: 2px dashed rgba(183,132,63,.8) !important; outline-offset: 4px !important; }
+        .sntp-owner-preview-target { outline: 3px solid #c28b3c !important; outline-offset: 5px !important; box-shadow: 0 0 0 7px rgba(194,139,60,.14) !important; }
+      \`;
+      doc.head.appendChild(style);
+    }
+    page.previewTargets?.forEach((target) => {
+      doc.querySelectorAll<HTMLElement>(target.selector).forEach((node) => {
+        node.dataset.sntpOwnerField = target.key;
+      });
+    });
+    const flagged = doc as Document & { __sntpOwnerPreviewBound?: boolean };
+    if (!flagged.__sntpOwnerPreviewBound) {
+      flagged.__sntpOwnerPreviewBound = true;
+      doc.addEventListener("click", (event) => {
+        const target = event.target instanceof Element ? event.target.closest<HTMLElement>("[data-sntp-owner-field]") : null;
+        const key = target?.dataset.sntpOwnerField as AdminContentKey | undefined;
+        if (!key) return;
+        event.preventDefault();
+        event.stopPropagation();
+        setEditingKey(key);
+        window.setTimeout(() => focusPreview(key, true), 0);
+      }, true);
+    }
+    if (editingKey) window.setTimeout(() => focusPreview(editingKey), 0);
+  }
+
+  function previewDraft(key: AdminContentKey, value: string) {
+    const page = pageDefinition();
+    const target = page.previewTargets?.find((item) => item.key === key);
+    const doc = previewFrameRef.current?.contentDocument;
+    if (!target?.textPreview || !doc || !value.trim()) return;
+    const node = doc.querySelector<HTMLElement>(target.selector);
+    if (!node) return;
+    node.textContent = value;
+    node.classList.add("sntp-owner-preview-target");
+  }
+
+  function selectField(key: AdminContentKey, open: boolean) {
+    if (open) {
+      setEditingKey(null);
+      clearPreviewFocus();
+      return;
+    }
+    setEditingKey(key);
+    window.setTimeout(() => focusPreview(key), 0);
   }
 
   function goToPage(page: OwnerPageId, key?: AdminContentKey) {
@@ -244,15 +326,15 @@ export function AdminPanel({
     const fieldRevisions = revisions.filter((revision) => revision.key === key).slice(0, 3);
 
     return (
-      <article className={`${styles.settingCard} ${open ? styles.settingCardOpen : ""}`} key={key}>
-        <button className={styles.settingSummary} type="button" onClick={() => setEditingKey(open ? null : key)} aria-expanded={open}>
+      <article className={`${styles.settingCard} ${open ? styles.settingCardOpen : ""}`} key={key} data-admin-field={key}>
+        <button className={styles.settingSummary} type="button" onClick={() => selectField(key, open)} aria-expanded={open}>
           <div>
             <strong>{copy.label}</strong>
             <span>{copy.help}</span>
           </div>
           <div className={styles.settingStatus}>
             <small>{record?.value ? "Custom version is live" : "Original version is live"}</small>
-            <b>{open ? "Close" : "Edit"}</b>
+            <b>{open ? "Close" : "Show + edit"}</b>
           </div>
         </button>
 
@@ -331,7 +413,7 @@ export function AdminPanel({
               <button type="button" onClick={() => goToPage("podcast")}><span>04</span><strong>Update the podcast</strong><small>Opening copy, series details, and listening links</small></button>
               <button type="button" onClick={() => goTo("press")}><span>05</span><strong>Update bio or press contact</strong><small>Biography and media email</small></button>
               <button type="button" onClick={() => goTo("newsletters")}><span>06</span><strong>Publish a newsletter</strong><small>Upload Word, preview, publish, create Mailchimp draft</small></button>
-              <button type="button" onClick={() => goTo("science")}><span>07</span><strong>Add or review research</strong><small>Structured study fields, sources, limitations, draft or publish</small></button>
+              <button type="button" onClick={() => goToPage("science")}><span>07</span><strong>Add or review research</strong><small>Structured study fields, sources, limitations, draft or publish</small></button>
             </div>
           </section>
 

@@ -16,7 +16,7 @@ const subscribe = read("app/api/subscribe/route.ts");
 const audience = read("app/lib/audience-service.ts");
 const mailchimpEvents = read("app/lib/mailchimp-events.ts");
 
-expect(build.includes("v40.42-owner-cms-phase-1"), "Build is marked owner CMS phase 1.");
+expect(build.includes("v40.42-owner-cms-phase-1") || build.includes("v40.43-newsletter-manager"), "Build is marked owner CMS phase 1.");
 expect(tedx.includes("TEDxMiami") && tedx.includes("<FeatureVideo") && !tedx.includes("temporary audience recording") && !tedx.includes("official TEDx video has not yet been released"), "TEDx page keeps the player while removing temporary-status copy.");
 expect(media.includes("TEDxMiami") && media.includes("media-tedx-invisible-inheritance") && !media.includes("Temporary audience recording") && !media.includes("temporary audience-recorded"), "Events & Media keeps the TEDx player without temporary-status copy.");
 expect(adminPage.includes("Cloudflare Access will send a one-time code"), "Admin sign-in fallback explains the one-time-code flow.");

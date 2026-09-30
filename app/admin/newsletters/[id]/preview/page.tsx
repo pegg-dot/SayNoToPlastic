@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getAdminUser } from "../../../lib/admin-auth";
-import { getNewsletterById } from "../../../lib/newsletters";
+import { getAdminUser } from "../../../../lib/admin-auth";
+import { getNewsletterById } from "../../../../lib/newsletters";
 import styles from "./preview.module.css";
 
 export const dynamic = "force-dynamic";

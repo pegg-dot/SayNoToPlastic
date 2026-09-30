@@ -23,7 +23,7 @@ type Field = {
   maxLength: number;
   allowedValues?: string[];
   placeholder?: string;
-  surface?: "field" | "media";
+  surface?: "field" | "media" | "science";
 };
 
 type SaveState = "idle" | "saving" | "saved" | "error";
@@ -220,7 +220,8 @@ export function AdminPanel({
     if (!flagged.__sntpOwnerPreviewBound) {
       flagged.__sntpOwnerPreviewBound = true;
       doc.addEventListener("click", (event) => {
-        const target = event.target instanceof Element ? event.target.closest<HTMLElement>("[data-sntp-owner-field]") : null;
+        const rawTarget = event.target as HTMLElement | null;
+        const target = rawTarget?.closest?.("[data-sntp-owner-field]") as HTMLElement | null;
         const key = target?.dataset.sntpOwnerField as AdminContentKey | undefined;
         if (!key) return;
         event.preventDefault();
@@ -247,6 +248,7 @@ export function AdminPanel({
     if (open) {
       setEditingKey(null);
       clearPreviewFocus();
+      setPreviewRevision((current) => current + 1);
       return;
     }
     setEditingKey(key);

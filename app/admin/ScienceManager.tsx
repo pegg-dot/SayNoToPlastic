@@ -61,7 +61,7 @@ export function ScienceManager({
   const [studies, setStudies] = useState<OwnerScienceStudy[]>(() => parseStudies(value));
   const [message, setMessage] = useState("");
   const serialized = useMemo(() => JSON.stringify(studies), [studies]);
-  const dirty = serialized !== (value || "");
+  const dirty = serialized !== (value || "[]");
 
   useEffect(() => {
     setStudies(parseStudies(value));

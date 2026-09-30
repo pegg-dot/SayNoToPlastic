@@ -146,7 +146,8 @@ export function parseDocxNewsletter(input: Uint8Array, filename: string) {
   const firstHeading = blocks.find((block) => /^<h[234]>/.test(block));
   const headingText = firstHeading?.replace(/<[^>]+>/g, "").trim();
   const title = decodeXml(headingText || titleFromFilename(filename)).slice(0, 180);
-  const contentHtml = blocks.join("\n").replace(/(?:<li>[\s\S]*?<\/li>\n?)+/g, (group) => `<ul>${group}</ul>`);
+  const contentBlocks = firstHeading && headingText && decodeXml(headingText) === title ? blocks.filter((block) => block !== firstHeading) : blocks;
+  const contentHtml = contentBlocks.join("\n").replace(/(?:<li>[\s\S]*?<\/li>\n?)+/g, (group) => `<ul>${group}</ul>`);
 
   if (new TextEncoder().encode(contentHtml).byteLength > MAX_HTML_BYTES) {
     throw new Error("This newsletter is too large after import. Please use a shorter Word document.");

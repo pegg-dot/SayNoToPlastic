@@ -372,7 +372,7 @@ export function AdminPanel({
             )) : <div className={styles.emptyBox}>No owner changes yet. The site is using its original reviewed content.</div>}
           </section>
 
-          <div className={styles.safetyNote}><strong>Protected for safety</strong><span>Scientific claims, medical content, payments, hosting, passwords, and code cannot be changed from this page.</span></div>
+          <div className={styles.safetyNote}><strong>Protected by structure</strong><span>Scientific evidence is managed only through the structured Science editor with required sources and limitations. Payments, hosting, passwords, and code cannot be changed from this page.</span></div>
         </div>
       )}
 

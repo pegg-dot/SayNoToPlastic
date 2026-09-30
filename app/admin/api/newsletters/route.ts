@@ -1,5 +1,6 @@
 import { getAdminUser } from "../../../lib/admin-auth";
 import { createNewsletterFromDocx, listNewslettersForAdmin } from "../../../lib/newsletters";
+import { getNewsletterMailchimpAdminUrl } from "../../../lib/newsletter-mailchimp";
 import { bodyIsReasonable, isSameOrigin } from "../../../lib/request-safety";
 
 export const dynamic = "force-dynamic";
@@ -9,7 +10,7 @@ export async function GET() {
   const user = await getAdminUser();
   if (!user) return Response.json({ error: "Admin access required." }, { status: 401 });
   try {
-    return Response.json({ ok: true, newsletters: await listNewslettersForAdmin() });
+    return Response.json({ ok: true, newsletters: await listNewslettersForAdmin(), mailchimpUrl: await getNewsletterMailchimpAdminUrl() });
   } catch (error) {
     console.error("newsletter_list_failed", error);
     return Response.json({ error: "Newsletters are temporarily unavailable." }, { status: 503 });

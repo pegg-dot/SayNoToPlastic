@@ -6,6 +6,8 @@ import { coreRules } from "../content/actions";
 import { reduceExposureGroups } from "../content/haddad-topics";
 import { getAdminContentValues } from "../lib/admin-content";
 
+export const dynamic = "force-dynamic";
+
 const description = "A simple starting point for using less plastic around drinking water, food, heat, storage, and everyday products.";
 export const metadata: Metadata = {
   title: "Practical Action | Say No to Plastic",

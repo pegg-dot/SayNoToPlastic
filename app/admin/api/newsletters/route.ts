@@ -40,7 +40,7 @@ export async function POST(request: Request) {
       ok: true,
       newsletter: result.newsletter,
       warnings: result.imageCount > 0
-        ? [`The document contains ${result.imageCount} embedded image${result.imageCount === 1 ? "" : "s"}. This first version imports text, headings, links, and lists only, so add images in Mailchimp before sending if they are important.`]
+        ? [`The document contains ${result.imageCount} embedded image${result.imageCount === 1 ? "" : "s"}. This first version imports text, headings, links, and lists only. Embedded images will not appear on the website or in the Mailchimp draft, so add any important images in Mailchimp before sending.`]
         : [],
     }, { status: 201 });
   } catch (error) {

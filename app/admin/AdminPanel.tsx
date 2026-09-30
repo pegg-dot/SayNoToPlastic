@@ -347,14 +347,14 @@ export function AdminPanel({
 
             <label className={styles.editLabel} htmlFor={key}>New version</label>
             {field.kind === "enum" ? (
-              <select id={key} value={drafts[key]} onChange={(event) => setDrafts((current) => ({ ...current, [key]: event.target.value }))}>
+              <select id={key} value={drafts[key]} onChange={(event) => { const value = event.target.value; setDrafts((current) => ({ ...current, [key]: value })); previewDraft(key, value); }}>
                 <option value="">Use original setting</option>
                 {field.allowedValues?.map((value) => <option value={value} key={value}>{value === "official" ? "Official TEDx video" : value === "temporary" ? "Temporary recording" : value}</option>)}
               </select>
             ) : field.maxLength > 250 ? (
-              <textarea id={key} value={drafts[key]} maxLength={field.maxLength} placeholder={field.placeholder} onChange={(event) => setDrafts((current) => ({ ...current, [key]: event.target.value }))} />
+              <textarea id={key} value={drafts[key]} maxLength={field.maxLength} placeholder={field.placeholder} onChange={(event) => { const value = event.target.value; setDrafts((current) => ({ ...current, [key]: value })); previewDraft(key, value); }} />
             ) : (
-              <input id={key} type={field.kind === "url" ? "url" : field.kind === "email" ? "email" : "text"} value={drafts[key]} maxLength={field.maxLength} placeholder={field.placeholder} onChange={(event) => setDrafts((current) => ({ ...current, [key]: event.target.value }))} />
+              <input id={key} type={field.kind === "url" ? "url" : field.kind === "email" ? "email" : "text"} value={drafts[key]} maxLength={field.maxLength} placeholder={field.placeholder} onChange={(event) => { const value = event.target.value; setDrafts((current) => ({ ...current, [key]: value })); previewDraft(key, value); }} />
             )}
 
             <div className={styles.editorActions}>

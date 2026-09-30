@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Footer, Header } from "../components/SiteChrome";
 import { CheckoutButton } from "../components/CheckoutButton";
 import { BOOK } from "../config";
+import { getAdminContentValues } from "../lib/admin-content";
 
 const description = `${BOOK.subtitle}. By ${BOOK.author}, with collaboration by ${BOOK.collaborator}.`;
 export const metadata: Metadata = { title: `${BOOK.title}, the Book | ${BOOK.author}`, description, alternates: { canonical: "/homo-plasticus" }, openGraph: { title: `${BOOK.title} | ${BOOK.author}`, description, url: "/homo-plasticus", siteName: "Say No to Plastic", type: "book", images: [{ url: "/book-official.webp", width: 1122, height: 1402, alt: `${BOOK.title} by ${BOOK.author}` }] }, twitter: { card: "summary", title: `${BOOK.title} | ${BOOK.author}`, description, images: ["/book-official.webp"] } };
@@ -24,7 +25,23 @@ const bookTerritories = [
   { label:"The larger response", title:"What comes next", body:"How individual decisions, public choices and policy can shape the plastic story from here." },
 ];
 
-export default function BookPage(){
+export default async function BookPage(){
+  const ownerCopy = await getAdminContentValues([
+    "book.premise_title",
+    "book.premise_body",
+    "book.quote",
+    "book.territory_title",
+    "book.territory_intro",
+    "book.science_bridge_title",
+    "book.science_bridge_body",
+  ]);
+  const premiseTitle = ownerCopy["book.premise_title"] || "We built a world around plastic. Then plastic entered us.";
+  const premiseBody = ownerCopy["book.premise_body"] || `${BOOK.title} follows a material once celebrated for convenience as it fragmented into water, food, air, and the central questions of human biology. It brings historical context, emerging human evidence and practical response into one investigation for general readers.`;
+  const pullQuote = ownerCopy["book.quote"] || "The question is no longer only whether plastic is inside us. The question is what we choose to do with that knowledge.";
+  const territoryTitle = ownerCopy["book.territory_title"] || "The book reaches well beyond a four-part summary.";
+  const territoryIntro = ownerCopy["book.territory_intro"] || "This is a reading map—not the book's table of contents. It shows the territory without pretending the investigation stops at four labels.";
+  const scienceBridgeTitle = ownerCopy["book.science_bridge_title"] || "Explore the evidence directly.";
+  const scienceBridgeBody = ownerCopy["book.science_bridge_body"] || "The book provides the wider narrative. The Science section keeps the detailed studies, body-system context, and laboratory methods in one place when you want them.";
   const schema={"@context":"https://schema.org","@type":"FAQPage",mainEntity:faq.map(item=>({"@type":"Question",name:item.q,acceptedAnswer:{"@type":"Answer",text:item.a}}))};
   return <>
     <Header/>
@@ -47,17 +64,17 @@ export default function BookPage(){
         <div className="section-number">01</div>
         <div>
           <p className="eyebrow dark">Why this book</p>
-          <h2>We built a world around plastic. Then plastic entered us.</h2>
-          <p><em>{BOOK.title}</em> follows a material once celebrated for convenience as it fragmented into water, food, air, and the central questions of human biology. It brings historical context, emerging human evidence and practical response into one investigation for general readers.</p>
+          <h2>{premiseTitle}</h2>
+          <p>{premiseBody}</p>
         </div>
-        <blockquote>“The question is no longer only whether plastic is inside us. The question is what we choose to do with that knowledge.”</blockquote>
+        <blockquote>“{pullQuote}”</blockquote>
       </section>
 
       <section className="book-journey book-territory-section">
         <div className="book-territory-intro">
           <p className="eyebrow">A wider inquiry</p>
-          <h2>The book reaches well beyond a four-part summary.</h2>
-          <p>This is a reading map—not the book&apos;s table of contents. It shows the territory without pretending the investigation stops at four labels.</p>
+          <h2>{territoryTitle}</h2>
+          <p>{territoryIntro}</p>
         </div>
         <div className="book-territory-grid">
           {bookTerritories.map((item)=><article key={item.label}><span>{item.label}</span><h3>{item.title}</h3><p>{item.body}</p></article>)}
@@ -65,7 +82,7 @@ export default function BookPage(){
       </section>
 
       <section className="book-science-bridge ivory">
-        <div><p className="eyebrow dark">Go deeper after the book</p><h2>Explore the evidence directly.</h2><p>The book provides the wider narrative. The Science section keeps the detailed studies, body-system context, and laboratory methods in one place when you want them.</p></div>
+        <div><p className="eyebrow dark">Go deeper after the book</p><h2>{scienceBridgeTitle}</h2><p>{scienceBridgeBody}</p></div>
         <nav aria-label="Science links from the book"><a href="/science"><span>01</span><strong>Human studies</strong><b>→</b></a><a href="/science#body-system-overviews"><span>02</span><strong>Body systems</strong><b>→</b></a><a href="/science/how-detection-works"><span>03</span><strong>How detection works</strong><b>→</b></a></nav>
       </section>
 

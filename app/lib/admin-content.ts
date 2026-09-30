@@ -58,7 +58,8 @@ export type AdminContentKey =
   | "tedx.story_body_primary"
   | "tedx.story_body_secondary"
   | "podcast.hero_lead"
-  | "podcast.hero_body";
+  | "podcast.hero_body"
+  | "science.entries_json";
 
 type FieldKind = "url" | "enum" | "text" | "email" | "json";
 
@@ -71,7 +72,28 @@ type AdminFieldSpec = {
   allowedHosts?: string[];
   allowedValues?: string[];
   placeholder?: string;
-  surface?: "field" | "media";
+  surface?: "field" | "media" | "science";
+};
+
+export type OwnerScienceChapterId = "blood" | "brain" | "heart-arteries" | "pregnancy" | "placenta" | "ovary" | "testicular-tissue";
+
+export type OwnerScienceStudy = {
+  id: string;
+  chapterId: OwnerScienceChapterId;
+  headline: string;
+  stat: string;
+  statLabel: string;
+  finding: string;
+  meaning: string;
+  studyType: string;
+  sample: string;
+  method: string;
+  limits: string;
+  year: string;
+  journal: string;
+  source: string;
+  doi: string;
+  published: boolean;
 };
 
 export type OwnerMediaItemType = "event" | "talk" | "interview" | "podcast" | "press";
@@ -183,6 +205,14 @@ export const ADMIN_CONTENT_FIELDS: AdminFieldSpec[] = [
     kind: "json",
     maxLength: 24_000,
     surface: "media",
+  },
+  {
+    key: "science.entries_json",
+    label: "Owner-managed science studies",
+    description: "Structured owner-managed research records. Drafts stay private until explicitly published.",
+    kind: "json",
+    maxLength: 60_000,
+    surface: "science",
   },
   {
     key: "tedx.video_url",
@@ -589,10 +619,103 @@ function validateOwnerMediaItems(raw: string) {
   return JSON.stringify(items);
 }
 
+function validateOwnerScienceStudies(raw: string) {
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(raw || "[]");
+  } catch {
+    throw new Error("Science study data is invalid.");
+  }
+  if (!Array.isArray(parsed)) throw new Error("Science studies must be a list.");
+  if (parsed.length > 20) throw new Error("Keep owner-managed science studies to 20 items or fewer.");
+
+  const ids = new Set<string>();
+  const allowedChapters = new Set<OwnerScienceChapterId>(["blood", "brain", "heart-arteries", "pregnancy", "placenta", "ovary", "testicular-tissue"]);
+  const cleanText = (value: unknown, max: number) => typeof value === "string" ? value.trim().slice(0, max) : "";
+
+  const items = parsed.map((candidate, index) => {
+    if (!candidate || typeof candidate !== "object") throw new Error(`Science study ${index + 1} is invalid.`);
+    const item = candidate as Record<string, unknown>;
+    const id = cleanText(item.id, 60).toLowerCase();
+    const chapterId = cleanText(item.chapterId, 40) as OwnerScienceChapterId;
+    const headline = cleanText(item.headline, 180);
+    const stat = cleanText(item.stat, 80);
+    const statLabel = cleanText(item.statLabel, 180);
+    const finding = cleanText(item.finding, 900);
+    const meaning = cleanText(item.meaning, 900);
+    const studyType = cleanText(item.studyType, 180);
+    const sample = cleanText(item.sample, 700);
+    const method = cleanText(item.method, 700);
+    const limits = cleanText(item.limits, 1_000);
+    const year = cleanText(item.year, 40);
+    const journal = cleanText(item.journal, 180);
+    const sourceRaw = cleanText(item.source, 500);
+    const doi = cleanText(item.doi, 200);
+    const published = item.published === true;
+
+    if (!/^[a-z0-9][a-z0-9-]{3,59}$/.test(id)) throw new Error(`Science study ${index + 1} needs a valid internal ID.`);
+    if (ids.has(id)) throw new Error(`Duplicate science study ID: ${id}`);
+    ids.add(id);
+    if (!allowedChapters.has(chapterId)) throw new Error(`Science study ${index + 1} needs a valid body-system chapter.`);
+
+    let source = "";
+    if (sourceRaw) source = validateUrl(sourceRaw, undefined);
+
+    if (published) {
+      const required = [
+        ["headline", headline],
+        ["stat", stat],
+        ["stat label", statLabel],
+        ["finding", finding],
+        ["why it matters", meaning],
+        ["study type", studyType],
+        ["sample", sample],
+        ["method", method],
+        ["limitations", limits],
+        ["year", year],
+        ["journal", journal],
+        ["source", source],
+      ] as const;
+      const missing = required.find(([, value]) => !value);
+      if (missing) throw new Error(`Science study ${index + 1} cannot be published without ${missing[0]}.`);
+    }
+
+    return {
+      id,
+      chapterId,
+      headline,
+      stat,
+      statLabel,
+      finding,
+      meaning,
+      studyType,
+      sample,
+      method,
+      limits,
+      year,
+      journal,
+      source,
+      doi,
+      published,
+    } satisfies OwnerScienceStudy;
+  });
+
+  return JSON.stringify(items);
+}
+
 export function parseOwnerMediaItems(value: string | null | undefined): OwnerMediaItem[] {
   if (!value) return [];
   try {
     return JSON.parse(validateOwnerMediaItems(value)) as OwnerMediaItem[];
+  } catch {
+    return [];
+  }
+}
+
+export function parseOwnerScienceStudies(value: string | null | undefined): OwnerScienceStudy[] {
+  if (!value) return [];
+  try {
+    return JSON.parse(validateOwnerScienceStudies(value)) as OwnerScienceStudy[];
   } catch {
     return [];
   }
@@ -609,7 +732,7 @@ export function validateAdminContentValue(key: AdminContentKey, rawValue: unknow
 
   if (field.kind === "url") return validateUrl(value, field.allowedHosts);
   if (field.kind === "email") return validateEmail(value);
-  if (field.kind === "json") return validateOwnerMediaItems(value);
+  if (field.kind === "json") return key === "science.entries_json" ? validateOwnerScienceStudies(value) : validateOwnerMediaItems(value);
   if (field.kind === "enum") {
     if (!field.allowedValues?.includes(value)) throw new Error(`Invalid value for ${field.label}.`);
     return value;
@@ -678,6 +801,11 @@ export async function getAdminContentValues(keys: AdminContentKey[]) {
 export async function getOwnerMediaItems() {
   const value = await getAdminContentValue("media.entries_json");
   return parseOwnerMediaItems(value);
+}
+
+export async function getOwnerScienceStudies() {
+  const value = await getAdminContentValue("science.entries_json");
+  return parseOwnerScienceStudies(value);
 }
 
 async function enforceTedxStateConsistency(

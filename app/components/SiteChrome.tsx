@@ -31,7 +31,7 @@ export function Header({ skipToContent = true }: { skipToContent?: boolean }) {
   const [notice, setNotice] = useState("");
   const toggleRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLElement>(null);
-  const forceSolid = pathname.startsWith("/resources/");
+  const forceSolid = pathname.startsWith("/resources/") || pathname.startsWith("/newsletters/");
 
   useEffect(() => {
     const controller = new AbortController();

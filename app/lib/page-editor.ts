@@ -8,7 +8,14 @@ export type OwnerPageId =
   | "tedx"
   | "media"
   | "solutions"
-  | "guides";
+  | "guides"
+  | "science";
+
+export type OwnerPreviewTarget = {
+  key: AdminContentKey;
+  selector: string;
+  textPreview?: boolean;
+};
 
 export type OwnerPageDefinition = {
   id: OwnerPageId;
@@ -16,6 +23,8 @@ export type OwnerPageDefinition = {
   href: string;
   description: string;
   fields: AdminContentKey[];
+  previewTargets?: OwnerPreviewTarget[];
+  kind?: "standard" | "science";
   note?: string;
 };
 
@@ -35,6 +44,16 @@ export const OWNER_PAGE_DEFINITIONS: OwnerPageDefinition[] = [
       "home.newsletter_heading",
       "home.newsletter_body",
     ],
+    previewTargets: [
+      { key: "site.notice", selector: ".site-owner-notice span", textPreview: true },
+      { key: "home.hero_eyebrow", selector: ".hp-hero-copy > .eyebrow" },
+      { key: "home.hero_headline", selector: ".hp-hero-copy h1 em", textPreview: true },
+      { key: "home.hero_deck", selector: ".hp-hero-deck", textPreview: true },
+      { key: "home.newsletter_heading", selector: "#join h2", textPreview: true },
+      { key: "home.newsletter_body", selector: "#join h2 + p", textPreview: true },
+      { key: "home.media_heading", selector: "#home-media-title", textPreview: true },
+      { key: "home.media_body", selector: ".hp-media-bridge > div:first-child > p:last-child", textPreview: true },
+    ],
   },
   {
     id: "about",
@@ -53,6 +72,18 @@ export const OWNER_PAGE_DEFINITIONS: OwnerPageDefinition[] = [
       "about.closing_title",
       "about.closing_body",
     ],
+    previewTargets: [
+      { key: "about.hero_title", selector: "#about-title", textPreview: true },
+      { key: "about.hero_lead_primary", selector: "#about-title + p", textPreview: true },
+      { key: "about.hero_lead_secondary", selector: "#about-title + p + p", textPreview: true },
+      { key: "about.why_title", selector: "#why-title", textPreview: true },
+      { key: "about.why_body_primary", selector: "#why-title + p", textPreview: true },
+      { key: "about.why_body_secondary", selector: "#why-title + p + p", textPreview: true },
+      { key: "about.story_title", selector: "#story-title", textPreview: true },
+      { key: "about.story_intro", selector: "section[aria-labelledby='story-title'] > div:first-child > p:last-child", textPreview: true },
+      { key: "about.closing_title", selector: "#work-title", textPreview: true },
+      { key: "about.closing_body", selector: "#work-title + p", textPreview: true },
+    ],
   },
   {
     id: "book",
@@ -67,6 +98,15 @@ export const OWNER_PAGE_DEFINITIONS: OwnerPageDefinition[] = [
       "book.territory_intro",
       "book.science_bridge_title",
       "book.science_bridge_body",
+    ],
+    previewTargets: [
+      { key: "book.premise_title", selector: ".book-premise h2", textPreview: true },
+      { key: "book.premise_body", selector: ".book-premise h2 + p", textPreview: true },
+      { key: "book.quote", selector: ".book-premise blockquote", textPreview: true },
+      { key: "book.territory_title", selector: ".book-territory-intro h2", textPreview: true },
+      { key: "book.territory_intro", selector: ".book-territory-intro h2 + p", textPreview: true },
+      { key: "book.science_bridge_title", selector: ".book-science-bridge h2", textPreview: true },
+      { key: "book.science_bridge_body", selector: ".book-science-bridge h2 + p", textPreview: true },
     ],
     note: "Price, checkout behavior, access recovery, and policy copy stay protected because they are tied to commerce and fulfillment.",
   },
@@ -86,6 +126,17 @@ export const OWNER_PAGE_DEFINITIONS: OwnerPageDefinition[] = [
       "podcast.youtube_url",
       "podcast.amazon_url",
     ],
+    previewTargets: [
+      { key: "podcast.hero_lead", selector: "main > section:first-of-type h1 + p", textPreview: true },
+      { key: "podcast.hero_body", selector: "main > section:first-of-type h1 + p + p", textPreview: true },
+      { key: "podcast.series_label", selector: "main > section:nth-of-type(2) > div:nth-child(2) > p:first-child", textPreview: true },
+      { key: "podcast.series_heading", selector: "main > section:nth-of-type(2) > div:nth-child(2) > h2", textPreview: true },
+      { key: "podcast.series_body", selector: "main > section:nth-of-type(2) > div:nth-child(2) > h2 + p", textPreview: true },
+      { key: "podcast.spotify_url", selector: "main > section:nth-of-type(3)" },
+      { key: "podcast.apple_url", selector: "main > section:nth-of-type(3)" },
+      { key: "podcast.youtube_url", selector: "main > section:nth-of-type(3)" },
+      { key: "podcast.amazon_url", selector: "main > section:nth-of-type(3)" },
+    ],
   },
   {
     id: "tedx",
@@ -99,6 +150,13 @@ export const OWNER_PAGE_DEFINITIONS: OwnerPageDefinition[] = [
       "tedx.story_body_primary",
       "tedx.story_body_secondary",
     ],
+    previewTargets: [
+      { key: "tedx.video_url", selector: ".media-feature" },
+      { key: "tedx.status", selector: ".media-feature" },
+      { key: "tedx.story_title", selector: ".media-inquiries > div h2", textPreview: true },
+      { key: "tedx.story_body_primary", selector: ".media-inquiries > div h2 + p", textPreview: true },
+      { key: "tedx.story_body_secondary", selector: ".media-inquiries > div h2 + p + p", textPreview: true },
+    ],
   },
   {
     id: "media",
@@ -109,6 +167,11 @@ export const OWNER_PAGE_DEFINITIONS: OwnerPageDefinition[] = [
       "media.hero_heading",
       "media.hero_intro",
       "media.owner_update",
+    ],
+    previewTargets: [
+      { key: "media.hero_heading", selector: ".media-hero h1", textPreview: true },
+      { key: "media.hero_intro", selector: ".media-hero h1 + p", textPreview: true },
+      { key: "media.owner_update", selector: ".media-hero" },
     ],
     note: "Appearances and events are still managed in the dedicated Events & Media tool so they keep their date, type, link, and publish controls.",
   },
@@ -127,6 +190,16 @@ export const OWNER_PAGE_DEFINITIONS: OwnerPageDefinition[] = [
       "solutions.framework_title",
       "solutions.framework_intro",
     ],
+    previewTargets: [
+      { key: "solutions.hero_title", selector: ".solutions-hero > div > h1", textPreview: true },
+      { key: "solutions.hero_body", selector: ".solutions-hero > div > h1 + p", textPreview: true },
+      { key: "solutions.approach_title", selector: ".solutions-hero aside strong", textPreview: true },
+      { key: "solutions.approach_body", selector: ".solutions-hero aside strong + p", textPreview: true },
+      { key: "solutions.core_title", selector: "#first-three h2", textPreview: true },
+      { key: "solutions.core_intro", selector: "#first-three h2 + p", textPreview: true },
+      { key: "solutions.framework_title", selector: "#solutions-exposure-title", textPreview: true },
+      { key: "solutions.framework_intro", selector: "#solutions-exposure-title + p", textPreview: true },
+    ],
     note: "The reviewed action rules and source-backed guidance remain structured content. This editor changes the framing around them.",
   },
   {
@@ -138,7 +211,19 @@ export const OWNER_PAGE_DEFINITIONS: OwnerPageDefinition[] = [
       "guides.hero_title",
       "guides.hero_body",
     ],
+    previewTargets: [
+      { key: "guides.hero_title", selector: ".quick-card-intro h1", textPreview: true },
+      { key: "guides.hero_body", selector: ".quick-card-intro h1 + p", textPreview: true },
+    ],
     note: "The 12 authored steps and three core rules stay locked to the reviewed source text instead of becoming free-form website copy.",
+  },
+  {
+    id: "science",
+    label: "Science",
+    href: "/science",
+    description: "Research studies and body-system explainers. This page uses structured evidence fields so sources, methods, and uncertainty stay attached.",
+    fields: [],
+    kind: "science",
   },
 ];
 

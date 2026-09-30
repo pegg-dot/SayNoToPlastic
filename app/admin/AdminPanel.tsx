@@ -12,6 +12,7 @@ import type { AdminDashboardMetrics } from "../lib/admin-metrics";
 import { OWNER_PAGE_DEFINITIONS, type OwnerPageId } from "../lib/page-editor";
 import styles from "./admin.module.css";
 import { NewsletterManager } from "./NewsletterManager";
+import { ScienceManager } from "./ScienceManager";
 
 type Field = {
   key: AdminContentKey;
@@ -25,11 +26,12 @@ type Field = {
 };
 
 type SaveState = "idle" | "saving" | "saved" | "error";
-type SectionId = "dashboard" | "pages" | "media" | "press" | "newsletters";
+type SectionId = "dashboard" | "pages" | "science" | "media" | "press" | "newsletters";
 
 const sections: Array<{ id: SectionId; label: string }> = [
   { id: "dashboard", label: "Home" },
   { id: "pages", label: "Pages" },
+  { id: "science", label: "Science" },
   { id: "media", label: "Events & Media" },
   { id: "press", label: "Press kit" },
   { id: "newsletters", label: "Newsletters" },
@@ -328,6 +330,7 @@ export function AdminPanel({
               <button type="button" onClick={() => goToPage("podcast")}><span>04</span><strong>Update the podcast</strong><small>Opening copy, series details, and listening links</small></button>
               <button type="button" onClick={() => goTo("press")}><span>05</span><strong>Update bio or press contact</strong><small>Biography and media email</small></button>
               <button type="button" onClick={() => goTo("newsletters")}><span>06</span><strong>Publish a newsletter</strong><small>Upload Word, preview, publish, create Mailchimp draft</small></button>
+              <button type="button" onClick={() => goTo("science")}><span>07</span><strong>Add or review research</strong><small>Structured study fields, sources, limitations, draft or publish</small></button>
             </div>
           </section>
 
@@ -369,7 +372,7 @@ export function AdminPanel({
             )) : <div className={styles.emptyBox}>No owner changes yet. The site is using its original reviewed content.</div>}
           </section>
 
-          <div className={styles.safetyNote}><strong>Protected for safety</strong><span>Scientific claims, medical content, payments, hosting, passwords, and code cannot be changed from this page.</span></div>
+          <div className={styles.safetyNote}><strong>Protected by structure</strong><span>Scientific evidence is managed only through the structured Science editor with required sources and limitations. Payments, hosting, passwords, and code cannot be changed from this page.</span></div>
         </div>
       )}
 
@@ -398,7 +401,7 @@ export function AdminPanel({
                 ))}
                 <div className={styles.pageTreeLocked}>
                   <span>Science</span>
-                  <small>Structured research editor comes next</small>
+                  <small>Use the dedicated Science tab for structured research records.</small>
                 </div>
               </aside>
 
@@ -427,6 +430,36 @@ export function AdminPanel({
           </div>
         );
       })()}
+
+      {section === "science" && (
+        <div className={styles.editorPage}>
+          <div className={styles.editorHeader}>
+            <div>
+              <button className={styles.backButton} type="button" onClick={() => goTo("dashboard")}>← Back to home</button>
+              <p className={styles.kicker}>Science CMS</p>
+              <h2>Research studies</h2>
+              <p>Add new human evidence without turning the Science page into a generic text editor. Every public record keeps its source, method, sample, limitations, and why-it-matters explanation together.</p>
+            </div>
+            <a href="/science" target="_blank" rel="noreferrer">View Science page ↗</a>
+          </div>
+
+          <section className={styles.livePreviewCard}>
+            <div className={styles.livePreviewHeader}>
+              <div><span>Live Science page</span><small>Only studies marked Published and saved appear here.</small></div>
+              <a href="/science" target="_blank" rel="noreferrer">Full page ↗</a>
+            </div>
+            <div className={styles.livePreviewFrame}>
+              <iframe key={`science-${previewRevision}`} src="/science" title="Science page live preview" loading="lazy" />
+            </div>
+          </section>
+
+          <ScienceManager
+            value={records["science.entries_json"]?.value ?? ""}
+            saveState={saveStates["science.entries_json"]}
+            onSave={(value) => saveValue("science.entries_json", value)}
+          />
+        </div>
+      )}
 
       {section === "newsletters" && (
         <div className={styles.editorPage}>

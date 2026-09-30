@@ -2,12 +2,15 @@ import type { Metadata } from "next";
 import { BOOK, SITE_URL } from "../config";
 import { Footer, Header } from "../components/SiteChrome";
 import { TrackedLink } from "../components/TrackedLink";
-import { evidenceChapters, evidenceStudies, type EvidenceStudy } from "../content/evidence";
+import { evidenceChapters, type EvidenceChapter, type EvidenceStudy } from "../content/evidence";
+import { getOwnerScienceStudies, type OwnerScienceStudy } from "../lib/admin-content";
 import { externalStandards } from "../site-data";
 import { ScienceNavigator } from "./ScienceNavigator";
 import { DetectionPrimer } from "../components/DetectionPrimer";
 import { BodySystemLibrary } from "../components/BodySystemLibrary";
 import { bodySystems } from "../content/body-systems";
+
+export const dynamic = "force-dynamic";
 
 const description = "A study-by-study human evidence record, body-system explainers, and detection methods for microplastics and nanoplastics.";
 
@@ -25,8 +28,6 @@ export const metadata: Metadata = {
   },
   twitter: { card: "summary_large_image", title: "Plastic in the Human Body: What the Studies Found", description, images: ["/evidence.webp"] },
 };
-
-const researchStudies = evidenceStudies.filter((study) => study.studyType !== "Anatomical context");
 
 const scienceChapterVisuals: Partial<Record<(typeof evidenceChapters)[number]["id"], { src: string; alt: string; width: number; height: number }>> = {
   blood: {
@@ -67,33 +68,29 @@ const scienceChapterVisuals: Partial<Record<(typeof evidenceChapters)[number]["i
   },
 };
 
-const schema = {
-  "@context": "https://schema.org",
-  "@type": "CollectionPage",
-  "@id": `${SITE_URL}/science#page`,
-  url: `${SITE_URL}/science`,
-  name: "Plastic in the Human Body: What the Studies Found",
-  description,
-  dateModified: "2026-08-05",
-  isPartOf: { "@id": `${SITE_URL}/#website` },
-  publisher: { "@id": `${SITE_URL}/#organization` },
-  mainEntity: {
-    "@type": "ItemList",
-    numberOfItems: researchStudies.length,
-    itemListElement: researchStudies.map((study, index) => ({
-      "@type": "ListItem",
-      position: index + 1,
-      item: {
-        "@type": "ScholarlyArticle",
-        name: study.headline,
-        datePublished: study.year,
-        isPartOf: { "@type": "Periodical", name: study.journal },
-        url: study.source,
-        sameAs: study.doi ? `https://doi.org/${study.doi}` : study.source,
-      },
-    })),
-  },
-};
+
+function ownerStudyToEvidence(study: OwnerScienceStudy, chapter: EvidenceChapter): EvidenceStudy {
+  return {
+    id: study.id,
+    navLabel: chapter.navLabel,
+    chapter: chapter.title,
+    context: chapter.id === "testicular-tissue" ? "male" : "maternal",
+    modelLabel: chapter.title,
+    headline: study.headline,
+    stat: study.stat,
+    statLabel: study.statLabel,
+    finding: study.finding,
+    meaning: study.meaning,
+    studyType: study.studyType,
+    sample: study.sample,
+    method: study.method,
+    limits: study.limits,
+    year: study.year,
+    journal: study.journal,
+    source: study.source,
+    doi: study.doi || undefined,
+  };
+}
 
 function StudyDetails({ study }: { study: EvidenceStudy }) {
   const isContext = study.studyType === "Anatomical context";
@@ -113,11 +110,11 @@ function StudyDetails({ study }: { study: EvidenceStudy }) {
   );
 }
 
-function Study({ study, chapterNumber, studyNumber = 0 }: { study: EvidenceStudy; chapterNumber: number; studyNumber?: number }) {
+function Study({ study, chapterNumber, studyNumber = 0, totalStudies = 0 }: { study: EvidenceStudy; chapterNumber: number; studyNumber?: number; totalStudies?: number }) {
   const isContext = study.studyType === "Anatomical context";
   return (
     <section className={`science-v2-study${isContext ? " science-v2-study-context" : ""}`} aria-labelledby={`${study.id}-title`}>
-      {studyNumber > 0 && <p className="science-v2-substudy">Study {studyNumber} of 2</p>}
+      {studyNumber > 0 && <p className="science-v2-substudy">Study {studyNumber} of {totalStudies}</p>}
       <h3 id={`${study.id}-title`}>{study.headline}</h3>
       <div className="science-v2-result">
         <p className="science-v2-stat"><strong>{study.stat}</strong><span>{study.statLabel}</span></p>
@@ -143,7 +140,43 @@ function Study({ study, chapterNumber, studyNumber = 0 }: { study: EvidenceStudy
   );
 }
 
-export default function SciencePage() {
+export default async function SciencePage() {
+  const ownerStudies = (await getOwnerScienceStudies()).filter((study) => study.published);
+  const effectiveChapters: EvidenceChapter[] = evidenceChapters.map((chapter) => {
+    const additions = ownerStudies
+      .filter((study) => study.chapterId === chapter.id)
+      .map((study) => ownerStudyToEvidence(study, chapter));
+    return additions.length ? { ...chapter, studies: [...chapter.studies, ...additions] } : chapter;
+  });
+  const researchStudies = effectiveChapters.flatMap((chapter) => chapter.studies).filter((study) => study.studyType !== "Anatomical context");
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "@id": `${SITE_URL}/science#page`,
+    url: `${SITE_URL}/science`,
+    name: "Plastic in the Human Body: What the Studies Found",
+    description,
+    dateModified: new Date().toISOString().slice(0, 10),
+    isPartOf: { "@id": `${SITE_URL}/#website` },
+    publisher: { "@id": `${SITE_URL}/#organization` },
+    mainEntity: {
+      "@type": "ItemList",
+      numberOfItems: researchStudies.length,
+      itemListElement: researchStudies.map((study, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        item: {
+          "@type": "ScholarlyArticle",
+          name: study.headline,
+          datePublished: study.year,
+          isPartOf: { "@type": "Periodical", name: study.journal },
+          url: study.source,
+          sameAs: study.doi ? `https://doi.org/${study.doi}` : study.source,
+        },
+      })),
+    },
+  };
+
   return (
     <>
       <Header skipToContent />
@@ -165,13 +198,13 @@ export default function SciencePage() {
             <p className="science-v2-hero-deck">Here is what researchers actually found—in plain language, with the numbers, the study limits, and every original paper.</p>
           </div>
           <dl className="science-v2-hero-facts">
-            <div><dt>07</dt><dd>Human research studies</dd></div>
+            <div><dt>{String(researchStudies.length).padStart(2, "0")}</dt><dd>Human research studies</dd></div>
             <div><dt>07</dt><dd>Body-system overviews</dd></div>
             <div><dt>100%</dt><dd>Original papers linked</dd></div>
           </dl>
         </section>
 
-        <ScienceNavigator chapters={evidenceChapters.map(({ id, navLabel }) => ({ id, navLabel }))} />
+        <ScienceNavigator chapters={effectiveChapters.map(({ id, navLabel }) => ({ id, navLabel }))} />
 
         <DetectionPrimer />
 
@@ -181,7 +214,7 @@ export default function SciencePage() {
             <h2>What the studies found—and why people are paying attention.</h2>
             <p>Detection is not the same as diagnosis. But these findings establish something important: plastic-derived material has reached human blood, brain, arteries, placenta and reproductive tissue.</p>
           </header>
-          {evidenceChapters.map((chapter, chapterIndex) => {
+          {effectiveChapters.map((chapter, chapterIndex) => {
             const chapterVisual = scienceChapterVisuals[chapter.id];
             return (
             <article id={chapter.id} className={`science-v2-chapter${chapter.id === "pregnancy" ? " science-v2-chapter-context" : ""}`} key={chapter.id}>
@@ -202,7 +235,7 @@ export default function SciencePage() {
                 )}
               </header>
               <div className="science-v2-chapter-studies">
-                {chapter.studies.map((study, studyIndex) => <Study key={study.id} study={study} chapterNumber={chapterIndex + 1} studyNumber={chapter.studies.length > 1 ? studyIndex + 1 : 0} />)}
+                {chapter.studies.map((study, studyIndex) => <Study key={study.id} study={study} chapterNumber={chapterIndex + 1} studyNumber={chapter.studies.length > 1 ? studyIndex + 1 : 0} totalStudies={chapter.studies.length} />)}
               </div>
             </article>
             );

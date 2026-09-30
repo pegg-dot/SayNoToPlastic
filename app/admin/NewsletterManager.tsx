@@ -19,7 +19,7 @@ type Newsletter = {
 type RowState = Newsletter & {
   draftTitle: string;
   draftExcerpt: string;
-  busy?: "saving" | "publishing" | "mailchimp";
+  busy?: "saving" | "publishing" | "mailchimp" | "deleting";
   message?: string;
   error?: string;
 };
@@ -121,6 +121,25 @@ export function NewsletterManager() {
     }
   }
 
+  async function removeNewsletter(row: RowState) {
+    const publicNote = row.published ? " It will disappear from the public Field Notes archive immediately." : "";
+    const emailNote = row.mailchimpCampaignId ? " Its Mailchimp draft will stay in Mailchimp so an email record is never removed by accident." : "";
+    if (!window.confirm(`Delete “${row.title}”?${publicNote}${emailNote} This cannot be undone on the website.`)) return;
+
+    patchRow(row.id, { busy: "deleting", message: "", error: "" });
+    try {
+      const response = await fetch(`/admin/api/newsletters/${row.id}`, { method: "POST" });
+      const body = await response.json() as { ok?: boolean; error?: string };
+      if (!response.ok || !body.ok) throw new Error(body.error || "Could not delete newsletter.");
+      setRows((current) => current.filter((item) => item.id !== row.id));
+      setUploadMessage(row.mailchimpCampaignId
+        ? "Newsletter deleted from the website manager. Its existing Mailchimp draft was left untouched."
+        : "Newsletter deleted from the website manager.");
+    } catch (error) {
+      patchRow(row.id, { busy: undefined, error: error instanceof Error ? error.message : "Could not delete newsletter." });
+    }
+  }
+
   return (
     <section className={styles.newsletterManager}>
       <div className={styles.newsletterIntro}>
@@ -134,6 +153,13 @@ export function NewsletterManager() {
           <small>.docx · up to 4 MB</small>
           <input type="file" accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document" disabled={uploading} onChange={(event) => { const file = event.target.files?.[0] || null; void upload(file); event.currentTarget.value = ""; }} />
         </label>
+      </div>
+
+      <div className={styles.newsletterWorkflow} aria-label="Newsletter publishing workflow">
+        <div><span>1</span><strong>Upload</strong><small>Word .docx</small></div>
+        <div><span>2</span><strong>Preview</strong><small>Check the website version</small></div>
+        <div><span>3</span><strong>Publish</strong><small>Add it to Field Notes</small></div>
+        <div><span>4</span><strong>Email</strong><small>Create the Mailchimp draft</small></div>
       </div>
 
       {uploadMessage ? <div className={styles.newsletterNotice}>{uploadMessage}</div> : null}
@@ -157,10 +183,14 @@ export function NewsletterManager() {
                 </div>
               </div>
 
-              <div className={styles.newsletterFields}>
-                <label>Newsletter title<input value={row.draftTitle} maxLength={180} onChange={(event) => patchRow(row.id, { draftTitle: event.target.value })} /></label>
-                <label>Short archive description <small>optional</small><textarea value={row.draftExcerpt} maxLength={320} onChange={(event) => patchRow(row.id, { draftExcerpt: event.target.value })} /></label>
-              </div>
+              <h4 className={styles.newsletterCardTitle}>{row.title}</h4>
+              <details className={styles.newsletterDetails}>
+                <summary>Edit title &amp; archive description</summary>
+                <div className={styles.newsletterFields}>
+                  <label>Newsletter title<input value={row.draftTitle} maxLength={180} onChange={(event) => patchRow(row.id, { draftTitle: event.target.value })} /></label>
+                  <label>Short archive description <small>optional</small><textarea value={row.draftExcerpt} maxLength={320} onChange={(event) => patchRow(row.id, { draftExcerpt: event.target.value })} /></label>
+                </div>
+              </details>
 
               <div className={styles.newsletterActions}>
                 <div>
@@ -170,8 +200,9 @@ export function NewsletterManager() {
                 </div>
                 <div>
                   <button className={styles.secondaryButton} type="button" disabled={!detailsDirty || Boolean(row.busy)} onClick={() => void update(row, { title: row.draftTitle, excerpt: row.draftExcerpt }, "saving")}>{row.busy === "saving" ? "Saving…" : "Save details"}</button>
-                  <button className={styles.secondaryButton} type="button" disabled={Boolean(row.busy)} onClick={() => void update(row, { published: !row.published }, "publishing")}>{row.busy === "publishing" ? "Updating…" : row.published ? "Unpublish" : "Publish to website"}</button>
-                  <button className={styles.primaryButton} type="button" disabled={!row.published || Boolean(row.busy) || Boolean(row.mailchimpCampaignId)} title={!row.published ? "Publish to the website first." : row.mailchimpCampaignId ? "A Mailchimp draft already exists." : undefined} onClick={() => void createMailchimp(row)}>{row.busy === "mailchimp" ? "Creating…" : row.mailchimpCampaignId ? "Mailchimp draft created" : "Create Mailchimp draft"}</button>
+                  <button className={!row.published ? styles.primaryButton : styles.secondaryButton} type="button" disabled={Boolean(row.busy)} onClick={() => void update(row, { published: !row.published }, "publishing")}>{row.busy === "publishing" ? "Updating…" : row.published ? "Unpublish" : "Publish to website"}</button>
+                  <button className={row.published && !row.mailchimpCampaignId ? styles.primaryButton : styles.secondaryButton} type="button" disabled={!row.published || Boolean(row.busy) || Boolean(row.mailchimpCampaignId)} title={!row.published ? "Publish to the website first." : row.mailchimpCampaignId ? "A Mailchimp draft already exists." : undefined} onClick={() => void createMailchimp(row)}>{row.busy === "mailchimp" ? "Creating…" : row.mailchimpCampaignId ? "Mailchimp draft created" : "Create Mailchimp draft"}</button>
+                  <button className={styles.dangerButton} type="button" disabled={Boolean(row.busy)} onClick={() => void removeNewsletter(row)}>{row.busy === "deleting" ? "Deleting…" : "Delete"}</button>
                 </div>
               </div>
             </article>;

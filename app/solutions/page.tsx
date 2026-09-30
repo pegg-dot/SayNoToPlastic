@@ -4,6 +4,7 @@ import { TrackedLink } from "../components/TrackedLink";
 import { ActionPlanner } from "../components/ActionPlanner";
 import { coreRules } from "../content/actions";
 import { reduceExposureGroups } from "../content/haddad-topics";
+import { getAdminContentValues } from "../lib/admin-content";
 
 const description = "A simple starting point for using less plastic around drinking water, food, heat, storage, and everyday products.";
 export const metadata: Metadata = {
@@ -21,15 +22,33 @@ export const metadata: Metadata = {
   twitter: { card: "summary_large_image", title: "Practical Action | Say No to Plastic", description, images: ["/kitchen.webp"] },
 };
 
-export default function SolutionsPage() {
+export default async function SolutionsPage() {
+  const ownerCopy = await getAdminContentValues([
+    "solutions.hero_title",
+    "solutions.hero_body",
+    "solutions.approach_title",
+    "solutions.approach_body",
+    "solutions.core_title",
+    "solutions.core_intro",
+    "solutions.framework_title",
+    "solutions.framework_intro",
+  ]);
+  const heroTitle = ownerCopy["solutions.hero_title"] || "First: use less plastic.";
+  const heroBody = ownerCopy["solutions.hero_body"] || "Do not overcomplicate the first step. Choose less plastic when a practical alternative exists, especially around hot food, drinks, storage, and the products you use every day.";
+  const approachTitle = ownerCopy["solutions.approach_title"] || "Keep it simple.";
+  const approachBody = ownerCopy["solutions.approach_body"] || "Use less plastic where you can, start with what repeats, and make one practical change at a time.";
+  const coreTitle = ownerCopy["solutions.core_title"] || "Make the first action unmistakable.";
+  const coreIntro = ownerCopy["solutions.core_intro"] || "Don’t heat plastic. Don’t store food in plastic. Don’t drink from plastic.";
+  const frameworkTitle = ownerCopy["solutions.framework_title"] || "Use less plastic. Build from there.";
+  const frameworkIntro = ownerCopy["solutions.framework_intro"] || "This is about reduction, not perfection. Apply the same simple approach across food, water, indoor air, clothing, personal care, and the habits that repeat for years.";
   return <>
     <Header skipToContent />
     <main id="main-content" tabIndex={-1} className="solutions-v2">
       <section className="solutions-hero">
         <div>
           <p className="eyebrow">Practical action</p>
-          <h1>First: use less plastic.</h1>
-          <p>Do not overcomplicate the first step. Choose less plastic when a practical alternative exists, especially around hot food, drinks, storage, and the products you use every day.</p>
+          <h1>{heroTitle}</h1>
+          <p>{heroBody}</p>
           <div className="solutions-hero-actions">
             <a className="button gold" href="#first-three">See where to start <span>↓</span></a>
             <TrackedLink className="text-link" href="/quick-action-card" eventName="cta_click" label="solutions-quick-card-hero">Open the 12-step card <span>→</span></TrackedLink>
@@ -37,16 +56,16 @@ export default function SolutionsPage() {
         </div>
         <aside>
           <span>Dr. Haddad’s approach</span>
-          <strong>Keep it simple.</strong>
-          <p>Use less plastic where you can, start with what repeats, and make one practical change at a time.</p>
+          <strong>{approachTitle}</strong>
+          <p>{approachBody}</p>
         </aside>
       </section>
 
       <section id="first-three" className="solutions-core">
         <header>
           <p className="eyebrow">The three core rules</p>
-          <h2>Make the first action unmistakable.</h2>
-          <p>Don’t heat plastic. Don’t store food in plastic. Don’t drink from plastic.</p>
+          <h2>{coreTitle}</h2>
+          <p>{coreIntro}</p>
         </header>
         <ol>{coreRules.map((rule) => <li key={rule.number}><span>{rule.number}</span><h3>{rule.title}</h3><p>{rule.detail}</p></li>)}</ol>
       </section>
@@ -84,8 +103,8 @@ export default function SolutionsPage() {
       <section className="solutions-exposure-framework" aria-labelledby="solutions-exposure-title">
         <header>
           <p className="eyebrow">Beyond the first three rules</p>
-          <h2 id="solutions-exposure-title">Use less plastic. Build from there.</h2>
-          <p>This is about reduction, not perfection. Apply the same simple approach across food, water, indoor air, clothing, personal care, and the habits that repeat for years.</p>
+          <h2 id="solutions-exposure-title">{frameworkTitle}</h2>
+          <p>{frameworkIntro}</p>
           <TrackedLink className="button outline" href="/solutions/reduce-exposure" eventName="cta_click" label="solutions-full-reduce-exposure">Read the complete exposure-reduction guide <span>→</span></TrackedLink>
         </header>
         <div>

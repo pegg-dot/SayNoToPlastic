@@ -17,7 +17,7 @@ const adminApi = read("app/admin/api/content/route.ts");
 const build = read("app/build-version.ts");
 
 expect(exists("app/admin/ScienceManager.tsx"), "Structured Science manager is packaged.");
-expect(admin.includes('id: "science"') && admin.includes("<ScienceManager"), "Owner admin exposes a dedicated Science workspace.");
+expect(admin.includes("<ScienceManager") && (admin.includes('id: "science"') || (admin.includes('const isScience = page.kind === "science"') && admin.includes('goToPage("science")'))), "Owner admin exposes Science through a dedicated structured workspace, whether surfaced as its own tab or inside Pages.");
 expect(manager.includes("+ Add research study") && manager.includes("Show on Science page") && manager.includes("Keep private"), "Science manager supports draft and published study states.");
 expect(manager.includes("What researchers found") && manager.includes("Why it matters") && manager.includes("Limitations") && manager.includes("Original source URL"), "Science manager keeps evidence fields structured.");
 expect(manager.includes("sciencePreviewCard") && admin.includes("Live Science page"), "Science workflow includes both draft card preview and live page preview.");

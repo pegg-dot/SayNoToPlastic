@@ -3,6 +3,9 @@ import { Footer, Header } from "../components/SiteChrome";
 import { TrackedLink } from "../components/TrackedLink";
 import { PrintButton } from "../components/PrintButton";
 import { authoredCardRemember, authoredQuickActionCard, coreRules } from "../content/actions";
+import { getAdminContentValues } from "../lib/admin-content";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Quick Action Card | Say No to Plastic",
@@ -10,12 +13,15 @@ export const metadata: Metadata = {
   alternates: { canonical: "/quick-action-card" },
 };
 
-export default function QuickActionCardPage() {
+export default async function QuickActionCardPage() {
+  const ownerCopy = await getAdminContentValues(["guides.hero_title", "guides.hero_body"]);
+  const heroTitle = ownerCopy["guides.hero_title"] || "Quick Action Card";
+  const heroBody = ownerCopy["guides.hero_body"] || "Start with the three core rules. The 12-step card below preserves Dr. Haddad's authored wording rather than replacing it with a different checklist.";
   return <><Header skipToContent /><main id="main-content" tabIndex={-1} className="quick-card-page">
     <section className="quick-card-intro">
       <p className="eyebrow">From Homo Plasticus · page 121</p>
-      <h1>Quick Action Card</h1>
-      <p>Start with the three core rules. The 12-step card below preserves Dr. Haddad&apos;s authored wording rather than replacing it with a different checklist.</p>
+      <h1>{heroTitle}</h1>
+      <p>{heroBody}</p>
       <div>
         <PrintButton>Print or save as PDF <span>↗</span></PrintButton>
         <TrackedLink href="/solutions" eventName="cta_click" label="quick-card-back-to-solutions" className="text-link">Choose one change to begin <span>→</span></TrackedLink>

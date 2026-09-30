@@ -4,6 +4,7 @@ import { FeatureVideo } from "../components/FeatureVideo";
 import { TrackedLink } from "../components/TrackedLink";
 import { toVideoFeature } from "../content/media-content";
 import { getEffectiveTedxEntry } from "../lib/publication-overrides";
+import { getAdminContentValues } from "../lib/admin-content";
 
 export const dynamic = "force-dynamic";
 
@@ -26,8 +27,14 @@ export const metadata: Metadata = {
 };
 
 export default async function TedxPage() {
-  const entry = await getEffectiveTedxEntry();
+  const [entry, ownerCopy] = await Promise.all([
+    getEffectiveTedxEntry(),
+    getAdminContentValues(["tedx.story_title", "tedx.story_body_primary", "tedx.story_body_secondary"]),
+  ]);
   const video = entry ? toVideoFeature(entry) : null;
+  const storyTitle = ownerCopy["tedx.story_title"] || "What if one of the greatest environmental stories of our time is no longer only happening around us, but within us?";
+  const storyBodyPrimary = ownerCopy["tedx.story_body_primary"] || "In The Invisible Inheritance of Nanoplastics, Dr. Elie Haddad explores the emerging science of micro- and nanoplastics in the human body and asks us to reconsider the boundary between environmental health and human health.";
+  const storyBodySecondary = ownerCopy["tedx.story_body_secondary"] || "Drawing from medicine, scientific research and the story behind Say No To Plastic, the talk is ultimately about something larger than plastic: the intimate relationship between the world we create around us and the world we create within us.";
 
   return (
     <>
@@ -64,9 +71,9 @@ export default async function TedxPage() {
         <section className="media-inquiries ivory">
           <div>
             <p className="eyebrow dark">The Invisible Inheritance of Nanoplastics</p>
-            <h2>What if one of the greatest environmental stories of our time is no longer only happening around us, but within us?</h2>
-            <p>In <em>The Invisible Inheritance of Nanoplastics</em>, Dr. Elie Haddad explores the emerging science of micro- and nanoplastics in the human body and asks us to reconsider the boundary between environmental health and human health.</p>
-            <p>Drawing from medicine, scientific research and the story behind Say No To Plastic, the talk is ultimately about something larger than plastic: the intimate relationship between the world we create around us and the world we create within us.</p>
+            <h2>{storyTitle}</h2>
+            <p>{storyBodyPrimary}</p>
+            <p>{storyBodySecondary}</p>
             <a className="button dark" href="#tedx-video-title">Watch the TEDx talk <span>↑</span></a>
           </div>
           <aside>

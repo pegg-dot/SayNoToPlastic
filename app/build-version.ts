@@ -1,1 +1,1 @@
-export const BUILD_VERSION = "hp-site-2026-09-30-v40.43-newsletter-manager-polish2";
+export const BUILD_VERSION = "hp-site-2026-09-30-v40.43-newsletter-manager-v40.44-owner-page-cms";

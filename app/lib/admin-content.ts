@@ -26,7 +26,39 @@ export type AdminContentKey =
   | "media.entries_json"
   | "press.short_bio"
   | "press.long_bio"
-  | "press.contact_email";
+  | "press.contact_email"
+  | "about.hero_title"
+  | "about.hero_lead_primary"
+  | "about.hero_lead_secondary"
+  | "about.why_title"
+  | "about.why_body_primary"
+  | "about.why_body_secondary"
+  | "about.story_title"
+  | "about.story_intro"
+  | "about.closing_title"
+  | "about.closing_body"
+  | "book.premise_title"
+  | "book.premise_body"
+  | "book.quote"
+  | "book.territory_title"
+  | "book.territory_intro"
+  | "book.science_bridge_title"
+  | "book.science_bridge_body"
+  | "solutions.hero_title"
+  | "solutions.hero_body"
+  | "solutions.approach_title"
+  | "solutions.approach_body"
+  | "solutions.core_title"
+  | "solutions.core_intro"
+  | "solutions.framework_title"
+  | "solutions.framework_intro"
+  | "guides.hero_title"
+  | "guides.hero_body"
+  | "tedx.story_title"
+  | "tedx.story_body_primary"
+  | "tedx.story_body_secondary"
+  | "podcast.hero_lead"
+  | "podcast.hero_body";
 
 type FieldKind = "url" | "enum" | "text" | "email" | "json";
 
@@ -238,6 +270,230 @@ export const ADMIN_CONTENT_FIELDS: AdminFieldSpec[] = [
     description: "Extended biography used in the press kit. Plain text only.",
     kind: "text",
     maxLength: 2_400,
+  },
+  {
+    key: "about.hero_title",
+    label: "About page headline",
+    description: "Main headline on Dr. Haddad's About page.",
+    kind: "text",
+    maxLength: 180,
+  },
+  {
+    key: "about.hero_lead_primary",
+    label: "About page opening biography",
+    description: "First introductory paragraph beside Dr. Haddad's portrait.",
+    kind: "text",
+    maxLength: 700,
+  },
+  {
+    key: "about.hero_lead_secondary",
+    label: "About page project origin",
+    description: "Second introductory paragraph explaining why Say No To Plastic exists.",
+    kind: "text",
+    maxLength: 700,
+  },
+  {
+    key: "about.why_title",
+    label: "About page clinic section heading",
+    description: "Heading for the section explaining where Dr. Haddad's inquiry began.",
+    kind: "text",
+    maxLength: 180,
+  },
+  {
+    key: "about.why_body_primary",
+    label: "About page clinic paragraph",
+    description: "First paragraph in the Why he cares section.",
+    kind: "text",
+    maxLength: 900,
+  },
+  {
+    key: "about.why_body_secondary",
+    label: "About page exposure paragraph",
+    description: "Second paragraph in the Why he cares section.",
+    kind: "text",
+    maxLength: 900,
+  },
+  {
+    key: "about.story_title",
+    label: "About page path heading",
+    description: "Heading above Dr. Haddad's path from cardiology to environmental inquiry.",
+    kind: "text",
+    maxLength: 180,
+  },
+  {
+    key: "about.story_intro",
+    label: "About page path introduction",
+    description: "Short introduction above the four-part story timeline.",
+    kind: "text",
+    maxLength: 500,
+  },
+  {
+    key: "about.closing_title",
+    label: "About page closing heading",
+    description: "Heading in the final section describing the work now.",
+    kind: "text",
+    maxLength: 180,
+  },
+  {
+    key: "about.closing_body",
+    label: "About page closing paragraph",
+    description: "Final paragraph describing how Say No To Plastic presents evidence and practical guidance.",
+    kind: "text",
+    maxLength: 900,
+  },
+  {
+    key: "book.premise_title",
+    label: "Book page premise heading",
+    description: "Main heading in the Why this book section.",
+    kind: "text",
+    maxLength: 180,
+  },
+  {
+    key: "book.premise_body",
+    label: "Book page premise paragraph",
+    description: "Opening description of the book's investigation.",
+    kind: "text",
+    maxLength: 1_000,
+  },
+  {
+    key: "book.quote",
+    label: "Book page pull quote",
+    description: "Prominent quote in the Why this book section.",
+    kind: "text",
+    maxLength: 500,
+  },
+  {
+    key: "book.territory_title",
+    label: "Book page reading-map heading",
+    description: "Heading above the six-part reading map.",
+    kind: "text",
+    maxLength: 180,
+  },
+  {
+    key: "book.territory_intro",
+    label: "Book page reading-map introduction",
+    description: "Short explanation above the reading map.",
+    kind: "text",
+    maxLength: 600,
+  },
+  {
+    key: "book.science_bridge_title",
+    label: "Book page science bridge heading",
+    description: "Heading that sends readers from the book to the research section.",
+    kind: "text",
+    maxLength: 180,
+  },
+  {
+    key: "book.science_bridge_body",
+    label: "Book page science bridge paragraph",
+    description: "Supporting copy that explains what the Science section contains.",
+    kind: "text",
+    maxLength: 700,
+  },
+  {
+    key: "solutions.hero_title",
+    label: "Take Action page headline",
+    description: "Main headline at the top of Take Action.",
+    kind: "text",
+    maxLength: 180,
+  },
+  {
+    key: "solutions.hero_body",
+    label: "Take Action page introduction",
+    description: "Opening paragraph beneath the main headline.",
+    kind: "text",
+    maxLength: 700,
+  },
+  {
+    key: "solutions.approach_title",
+    label: "Dr. Haddad approach heading",
+    description: "Short heading in the approach card.",
+    kind: "text",
+    maxLength: 120,
+  },
+  {
+    key: "solutions.approach_body",
+    label: "Dr. Haddad approach paragraph",
+    description: "Short explanation in the approach card.",
+    kind: "text",
+    maxLength: 500,
+  },
+  {
+    key: "solutions.core_title",
+    label: "Three core rules heading",
+    description: "Heading above the three core rules.",
+    kind: "text",
+    maxLength: 180,
+  },
+  {
+    key: "solutions.core_intro",
+    label: "Three core rules introduction",
+    description: "Short sentence above the three core rules.",
+    kind: "text",
+    maxLength: 500,
+  },
+  {
+    key: "solutions.framework_title",
+    label: "Exposure framework heading",
+    description: "Heading for the section that expands beyond the first three rules.",
+    kind: "text",
+    maxLength: 180,
+  },
+  {
+    key: "solutions.framework_intro",
+    label: "Exposure framework introduction",
+    description: "Paragraph introducing the broader exposure-reduction framework.",
+    kind: "text",
+    maxLength: 700,
+  },
+  {
+    key: "guides.hero_title",
+    label: "Quick Action Card headline",
+    description: "Main headline above the authored 12-step card.",
+    kind: "text",
+    maxLength: 180,
+  },
+  {
+    key: "guides.hero_body",
+    label: "Quick Action Card introduction",
+    description: "Introductory paragraph above the authored 12-step card.",
+    kind: "text",
+    maxLength: 700,
+  },
+  {
+    key: "tedx.story_title",
+    label: "TEDx story heading",
+    description: "Main heading beneath the TEDx video.",
+    kind: "text",
+    maxLength: 220,
+  },
+  {
+    key: "tedx.story_body_primary",
+    label: "TEDx story first paragraph",
+    description: "First paragraph explaining the talk.",
+    kind: "text",
+    maxLength: 900,
+  },
+  {
+    key: "tedx.story_body_secondary",
+    label: "TEDx story second paragraph",
+    description: "Second paragraph explaining the larger message of the talk.",
+    kind: "text",
+    maxLength: 900,
+  },
+  {
+    key: "podcast.hero_lead",
+    label: "Podcast opening sentence",
+    description: "First paragraph below the Beyond Plastic podcast title.",
+    kind: "text",
+    maxLength: 500,
+  },
+  {
+    key: "podcast.hero_body",
+    label: "Podcast opening description",
+    description: "Second paragraph introducing the podcast.",
+    kind: "text",
+    maxLength: 900,
   },
   {
     key: "press.contact_email",

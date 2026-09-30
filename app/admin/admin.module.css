@@ -774,3 +774,137 @@
   .pageTree { grid-template-columns: 1fr; }
   .livePreviewFrame { height: 360px; }
 }
+
+
+.scienceManager {
+  display: grid;
+  gap: 16px;
+  margin-top: 16px;
+}
+.scienceManagerHeader {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  align-items: end;
+  padding: 22px 24px;
+  border: 1px solid #dcd7cd;
+  border-radius: 14px;
+  background: #fff;
+}
+.scienceManagerHeader h3 { margin: 4px 0 6px; font: 400 27px Georgia, "Times New Roman", serif; }
+.scienceManagerHeader p:not(.kicker) { margin: 0; max-width: 760px; color: #6f787f; font-size: 12px; line-height: 1.5; }
+
+.scienceGuardrail {
+  display: grid;
+  gap: 5px;
+  padding: 14px 16px;
+  border: 1px solid #d9dfd7;
+  border-radius: 10px;
+  background: #f4f8f4;
+}
+.scienceGuardrail strong { color: #315d42; font-size: 10px; letter-spacing: .06em; text-transform: uppercase; }
+.scienceGuardrail span { color: #59655d; font-size: 11px; line-height: 1.5; }
+
+.scienceStudyList { display: grid; gap: 14px; }
+.scienceStudyEditor {
+  padding: 20px;
+  border: 1px solid #ddd8ce;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 5px 18px rgba(18,32,44,.03);
+}
+.scienceStudyTop {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  align-items: center;
+}
+.scienceStudyTop > div:first-child { display: flex; align-items: center; gap: 9px; min-width: 0; }
+.scienceStudyTop small { color: #858d92; font-size: 10px; }
+
+.sciencePreviewCard {
+  display: grid;
+  grid-template-columns: 150px minmax(0, 1fr);
+  gap: 18px;
+  margin: 16px 0;
+  padding: 18px;
+  border-radius: 11px;
+  background: #0d1a26;
+  color: #fff;
+}
+.sciencePreviewCard > span { color: #d7a967; font: 400 27px Georgia, "Times New Roman", serif; }
+.sciencePreviewCard > div { display: grid; gap: 5px; }
+.sciencePreviewCard small { color: #99a5ae; font-size: 9px; text-transform: uppercase; letter-spacing: .05em; }
+.sciencePreviewCard strong { font: 400 18px/1.3 Georgia, "Times New Roman", serif; }
+.sciencePreviewCard p { margin: 2px 0 0; color: #bec7ce; font-size: 11px; line-height: 1.5; }
+
+.scienceFields { display: grid; gap: 11px; }
+.scienceFields label {
+  display: grid;
+  gap: 5px;
+  color: #4c575f;
+  font-size: 10px;
+  font-weight: 800;
+}
+.scienceFields label small { color: #8a9298; font-weight: 500; }
+.scienceFields input,
+.scienceFields select,
+.scienceFields textarea {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #cfc9bd;
+  border-radius: 9px;
+  background: #fff;
+  color: #17232e;
+  font: inherit;
+  font-size: 13px;
+  padding: 11px 12px;
+  outline: none;
+}
+.scienceFields textarea { min-height: 94px; resize: vertical; }
+.scienceFields input:focus,
+.scienceFields select:focus,
+.scienceFields textarea:focus { border-color: #9b6d2e; box-shadow: 0 0 0 3px rgba(155,109,46,.12); }
+.scienceTwoCol { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 10px; }
+.scienceThreeCol { display: grid; grid-template-columns: .5fr 1fr 1fr; gap: 10px; }
+
+.scienceStudyFooter,
+.scienceSaveBar {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: center;
+}
+.scienceStudyFooter {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid #e5e1d9;
+}
+.scienceStudyFooter > span { color: #777f85; font-size: 10px; }
+.scienceStudyFooter > div { display: flex; gap: 12px; align-items: center; }
+.scienceStudyFooter a { color: #7c592c; font-size: 10px; font-weight: 800; text-decoration: none; }
+.scienceStudyFooter button { border: 0; background: transparent; color: #a3443d; font-size: 10px; font-weight: 800; cursor: pointer; }
+
+.scienceSaveBar {
+  position: sticky;
+  bottom: 12px;
+  z-index: 3;
+  padding: 13px 15px;
+  border: 1px solid #d6d1c7;
+  border-radius: 11px;
+  background: rgba(255,255,255,.97);
+  box-shadow: 0 8px 28px rgba(18,32,44,.1);
+}
+.scienceSaveBar > div:last-child { display: flex; gap: 8px; align-items: center; }
+.scienceSaveBar a { text-decoration: none; }
+
+@media (max-width: 760px) {
+  .scienceManagerHeader,
+  .scienceStudyTop,
+  .scienceStudyFooter,
+  .scienceSaveBar { align-items: stretch; flex-direction: column; }
+  .sciencePreviewCard { grid-template-columns: 1fr; }
+  .scienceTwoCol,
+  .scienceThreeCol { grid-template-columns: 1fr; }
+  .scienceSaveBar > div:last-child { width: 100%; flex-wrap: wrap; }
+}

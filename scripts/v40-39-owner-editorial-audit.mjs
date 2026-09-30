@@ -22,7 +22,7 @@ const auth = read("app/lib/admin-auth.ts");
 const wrangler = read("wrangler.jsonc");
 const mailchimpEvents = read("app/lib/mailchimp-events.ts");
 
-expect(build.includes("v40.39-owner-editorial-admin") || build.includes("v40.40-owner-admin-usability-metrics") || build.includes("v40.41-owner-admin-simple-ui") || build.includes("v40.42-owner-cms-phase-1"), "Build retains the v40.39 editorial baseline or a validated successor.");
+expect(build.includes("v40.39-owner-editorial-admin") || build.includes("v40.40-owner-admin-usability-metrics") || build.includes("v40.41-owner-admin-simple-ui") || build.includes("v40.42-owner-cms-phase-1") || build.includes("v40.43-newsletter-manager"), "Build retains the v40.39 editorial baseline or a validated successor.");
 expect(adminContent.includes('"home.hero_headline"') && adminContent.includes('"home.media_heading"') && adminContent.includes('"home.newsletter_heading"'), "Homepage owner-editable fields are registered.");
 expect(adminContent.includes('"media.hero_heading"') && adminContent.includes('"media.entries_json"') && adminContent.includes("validateOwnerMediaItems"), "Events & Media includes validated structured owner-managed appearances.");
 expect(adminContent.includes('"podcast.series_heading"') && adminContent.includes('"podcast.series_body"'), "Podcast series copy is owner-editable.");

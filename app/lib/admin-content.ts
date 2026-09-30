@@ -59,7 +59,8 @@ export type AdminContentKey =
   | "tedx.story_body_secondary"
   | "podcast.hero_lead"
   | "podcast.hero_body"
-  | "science.entries_json";
+  | "science.entries_json"
+  | "science.body_systems_json";
 
 type FieldKind = "url" | "enum" | "text" | "email" | "json";
 
@@ -94,6 +95,45 @@ export type OwnerScienceStudy = {
   source: string;
   doi: string;
   published: boolean;
+};
+
+export type OwnerBodySystemSlug =
+  | "cardiovascular-system"
+  | "female-reproductive-health"
+  | "endocrine-metabolic-system"
+  | "kidneys-urinary-system"
+  | "skin"
+  | "digestive-system"
+  | "pregnancy-early-life";
+
+export type OwnerBodySystemSource = {
+  label: string;
+  href: string;
+  note?: string;
+};
+
+export type OwnerBodySystemSection = {
+  id: string;
+  title: string;
+  paragraphs: string[];
+};
+
+export type OwnerBodySystemOverride = {
+  slug: OwnerBodySystemSlug;
+  title: string;
+  subtitle: string;
+  kicker: string;
+  summary: string;
+  heroFact: string;
+  heroFactLabel: string;
+  sections: OwnerBodySystemSection[];
+  keyTakeaways: string[];
+  known: string[];
+  uncertain: string[];
+  primarySources: OwnerBodySystemSource[];
+  reviewStatus: "verified" | "partial" | "source-review";
+  reviewNote: string;
+  updatedDate: string;
 };
 
 export type OwnerMediaItemType = "event" | "talk" | "interview" | "podcast" | "press";
@@ -212,6 +252,14 @@ export const ADMIN_CONTENT_FIELDS: AdminFieldSpec[] = [
     description: "Structured owner-managed research records. Drafts stay private until explicitly published.",
     kind: "json",
     maxLength: 60_000,
+    surface: "science",
+  },
+  {
+    key: "science.body_systems_json",
+    label: "Body-system page updates",
+    description: "Structured owner-managed updates to the existing body-system overview pages.",
+    kind: "json",
+    maxLength: 120_000,
     surface: "science",
   },
   {
@@ -721,6 +769,124 @@ export function parseOwnerScienceStudies(value: string | null | undefined): Owne
   }
 }
 
+function validateOwnerBodySystemOverrides(raw: string) {
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(raw || "[]");
+  } catch {
+    throw new Error("Body-system page data is invalid.");
+  }
+  if (!Array.isArray(parsed)) throw new Error("Body-system page updates must be a list.");
+  if (parsed.length > 7) throw new Error("Only the seven reviewed body-system pages can be managed here.");
+
+  const allowedSlugs = new Set<OwnerBodySystemSlug>([
+    "cardiovascular-system",
+    "female-reproductive-health",
+    "endocrine-metabolic-system",
+    "kidneys-urinary-system",
+    "skin",
+    "digestive-system",
+    "pregnancy-early-life",
+  ]);
+  const allowedStatuses = new Set(["verified", "partial", "source-review"]);
+  const seen = new Set<string>();
+  const text = (value: unknown, max: number) => typeof value === "string" ? value.trim().slice(0, max) : "";
+  const textList = (value: unknown, maxItems: number, maxLength: number) => {
+    if (!Array.isArray(value)) return [];
+    return value.slice(0, maxItems).map((item) => text(item, maxLength)).filter(Boolean);
+  };
+
+  const items = parsed.map((candidate, index) => {
+    if (!candidate || typeof candidate !== "object") throw new Error(`Body-system update ${index + 1} is invalid.`);
+    const item = candidate as Record<string, unknown>;
+    const slug = text(item.slug, 80) as OwnerBodySystemSlug;
+    if (!allowedSlugs.has(slug)) throw new Error(`Body-system update ${index + 1} has an unsupported page.`);
+    if (seen.has(slug)) throw new Error(`Duplicate body-system update: ${slug}`);
+    seen.add(slug);
+
+    const sectionsRaw = Array.isArray(item.sections) ? item.sections.slice(0, 8) : [];
+    const sectionIds = new Set<string>();
+    const sections = sectionsRaw.map((sectionCandidate, sectionIndex) => {
+      if (!sectionCandidate || typeof sectionCandidate !== "object") throw new Error(`Section ${sectionIndex + 1} for ${slug} is invalid.`);
+      const section = sectionCandidate as Record<string, unknown>;
+      const id = text(section.id, 60).toLowerCase();
+      const title = text(section.title, 180);
+      const paragraphs = textList(section.paragraphs, 8, 1_400);
+      if (!/^[a-z0-9][a-z0-9-]{1,59}$/.test(id)) throw new Error(`Section ${sectionIndex + 1} for ${slug} needs a valid ID.`);
+      if (sectionIds.has(id)) throw new Error(`Duplicate section ID for ${slug}: ${id}`);
+      sectionIds.add(id);
+      if (!title || !paragraphs.length) throw new Error(`Each section for ${slug} needs a title and at least one paragraph.`);
+      return { id, title, paragraphs } satisfies OwnerBodySystemSection;
+    });
+
+    const sourcesRaw = Array.isArray(item.primarySources) ? item.primarySources.slice(0, 12) : [];
+    const primarySources = sourcesRaw.map((sourceCandidate, sourceIndex) => {
+      if (!sourceCandidate || typeof sourceCandidate !== "object") throw new Error(`Source ${sourceIndex + 1} for ${slug} is invalid.`);
+      const source = sourceCandidate as Record<string, unknown>;
+      const label = text(source.label, 220);
+      const hrefRaw = text(source.href, 500);
+      const note = text(source.note, 700);
+      if (!label || !hrefRaw) throw new Error(`Source ${sourceIndex + 1} for ${slug} needs a label and URL.`);
+      return { label, href: validateUrl(hrefRaw, undefined), ...(note ? { note } : {}) } satisfies OwnerBodySystemSource;
+    });
+
+    const title = text(item.title, 180);
+    const subtitle = text(item.subtitle, 260);
+    const kicker = text(item.kicker, 140);
+    const summary = text(item.summary, 1_200);
+    const heroFact = text(item.heroFact, 100);
+    const heroFactLabel = text(item.heroFactLabel, 240);
+    const keyTakeaways = textList(item.keyTakeaways, 10, 700);
+    const known = textList(item.known, 10, 700);
+    const uncertain = textList(item.uncertain, 10, 700);
+    const reviewStatus = text(item.reviewStatus, 40);
+    const reviewNote = text(item.reviewNote, 1_000);
+    const updatedDate = /^\d{4}-\d{2}-\d{2}$/.test(text(item.updatedDate, 10)) ? text(item.updatedDate, 10) : new Date().toISOString().slice(0, 10);
+
+    if (!title || !subtitle || !kicker || !summary || !heroFact || !heroFactLabel) {
+      throw new Error(`Body-system page ${slug} is missing required page framing.`);
+    }
+    if (sections.length < 2) throw new Error(`Body-system page ${slug} needs at least two structured sections.`);
+    if (!keyTakeaways.length || !known.length || !uncertain.length) {
+      throw new Error(`Body-system page ${slug} needs takeaways, known evidence, and uncertainty notes.`);
+    }
+    if (!allowedStatuses.has(reviewStatus)) throw new Error(`Body-system page ${slug} has an invalid review status.`);
+    if (!reviewNote) throw new Error(`Body-system page ${slug} needs a review note.`);
+    if (reviewStatus === "verified" && !primarySources.length) {
+      throw new Error(`A verified body-system page must include at least one primary source.`);
+    }
+
+    return {
+      slug,
+      title,
+      subtitle,
+      kicker,
+      summary,
+      heroFact,
+      heroFactLabel,
+      sections,
+      keyTakeaways,
+      known,
+      uncertain,
+      primarySources,
+      reviewStatus: reviewStatus as OwnerBodySystemOverride["reviewStatus"],
+      reviewNote,
+      updatedDate,
+    } satisfies OwnerBodySystemOverride;
+  });
+
+  return JSON.stringify(items);
+}
+
+export function parseOwnerBodySystemOverrides(value: string | null | undefined): OwnerBodySystemOverride[] {
+  if (!value) return [];
+  try {
+    return JSON.parse(validateOwnerBodySystemOverrides(value)) as OwnerBodySystemOverride[];
+  } catch {
+    return [];
+  }
+}
+
 export function validateAdminContentValue(key: AdminContentKey, rawValue: unknown) {
   const field = FIELD_MAP.get(key);
   if (!field) throw new Error("Unknown admin content field.");
@@ -732,7 +898,11 @@ export function validateAdminContentValue(key: AdminContentKey, rawValue: unknow
 
   if (field.kind === "url") return validateUrl(value, field.allowedHosts);
   if (field.kind === "email") return validateEmail(value);
-  if (field.kind === "json") return key === "science.entries_json" ? validateOwnerScienceStudies(value) : validateOwnerMediaItems(value);
+  if (field.kind === "json") {
+    if (key === "science.entries_json") return validateOwnerScienceStudies(value);
+    if (key === "science.body_systems_json") return validateOwnerBodySystemOverrides(value);
+    return validateOwnerMediaItems(value);
+  }
   if (field.kind === "enum") {
     if (!field.allowedValues?.includes(value)) throw new Error(`Invalid value for ${field.label}.`);
     return value;
@@ -806,6 +976,11 @@ export async function getOwnerMediaItems() {
 export async function getOwnerScienceStudies() {
   const value = await getAdminContentValue("science.entries_json");
   return parseOwnerScienceStudies(value);
+}
+
+export async function getOwnerBodySystemOverrides() {
+  const value = await getAdminContentValue("science.body_systems_json");
+  return parseOwnerBodySystemOverrides(value);
 }
 
 async function enforceTedxStateConsistency(

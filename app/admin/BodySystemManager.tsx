@@ -74,7 +74,7 @@ export function BodySystemManager({
   const stored = overrides.find((item) => item.slug === selectedSlug);
   const current = stored || toOverride(base);
   const serialized = useMemo(() => JSON.stringify(overrides), [overrides]);
-  const dirty = serialized !== (value || "");
+  const dirty = serialized !== (value || "[]");
   const isCustomized = Boolean(stored);
 
   function replaceCurrent(next: OwnerBodySystemOverride) {

@@ -67,7 +67,7 @@ export const bodySystemsEs: BodySystemArticle[] = [
     ],
     relatedEvidence: [
       { label: "Capítulo de estudios sobre corazón y arterias", href: "/es/ciencia#heart-arteries", note: "Consulta la muestra, el método, el resultado y las limitaciones de ambos estudios verificados." },
-      { label: "Cómo detectan los científicos los microplásticos (en inglés)", href: "/science/how-detection-works", note: "Explica los métodos de laboratorio utilizados para estos hallazgos." },
+      { label: "Cómo detectan los científicos los microplásticos", href: "/es/ciencia/como-funciona-la-deteccion", note: "Explica los métodos de laboratorio utilizados para estos hallazgos." },
     ],
     relatedGuides: [
       { label: "Guía del estudio de placa carotídea (en inglés)", href: "/resources/microplastics-carotid-plaque-study" },
@@ -230,7 +230,7 @@ export const bodySystemsEs: BodySystemArticle[] = [
     relatedEvidence: [
       { label: "Salud reproductiva femenina", href: "/es/ciencia/cuerpo/female-reproductive-health" },
       { label: "Capítulo del estudio sobre tejido testicular", href: "/es/ciencia#testicular-tissue" },
-      { label: "El exposoma (en inglés)", href: "/science/exposome" },
+      { label: "El exposoma", href: "/es/ciencia/exposoma" },
     ],
     relatedGuides: [
       { label: "Cuidado personal y cosméticos (en inglés)", href: "/resources/personal-care-cosmetics-plastic" },
@@ -306,8 +306,8 @@ export const bodySystemsEs: BodySystemArticle[] = [
     ],
     relatedEvidence: [
       { label: "Capítulo del estudio sobre el torrente sanguíneo", href: "/es/ciencia#blood" },
-      { label: "Cómo detectan los científicos los microplásticos (en inglés)", href: "/science/how-detection-works" },
-      { label: "El exposoma (en inglés)", href: "/science/exposome" },
+      { label: "Cómo detectan los científicos los microplásticos", href: "/es/ciencia/como-funciona-la-deteccion" },
+      { label: "El exposoma", href: "/es/ciencia/exposoma" },
     ],
     relatedGuides: [
       { label: "Agua potable y filtración (en inglés)", href: "/resources/microplastics-drinking-water-filter-guide" },
@@ -383,9 +383,9 @@ export const bodySystemsEs: BodySystemArticle[] = [
       "Cómo cambian la exposición real la formulación del producto, la duración del contacto y el estado de la piel.",
     ],
     relatedEvidence: [
-      { label: "El exposoma (en inglés)", href: "/science/exposome" },
+      { label: "El exposoma", href: "/es/ciencia/exposoma" },
       { label: "Sistema endocrino y metabólico", href: "/es/ciencia/cuerpo/endocrine-metabolic-system" },
-      { label: "Cómo detectan los científicos los microplásticos (en inglés)", href: "/science/how-detection-works" },
+      { label: "Cómo detectan los científicos los microplásticos", href: "/es/ciencia/como-funciona-la-deteccion" },
     ],
     relatedGuides: [
       { label: "Cuidado personal y cosméticos (en inglés)", href: "/resources/personal-care-cosmetics-plastic" },
@@ -463,8 +463,8 @@ export const bodySystemsEs: BodySystemArticle[] = [
     ],
     relatedEvidence: [
       { label: "Capítulo del estudio sobre el torrente sanguíneo", href: "/es/ciencia#blood" },
-      { label: "Cómo detectan los científicos los microplásticos (en inglés)", href: "/science/how-detection-works" },
-      { label: "El exposoma (en inglés)", href: "/science/exposome" },
+      { label: "Cómo detectan los científicos los microplásticos", href: "/es/ciencia/como-funciona-la-deteccion" },
+      { label: "El exposoma", href: "/es/ciencia/exposoma" },
     ],
     relatedGuides: [
       { label: "Calentar y almacenar alimentos (en inglés)", href: "/resources/heating-food-in-plastic" },

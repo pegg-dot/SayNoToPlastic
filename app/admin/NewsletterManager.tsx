@@ -189,7 +189,6 @@ export function NewsletterManager() {
                 <div className={styles.newsletterLinks}>
                   <a href={`/admin/newsletters/${row.id}/preview`} target="_blank" rel="noreferrer">Preview ↗</a>
                   {row.published ? <a href={`/newsletters/${row.slug}`} target="_blank" rel="noreferrer">Open live issue ↗</a> : null}
-                  {row.mailchimpCampaignId ? <a href={mailchimpUrl} target="_blank" rel="noreferrer">Open Mailchimp ↗</a> : null}
                 </div>
               </div>
 

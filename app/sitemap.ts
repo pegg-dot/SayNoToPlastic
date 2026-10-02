@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { guides } from "./content/guides";
 import { bodySystems } from "./content/body-systems";
+import { bodySystemsEs } from "./content/es/body-systems";
 import { SITE_URL } from "./config";
 import { TEDX_RELEASE } from "./content/publications";
 
@@ -26,6 +27,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })),
     ...bodySystems.map((item) => ({
       url: `${base}/science/body/${item.slug}`,
+      lastModified: new Date(item.updatedDate),
+      changeFrequency: "monthly" as const,
+      priority: .82,
+    })),
+    ...bodySystemsEs.map((item) => ({
+      url: `${base}/es/ciencia/cuerpo/${item.slug}`,
       lastModified: new Date(item.updatedDate),
       changeFrequency: "monthly" as const,
       priority: .82,

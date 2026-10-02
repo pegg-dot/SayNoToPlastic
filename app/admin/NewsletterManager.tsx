@@ -223,7 +223,7 @@ export function NewsletterManager() {
                     <a className={styles.primaryButton} href={mailchimpUrl} target="_blank" rel="noreferrer">Open Mailchimp ↗</a>
                   )}
                   <details className={styles.newsletterMore}>
-                    <summary>More</summary>
+                    <summary aria-label={`More actions for ${row.title}`}>More</summary>
                     <div>
                       {row.published ? <button type="button" disabled={Boolean(row.busy)} onClick={() => void update(row, { published: false }, "publishing")}>{row.busy === "publishing" ? "Updating…" : "Unpublish from website"}</button> : null}
                       <button className={styles.dangerMenuButton} type="button" disabled={Boolean(row.busy)} onClick={() => void removeNewsletter(row)}>{row.busy === "deleting" ? "Deleting…" : "Delete from website manager"}</button>

@@ -2155,3 +2155,51 @@
     right: auto;
   }
 }
+
+
+.focusedFieldHeader {
+  display: grid;
+  gap: 7px;
+  padding: 18px;
+  border-bottom: 1px solid #ebe8e2;
+  background: #fff;
+}
+.focusedFieldHeader > div {
+  display: grid;
+  gap: 4px;
+}
+.focusedFieldHeader strong {
+  color: #222b31;
+  font-size: 13px;
+}
+.focusedFieldHeader span {
+  color: #757c81;
+  font-size: 10px;
+  line-height: 1.45;
+}
+.focusedFieldHeader > small {
+  width: max-content;
+  max-width: 100%;
+  padding: 4px 7px;
+  border-radius: 999px;
+  background: #f1f0ed;
+  color: #6b7277;
+  font-size: 9px;
+  font-weight: 700;
+}
+
+.tabs button:focus-visible,
+.actionGrid button:focus-visible,
+.quickLinks button:focus-visible,
+.pageTree button:focus-visible,
+.pageFieldList > button:focus-visible,
+.scienceToolGrid > button:focus-visible,
+.scienceStudyNav > button:focus-visible,
+.mediaItemNav > button:focus-visible,
+.subTabs button:focus-visible,
+.inspectorBack:focus-visible,
+.toolBackButton:focus-visible,
+.newsletterMore > summary:focus-visible {
+  outline: 2px solid #825c2b;
+  outline-offset: 2px;
+}

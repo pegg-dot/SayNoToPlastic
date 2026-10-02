@@ -12,7 +12,7 @@ permissions:
 jobs:
   verify:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 25
     steps:
       - name: Check out branch
         uses: actions/checkout@v4
@@ -26,11 +26,63 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Release audit
-        run: npm run release:audit
+      - name: Prepare podcast artwork
+        run: npm run prepare:podcast-artwork
 
+      - name: v40.37 owner review
+        if: always()
+        run: node scripts/v40-37-owner-review-audit.mjs
+      - name: v40.38 owner admin
+        if: always()
+        run: node scripts/v40-38-owner-admin-audit.mjs
+      - name: v40.39 owner editorial
+        if: always()
+        run: node scripts/v40-39-owner-editorial-audit.mjs
+      - name: v40.40 admin usability
+        if: always()
+        run: node scripts/v40-40-owner-admin-usability-audit.mjs
+      - name: v40.41 simple admin
+        if: always()
+        run: node scripts/v40-41-owner-admin-simple-ui-audit.mjs
+      - name: v40.42 owner CMS
+        if: always()
+        run: node scripts/v40-42-owner-cms-phase-1-audit.mjs
+      - name: v40.19 atlas
+        if: always()
+        run: node scripts/v40-19-complete-atlas-audit.mjs
+      - name: Podcast and TEDx
+        if: always()
+        run: node scripts/podcast-tedx-audit.mjs
+      - name: v40.43 newsletters
+        if: always()
+        run: node scripts/v40-43-newsletter-manager-audit.mjs
+      - name: v40.44 page CMS
+        if: always()
+        run: node scripts/v40-44-owner-page-cms-audit.mjs
+      - name: v40.45 science CMS
+        if: always()
+        run: node scripts/v40-45-science-cms-audit.mjs
+      - name: v40.46 body-system CMS
+        if: always()
+        run: node scripts/v40-46-body-system-cms-audit.mjs
+      - name: v40.47 contextual editor
+        if: always()
+        run: node scripts/v40-47-contextual-owner-editor-audit.mjs
+      - name: v40.48 Spanish core
+        if: always()
+        run: node scripts/v40-48-spanish-core-audit.mjs
+      - name: v40.49 Spanish science
+        if: always()
+        run: node scripts/v40-49-spanish-science-body-systems-audit.mjs
+      - name: v40.50 Spanish context
+        if: always()
+        run: node scripts/v40-50-spanish-science-context-audit.mjs
+      - name: v40.51 admin UX
+        if: always()
+        run: node scripts/v40-51-airbnb-admin-ux-audit.mjs
       - name: Syntax audit
+        if: always()
         run: npm run syntax:audit
-
       - name: Production build
+        if: always()
         run: npm run build

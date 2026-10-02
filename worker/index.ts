@@ -41,6 +41,15 @@ const worker = {
   async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url);
 
+    // Keep one canonical production host. A stale www binding previously made it
+    // possible for visitors to see a different deployment than the apex domain.
+    if (url.hostname.toLowerCase() === "www.saynotoplastic.com") {
+      const canonical = new URL(request.url);
+      canonical.hostname = "saynotoplastic.com";
+      canonical.protocol = "https:";
+      return Response.redirect(canonical.toString(), 308);
+    }
+
     if (url.pathname === "/_vinext/image") {
       const allowedWidths = [...DEFAULT_DEVICE_SIZES, ...DEFAULT_IMAGE_SIZES];
       const response = await handleImageOptimization(request, {

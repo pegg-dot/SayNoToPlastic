@@ -1301,3 +1301,653 @@
   border-radius: 0 !important;
   box-shadow: none !important;
 }
+
+
+/* v40.51 — Airbnb-informed owner workspace: stable modes, object-first editing, progressive disclosure. */
+.page {
+  background: #f7f7f5;
+}
+
+.header {
+  min-height: 92px;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 28px;
+  padding: 18px max(24px, calc((100vw - 1440px) / 2));
+  border-bottom: 1px solid #e6e3dd;
+  background: #fff;
+  color: #1f252a;
+}
+.header > div {
+  max-width: 760px;
+}
+.header h1 {
+  margin: 4px 0 5px;
+  font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: clamp(25px, 2.5vw, 33px);
+  font-weight: 700;
+  letter-spacing: -.025em;
+  line-height: 1.05;
+}
+.header p {
+  max-width: 720px;
+  color: #6a7075;
+  font-size: 12px;
+  line-height: 1.45;
+}
+.header aside {
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+.header aside > a {
+  order: 1;
+  margin: 0;
+  padding: 10px 13px;
+  border: 1px solid #d7d3cb;
+  border-radius: 9px;
+  background: #fff;
+  color: #26313a;
+  white-space: nowrap;
+}
+.header aside > div {
+  order: 2;
+  min-width: 0;
+  display: grid;
+  gap: 2px;
+  padding-left: 18px;
+  border-left: 1px solid #e5e1d9;
+}
+.header aside span,
+.header aside small {
+  color: #858b90;
+  font-size: 9px;
+}
+.header aside strong {
+  max-width: 260px;
+  color: #384149;
+  font-size: 11px;
+}
+
+.workspace {
+  width: min(1440px, calc(100% - 40px));
+  margin-top: 0;
+}
+
+.tabs {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  gap: 28px;
+  margin: 0 0 24px;
+  padding: 14px 2px 0;
+  border-bottom: 1px solid #ddd9d1;
+  background: rgba(247,247,245,.96);
+  backdrop-filter: blur(16px);
+}
+.tabs button {
+  padding: 12px 1px 13px;
+  color: #696f74;
+  font-size: 13px;
+  font-weight: 700;
+}
+.tabs button.tabActive {
+  border-bottom-color: #222;
+  color: #222;
+}
+
+.welcomeCard,
+.activityCard,
+.recentCard,
+.mediaManager,
+.settingsList,
+.newsletterManager {
+  border-color: #e2dfd8;
+  border-radius: 12px;
+  box-shadow: none;
+}
+.welcomeCard {
+  padding: 30px;
+}
+.welcomeCard h2,
+.activityCard h3,
+.recentCard h3,
+.editorHeader h2,
+.mediaHeader h3,
+.settingsIntro h3 {
+  font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  letter-spacing: -.025em;
+}
+.welcomeCard h2 {
+  margin: 5px 0 8px;
+  font-size: clamp(29px, 3vw, 38px);
+  font-weight: 700;
+}
+.actionGrid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+.actionGrid button {
+  min-height: 138px;
+  grid-template-columns: 32px minmax(0, 1fr);
+  padding: 18px;
+  border-color: #dfdcd5;
+  border-radius: 14px;
+  background: #fff;
+}
+.actionGrid button:hover {
+  border-color: #a7a29a;
+  background: #fff;
+  box-shadow: 0 5px 18px rgba(24,29,33,.06);
+  transform: translateY(-1px);
+}
+.actionGrid button > span {
+  width: 28px;
+  height: 28px;
+  background: #f1f0ed;
+  color: #4b5156;
+}
+.actionGrid button strong {
+  font-size: 15px;
+}
+.actionGrid button small {
+  color: #747a7f;
+  font-size: 11px;
+}
+.quickLinks {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex-wrap: wrap;
+  margin-top: 18px;
+  padding-top: 17px;
+  border-top: 1px solid #ebe8e2;
+}
+.quickLinks > span {
+  margin-right: 4px;
+  color: #858b90;
+  font-size: 10px;
+  font-weight: 700;
+}
+.quickLinks button {
+  border: 1px solid #dedad2;
+  border-radius: 999px;
+  padding: 8px 11px;
+  background: #fff;
+  color: #3e474e;
+  font: inherit;
+  font-size: 10px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.quickLinks button:hover {
+  border-color: #aaa49a;
+  background: #faf9f7;
+}
+
+.editorHeader {
+  align-items: center;
+  padding: 4px 0 6px;
+}
+.editorHeader h2 {
+  margin: 7px 0 5px;
+  font-size: clamp(30px, 3vw, 39px);
+  font-weight: 700;
+}
+.editorHeader > a {
+  border-radius: 9px;
+}
+.backButton {
+  color: #646b70;
+}
+
+.pageCmsLayout {
+  grid-template-columns: 190px minmax(0, 1fr);
+  gap: 22px;
+}
+.pageTree {
+  top: 62px;
+  gap: 2px;
+  padding: 6px 10px 12px 0;
+  border: 0;
+  border-right: 1px solid #e2ded7;
+  border-radius: 0;
+  background: transparent;
+}
+.pageTree > strong {
+  padding: 8px 10px 11px;
+  color: #7d8388;
+}
+.pageTree button {
+  padding: 11px 10px;
+  border: 0;
+  border-left: 2px solid transparent;
+  border-radius: 0;
+}
+.pageTree button:hover {
+  border-color: transparent;
+  border-left-color: #c8c3ba;
+  background: rgba(255,255,255,.7);
+}
+.pageTree button span {
+  font-size: 12px;
+}
+.pageTree button small {
+  color: #999eA2;
+  font-size: 9px;
+}
+.pageTreeActive {
+  border: 0 !important;
+  border-left: 2px solid #222 !important;
+  background: #fff !important;
+  box-shadow: none !important;
+}
+
+.contextEditorLayout {
+  grid-template-columns: minmax(560px, 1fr) 360px;
+  gap: 18px;
+}
+.contextPreview {
+  position: sticky;
+  top: 62px;
+  align-self: start;
+}
+.contextPreview .livePreviewFrame {
+  height: min(720px, calc(100vh - 150px));
+  min-height: 560px;
+}
+.livePreviewCard {
+  border-color: #dedbd4;
+  border-radius: 12px;
+}
+.livePreviewHeader {
+  min-height: 52px;
+  padding: 12px 15px;
+  background: #fff;
+}
+.livePreviewHeader span {
+  font-size: 12px;
+}
+.livePreviewHeader small {
+  color: #858b90;
+  font-size: 9.5px;
+}
+.livePreviewHeader a {
+  color: #3e464c;
+  font-size: 10px;
+}
+
+.contextInspector {
+  position: sticky;
+  top: 62px;
+  align-self: start;
+  overflow: hidden;
+  border: 1px solid #dedbd4;
+  border-radius: 12px;
+  background: #fff;
+}
+.inspectorIntro {
+  padding: 20px 20px 17px;
+  border-bottom: 1px solid #ebe8e2;
+}
+.inspectorIntro h3 {
+  margin: 5px 0 7px;
+  color: #20272c;
+  font-size: 22px;
+  letter-spacing: -.025em;
+}
+.inspectorIntro p:last-child {
+  margin: 0;
+  color: #747a7f;
+  font-size: 11px;
+  line-height: 1.5;
+}
+.inspectorBack {
+  width: 100%;
+  padding: 14px 18px;
+  border: 0;
+  border-bottom: 1px solid #ebe8e2;
+  background: #faf9f7;
+  color: #4c555c;
+  text-align: left;
+  font: inherit;
+  font-size: 11px;
+  font-weight: 800;
+  cursor: pointer;
+}
+.contextInspector .pageEditorNote {
+  margin: 14px;
+}
+.pageFieldList {
+  display: grid;
+}
+.pageFieldList > button {
+  width: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 16px;
+  align-items: center;
+  padding: 16px 18px;
+  border: 0;
+  border-bottom: 1px solid #eeeae4;
+  background: #fff;
+  color: #222b31;
+  text-align: left;
+  cursor: pointer;
+}
+.pageFieldList > button:last-child {
+  border-bottom: 0;
+}
+.pageFieldList > button:hover {
+  background: #faf9f7;
+}
+.pageFieldList > button > div {
+  min-width: 0;
+  display: grid;
+  gap: 4px;
+}
+.pageFieldList strong {
+  font-size: 12px;
+}
+.pageFieldList small {
+  color: #7f868b;
+  font-size: 10px;
+  line-height: 1.4;
+}
+.pageFieldList > button > span {
+  color: #959b9f;
+  font-size: 9px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.pageFieldList > button > span b {
+  margin-left: 5px;
+  color: #30383e;
+  font-size: 15px;
+}
+.contextInspector .settingsList {
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+.contextInspector .settingCard {
+  border-bottom: 0;
+}
+.contextInspector .settingCardOpen {
+  border-left: 0;
+  background: #fff;
+}
+.contextInspector .settingSummary {
+  padding: 18px;
+  border-bottom: 1px solid #ebe8e2;
+}
+.contextInspector .settingStatus small {
+  display: none;
+}
+.contextInspector .settingStatus b {
+  min-width: 0;
+  color: #767d82;
+}
+.contextInspector .settingEditor {
+  padding: 18px;
+}
+.contextInspector .liveState {
+  background: #f7f6f3;
+}
+
+.scienceWorkspace {
+  display: grid;
+  gap: 16px;
+}
+.scienceToolGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+.scienceToolGrid > button {
+  min-height: 190px;
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr);
+  grid-template-rows: auto auto 1fr auto;
+  gap: 4px 14px;
+  padding: 24px;
+  border: 1px solid #dedbd4;
+  border-radius: 14px;
+  background: #fff;
+  color: #1f282e;
+  text-align: left;
+  cursor: pointer;
+}
+.scienceToolGrid > button:hover {
+  border-color: #aaa49b;
+  box-shadow: 0 6px 18px rgba(25,30,34,.05);
+}
+.scienceToolGrid > button > span {
+  grid-row: 1 / 5;
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #f1f0ed;
+  color: #666d72;
+  font-size: 10px;
+  font-weight: 800;
+}
+.scienceToolGrid strong {
+  font-size: 18px;
+}
+.scienceToolGrid small {
+  max-width: 540px;
+  color: #737a7f;
+  font-size: 11px;
+  line-height: 1.5;
+}
+.scienceToolGrid b {
+  align-self: end;
+  color: #343c42;
+  font-size: 11px;
+}
+.toolBackButton {
+  width: max-content;
+  border: 0;
+  padding: 5px 0;
+  background: transparent;
+  color: #646b70;
+  font: inherit;
+  font-size: 11px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.subTabs {
+  display: flex;
+  gap: 6px;
+  width: max-content;
+  margin: 0 0 4px;
+  padding: 4px;
+  border: 1px solid #dfdcd5;
+  border-radius: 10px;
+  background: #efeeeb;
+}
+.subTabs button {
+  border: 0;
+  border-radius: 7px;
+  padding: 8px 12px;
+  background: transparent;
+  color: #666d72;
+  font: inherit;
+  font-size: 11px;
+  font-weight: 800;
+  cursor: pointer;
+}
+.subTabs button.subTabActive {
+  background: #fff;
+  color: #252d33;
+  box-shadow: 0 1px 4px rgba(24,29,33,.08);
+}
+
+.scienceWorkbench {
+  display: grid;
+  grid-template-columns: 270px minmax(0, 1fr);
+  gap: 14px;
+  align-items: start;
+}
+.scienceStudyNav {
+  position: sticky;
+  top: 62px;
+  display: grid;
+  gap: 4px;
+  padding: 8px;
+  border: 1px solid #dedbd4;
+  border-radius: 11px;
+  background: #f7f6f3;
+}
+.scienceStudyNavHeading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 9px 10px;
+  color: #6b7277;
+  font-size: 10px;
+}
+.scienceStudyNavHeading > span {
+  display: grid;
+  min-width: 22px;
+  height: 22px;
+  place-items: center;
+  border-radius: 999px;
+  background: #e8e6e1;
+  color: #555d62;
+}
+.scienceStudyNav > button {
+  width: 100%;
+  display: grid;
+  gap: 6px;
+  padding: 12px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: transparent;
+  color: #263037;
+  text-align: left;
+  cursor: pointer;
+}
+.scienceStudyNav > button:hover {
+  background: #fff;
+}
+.scienceStudyNav > button > div {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.scienceStudyNav > button > div > small {
+  color: #888f94;
+  font-size: 9px;
+}
+.scienceStudyNav > button > strong {
+  font-size: 11px;
+  line-height: 1.35;
+}
+.scienceStudyNav > button > small {
+  color: #92989c;
+  font-size: 9px;
+  line-height: 1.35;
+}
+.scienceStudyNav > button.scienceStudyNavActive {
+  border-color: #d7d3cb;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(24,29,33,.04);
+}
+.scienceWorkbench .scienceStudyEditor {
+  margin: 0;
+  border-radius: 11px;
+  box-shadow: none;
+}
+
+.newsletterPrimaryActions {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+.newsletterPrimaryActions > a {
+  text-decoration: none;
+}
+.newsletterMore {
+  position: relative;
+}
+.newsletterMore > summary {
+  list-style: none;
+  min-height: 36px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 12px;
+  border: 1px solid #cbc6bb;
+  border-radius: 8px;
+  background: #fff;
+  color: #4e5960;
+  font-size: 11px;
+  font-weight: 800;
+  cursor: pointer;
+}
+.newsletterMore > summary::-webkit-details-marker {
+  display: none;
+}
+.newsletterMore[open] > summary {
+  border-color: #a7a198;
+}
+.newsletterMore > div {
+  position: absolute;
+  z-index: 8;
+  right: 0;
+  top: calc(100% + 6px);
+  min-width: 210px;
+  display: grid;
+  padding: 6px;
+  border: 1px solid #d9d5cd;
+  border-radius: 9px;
+  background: #fff;
+  box-shadow: 0 10px 30px rgba(20,25,29,.12);
+}
+.newsletterMore button {
+  width: 100%;
+  padding: 10px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: #3e474e;
+  text-align: left;
+  font: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.newsletterMore button:hover {
+  background: #f6f5f2;
+}
+.newsletterMore button.dangerMenuButton {
+  color: #9a433c;
+}
+.newsletterMore button:disabled {
+  opacity: .45;
+  cursor: default;
+}
+
+/* Keep this phase desktop-first. Existing responsive rules remain the fallback below 920px. */
+@media (min-width: 921px) and (max-width: 1220px) {
+  .actionGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .contextEditorLayout {
+    grid-template-columns: minmax(500px, 1fr) 330px;
+  }
+  .scienceWorkbench {
+    grid-template-columns: 235px minmax(0, 1fr);
+  }
+}

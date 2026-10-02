@@ -17,6 +17,7 @@ const spanishScience = read("app/es/ciencia/page.tsx");
 const i18n = read("app/lib/i18n.ts");
 const sitemap = read("app/sitemap.ts");
 const build = read("app/build-version.ts");
+const freshness = read("app/lib/spanish-body-system.ts");
 
 const slugList = (content) => [...content.matchAll(/slug:\s*"([^"]+)"/g)].map((match) => match[1]);
 const englishSlugs = slugList(english);
@@ -59,6 +60,7 @@ for (const slug of englishSlugs) {
 
 expect(spanishRoute.includes('locale="es"') && spanishRoute.includes("article.known") && spanishRoute.includes("article.uncertain") && spanishRoute.includes("article.primarySources"), "Spanish body-system template preserves evidence boundaries and source rendering.");
 expect(spanishRoute.includes('article.reviewStatus === "source-review"') && spanishRoute.includes('article.reviewStatus !== "verified"'), "Spanish body-system template preserves indexing and editorial behavior by review status.");
+expect(spanishRoute.includes("translationIsStale") && freshness.includes("ownerEditableSnapshot") && freshness.includes("getEffectiveBodySystem"), "Spanish body-system pages fail safe when owner edits make a reviewed translation stale.");
 expect(spanishRoute.includes('"en-US": `/science/body/${article.slug}`') && spanishRoute.includes('"es-US": `/es/ciencia/cuerpo/${article.slug}`'), "Spanish body-system metadata exposes reciprocal hreflang.");
 expect(englishRoute.includes('"es-US": `/es/ciencia/cuerpo/${article.slug}`'), "English body-system metadata exposes the Spanish alternate.");
 expect(spanishScience.includes('import { bodySystemsEs }') && spanishScience.includes('/es/ciencia/cuerpo/${item.slug}') && !spanishScience.includes("Página detallada en inglés"), "Spanish Science now routes body-system cards to translated detail pages.");

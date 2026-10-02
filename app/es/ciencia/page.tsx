@@ -3,7 +3,10 @@ import { Footer, Header } from "../../components/SiteChrome";
 import { TrackedLink } from "../../components/TrackedLink";
 import { BOOK, SITE_URL } from "../../config";
 import { evidenceChaptersEs } from "../../content/es/evidence";
+import { bodySystemsEs } from "../../content/es/body-systems";
 import type { EvidenceStudy } from "../../content/evidence";
+import { ScienceNavigator } from "../../science/ScienceNavigator";
+import { DetectionPrimer } from "../../components/DetectionPrimer";
 
 export const dynamic = "force-dynamic";
 
@@ -26,15 +29,6 @@ export const metadata: Metadata = {
   },
 };
 
-const bodySystemsEs = [
-  { title: "Sistema cardiovascular", summary: "Se ha detectado material derivado del plástico en placa arterial enferma y en sangre coronaria. Los resultados son asociaciones importantes, no prueba de causalidad.", href: "/science/body/cardiovascular-system" },
-  { title: "Salud reproductiva femenina", summary: "Se han detectado microplásticos en entornos reproductivos femeninos, incluido el líquido folicular. La detección confirma exposición, no infertilidad.", href: "/science/body/female-reproductive-health" },
-  { title: "Sistema endocrino y metabólico", summary: "La evidencia sobre sustancias químicas disruptoras endocrinas es más amplia que la evidencia todavía emergente sobre partículas microplásticas.", href: "/science/body/endocrine-metabolic-system" },
-  { title: "Riñones y sistema urinario", summary: "Los investigadores estudian si las partículas pasan por los riñones, se eliminan o permanecen en el tejido. La evidencia humana sobre resultados clínicos sigue siendo limitada.", href: "/science/body/kidneys-urinary-system" },
-  { title: "Piel", summary: "La piel sana parece bloquear la mayoría de los microplásticos. Se sigue investigando nanoplásticos, piel dañada y sustancias químicas asociadas al plástico.", href: "/science/body/skin" },
-  { title: "Sistema digestivo", summary: "Los alimentos y el agua potable son vías importantes de exposición. Gran parte del material ingerido parece atravesar el tubo digestivo, mientras se estudian las partículas más pequeñas.", href: "/science/body/digestive-system" },
-  { title: "Embarazo, placenta y primeras etapas de la vida", summary: "La detección en placenta está respaldada por un estudio humano enlazado. Otras afirmaciones requieren una revisión completa de sus fuentes primarias.", href: "/science/body/pregnancy-early-life" },
-];
 
 function StudyDetailsEs({ study }: { study: EvidenceStudy }) {
   const isContext = study.studyType === "Contexto anatómico";
@@ -103,10 +97,14 @@ export default function ScienceSpanishPage() {
           </div>
           <dl className="science-v2-hero-facts">
             <div><dt>{String(researchStudies.length).padStart(2, "0")}</dt><dd>Estudios humanos resumidos</dd></div>
-            <div><dt>07</dt><dd>Visiones por sistemas del cuerpo</dd></div>
+            <div><dt>07</dt><dd>Resúmenes por sistemas del cuerpo</dd></div>
             <div><dt>100%</dt><dd>Fuentes originales enlazadas</dd></div>
           </dl>
         </section>
+
+        <ScienceNavigator locale="es" chapters={evidenceChaptersEs.map(({ id, navLabel }) => ({ id, navLabel }))} />
+
+        <DetectionPrimer locale="es" />
 
         <section className="science-v2-reading" aria-label="Capítulos de evidencia humana">
           <header className="science-v2-reading-intro">
@@ -129,17 +127,17 @@ export default function ScienceSpanishPage() {
           ))}
         </section>
 
-        <section className="science-v2-context" aria-labelledby="body-system-title">
+        <section id="body-system-overviews" className="science-v2-context" aria-labelledby="body-system-title">
           <header>
             <p className="eyebrow dark">Contexto biológico</p>
             <h2 id="body-system-title">Explora el cuerpo sistema por sistema.</h2>
-            <p>Estas introducciones explican el contexto alrededor de los estudios. Las páginas detalladas todavía se mantienen en inglés mientras se revisa su traducción científica completa.</p>
+            <p>Estas páginas mantienen la misma estructura científica del sitio en inglés: evidencia conocida, incertidumbres, estado de revisión y fuentes primarias claramente separadas.</p>
           </header>
           <div className="science-v2-context-links">
             {bodySystemsEs.map((item, index) => (
-              <TrackedLink key={item.href} href={item.href} eventName="cta_click" label={`science-es-system-${index + 1}`}>
+              <TrackedLink key={item.slug} href={`/es/ciencia/cuerpo/${item.slug}`} eventName="cta_click" label={`science-es-system-${index + 1}`}>
                 <span>{String(index + 1).padStart(2, "0")}</span>
-                <div><small>Página detallada en inglés</small><strong>{item.title}</strong><p>{item.summary}</p></div>
+                <div><small>{item.reviewStatus === "verified" ? "Evidencia verificada" : item.reviewStatus === "partial" ? "Revisión parcial de fuentes" : "Revisión de fuentes pendiente"}</small><strong>{item.title}</strong><p>{item.summary}</p></div>
                 <b aria-hidden="true">→</b>
               </TrackedLink>
             ))}

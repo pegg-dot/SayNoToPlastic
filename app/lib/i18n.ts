@@ -3,6 +3,8 @@ export type SiteLocale = "en" | "es";
 const spanishRouteMap: Record<string, string> = {
   "/": "/es",
   "/science": "/es/ciencia",
+  "/science/how-detection-works": "/es/ciencia/como-funciona-la-deteccion",
+  "/science/exposome": "/es/ciencia/exposoma",
   "/solutions": "/es/accion",
   "/quick-action-card": "/es/guia-12-pasos",
   "/podcast": "/es/podcast",
@@ -18,10 +20,12 @@ const englishRouteMap = Object.fromEntries(
 export function localizedPath(pathname: string, locale: SiteLocale) {
   if (locale === "es") {
     if (spanishRouteMap[pathname]) return spanishRouteMap[pathname];
+    if (pathname.startsWith("/science/body/")) return pathname.replace("/science/body/", "/es/ciencia/cuerpo/");
     return pathname.startsWith("/es") ? pathname : pathname;
   }
 
   if (englishRouteMap[pathname]) return englishRouteMap[pathname];
+  if (pathname.startsWith("/es/ciencia/cuerpo/")) return pathname.replace("/es/ciencia/cuerpo/", "/science/body/");
   return pathname.startsWith("/es/") ? (englishRouteMap[pathname] || "/") : pathname;
 }
 

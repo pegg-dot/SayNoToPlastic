@@ -9,7 +9,7 @@ import { SITE_URL } from "../../config";
 export const metadata: Metadata = {
   title: "The Exposome: Lifetime Environmental Exposure | Say No to Plastic",
   description: exposomeContent.description,
-  alternates: { canonical: "/science/exposome" },
+  alternates: { canonical: "/science/exposome", languages: { "en-US": "/science/exposome", "es-US": "/es/ciencia/exposoma" } },
   openGraph: { title: exposomeContent.title, description: exposomeContent.description, url: `${SITE_URL}/science/exposome`, siteName: "Say No to Plastic", type: "article", images: [{ url: "/evidence.webp", width: 1536, height: 1024, alt: "The exposome and lifetime environmental exposure" }] },
   twitter: { card: "summary_large_image", title: exposomeContent.title, description: exposomeContent.description, images: ["/evidence.webp"] },
 };

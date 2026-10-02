@@ -8,7 +8,7 @@ import { SITE_URL } from "../../config";
 export const metadata: Metadata = {
   title: "How Scientists Detect Microplastics | Say No to Plastic",
   description: detectionContent.description,
-  alternates: { canonical: "/science/how-detection-works" },
+  alternates: { canonical: "/science/how-detection-works", languages: { "en-US": "/science/how-detection-works", "es-US": "/es/ciencia/como-funciona-la-deteccion" } },
   openGraph: { title: detectionContent.title, description: detectionContent.description, url: `${SITE_URL}/science/how-detection-works`, siteName: "Say No to Plastic", type: "article", images: [{ url: "/evidence.webp", width: 1536, height: 1024, alt: "Laboratory evidence about microplastics" }] },
   twitter: { card: "summary_large_image", title: detectionContent.title, description: detectionContent.description, images: ["/evidence.webp"] },
 };

@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { guides } from "./content/guides";
 import { bodySystems } from "./content/body-systems";
+import { bodySystemsEs } from "./content/es/body-systems";
 import { SITE_URL } from "./config";
 import { TEDX_RELEASE } from "./content/publications";
 
@@ -13,7 +14,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/media/press-kit", "/community", "/newsletters", "/contact", "/editorial-policy",
     "/medical-disclaimer", "/affiliate-disclosure", "/privacy-policy",
     "/refunds-and-returns", "/terms", "/accessibility",
-    "/es", "/es/ciencia", "/es/accion", "/es/guia-12-pasos", "/es/homo-plasticus",
+    "/es", "/es/ciencia", "/es/ciencia/como-funciona-la-deteccion", "/es/ciencia/exposoma",
+    "/es/accion", "/es/guia-12-pasos", "/es/homo-plasticus",
     "/es/podcast", "/es/tedx", "/es/sobre-dr-elie-haddad",
   ];
   if (TEDX_RELEASE.published) routes.push("/tedx");
@@ -26,6 +28,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })),
     ...bodySystems.map((item) => ({
       url: `${base}/science/body/${item.slug}`,
+      lastModified: new Date(item.updatedDate),
+      changeFrequency: "monthly" as const,
+      priority: .82,
+    })),
+    ...bodySystemsEs.map((item) => ({
+      url: `${base}/es/ciencia/cuerpo/${item.slug}`,
       lastModified: new Date(item.updatedDate),
       changeFrequency: "monthly" as const,
       priority: .82,

@@ -1,17 +1,20 @@
 import { detectionSteps } from "../content/haddad-topics";
+import { detectionStepsEs } from "../content/es/haddad-topics";
 import { TrackedLink } from "./TrackedLink";
+import type { SiteLocale } from "../lib/i18n";
 
-export function DetectionPrimer() {
+
+export function DetectionPrimer({ locale = "en" }: { locale?: SiteLocale }) {
   return (
     <section className="detection-primer" aria-labelledby="detection-primer-title">
       <div className="detection-primer-copy">
-        <p className="eyebrow">Before the result</p>
-        <h2 id="detection-primer-title">How do scientists know plastic is there?</h2>
-        <p>Every finding begins with collection, contamination control, sample preparation, and an instrument chosen for a specific measurement. Different methods can report different kinds of evidence.</p>
-        <TrackedLink className="text-link" href="/science/how-detection-works" eventName="cta_click" label="science-detection-primer">See how detection works <span>→</span></TrackedLink>
+        <p className="eyebrow">{locale === "es" ? "Antes del resultado" : "Before the result"}</p>
+        <h2 id="detection-primer-title">{locale === "es" ? "¿Cómo saben los científicos que el plástico está ahí?" : "How do scientists know plastic is there?"}</h2>
+        <p>{locale === "es" ? "Cada hallazgo comienza con la recolección, el control de contaminación, la preparación de la muestra y un instrumento elegido para una medición específica. Métodos diferentes pueden producir tipos de evidencia diferentes." : "Every finding begins with collection, contamination control, sample preparation, and an instrument chosen for a specific measurement. Different methods can report different kinds of evidence."}</p>
+        <TrackedLink className="text-link" href={locale === "es" ? "/es/ciencia/como-funciona-la-deteccion" : "/science/how-detection-works"} eventName="cta_click" label={locale === "es" ? "science-es-detection-primer" : "science-detection-primer"}>{locale === "es" ? "Ver cómo funciona la detección" : "See how detection works"} <span>→</span></TrackedLink>
       </div>
       <ol>
-        {detectionSteps.map((step) => (
+        {(locale === "es" ? detectionStepsEs : detectionSteps).map((step) => (
           <li key={step.number}><span>{step.number}</span><div><strong>{step.title}</strong><p>{step.text}</p></div></li>
         ))}
       </ol>

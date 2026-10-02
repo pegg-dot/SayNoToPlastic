@@ -16,7 +16,7 @@ export const dynamic = "force-dynamic";
 
 const description = "A physician-led platform translating microplastic and nanoplastic research into practical steps that help protect human health and future generations.";
 export const metadata: Metadata = {
-  alternates: { canonical: "/" },
+  alternates: { canonical: "/", languages: { "en-US": "/", "es-US": "/es" } },
   title: "Say No To Plastic | Microplastics, Human Health & Practical Solutions",
   description,
   openGraph: { title: "Say No To Plastic | Microplastics, Human Health & Practical Solutions", description, url: "/", siteName: "Say No to Plastic", type: "website", images: [{ url: "/sntp-social-share.webp", width: 1200, height: 630, alt: "Say No to Plastic — physician-led science, clarity, and practical action" }] },

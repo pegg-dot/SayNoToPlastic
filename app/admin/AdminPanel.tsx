@@ -29,12 +29,11 @@ type Field = {
 type SaveState = "idle" | "saving" | "saved" | "error";
 type SectionId = "dashboard" | "pages" | "media" | "press" | "newsletters";
 
-const sections: Array<{ id: SectionId; label: string }> = [
-  { id: "dashboard", label: "Home" },
-  { id: "pages", label: "Pages" },
-  { id: "media", label: "Events & Media" },
-  { id: "press", label: "Press kit" },
-  { id: "newsletters", label: "Newsletters" },
+const sections: Array<{ id: Exclude<SectionId, "press">; label: string }> = [
+  { id: "dashboard", label: "Today" },
+  { id: "pages", label: "Website" },
+  { id: "newsletters", label: "Field Notes" },
+  { id: "media", label: "Media" },
 ];
 
 const fieldGroups: Record<"media" | "press", AdminContentKey[]> = {
@@ -150,6 +149,7 @@ export function AdminPanel({
   const initialMap = useMemo(() => new Map(initialContent.map((record) => [record.key, record])), [initialContent]);
   const [section, setSection] = useState<SectionId>("dashboard");
   const [selectedPage, setSelectedPage] = useState<OwnerPageId>("homepage");
+  const [scienceTool, setScienceTool] = useState<"overview" | "studies" | "body-systems">("overview");
   const [previewRevision, setPreviewRevision] = useState(0);
   const previewFrameRef = useRef<HTMLIFrameElement>(null);
   const [editingKey, setEditingKey] = useState<AdminContentKey | null>(null);
@@ -168,6 +168,7 @@ export function AdminPanel({
   function goTo(next: SectionId, key?: AdminContentKey) {
     setSection(next);
     setEditingKey(key ?? null);
+    if (next !== "pages") setScienceTool("overview");
     window.setTimeout(() => window.scrollTo({ top: 0, behavior: "smooth" }), 0);
   }
 
@@ -259,6 +260,7 @@ export function AdminPanel({
     setSelectedPage(page);
     setSection("pages");
     setEditingKey(key ?? null);
+    setScienceTool("overview");
     window.setTimeout(() => window.scrollTo({ top: 0, behavior: "smooth" }), 0);
   }
 

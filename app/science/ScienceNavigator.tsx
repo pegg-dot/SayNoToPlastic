@@ -2,8 +2,9 @@
 
 import { useEffect, useState } from "react";
 import type { EvidenceChapter } from "../content/evidence";
+import type { SiteLocale } from "../lib/i18n";
 
-export function ScienceNavigator({ chapters }: { chapters: Pick<EvidenceChapter, "id" | "navLabel">[] }) {
+export function ScienceNavigator({ chapters, locale = "en" }: { chapters: Pick<EvidenceChapter, "id" | "navLabel">[]; locale?: SiteLocale }) {
   const [active, setActive] = useState(chapters[0]?.id ?? "");
 
   useEffect(() => {
@@ -26,9 +27,9 @@ export function ScienceNavigator({ chapters }: { chapters: Pick<EvidenceChapter,
   }, [chapters]);
 
   return (
-    <nav className="science-v2-nav" aria-label="Explore evidence by body system">
+    <nav className="science-v2-nav" aria-label={locale === "es" ? "Explorar la evidencia por sistema del cuerpo" : "Explore evidence by body system"}>
       <div className="science-v2-nav-inner">
-        <span className="science-v2-nav-label">Explore the findings</span>
+        <span className="science-v2-nav-label">{locale === "es" ? "Explorar los hallazgos" : "Explore the findings"}</span>
         <div className="science-v2-nav-links">
           {chapters.map((chapter, index) => (
             <a

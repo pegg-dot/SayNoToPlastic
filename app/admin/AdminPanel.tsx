@@ -173,7 +173,9 @@ export function AdminPanel({
   const [saveStates, setSaveStates] = useState(() => Object.fromEntries(fields.map((field) => [field.key, "idle"])) as Record<AdminContentKey, SaveState>);
   const [messages, setMessages] = useState(() => Object.fromEntries(fields.map((field) => [field.key, ""])) as Record<AdminContentKey, string>);
   const [revisions, setRevisions] = useState(initialRevisions);
-  const [mediaItems, setMediaItems] = useState(() => readMediaItems(initialMap.get("media.entries_json")?.value));
+  const initialMediaItems = useMemo(() => readMediaItems(initialMap.get("media.entries_json")?.value), [initialMap]);
+  const [mediaItems, setMediaItems] = useState(() => initialMediaItems);
+  const [selectedMediaId, setSelectedMediaId] = useState<string | null>(() => initialMediaItems[0]?.id ?? null);
 
   function fieldLabel(key: AdminContentKey) {
     const field = fields.find((candidate) => candidate.key === key);
@@ -328,10 +330,18 @@ export function AdminPanel({
     setMediaItems((current) => current.map((item) => item.id === id ? { ...item, ...patch } : item));
   }
 
+  function addMediaItem() {
+    const next = blankMediaItem();
+    setMediaItems((current) => [next, ...current]);
+    setSelectedMediaId(next.id);
+  }
+
   function removeMediaItem(id: string, title: string) {
     const label = title.trim() || "this item";
     if (!window.confirm(`Remove “${label}”? It will not disappear from the live site until you save the media changes.`)) return;
+    const fallback = mediaItems.find((candidate) => candidate.id !== id)?.id ?? null;
     setMediaItems((current) => current.filter((candidate) => candidate.id !== id));
+    if (selectedMediaId === id) setSelectedMediaId(fallback);
   }
 
   function renderField(key: AdminContentKey) {

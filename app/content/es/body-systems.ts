@@ -225,7 +225,7 @@ export const bodySystemsEs: BodySystemArticle[] = [
     uncertain: [
       "Si la exposición cotidiana a microplásticos tiene un efecto endocrino medible en humanos.",
       "La contribución relativa de las partículas, los aditivos, la inflamación y otras exposiciones.",
-      "Qué niveles de exposición, momentos e individualidades serían más importantes.",
+      "Qué niveles de exposición, momentos y factores individuales serían más importantes.",
     ],
     relatedEvidence: [
       { label: "Salud reproductiva femenina", href: "/es/ciencia/cuerpo/female-reproductive-health" },
@@ -251,7 +251,7 @@ export const bodySystemsEs: BodySystemArticle[] = [
     summary: "Los riñones filtran continuamente la sangre. Los científicos estudian si las partículas microscópicas de plástico atraviesan los riñones, se eliminan o permanecen en el tejido renal, pero la evidencia humana sobre resultados clínicos es limitada.",
     routeLabel: "Riñones y filtración",
     heroFact: "180 L",
-    heroFactLabel: "de filtrado sanguíneo procesado por los riñones cada día, unas 47 galones según el borrador proporcionado",
+    heroFactLabel: "de filtrado sanguíneo procesado por los riñones cada día, unos 47 galones según el borrador proporcionado",
     accent: "kidney",
     sections: [
       {
@@ -429,7 +429,7 @@ export const bodySystemsEs: BodySystemArticle[] = [
         id: "research",
         title: "Qué dice el resumen de investigación proporcionado",
         paragraphs: [
-          "Se han reportado microplásticos en heces humanas, lo que confirma que las partículas se consumen y atraviesan el sistema digestivo.",
+          "Se han reportado microplásticos en heces humanas, lo que confirma que las partículas se ingieren y atraviesan el sistema digestivo.",
           "Estudios de laboratorio y en animales sugieren que algunas partículas muy pequeñas pueden cruzar la barrera intestinal, mientras que gran parte del material ingerido parece eliminarse.",
           "Los investigadores estudian posibles efectos sobre el microbioma intestinal, la inflamación y la integridad de la barrera. El borrador proporcionado subraya que gran parte de esta evidencia todavía no es evidencia directa de resultados en humanos.",
           "El material no establece que los microplásticos ingeridos causen enfermedad inflamatoria intestinal, enfermedad de Crohn, colitis ulcerosa o cáncer de colon.",
@@ -439,7 +439,7 @@ export const bodySystemsEs: BodySystemArticle[] = [
         id: "meaning",
         title: "Qué significa esto",
         paragraphs: [
-          "Cada comida es una interacción entre el cuerpo y el entorno exterior. Que las partículas entren en el sistema digestivo es coherente con una exposición extendida.",
+          "Cada comida es una interacción entre el cuerpo y el entorno exterior. Que las partículas entren en el sistema digestivo es coherente con una exposición generalizada.",
           "Las preguntas más difíciles se refieren a la dosis absorbida, el tamaño de las partículas, cuánto material permanece en el cuerpo y si la exposición repetida durante décadas cambia la salud humana.",
         ],
       },
@@ -528,7 +528,7 @@ export const bodySystemsEs: BodySystemArticle[] = [
       "El borrador proporcionado describe detecciones adicionales en etapas tempranas de la vida que aún necesitan que se adjunten sus citas primarias.",
       "La detección no demuestra una complicación del embarazo ni un trastorno del desarrollo.",
       "El embarazo y las primeras etapas de la vida son periodos prioritarios de investigación porque el desarrollo es rápido.",
-      "El sitio utiliza un límite médico que evita culpabilizar y prioriza la atención establecida.",
+      "El sitio mantiene un límite médico que evita culpabilizar y prioriza la atención establecida.",
     ],
     known: [
       "El estudio verificado de placenta utilizó un protocolo de recolección sin plástico y microespectroscopia Raman.",

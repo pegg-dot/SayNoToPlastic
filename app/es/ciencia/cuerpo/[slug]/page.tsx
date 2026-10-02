@@ -81,7 +81,7 @@ export default async function BodySystemSpanishPage({ params }: { params: Promis
               <TrackedLink className="text-link" href="/es/ciencia" eventName="cta_click" label={`system-es-${article.slug}-science`}>Volver a Ciencia <span>→</span></TrackedLink>
             </div>
           </div>
-          <BodySystemVisual article={article} />
+          <BodySystemVisual article={article} locale="es" />
           <aside className="body-system-hero-fact">
             <span>{article.heroFact}</span>
             <p>{article.heroFactLabel}</p>

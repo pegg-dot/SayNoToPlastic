@@ -9,9 +9,6 @@ const spanishRouteMap: Record<string, string> = {
   "/tedx": "/es/tedx",
   "/about-dr-elie-haddad": "/es/sobre-dr-elie-haddad",
   "/homo-plasticus": "/es/homo-plasticus",
-  "/media": "/es/medios",
-  "/newsletters": "/es/boletines",
-  "/contact": "/es/contacto",
 };
 
 const englishRouteMap = Object.fromEntries(
@@ -21,15 +18,11 @@ const englishRouteMap = Object.fromEntries(
 export function localizedPath(pathname: string, locale: SiteLocale) {
   if (locale === "es") {
     if (spanishRouteMap[pathname]) return spanishRouteMap[pathname];
-    if (pathname.startsWith("/science/body/")) return pathname.replace("/science/body/", "/es/ciencia/cuerpo/");
-    if (pathname.startsWith("/resources/")) return pathname.replace("/resources/", "/es/guias/");
-    return pathname.startsWith("/es") ? pathname : `/es${pathname === "/" ? "" : pathname}`;
+    return pathname.startsWith("/es") ? pathname : pathname;
   }
 
   if (englishRouteMap[pathname]) return englishRouteMap[pathname];
-  if (pathname.startsWith("/es/ciencia/cuerpo/")) return pathname.replace("/es/ciencia/cuerpo/", "/science/body/");
-  if (pathname.startsWith("/es/guias/")) return pathname.replace("/es/guias/", "/resources/");
-  return pathname.startsWith("/es/") ? pathname.slice(3) || "/" : pathname;
+  return pathname.startsWith("/es/") ? (englishRouteMap[pathname] || "/") : pathname;
 }
 
 export const chromeCopy = {

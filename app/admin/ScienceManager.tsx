@@ -58,22 +58,36 @@ export function ScienceManager({
   saveState: "idle" | "saving" | "saved" | "error";
   onSave: (value: string) => Promise<AdminContentRecord | null>;
 }) {
-  const [studies, setStudies] = useState<OwnerScienceStudy[]>(() => parseStudies(value));
+  const initialStudies = useMemo(() => parseStudies(value), [value]);
+  const [studies, setStudies] = useState<OwnerScienceStudy[]>(() => initialStudies);
+  const [selectedStudyId, setSelectedStudyId] = useState<string | null>(() => initialStudies[0]?.id ?? null);
   const [message, setMessage] = useState("");
   const serialized = useMemo(() => JSON.stringify(studies), [studies]);
   const dirty = serialized !== (value || "[]");
+  const selectedStudy = studies.find((study) => study.id === selectedStudyId) ?? studies[0] ?? null;
 
   useEffect(() => {
-    setStudies(parseStudies(value));
+    const next = parseStudies(value);
+    setStudies(next);
+    setSelectedStudyId((current) => current && next.some((study) => study.id === current) ? current : next[0]?.id ?? null);
   }, [value]);
 
   function patchStudy(id: string, patch: Partial<OwnerScienceStudy>) {
     setStudies((current) => current.map((study) => study.id === id ? { ...study, ...patch } : study));
   }
 
+  function addStudy() {
+    const next = blankStudy();
+    setStudies((current) => [next, ...current]);
+    setSelectedStudyId(next.id);
+    setMessage("New study created as a private draft. Fill in the evidence before publishing.");
+  }
+
   function removeStudy(study: OwnerScienceStudy) {
     if (!window.confirm(`Remove “${study.headline || "this science draft"}”? It will disappear from the public Science page after you save if it is currently published.`)) return;
+    const fallback = studies.find((candidate) => candidate.id !== study.id)?.id ?? null;
     setStudies((current) => current.filter((candidate) => candidate.id !== study.id));
+    if (selectedStudyId === study.id) setSelectedStudyId(fallback);
     setMessage("Study removed from this draft. Save science changes to make that removal live.");
   }
 
@@ -87,11 +101,11 @@ export function ScienceManager({
     <section className={styles.scienceManager}>
       <div className={styles.scienceManagerHeader}>
         <div>
-          <p className={styles.kicker}>Structured research editor</p>
-          <h3>Human evidence studies</h3>
-          <p>Add research as structured evidence, not as a free-form article. A study stays private until you explicitly mark it Published and save.</p>
+          <p className={styles.kicker}>Human evidence</p>
+          <h3>Studies</h3>
+          <p>Choose one study, then edit only that study. Nothing new is public until you mark it Published and save.</p>
         </div>
-        <button className={styles.primaryButton} type="button" onClick={() => setStudies((current) => [blankStudy(), ...current])}>+ Add research study</button>
+        <button className={styles.primaryButton} type="button" onClick={addStudy}>+ Add research study</button>
       </div>
 
       <div className={styles.scienceGuardrail}>
@@ -102,95 +116,117 @@ export function ScienceManager({
       {studies.length === 0 ? (
         <div className={styles.emptyBox}>No owner-added studies yet. The reviewed source studies on the Science page remain unchanged.</div>
       ) : (
-        <div className={styles.scienceStudyList}>
-          {studies.map((study, index) => (
-            <article className={styles.scienceStudyEditor} key={study.id}>
-              <div className={styles.scienceStudyTop}>
+        <div className={styles.scienceWorkbench}>
+          <aside className={styles.scienceStudyNav} aria-label="Owner-added science studies">
+            <div className={styles.scienceStudyNavHeading}>
+              <strong>Studies</strong>
+              <span>{studies.length}</span>
+            </div>
+            {studies.map((study) => (
+              <button
+                key={study.id}
+                type="button"
+                className={selectedStudy?.id === study.id ? styles.scienceStudyNavActive : ""}
+                onClick={() => { setSelectedStudyId(study.id); setMessage(""); }}
+              >
                 <div>
                   <span className={study.published ? styles.newsletterLive : styles.newsletterDraft}>{study.published ? "Published" : "Draft"}</span>
-                  <small>{chapterLabel(study.chapterId)} · owner-added study {studies.length - index}</small>
+                  <small>{chapterLabel(study.chapterId)}</small>
+                </div>
+                <strong>{study.headline || "Untitled study"}</strong>
+                <small>{study.stat ? `${study.stat} · ${study.statLabel || "key result"}` : "No key result entered yet"}</small>
+              </button>
+            ))}
+          </aside>
+
+          {selectedStudy && (
+            <article className={styles.scienceStudyEditor}>
+              <div className={styles.scienceStudyTop}>
+                <div>
+                  <span className={selectedStudy.published ? styles.newsletterLive : styles.newsletterDraft}>{selectedStudy.published ? "Published" : "Draft"}</span>
+                  <small>{chapterLabel(selectedStudy.chapterId)}</small>
                 </div>
                 <label className={styles.publishSwitch}>
                   <input
                     type="checkbox"
-                    checked={study.published}
-                    onChange={(event) => patchStudy(study.id, { published: event.target.checked })}
+                    checked={selectedStudy.published}
+                    onChange={(event) => patchStudy(selectedStudy.id, { published: event.target.checked })}
                   />
-                  <span>{study.published ? "Show on Science page" : "Keep private"}</span>
+                  <span>{selectedStudy.published ? "Show on Science page" : "Keep private"}</span>
                 </label>
               </div>
 
               <div className={styles.sciencePreviewCard}>
-                <span>{study.stat || "Key result"}</span>
+                <span>{selectedStudy.stat || "Key result"}</span>
                 <div>
-                  <small>{study.statLabel || "What the number represents"}</small>
-                  <strong>{study.headline || "Study headline preview"}</strong>
-                  <p>{study.finding || "The public finding will appear here once entered."}</p>
+                  <small>{selectedStudy.statLabel || "What the number represents"}</small>
+                  <strong>{selectedStudy.headline || "Study headline preview"}</strong>
+                  <p>{selectedStudy.finding || "The public finding will appear here once entered."}</p>
                 </div>
               </div>
 
               <div className={styles.scienceFields}>
                 <label>Body-system chapter
-                  <select value={study.chapterId} onChange={(event) => patchStudy(study.id, { chapterId: event.target.value as OwnerScienceChapterId })}>
+                  <select value={selectedStudy.chapterId} onChange={(event) => patchStudy(selectedStudy.id, { chapterId: event.target.value as OwnerScienceChapterId })}>
                     {chapterOptions.map((chapter) => <option value={chapter.id} key={chapter.id}>{chapter.label}</option>)}
                   </select>
                 </label>
                 <label>Study headline
-                  <input value={study.headline} maxLength={180} placeholder="What did the study find?" onChange={(event) => patchStudy(study.id, { headline: event.target.value })} />
+                  <input value={selectedStudy.headline} maxLength={180} placeholder="What did the study find?" onChange={(event) => patchStudy(selectedStudy.id, { headline: event.target.value })} />
                 </label>
                 <div className={styles.scienceTwoCol}>
                   <label>Key number / statistic
-                    <input value={study.stat} maxLength={80} placeholder="Example: 17 of 22" onChange={(event) => patchStudy(study.id, { stat: event.target.value })} />
+                    <input value={selectedStudy.stat} maxLength={80} placeholder="Example: 17 of 22" onChange={(event) => patchStudy(selectedStudy.id, { stat: event.target.value })} />
                   </label>
                   <label>What that number means
-                    <input value={study.statLabel} maxLength={180} placeholder="people had plastic detected in blood" onChange={(event) => patchStudy(study.id, { statLabel: event.target.value })} />
+                    <input value={selectedStudy.statLabel} maxLength={180} placeholder="people had plastic detected in blood" onChange={(event) => patchStudy(selectedStudy.id, { statLabel: event.target.value })} />
                   </label>
                 </div>
                 <label>What researchers found
-                  <textarea value={study.finding} maxLength={900} onChange={(event) => patchStudy(study.id, { finding: event.target.value })} />
+                  <textarea value={selectedStudy.finding} maxLength={900} onChange={(event) => patchStudy(selectedStudy.id, { finding: event.target.value })} />
                 </label>
                 <label>Why it matters
-                  <textarea value={study.meaning} maxLength={900} onChange={(event) => patchStudy(study.id, { meaning: event.target.value })} />
+                  <textarea value={selectedStudy.meaning} maxLength={900} onChange={(event) => patchStudy(selectedStudy.id, { meaning: event.target.value })} />
                 </label>
                 <div className={styles.scienceTwoCol}>
                   <label>Study type
-                    <input value={study.studyType} maxLength={180} placeholder="Prospective observational study" onChange={(event) => patchStudy(study.id, { studyType: event.target.value })} />
+                    <input value={selectedStudy.studyType} maxLength={180} placeholder="Prospective observational study" onChange={(event) => patchStudy(selectedStudy.id, { studyType: event.target.value })} />
                   </label>
                   <label>Sample
-                    <input value={study.sample} maxLength={700} placeholder="Who or what was studied?" onChange={(event) => patchStudy(study.id, { sample: event.target.value })} />
+                    <input value={selectedStudy.sample} maxLength={700} placeholder="Who or what was studied?" onChange={(event) => patchStudy(selectedStudy.id, { sample: event.target.value })} />
                   </label>
                 </div>
                 <label>Method
-                  <textarea value={study.method} maxLength={700} onChange={(event) => patchStudy(study.id, { method: event.target.value })} />
+                  <textarea value={selectedStudy.method} maxLength={700} onChange={(event) => patchStudy(selectedStudy.id, { method: event.target.value })} />
                 </label>
                 <label>Limitations
-                  <textarea value={study.limits} maxLength={1000} placeholder="What this study cannot establish" onChange={(event) => patchStudy(study.id, { limits: event.target.value })} />
+                  <textarea value={selectedStudy.limits} maxLength={1000} placeholder="What this study cannot establish" onChange={(event) => patchStudy(selectedStudy.id, { limits: event.target.value })} />
                 </label>
                 <div className={styles.scienceThreeCol}>
                   <label>Year
-                    <input value={study.year} maxLength={40} placeholder="2026" onChange={(event) => patchStudy(study.id, { year: event.target.value })} />
+                    <input value={selectedStudy.year} maxLength={40} placeholder="2026" onChange={(event) => patchStudy(selectedStudy.id, { year: event.target.value })} />
                   </label>
                   <label>Journal
-                    <input value={study.journal} maxLength={180} onChange={(event) => patchStudy(study.id, { journal: event.target.value })} />
+                    <input value={selectedStudy.journal} maxLength={180} onChange={(event) => patchStudy(selectedStudy.id, { journal: event.target.value })} />
                   </label>
                   <label>DOI <small>optional</small>
-                    <input value={study.doi} maxLength={200} placeholder="10.xxxx/..." onChange={(event) => patchStudy(study.id, { doi: event.target.value })} />
+                    <input value={selectedStudy.doi} maxLength={200} placeholder="10.xxxx/..." onChange={(event) => patchStudy(selectedStudy.id, { doi: event.target.value })} />
                   </label>
                 </div>
                 <label>Original source URL
-                  <input type="url" value={study.source} maxLength={500} placeholder="https://..." onChange={(event) => patchStudy(study.id, { source: event.target.value })} />
+                  <input type="url" value={selectedStudy.source} maxLength={500} placeholder="https://..." onChange={(event) => patchStudy(selectedStudy.id, { source: event.target.value })} />
                 </label>
               </div>
 
               <div className={styles.scienceStudyFooter}>
-                <span>{study.published ? "This study will be public after you save." : "This study remains private after you save."}</span>
+                <span>{selectedStudy.published ? "This study will be public after you save." : "This study remains private after you save."}</span>
                 <div>
-                  {study.source ? <a href={study.source} target="_blank" rel="noreferrer">Open source ↗</a> : null}
-                  <button type="button" onClick={() => removeStudy(study)}>Remove</button>
+                  {selectedStudy.source ? <a href={selectedStudy.source} target="_blank" rel="noreferrer">Open source ↗</a> : null}
+                  <button type="button" onClick={() => removeStudy(selectedStudy)}>Remove study</button>
                 </div>
               </div>
             </article>
-          ))}
+          )}
         </div>
       )}
 
@@ -199,7 +235,7 @@ export function ScienceManager({
           {message ? <span className={styles.success}>{message}</span> : <span className={styles.saveHint}>{dirty ? "You have unsaved science changes." : "Everything is saved."}</span>}
         </div>
         <div>
-          <a className={styles.secondaryButton} href="/science" target="_blank" rel="noreferrer">Open Science page ↗</a>
+          <a className={styles.secondaryButton} href="/science" target="_blank" rel="noreferrer">View Science page ↗</a>
           <button className={styles.primaryButton} type="button" disabled={!dirty || saveState === "saving"} onClick={() => void save()}>{saveState === "saving" ? "Saving…" : "Save science changes"}</button>
         </div>
       </div>

@@ -9,6 +9,7 @@ const expect = (ok, label) => checks.push({ ok: Boolean(ok), label });
 
 const build = read("app/build-version.ts");
 const chrome = read("app/components/SiteChrome.tsx");
+const i18n = read("app/lib/i18n.ts");
 const home = read("app/page.tsx");
 const podcast = read("app/podcast/page.tsx");
 const publications = read("app/content/publications.ts");
@@ -25,14 +26,14 @@ const wrangler = read("wrangler.jsonc");
 const env = read(".env.example");
 
 expect(build.includes("v40.37.1-mailchimp-welcome-event") || build.includes("v40.38-owner-admin") || build.includes("v40.39-owner-editorial-admin") || build.includes("v40.40-owner-admin-usability-metrics") || build.includes("v40.41-owner-admin-simple-ui") || build.includes("v40.42-owner-cms-phase-1") || build.includes("v40.43-newsletter-manager"), "Build retains the v40.37.1 owner-review/Mailchimp baseline or a validated successor.");
-expect(chrome.includes('{ href: "/science", label: "The Science" }') && chrome.includes('{ href: "/solutions", label: "Take Action" }') && chrome.includes('{ href: "/quick-action-card", label: "Guides" }') && chrome.includes('{ href: "/podcast", label: "Podcast" }') && chrome.includes('{ href: "/tedx", label: "TEDx Talk" }'), "Primary navigation includes Science, Take Action, 12-step Guides, Podcast, and TEDx.");
-expect(chrome.indexOf('{ href: "/solutions", label: "Take Action" }') < chrome.indexOf('{ href: "/quick-action-card", label: "Guides" }'), "Guides appears immediately after Take Action in the primary navigation definition.");
+expect((chrome.includes('{ href: "/science", label: "The Science" }') || (chrome.includes('localizedPath("/science", locale)') && i18n.includes('science: "The Science"'))) && (chrome.includes('{ href: "/solutions", label: "Take Action" }') || (chrome.includes('localizedPath("/solutions", locale)') && i18n.includes('action: "Take Action"'))) && (chrome.includes('{ href: "/quick-action-card", label: "Guides" }') || (chrome.includes('localizedPath("/quick-action-card", locale)') && i18n.includes('guides: "Guides"'))) && chrome.includes('localizedPath("/podcast", locale)') && chrome.includes('localizedPath("/tedx", locale)'), "Primary navigation includes Science, Take Action, 12-step Guides, Podcast, and TEDx.");
+expect((chrome.indexOf('{ href: "/solutions", label: "Take Action" }') >= 0 && chrome.indexOf('{ href: "/solutions", label: "Take Action" }') < chrome.indexOf('{ href: "/quick-action-card", label: "Guides" }')) || (chrome.indexOf('localizedPath("/solutions", locale)') >= 0 && chrome.indexOf('localizedPath("/solutions", locale)') < chrome.indexOf('localizedPath("/quick-action-card", locale)')), "Guides appears immediately after Take Action in the primary navigation definition.");
 expect(!media.includes("High-resolution owner-approved media assets are still parked"), "Owner-requested Events & Media parked-assets sentence is removed.");
 expect(mediaItems.includes("https://www.youtube.com/shorts/6juPFhIh68I") && mediaItems.includes('"youtubeId": "6juPFhIh68I"'), "Media registry uses the owner-supplied replacement temporary TEDx recording.");
 expect(publications.includes('officialVideoUrl: "https://www.youtube.com/shorts/6juPFhIh68I"') && publications.includes('officialYoutubeId: "6juPFhIh68I"'), "TEDx compatibility registry uses the replacement URL and ID.");
 expect(!mediaItems.includes("MVnY2vw99SY") && !publications.includes("MVnY2vw99SY"), "Superseded TEDx temporary recording ID is removed from current registries.");
 expect(!tedx.includes("temporary audience recording") && !tedx.includes("official TEDx video has not yet been released") && !media.includes("Temporary audience recording"), "Public TEDx surfaces no longer expose temporary-recording status copy.");
-expect(home.includes("No confirmation email is required") && chrome.includes("No confirmation email is required") && community.includes("No confirmation email is required") && media.includes("No confirmation email is required"), "Field Notes signup surfaces clearly explain single-opt-in success behavior.");
+expect(home.includes("No confirmation email is required") && (chrome.includes("No confirmation email is required") || i18n.includes("No confirmation email is required")) && community.includes("No confirmation email is required") && media.includes("No confirmation email is required"), "Field Notes signup surfaces clearly explain single-opt-in success behavior.");
 expect(subscribe.includes("syncAudienceSubscriber") && subscribe.includes('program === "field-notes"') && wrangler.includes('"AUDIENCE_PROVIDER": "mailchimp"'), "Field Notes remains wired to Mailchimp.");
 expect(audience.includes('status_if_new: "subscribed"'), "Mailchimp adapter remains single opt in for new contacts.");
 expect(mailchimpEvents.includes('FIELD_NOTES_SIGNUP_EVENT = "website_field_notes_signup"') && mailchimpEvents.includes('/events`') && mailchimpEvents.includes('method: "POST"'), "Field Notes has an explicit Mailchimp Event API trigger for the welcome automation.");

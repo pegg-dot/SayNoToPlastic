@@ -55,14 +55,16 @@ export default async function AdminPage() {
       <header className={styles.header}>
         <div>
           <p className={styles.eyebrow}>Say No To Plastic · Private</p>
-          <h1>Manage the website</h1>
-          <p>Choose what you want to change. Nothing updates on the live website until you press a clear Update live site button.</p>
+          <h1>Website manager</h1>
+          <p>Manage the public website without touching code. Changes only go live when you use an explicit publish or update button.</p>
         </div>
         <aside>
-          <span>Signed in as</span>
-          <strong>{user.email}</strong>
-          <small>{adminAllowlist().length} approved accounts</small>
-          <a href="/" target="_blank" rel="noreferrer">Open live website ↗</a>
+          <a href="/" target="_blank" rel="noreferrer">View live website ↗</a>
+          <div>
+            <span>Signed in as</span>
+            <strong>{user.email}</strong>
+            <small>{adminAllowlist().length} approved accounts</small>
+          </div>
         </aside>
       </header>
 

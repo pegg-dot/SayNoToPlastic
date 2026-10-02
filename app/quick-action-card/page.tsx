@@ -10,7 +10,7 @@ export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Quick Action Card | Say No to Plastic",
   description: "The 12 immediate steps and three core rules from Homo Plasticus, reproduced as accessible live text.",
-  alternates: { canonical: "/quick-action-card" },
+  alternates: { canonical: "/quick-action-card", languages: { "en-US": "/quick-action-card", "es-US": "/es/guia-12-pasos" } },
 };
 
 export default async function QuickActionCardPage() {

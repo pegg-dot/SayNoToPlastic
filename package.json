@@ -56,7 +56,7 @@
     "anatomy:order": "node scripts/v40-28-testicular-final-audit.mjs",
     "anatomy:microplastics": "node scripts/v40-33-system-aware-microplastic-flow-audit.mjs",
     "anatomy:flow": "node scripts/v40-33-system-aware-microplastic-flow-audit.mjs",
-    "release:audit": "npm run prepare:podcast-artwork && node scripts/v40-37-owner-review-audit.mjs && node scripts/v40-38-owner-admin-audit.mjs && node scripts/v40-39-owner-editorial-audit.mjs && node scripts/v40-40-owner-admin-usability-audit.mjs && node scripts/v40-41-owner-admin-simple-ui-audit.mjs && node scripts/v40-42-owner-cms-phase-1-audit.mjs && node scripts/v40-19-complete-atlas-audit.mjs && node scripts/podcast-tedx-audit.mjs && node scripts/v40-43-newsletter-manager-audit.mjs && node scripts/v40-44-owner-page-cms-audit.mjs && node scripts/v40-45-science-cms-audit.mjs && node scripts/v40-46-body-system-cms-audit.mjs && node scripts/v40-47-contextual-owner-editor-audit.mjs && node scripts/v40-48-spanish-core-audit.mjs && node scripts/v40-49-spanish-science-body-systems-audit.mjs && node scripts/v40-50-spanish-science-context-audit.mjs",
+    "release:audit": "npm run prepare:podcast-artwork && node scripts/v40-37-owner-review-audit.mjs && node scripts/v40-38-owner-admin-audit.mjs && node scripts/v40-39-owner-editorial-audit.mjs && node scripts/v40-40-owner-admin-usability-audit.mjs && node scripts/v40-41-owner-admin-simple-ui-audit.mjs && node scripts/v40-42-owner-cms-phase-1-audit.mjs && node scripts/v40-19-complete-atlas-audit.mjs && node scripts/podcast-tedx-audit.mjs && node scripts/v40-43-newsletter-manager-audit.mjs && node scripts/v40-44-owner-page-cms-audit.mjs && node scripts/v40-45-science-cms-audit.mjs && node scripts/v40-46-body-system-cms-audit.mjs && node scripts/v40-47-contextual-owner-editor-audit.mjs && node scripts/v40-48-spanish-core-audit.mjs && node scripts/v40-49-spanish-science-body-systems-audit.mjs && node scripts/v40-50-spanish-science-context-audit.mjs && node scripts/v40-51-airbnb-admin-ux-audit.mjs",
     "podcast:launch-audit": "npm run prepare:podcast-artwork && node scripts/podcast-tedx-audit.mjs",
     "newsletter:phase2": "node scripts/v40-43-newsletter-manager-audit.mjs",
     "cms:phase3a": "node scripts/v40-44-owner-page-cms-audit.mjs",
@@ -65,7 +65,8 @@
     "cms:context": "node scripts/v40-47-contextual-owner-editor-audit.mjs",
     "i18n:spanish-core": "node scripts/v40-48-spanish-core-audit.mjs",
     "i18n:spanish-science": "node scripts/v40-49-spanish-science-body-systems-audit.mjs",
-    "i18n:spanish-science-context": "node scripts/v40-50-spanish-science-context-audit.mjs"
+    "i18n:spanish-science-context": "node scripts/v40-50-spanish-science-context-audit.mjs",
+    "cms:airbnb-ux": "node scripts/v40-51-airbnb-admin-ux-audit.mjs"
   },
   "dependencies": {
     "@react-three/fiber": "^9.7.0",

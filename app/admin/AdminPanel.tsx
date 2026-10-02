@@ -29,12 +29,11 @@ type Field = {
 type SaveState = "idle" | "saving" | "saved" | "error";
 type SectionId = "dashboard" | "pages" | "media" | "press" | "newsletters";
 
-const sections: Array<{ id: SectionId; label: string }> = [
-  { id: "dashboard", label: "Home" },
-  { id: "pages", label: "Pages" },
-  { id: "media", label: "Events & Media" },
-  { id: "press", label: "Press kit" },
-  { id: "newsletters", label: "Newsletters" },
+const sections: Array<{ id: Exclude<SectionId, "press">; label: string }> = [
+  { id: "dashboard", label: "Today" },
+  { id: "pages", label: "Website" },
+  { id: "newsletters", label: "Field Notes" },
+  { id: "media", label: "Media" },
 ];
 
 const fieldGroups: Record<"media" | "press", AdminContentKey[]> = {
@@ -136,6 +135,21 @@ function pageName(path: string) {
   return known[path] || path;
 }
 
+function pageHint(id: OwnerPageId) {
+  const hints: Record<OwnerPageId, string> = {
+    homepage: "Main landing page",
+    about: "Biography and story",
+    book: "Book page",
+    podcast: "Podcast page",
+    tedx: "TEDx page",
+    media: "Media landing page",
+    solutions: "Action page",
+    guides: "12-step guide",
+    science: "Research and evidence",
+  };
+  return hints[id];
+}
+
 export function AdminPanel({
   fields,
   initialContent,
@@ -150,6 +164,7 @@ export function AdminPanel({
   const initialMap = useMemo(() => new Map(initialContent.map((record) => [record.key, record])), [initialContent]);
   const [section, setSection] = useState<SectionId>("dashboard");
   const [selectedPage, setSelectedPage] = useState<OwnerPageId>("homepage");
+  const [scienceTool, setScienceTool] = useState<"overview" | "studies" | "body-systems">("overview");
   const [previewRevision, setPreviewRevision] = useState(0);
   const previewFrameRef = useRef<HTMLIFrameElement>(null);
   const [editingKey, setEditingKey] = useState<AdminContentKey | null>(null);
@@ -158,7 +173,9 @@ export function AdminPanel({
   const [saveStates, setSaveStates] = useState(() => Object.fromEntries(fields.map((field) => [field.key, "idle"])) as Record<AdminContentKey, SaveState>);
   const [messages, setMessages] = useState(() => Object.fromEntries(fields.map((field) => [field.key, ""])) as Record<AdminContentKey, string>);
   const [revisions, setRevisions] = useState(initialRevisions);
-  const [mediaItems, setMediaItems] = useState(() => readMediaItems(initialMap.get("media.entries_json")?.value));
+  const initialMediaItems = useMemo(() => readMediaItems(initialMap.get("media.entries_json")?.value), [initialMap]);
+  const [mediaItems, setMediaItems] = useState(() => initialMediaItems);
+  const [selectedMediaId, setSelectedMediaId] = useState<string | null>(() => initialMediaItems[0]?.id ?? null);
 
   function fieldLabel(key: AdminContentKey) {
     const field = fields.find((candidate) => candidate.key === key);
@@ -168,6 +185,7 @@ export function AdminPanel({
   function goTo(next: SectionId, key?: AdminContentKey) {
     setSection(next);
     setEditingKey(key ?? null);
+    if (next !== "pages") setScienceTool("overview");
     window.setTimeout(() => window.scrollTo({ top: 0, behavior: "smooth" }), 0);
   }
 
@@ -259,6 +277,7 @@ export function AdminPanel({
     setSelectedPage(page);
     setSection("pages");
     setEditingKey(key ?? null);
+    setScienceTool("overview");
     window.setTimeout(() => window.scrollTo({ top: 0, behavior: "smooth" }), 0);
   }
 
@@ -311,34 +330,52 @@ export function AdminPanel({
     setMediaItems((current) => current.map((item) => item.id === id ? { ...item, ...patch } : item));
   }
 
+  function addMediaItem() {
+    const next = blankMediaItem();
+    setMediaItems((current) => [next, ...current]);
+    setSelectedMediaId(next.id);
+  }
+
   function removeMediaItem(id: string, title: string) {
     const label = title.trim() || "this item";
     if (!window.confirm(`Remove “${label}”? It will not disappear from the live site until you save the media changes.`)) return;
+    const fallback = mediaItems.find((candidate) => candidate.id !== id)?.id ?? null;
     setMediaItems((current) => current.filter((candidate) => candidate.id !== id));
+    if (selectedMediaId === id) setSelectedMediaId(fallback);
   }
 
-  function renderField(key: AdminContentKey) {
+  function renderField(key: AdminContentKey, focused = false) {
     const field = fields.find((candidate) => candidate.key === key);
     if (!field || field.surface === "media" || field.kind === "json") return null;
     const copy = friendlyFields[key] || { label: field.label, help: field.description };
     const record = records[key];
     const changed = drafts[key] !== (record?.value ?? "");
     const state = saveStates[key];
-    const open = editingKey === key;
+    const open = focused || editingKey === key;
     const fieldRevisions = revisions.filter((revision) => revision.key === key).slice(0, 3);
 
     return (
       <article className={`${styles.settingCard} ${open ? styles.settingCardOpen : ""}`} key={key} data-admin-field={key}>
-        <button className={styles.settingSummary} type="button" onClick={() => selectField(key, open)} aria-expanded={open}>
-          <div>
-            <strong>{copy.label}</strong>
-            <span>{copy.help}</span>
+        {focused ? (
+          <div className={styles.focusedFieldHeader}>
+            <div>
+              <strong>{copy.label}</strong>
+              <span>{copy.help}</span>
+            </div>
+            <small>{record?.value ? "Customized on the live site" : "Using the original site content"}</small>
           </div>
-          <div className={styles.settingStatus}>
-            <small>{record?.value ? "Custom version is live" : "Original version is live"}</small>
-            <b>{open ? "Close" : "Show + edit"}</b>
-          </div>
-        </button>
+        ) : (
+          <button className={styles.settingSummary} type="button" onClick={() => selectField(key, open)} aria-expanded={open}>
+            <div>
+              <strong>{copy.label}</strong>
+              <span>{copy.help}</span>
+            </div>
+            <div className={styles.settingStatus}>
+              <small>{record?.value ? "Customized on live site" : "Using original content"}</small>
+              <b>{open ? "Close" : "Show + edit"}</b>
+            </div>
+          </button>
+        )}
 
         {open && (
           <div className={styles.settingEditor}>
@@ -392,30 +429,35 @@ export function AdminPanel({
 
   const mediaRecord = records["media.entries_json"];
   const mediaDirty = JSON.stringify(mediaItems) !== (mediaRecord?.value || "");
+  const selectedMediaItem = mediaItems.find((item) => item.id === selectedMediaId) ?? mediaItems[0] ?? null;
   const recentRevisions = revisions.slice(0, 4);
 
   return (
     <div className={styles.workspace}>
       <nav className={styles.tabs} aria-label="Website manager sections">
-        {sections.map((item) => (
-          <button key={item.id} type="button" className={section === item.id ? styles.tabActive : ""} onClick={() => goTo(item.id)}>{item.label}</button>
-        ))}
+        {sections.map((item) => {
+          const active = section === item.id || (section === "press" && item.id === "media");
+          return <button key={item.id} type="button" className={active ? styles.tabActive : ""} onClick={() => goTo(item.id)}>{item.label}</button>;
+        })}
       </nav>
 
       {section === "dashboard" && (
         <div className={styles.dashboard}>
           <section className={styles.welcomeCard}>
-            <p className={styles.kicker}>Website manager</p>
-            <h2>What do you want to change?</h2>
-            <p>Pick a task. You will always see a clear button before anything is changed on the live website.</p>
+            <p className={styles.kicker}>Today</p>
+            <h2>What do you want to work on?</h2>
+            <p>Choose the kind of work first. The manager will show only the controls you need for that task.</p>
             <div className={styles.actionGrid}>
-              <button type="button" onClick={() => goTo("pages")}><span>01</span><strong>Edit a website page</strong><small>Choose a page, see it live, and edit its content</small></button>
-              <button type="button" onClick={() => goTo("media")}><span>02</span><strong>Add an event or appearance</strong><small>Talks, interviews, press, podcast appearances</small></button>
-              <button type="button" onClick={() => goToPage("tedx", "tedx.video_url")}><span>03</span><strong>Replace the TEDx video</strong><small>Paste the new YouTube link when it is ready</small></button>
-              <button type="button" onClick={() => goToPage("podcast")}><span>04</span><strong>Update the podcast</strong><small>Opening copy, series details, and listening links</small></button>
-              <button type="button" onClick={() => goTo("press")}><span>05</span><strong>Update bio or press contact</strong><small>Biography and media email</small></button>
-              <button type="button" onClick={() => goTo("newsletters")}><span>06</span><strong>Publish a newsletter</strong><small>Upload Word, preview, publish, create Mailchimp draft</small></button>
-              <button type="button" onClick={() => goToPage("science")}><span>07</span><strong>Add or review research</strong><small>Structured study fields, sources, limitations, draft or publish</small></button>
+              <button type="button" onClick={() => goTo("pages")}><span>01</span><strong>Edit the website</strong><small>Choose a page, see it, then edit one section at a time</small></button>
+              <button type="button" onClick={() => goTo("newsletters")}><span>02</span><strong>Publish Field Notes</strong><small>Upload the Word document, publish it, then create the Mailchimp draft</small></button>
+              <button type="button" onClick={() => goTo("media")}><span>03</span><strong>Add media or an appearance</strong><small>Events, talks, interviews, press, and podcast appearances</small></button>
+              <button type="button" onClick={() => goToPage("science")}><span>04</span><strong>Review or add science</strong><small>Human studies and body-system explainers with sources and limitations</small></button>
+            </div>
+            <div className={styles.quickLinks} aria-label="Common shortcuts">
+              <span>Common shortcuts</span>
+              <button type="button" onClick={() => goToPage("tedx", "tedx.video_url")}>Replace TEDx video</button>
+              <button type="button" onClick={() => goToPage("podcast")}>Update podcast</button>
+              <button type="button" onClick={() => goTo("press")}>Edit press kit</button>
             </div>
           </section>
 
@@ -464,11 +506,12 @@ export function AdminPanel({
       {section === "pages" && (() => {
         const page = OWNER_PAGE_DEFINITIONS.find((candidate) => candidate.id === selectedPage) || OWNER_PAGE_DEFINITIONS[0];
         const isScience = page.kind === "science";
+        const activeField = editingKey && page.fields.includes(editingKey) ? editingKey : null;
         return (
           <div className={styles.editorPage}>
             <div className={styles.editorHeader}>
               <div>
-                <button className={styles.backButton} type="button" onClick={() => goTo("dashboard")}>← Back to home</button>
+                <button className={styles.backButton} type="button" onClick={() => goTo("dashboard")}>← Back to Today</button>
                 <p className={styles.kicker}>Website pages</p>
                 <h2>{page.label}</h2>
                 <p>{page.description}</p>
@@ -480,59 +523,71 @@ export function AdminPanel({
               <aside className={styles.pageTree} aria-label="Website pages">
                 <strong>Website pages</strong>
                 {OWNER_PAGE_DEFINITIONS.map((item) => (
-                  <button key={item.id} type="button" className={item.id === selectedPage ? styles.pageTreeActive : ""} onClick={() => { setSelectedPage(item.id); setEditingKey(null); clearPreviewFocus(); }}>
+                  <button key={item.id} type="button" className={item.id === selectedPage ? styles.pageTreeActive : ""} aria-pressed={item.id === selectedPage} onClick={() => { setSelectedPage(item.id); setEditingKey(null); setScienceTool("overview"); clearPreviewFocus(); }}>
                     <span>{item.label}</span>
-                    <small>{item.href}</small>
+                    <small>{pageHint(item.id)}</small>
                   </button>
                 ))}
               </aside>
 
               <div className={styles.pageCmsMain}>
                 {isScience ? (
-                  <>
-                    <section className={styles.livePreviewCard}>
-                      <div className={styles.livePreviewHeader}>
-                        <div><span>Live Science page</span><small>Science uses structured fields so evidence, sources, and uncertainty stay together.</small></div>
-                        <a href="/science" target="_blank" rel="noreferrer">Full page ↗</a>
-                      </div>
-                      <div className={styles.livePreviewFrame}>
-                        <iframe key={`science-${previewRevision}`} src="/science" title="Science page live preview" loading="lazy" />
-                      </div>
-                    </section>
+                  <div className={styles.scienceWorkspace}>
+                    {scienceTool === "overview" ? (
+                      <>
+                        <section className={styles.livePreviewCard}>
+                          <div className={styles.livePreviewHeader}>
+                            <div><span>Science page</span><small>See the public page before choosing what kind of science content to manage.</small></div>
+                            <a href="/science" target="_blank" rel="noreferrer">View live ↗</a>
+                          </div>
+                          <div className={styles.livePreviewFrame}>
+                            <iframe key={`science-${previewRevision}`} src="/science" title="Science page live preview" loading="lazy" />
+                          </div>
+                        </section>
 
-                    <div className={styles.pageEditorNote}><strong>Why this editor looks different</strong><span>Science is still a website page, but research cannot safely be edited like ordinary marketing copy. The interface keeps study methods, sample, limitations, sources, and review status attached to the claim.</span></div>
+                        <div className={styles.pageEditorNote}><strong>Science stays structured</strong><span>Research cannot safely be edited like ordinary marketing copy. Study methods, sample, limitations, sources, and review status stay attached to the claim.</span></div>
 
-                    <ScienceManager
-                      value={records["science.entries_json"]?.value ?? ""}
-                      saveState={saveStates["science.entries_json"]}
-                      onSave={(value) => saveValue("science.entries_json", value)}
-                    />
-
-                    <BodySystemManager
-                      value={records["science.body_systems_json"]?.value ?? ""}
-                      saveState={saveStates["science.body_systems_json"]}
-                      previewRevision={previewRevision}
-                      onSave={(value) => saveValue("science.body_systems_json", value)}
-                    />
-                  </>
+                        <div className={styles.scienceToolGrid}>
+                          <button type="button" onClick={() => setScienceTool("studies")}>
+                            <span>01</span>
+                            <strong>Human evidence studies</strong>
+                            <small>Add or review individual studies, sources, methods, limitations, and publication status.</small>
+                            <b>Open studies →</b>
+                          </button>
+                          <button type="button" onClick={() => setScienceTool("body-systems")}>
+                            <span>02</span>
+                            <strong>Body-system explainers</strong>
+                            <small>Edit the deeper cardiovascular, reproductive, endocrine, kidney, skin, digestive, and pregnancy pages.</small>
+                            <b>Open body systems →</b>
+                          </button>
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <button className={styles.toolBackButton} type="button" onClick={() => setScienceTool("overview")}>← All Science tools</button>
+                        {scienceTool === "studies" ? (
+                          <ScienceManager
+                            value={records["science.entries_json"]?.value ?? ""}
+                            saveState={saveStates["science.entries_json"]}
+                            onSave={(value) => saveValue("science.entries_json", value)}
+                          />
+                        ) : (
+                          <BodySystemManager
+                            value={records["science.body_systems_json"]?.value ?? ""}
+                            saveState={saveStates["science.body_systems_json"]}
+                            previewRevision={previewRevision}
+                            onSave={(value) => saveValue("science.body_systems_json", value)}
+                          />
+                        )}
+                      </>
+                    )}
+                  </div>
                 ) : (
                   <div className={styles.contextEditorLayout}>
-                    <section className={styles.contextFieldPane}>
-                      <div className={styles.settingsIntro}>
-                        <p className={styles.kicker}>Edit in context</p>
-                        <h3>Click a section here or directly in the preview.</h3>
-                        <p>The preview stays beside you. When you choose a field, the exact place it controls is highlighted. Typing into most text fields previews the wording before you publish.</p>
-                      </div>
-                      {page.note ? <div className={styles.pageEditorNote}><strong>Protected content</strong><span>{page.note}</span></div> : null}
-                      <div className={styles.settingsList}>
-                        {page.fields.map(renderField)}
-                      </div>
-                    </section>
-
                     <section className={`${styles.livePreviewCard} ${styles.contextPreview}`}>
                       <div className={styles.livePreviewHeader}>
-                        <div><span>Page preview</span><small>Click highlighted text in the page to edit that exact content.</small></div>
-                        <a href={page.href} target="_blank" rel="noreferrer">Full page ↗</a>
+                        <div><span>{page.label} preview</span><small>Click editable text in the page or choose a section from the panel.</small></div>
+                        <a href={page.href} target="_blank" rel="noreferrer">View live ↗</a>
                       </div>
                       <div className={styles.livePreviewFrame}>
                         <iframe
@@ -545,6 +600,40 @@ export function AdminPanel({
                         />
                       </div>
                     </section>
+
+                    <aside className={styles.contextInspector}>
+                      {activeField ? (
+                        <>
+                          <button className={styles.inspectorBack} type="button" onClick={() => selectField(activeField, true)}>← All page sections</button>
+                          <div className={styles.settingsList}>
+                            {renderField(activeField, true)}
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          <div className={styles.inspectorIntro}>
+                            <p className={styles.kicker}>Page sections</p>
+                            <h3>Choose one thing to change.</h3>
+                            <p>The preview stays visible while you work. Only the section you choose opens for editing.</p>
+                          </div>
+                          {page.note ? <div className={styles.pageEditorNote}><strong>Protected content</strong><span>{page.note}</span></div> : null}
+                          <div className={styles.pageFieldList}>
+                            {page.fields.map((key) => {
+                              const field = fields.find((candidate) => candidate.key === key);
+                              if (!field) return null;
+                              const copy = friendlyFields[key] || { label: field.label, help: field.description };
+                              const custom = Boolean(records[key]?.value);
+                              return (
+                                <button key={key} type="button" onClick={() => selectField(key, false)}>
+                                  <div><strong>{copy.label}</strong><small>{copy.help}</small></div>
+                                  <span>{custom ? "Customized" : "Original"} <b>›</b></span>
+                                </button>
+                              );
+                            })}
+                          </div>
+                        </>
+                      )}
+                    </aside>
                   </div>
                 )}
               </div>
@@ -556,7 +645,7 @@ export function AdminPanel({
       {section === "newsletters" && (
         <div className={styles.editorPage}>
           <div className={styles.editorHeader}>
-            <div><button className={styles.backButton} type="button" onClick={() => goTo("dashboard")}>← Back to home</button><h2>Newsletters</h2><p>Upload the Word document, check the private preview, publish it to the Field Notes archive, then create a Mailchimp draft for final review and sending.</p></div>
+            <div><button className={styles.backButton} type="button" onClick={() => goTo("dashboard")}>← Back to Today</button><h2>Newsletters</h2><p>Upload the Word document, check the private preview, publish it to the Field Notes archive, then create a Mailchimp draft for final review and sending.</p></div>
             <a href="/newsletters" target="_blank" rel="noreferrer">View Field Notes archive ↗</a>
           </div>
           <NewsletterManager />
@@ -566,36 +655,50 @@ export function AdminPanel({
       {(section === "media" || section === "press") && (
         <div className={styles.editorPage}>
           <div className={styles.editorHeader}>
-            <div><button className={styles.backButton} type="button" onClick={() => goTo("dashboard")}>← Back to home</button><h2>{sectionCopy[section].title}</h2><p>{sectionCopy[section].body}</p></div>
+            <div><button className={styles.backButton} type="button" onClick={() => goTo("dashboard")}>← Back to Today</button><h2>{sectionCopy[section].title}</h2><p>{sectionCopy[section].body}</p></div>
             <a href={sectionCopy[section].previewHref} target="_blank" rel="noreferrer">{sectionCopy[section].previewLabel} ↗</a>
+          </div>
+
+          <div className={styles.subTabs} aria-label="Media tools">
+            <button type="button" className={section === "media" ? styles.subTabActive : ""} aria-pressed={section === "media"} onClick={() => goTo("media")}>Events &amp; Media</button>
+            <button type="button" className={section === "press" ? styles.subTabActive : ""} aria-pressed={section === "press"} onClick={() => goTo("press")}>Press kit</button>
           </div>
 
           {section === "media" && (
             <section className={styles.mediaManager}>
               <div className={styles.mediaHeader}>
-                <div><p className={styles.kicker}>Events and appearances</p><h3>Add something new</h3><p>Create an item as a draft. Turn on Show on site only when it is ready to be public.</p></div>
-                <button className={styles.primaryButton} type="button" onClick={() => setMediaItems((current) => [blankMediaItem(), ...current])}>+ Add event or appearance</button>
+                <div><p className={styles.kicker}>Events and appearances</p><h3>Media items</h3><p>Choose an item to edit, or create a new private draft.</p></div>
+                <button className={styles.primaryButton} type="button" onClick={addMediaItem}>+ Add event or appearance</button>
               </div>
-              {mediaItems.length === 0 ? <div className={styles.emptyBox}>No owner-added events or appearances yet.</div> : (
-                <div className={styles.mediaList}>
-                  {mediaItems.map((item) => (
-                    <article className={styles.mediaItem} key={item.id}>
-                      <div className={styles.mediaTopRow}>
-                        <select value={item.type} aria-label="Item type" onChange={(event) => updateMediaItem(item.id, { type: event.target.value as OwnerMediaItemType })}>
-                          <option value="event">Event</option><option value="talk">Talk</option><option value="interview">Interview</option><option value="podcast">Podcast appearance</option><option value="press">Press</option>
-                        </select>
-                        <label className={styles.publishSwitch}><input type="checkbox" checked={item.published} onChange={(event) => updateMediaItem(item.id, { published: event.target.checked })} /><span>{item.published ? "Show on site" : "Draft only"}</span></label>
-                      </div>
-                      <label>Title<input type="text" value={item.title} maxLength={140} placeholder="Example: Dr. Haddad at TEDxMiami" onChange={(event) => updateMediaItem(item.id, { title: event.target.value })} /></label>
-                      <div className={styles.twoCol}><label>Date<input type="date" value={item.date} onChange={(event) => updateMediaItem(item.id, { date: event.target.value })} /></label><label>Where it appeared<input type="text" value={item.platform} maxLength={100} placeholder="Event, publication, podcast, etc." onChange={(event) => updateMediaItem(item.id, { platform: event.target.value })} /></label></div>
-                      <label>Link <small>optional</small><input type="url" value={item.url} maxLength={500} placeholder="https://..." onChange={(event) => updateMediaItem(item.id, { url: event.target.value })} /></label>
-                      <label>Short description<textarea value={item.description} maxLength={700} placeholder="What should visitors know?" onChange={(event) => updateMediaItem(item.id, { description: event.target.value })} /></label>
-                      <div className={styles.mediaItemFooter}><span>{item.published ? "This will be public after you save." : "This will stay private after you save."}</span><button type="button" onClick={() => removeMediaItem(item.id, item.title)}>Remove</button></div>
-                    </article>
-                  ))}
+              {mediaItems.length === 0 || !selectedMediaItem ? <div className={styles.emptyBox}>No owner-added events or appearances yet.</div> : (
+                <div className={styles.mediaWorkbench}>
+                  <aside className={styles.mediaItemNav} aria-label="Events and media items">
+                    <div className={styles.mediaItemNavHeading}><strong>Items</strong><span>{mediaItems.length}</span></div>
+                    {mediaItems.map((item) => (
+                      <button key={item.id} type="button" className={selectedMediaItem.id === item.id ? styles.mediaItemNavActive : ""} aria-pressed={selectedMediaItem.id === item.id} onClick={() => setSelectedMediaId(item.id)}>
+                        <div><span className={item.published ? styles.newsletterLive : styles.newsletterDraft}>{item.published ? "Live" : "Draft"}</span><small>{item.type}</small></div>
+                        <strong>{item.title || "Untitled media item"}</strong>
+                        <small>{item.date || item.platform || "No date yet"}</small>
+                      </button>
+                    ))}
+                  </aside>
+
+                  <article className={styles.mediaItem} key={selectedMediaItem.id}>
+                    <div className={styles.mediaTopRow}>
+                      <select value={selectedMediaItem.type} aria-label="Item type" onChange={(event) => updateMediaItem(selectedMediaItem.id, { type: event.target.value as OwnerMediaItemType })}>
+                        <option value="event">Event</option><option value="talk">Talk</option><option value="interview">Interview</option><option value="podcast">Podcast appearance</option><option value="press">Press</option>
+                      </select>
+                      <label className={styles.publishSwitch}><input type="checkbox" checked={selectedMediaItem.published} onChange={(event) => updateMediaItem(selectedMediaItem.id, { published: event.target.checked })} /><span>{selectedMediaItem.published ? "Show on site" : "Keep private"}</span></label>
+                    </div>
+                    <label>Title<input type="text" value={selectedMediaItem.title} maxLength={140} placeholder="Example: Dr. Haddad at TEDxMiami" onChange={(event) => updateMediaItem(selectedMediaItem.id, { title: event.target.value })} /></label>
+                    <div className={styles.twoCol}><label>Date<input type="date" value={selectedMediaItem.date} onChange={(event) => updateMediaItem(selectedMediaItem.id, { date: event.target.value })} /></label><label>Where it appeared<input type="text" value={selectedMediaItem.platform} maxLength={100} placeholder="Event, publication, podcast, etc." onChange={(event) => updateMediaItem(selectedMediaItem.id, { platform: event.target.value })} /></label></div>
+                    <label>Link <small>optional</small><input type="url" value={selectedMediaItem.url} maxLength={500} placeholder="https://..." onChange={(event) => updateMediaItem(selectedMediaItem.id, { url: event.target.value })} /></label>
+                    <label>Short description<textarea value={selectedMediaItem.description} maxLength={700} placeholder="What should visitors know?" onChange={(event) => updateMediaItem(selectedMediaItem.id, { description: event.target.value })} /></label>
+                    <div className={styles.mediaItemFooter}><span>{selectedMediaItem.published ? "This item will be public after you save." : "This item will stay private after you save."}</span><button type="button" onClick={() => removeMediaItem(selectedMediaItem.id, selectedMediaItem.title)}>Remove item</button></div>
+                  </article>
                 </div>
               )}
-              <div className={styles.mediaSaveBar}><span>{mediaDirty ? "You have unsaved changes" : "Everything is saved"}</span><button className={styles.primaryButton} type="button" disabled={!mediaDirty || saveStates["media.entries_json"] === "saving"} onClick={() => void saveMediaItems()}>{saveStates["media.entries_json"] === "saving" ? "Updating…" : "Update live site"}</button></div>
+              <div className={styles.mediaSaveBar}><span>{mediaDirty ? "You have unsaved media changes." : "Everything is saved."}</span><button className={styles.primaryButton} type="button" disabled={!mediaDirty || saveStates["media.entries_json"] === "saving"} onClick={() => void saveMediaItems()}>{saveStates["media.entries_json"] === "saving" ? "Updating…" : "Update live site"}</button></div>
             </section>
           )}
 

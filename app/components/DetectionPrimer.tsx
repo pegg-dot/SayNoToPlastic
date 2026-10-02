@@ -11,7 +11,7 @@ export function DetectionPrimer({ locale = "en" }: { locale?: SiteLocale }) {
         <p className="eyebrow">{locale === "es" ? "Antes del resultado" : "Before the result"}</p>
         <h2 id="detection-primer-title">{locale === "es" ? "¿Cómo saben los científicos que el plástico está ahí?" : "How do scientists know plastic is there?"}</h2>
         <p>{locale === "es" ? "Cada hallazgo comienza con la recolección, el control de contaminación, la preparación de la muestra y un instrumento elegido para una medición específica. Métodos diferentes pueden producir tipos de evidencia diferentes." : "Every finding begins with collection, contamination control, sample preparation, and an instrument chosen for a specific measurement. Different methods can report different kinds of evidence."}</p>
-        <TrackedLink className="text-link" href="/science/how-detection-works" eventName="cta_click" label={locale === "es" ? "science-es-detection-primer" : "science-detection-primer"}>{locale === "es" ? "Ver cómo funciona la detección (en inglés)" : "See how detection works"} <span>→</span></TrackedLink>
+        <TrackedLink className="text-link" href={locale === "es" ? "/es/ciencia/como-funciona-la-deteccion" : "/science/how-detection-works"} eventName="cta_click" label={locale === "es" ? "science-es-detection-primer" : "science-detection-primer"}>{locale === "es" ? "Ver cómo funciona la detección" : "See how detection works"} <span>→</span></TrackedLink>
       </div>
       <ol>
         {(locale === "es" ? detectionStepsEs : detectionSteps).map((step) => (

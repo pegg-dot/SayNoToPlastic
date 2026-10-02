@@ -4,7 +4,8 @@ import { Footer, Header } from "../../../../components/SiteChrome";
 import { TrackedLink } from "../../../../components/TrackedLink";
 import { BodySystemVisual } from "../../../../components/BodySystemVisual";
 import { SITE_URL } from "../../../../config";
-import { bodySystemsEs, getBodySystemEs } from "../../../../content/es/body-systems";
+import { bodySystemsEs } from "../../../../content/es/body-systems";
+import { getSpanishBodySystemState } from "../../../../lib/spanish-body-system";
 
 export const dynamic = "force-dynamic";
 
@@ -14,8 +15,9 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  const article = getBodySystemEs(slug);
-  if (!article) return {};
+  const state = await getSpanishBodySystemState(slug);
+  if (!state) return {};
+  const { article, translationIsStale } = state;
   const title = `${article.title} y microplásticos | Say No to Plastic`;
   return {
     title,
@@ -36,14 +38,15 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       images: [{ url: "/images/science/science-body-overview.webp", width: 1148, height: 767, alt: article.routeLabel }],
     },
     twitter: { card: "summary_large_image", title, description: article.summary, images: ["/images/science/science-body-overview.webp"] },
-    robots: article.reviewStatus === "source-review" ? { index: false, follow: true } : { index: true, follow: true },
+    robots: article.reviewStatus === "source-review" || translationIsStale ? { index: false, follow: true } : { index: true, follow: true },
   };
 }
 
 export default async function BodySystemSpanishPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const article = getBodySystemEs(slug);
-  if (!article) notFound();
+  const state = await getSpanishBodySystemState(slug);
+  if (!state) notFound();
+  const { article, translationIsStale } = state;
 
   const schema = {
     "@context": "https://schema.org",
@@ -68,6 +71,11 @@ export default async function BodySystemSpanishPage({ params }: { params: Promis
             <h1>{article.title}</h1>
             <p className="body-system-subtitle">{article.subtitle}</p>
             <p className="body-system-deck">{article.summary}</p>
+            {translationIsStale && (
+              <p className="body-system-translation-note">
+                La versión en inglés de esta página cambió después de la última revisión de esta traducción. La traducción se conserva como referencia, pero está pendiente de una nueva revisión científica. <a href={`/science/body/${article.slug}`}>Consultar la versión en inglés actualizada →</a>
+              </p>
+            )}
             <div className="body-system-hero-actions">
               <a className="button gold" href="#overview">Leer el resumen <span>↓</span></a>
               <TrackedLink className="text-link" href="/es/ciencia" eventName="cta_click" label={`system-es-${article.slug}-science`}>Volver a Ciencia <span>→</span></TrackedLink>

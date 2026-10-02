@@ -490,7 +490,7 @@ export function AdminPanel({
           <div className={styles.editorPage}>
             <div className={styles.editorHeader}>
               <div>
-                <button className={styles.backButton} type="button" onClick={() => goTo("dashboard")}>← Back to home</button>
+                <button className={styles.backButton} type="button" onClick={() => goTo("dashboard")}>← Back to Today</button>
                 <p className={styles.kicker}>Website pages</p>
                 <h2>{page.label}</h2>
                 <p>{page.description}</p>
@@ -624,7 +624,7 @@ export function AdminPanel({
       {section === "newsletters" && (
         <div className={styles.editorPage}>
           <div className={styles.editorHeader}>
-            <div><button className={styles.backButton} type="button" onClick={() => goTo("dashboard")}>← Back to home</button><h2>Newsletters</h2><p>Upload the Word document, check the private preview, publish it to the Field Notes archive, then create a Mailchimp draft for final review and sending.</p></div>
+            <div><button className={styles.backButton} type="button" onClick={() => goTo("dashboard")}>← Back to Today</button><h2>Newsletters</h2><p>Upload the Word document, check the private preview, publish it to the Field Notes archive, then create a Mailchimp draft for final review and sending.</p></div>
             <a href="/newsletters" target="_blank" rel="noreferrer">View Field Notes archive ↗</a>
           </div>
           <NewsletterManager />
@@ -634,8 +634,13 @@ export function AdminPanel({
       {(section === "media" || section === "press") && (
         <div className={styles.editorPage}>
           <div className={styles.editorHeader}>
-            <div><button className={styles.backButton} type="button" onClick={() => goTo("dashboard")}>← Back to home</button><h2>{sectionCopy[section].title}</h2><p>{sectionCopy[section].body}</p></div>
+            <div><button className={styles.backButton} type="button" onClick={() => goTo("dashboard")}>← Back to Today</button><h2>{sectionCopy[section].title}</h2><p>{sectionCopy[section].body}</p></div>
             <a href={sectionCopy[section].previewHref} target="_blank" rel="noreferrer">{sectionCopy[section].previewLabel} ↗</a>
+          </div>
+
+          <div className={styles.subTabs} aria-label="Media tools">
+            <button type="button" className={section === "media" ? styles.subTabActive : ""} onClick={() => goTo("media")}>Events &amp; Media</button>
+            <button type="button" className={section === "press" ? styles.subTabActive : ""} onClick={() => goTo("press")}>Press kit</button>
           </div>
 
           {section === "media" && (

@@ -1951,3 +1951,88 @@
     grid-template-columns: 235px minmax(0, 1fr);
   }
 }
+
+
+.mediaWorkbench {
+  display: grid;
+  grid-template-columns: 250px minmax(0, 1fr);
+  gap: 14px;
+  align-items: start;
+  margin-top: 18px;
+}
+.mediaItemNav {
+  position: sticky;
+  top: 62px;
+  display: grid;
+  gap: 4px;
+  padding: 8px;
+  border: 1px solid #dedbd4;
+  border-radius: 11px;
+  background: #f7f6f3;
+}
+.mediaItemNavHeading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 9px 10px;
+  color: #6b7277;
+  font-size: 10px;
+}
+.mediaItemNavHeading > span {
+  display: grid;
+  min-width: 22px;
+  height: 22px;
+  place-items: center;
+  border-radius: 999px;
+  background: #e8e6e1;
+  color: #555d62;
+}
+.mediaItemNav > button {
+  width: 100%;
+  display: grid;
+  gap: 6px;
+  padding: 12px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: transparent;
+  color: #263037;
+  text-align: left;
+  cursor: pointer;
+}
+.mediaItemNav > button:hover {
+  background: #fff;
+}
+.mediaItemNav > button > div {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.mediaItemNav > button > div > small {
+  color: #888f94;
+  font-size: 9px;
+  text-transform: capitalize;
+}
+.mediaItemNav > button > strong {
+  font-size: 11px;
+  line-height: 1.35;
+}
+.mediaItemNav > button > small {
+  color: #92989c;
+  font-size: 9px;
+}
+.mediaItemNav > button.mediaItemNavActive {
+  border-color: #d7d3cb;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(24,29,33,.04);
+}
+.mediaWorkbench .mediaItem {
+  margin: 0;
+  border-radius: 11px;
+  background: #fff;
+}
+
+@media (min-width: 921px) and (max-width: 1220px) {
+  .mediaWorkbench {
+    grid-template-columns: 220px minmax(0, 1fr);
+  }
+}

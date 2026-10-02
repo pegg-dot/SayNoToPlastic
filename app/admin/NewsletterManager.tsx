@@ -206,13 +206,30 @@ export function NewsletterManager() {
                 <div>
                   {row.message ? <span className={styles.success}>{row.message}</span> : null}
                   {row.error ? <span className={styles.error}>{row.error}</span> : null}
-                  {!row.message && !row.error ? <span className={styles.saveHint}>{row.mailchimpCampaignId ? "Mailchimp draft already created." : row.published ? "Live in the Field Notes archive." : "Private until you publish it."}</span> : null}
+                  {!row.message && !row.error ? (
+                    <span className={styles.saveHint}>
+                      {row.mailchimpCampaignId ? "Email draft ready in Mailchimp." : row.published ? "Website issue is live. Next: create the email draft." : "Draft is private. Next: publish it to the website."}
+                    </span>
+                  ) : null}
                 </div>
-                <div>
-                  <button className={styles.secondaryButton} type="button" disabled={!detailsDirty || Boolean(row.busy)} onClick={() => void update(row, { title: row.draftTitle, excerpt: row.draftExcerpt }, "saving")}>{row.busy === "saving" ? "Saving…" : "Save details"}</button>
-                  <button className={!row.published ? styles.primaryButton : styles.secondaryButton} type="button" disabled={Boolean(row.busy)} onClick={() => void update(row, { published: !row.published }, "publishing")}>{row.busy === "publishing" ? "Updating…" : row.published ? "Unpublish" : "Publish to website"}</button>
-                  <button className={row.published && !row.mailchimpCampaignId ? styles.primaryButton : styles.secondaryButton} type="button" disabled={!row.published || Boolean(row.busy) || Boolean(row.mailchimpCampaignId)} title={!row.published ? "Publish to the website first." : row.mailchimpCampaignId ? "A Mailchimp draft already exists." : undefined} onClick={() => void createMailchimp(row)}>{row.busy === "mailchimp" ? "Creating…" : row.mailchimpCampaignId ? "Mailchimp draft created" : "Create Mailchimp draft"}</button>
-                  <button className={styles.dangerButton} type="button" disabled={Boolean(row.busy)} onClick={() => void removeNewsletter(row)}>{row.busy === "deleting" ? "Deleting…" : "Delete"}</button>
+                <div className={styles.newsletterPrimaryActions}>
+                  {detailsDirty ? (
+                    <button className={styles.secondaryButton} type="button" disabled={Boolean(row.busy)} onClick={() => void update(row, { title: row.draftTitle, excerpt: row.draftExcerpt }, "saving")}>{row.busy === "saving" ? "Saving…" : "Save title & description"}</button>
+                  ) : null}
+                  {!row.published ? (
+                    <button className={styles.primaryButton} type="button" disabled={Boolean(row.busy)} onClick={() => void update(row, { published: true }, "publishing")}>{row.busy === "publishing" ? "Publishing…" : "Publish to website"}</button>
+                  ) : !row.mailchimpCampaignId ? (
+                    <button className={styles.primaryButton} type="button" disabled={Boolean(row.busy)} onClick={() => void createMailchimp(row)}>{row.busy === "mailchimp" ? "Creating…" : "Create Mailchimp draft"}</button>
+                  ) : (
+                    <a className={styles.primaryButton} href={mailchimpUrl} target="_blank" rel="noreferrer">Open Mailchimp ↗</a>
+                  )}
+                  <details className={styles.newsletterMore}>
+                    <summary>More</summary>
+                    <div>
+                      {row.published ? <button type="button" disabled={Boolean(row.busy)} onClick={() => void update(row, { published: false }, "publishing")}>{row.busy === "publishing" ? "Updating…" : "Unpublish from website"}</button> : null}
+                      <button className={styles.dangerMenuButton} type="button" disabled={Boolean(row.busy)} onClick={() => void removeNewsletter(row)}>{row.busy === "deleting" ? "Deleting…" : "Delete from website manager"}</button>
+                    </div>
+                  </details>
                 </div>
               </div>
             </article>;

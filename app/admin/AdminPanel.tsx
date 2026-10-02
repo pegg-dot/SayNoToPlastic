@@ -135,6 +135,21 @@ function pageName(path: string) {
   return known[path] || path;
 }
 
+function pageHint(id: OwnerPageId) {
+  const hints: Record<OwnerPageId, string> = {
+    homepage: "Main landing page",
+    about: "Biography and story",
+    book: "Book page",
+    podcast: "Podcast page",
+    tedx: "TEDx page",
+    media: "Media landing page",
+    solutions: "Action page",
+    guides: "12-step guide",
+    science: "Research and evidence",
+  };
+  return hints[id];
+}
+
 export function AdminPanel({
   fields,
   initialContent,
@@ -486,9 +501,9 @@ export function AdminPanel({
               <aside className={styles.pageTree} aria-label="Website pages">
                 <strong>Website pages</strong>
                 {OWNER_PAGE_DEFINITIONS.map((item) => (
-                  <button key={item.id} type="button" className={item.id === selectedPage ? styles.pageTreeActive : ""} onClick={() => { setSelectedPage(item.id); setEditingKey(null); clearPreviewFocus(); }}>
+                  <button key={item.id} type="button" className={item.id === selectedPage ? styles.pageTreeActive : ""} onClick={() => { setSelectedPage(item.id); setEditingKey(null); setScienceTool("overview"); clearPreviewFocus(); }}>
                     <span>{item.label}</span>
-                    <small>{item.href}</small>
+                    <small>{pageHint(item.id)}</small>
                   </button>
                 ))}
               </aside>

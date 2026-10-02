@@ -657,29 +657,38 @@ export function AdminPanel({
           {section === "media" && (
             <section className={styles.mediaManager}>
               <div className={styles.mediaHeader}>
-                <div><p className={styles.kicker}>Events and appearances</p><h3>Add something new</h3><p>Create an item as a draft. Turn on Show on site only when it is ready to be public.</p></div>
-                <button className={styles.primaryButton} type="button" onClick={() => setMediaItems((current) => [blankMediaItem(), ...current])}>+ Add event or appearance</button>
+                <div><p className={styles.kicker}>Events and appearances</p><h3>Media items</h3><p>Choose an item to edit, or create a new private draft.</p></div>
+                <button className={styles.primaryButton} type="button" onClick={addMediaItem}>+ Add event or appearance</button>
               </div>
-              {mediaItems.length === 0 ? <div className={styles.emptyBox}>No owner-added events or appearances yet.</div> : (
-                <div className={styles.mediaList}>
-                  {mediaItems.map((item) => (
-                    <article className={styles.mediaItem} key={item.id}>
-                      <div className={styles.mediaTopRow}>
-                        <select value={item.type} aria-label="Item type" onChange={(event) => updateMediaItem(item.id, { type: event.target.value as OwnerMediaItemType })}>
-                          <option value="event">Event</option><option value="talk">Talk</option><option value="interview">Interview</option><option value="podcast">Podcast appearance</option><option value="press">Press</option>
-                        </select>
-                        <label className={styles.publishSwitch}><input type="checkbox" checked={item.published} onChange={(event) => updateMediaItem(item.id, { published: event.target.checked })} /><span>{item.published ? "Show on site" : "Draft only"}</span></label>
-                      </div>
-                      <label>Title<input type="text" value={item.title} maxLength={140} placeholder="Example: Dr. Haddad at TEDxMiami" onChange={(event) => updateMediaItem(item.id, { title: event.target.value })} /></label>
-                      <div className={styles.twoCol}><label>Date<input type="date" value={item.date} onChange={(event) => updateMediaItem(item.id, { date: event.target.value })} /></label><label>Where it appeared<input type="text" value={item.platform} maxLength={100} placeholder="Event, publication, podcast, etc." onChange={(event) => updateMediaItem(item.id, { platform: event.target.value })} /></label></div>
-                      <label>Link <small>optional</small><input type="url" value={item.url} maxLength={500} placeholder="https://..." onChange={(event) => updateMediaItem(item.id, { url: event.target.value })} /></label>
-                      <label>Short description<textarea value={item.description} maxLength={700} placeholder="What should visitors know?" onChange={(event) => updateMediaItem(item.id, { description: event.target.value })} /></label>
-                      <div className={styles.mediaItemFooter}><span>{item.published ? "This will be public after you save." : "This will stay private after you save."}</span><button type="button" onClick={() => removeMediaItem(item.id, item.title)}>Remove</button></div>
-                    </article>
-                  ))}
+              {mediaItems.length === 0 || !selectedMediaItem ? <div className={styles.emptyBox}>No owner-added events or appearances yet.</div> : (
+                <div className={styles.mediaWorkbench}>
+                  <aside className={styles.mediaItemNav} aria-label="Events and media items">
+                    <div className={styles.mediaItemNavHeading}><strong>Items</strong><span>{mediaItems.length}</span></div>
+                    {mediaItems.map((item) => (
+                      <button key={item.id} type="button" className={selectedMediaItem.id === item.id ? styles.mediaItemNavActive : ""} onClick={() => setSelectedMediaId(item.id)}>
+                        <div><span className={item.published ? styles.newsletterLive : styles.newsletterDraft}>{item.published ? "Live" : "Draft"}</span><small>{item.type}</small></div>
+                        <strong>{item.title || "Untitled media item"}</strong>
+                        <small>{item.date || item.platform || "No date yet"}</small>
+                      </button>
+                    ))}
+                  </aside>
+
+                  <article className={styles.mediaItem} key={selectedMediaItem.id}>
+                    <div className={styles.mediaTopRow}>
+                      <select value={selectedMediaItem.type} aria-label="Item type" onChange={(event) => updateMediaItem(selectedMediaItem.id, { type: event.target.value as OwnerMediaItemType })}>
+                        <option value="event">Event</option><option value="talk">Talk</option><option value="interview">Interview</option><option value="podcast">Podcast appearance</option><option value="press">Press</option>
+                      </select>
+                      <label className={styles.publishSwitch}><input type="checkbox" checked={selectedMediaItem.published} onChange={(event) => updateMediaItem(selectedMediaItem.id, { published: event.target.checked })} /><span>{selectedMediaItem.published ? "Show on site" : "Keep private"}</span></label>
+                    </div>
+                    <label>Title<input type="text" value={selectedMediaItem.title} maxLength={140} placeholder="Example: Dr. Haddad at TEDxMiami" onChange={(event) => updateMediaItem(selectedMediaItem.id, { title: event.target.value })} /></label>
+                    <div className={styles.twoCol}><label>Date<input type="date" value={selectedMediaItem.date} onChange={(event) => updateMediaItem(selectedMediaItem.id, { date: event.target.value })} /></label><label>Where it appeared<input type="text" value={selectedMediaItem.platform} maxLength={100} placeholder="Event, publication, podcast, etc." onChange={(event) => updateMediaItem(selectedMediaItem.id, { platform: event.target.value })} /></label></div>
+                    <label>Link <small>optional</small><input type="url" value={selectedMediaItem.url} maxLength={500} placeholder="https://..." onChange={(event) => updateMediaItem(selectedMediaItem.id, { url: event.target.value })} /></label>
+                    <label>Short description<textarea value={selectedMediaItem.description} maxLength={700} placeholder="What should visitors know?" onChange={(event) => updateMediaItem(selectedMediaItem.id, { description: event.target.value })} /></label>
+                    <div className={styles.mediaItemFooter}><span>{selectedMediaItem.published ? "This item will be public after you save." : "This item will stay private after you save."}</span><button type="button" onClick={() => removeMediaItem(selectedMediaItem.id, selectedMediaItem.title)}>Remove item</button></div>
+                  </article>
                 </div>
               )}
-              <div className={styles.mediaSaveBar}><span>{mediaDirty ? "You have unsaved changes" : "Everything is saved"}</span><button className={styles.primaryButton} type="button" disabled={!mediaDirty || saveStates["media.entries_json"] === "saving"} onClick={() => void saveMediaItems()}>{saveStates["media.entries_json"] === "saving" ? "Updating…" : "Update live site"}</button></div>
+              <div className={styles.mediaSaveBar}><span>{mediaDirty ? "You have unsaved media changes." : "Everything is saved."}</span><button className={styles.primaryButton} type="button" disabled={!mediaDirty || saveStates["media.entries_json"] === "saving"} onClick={() => void saveMediaItems()}>{saveStates["media.entries_json"] === "saving" ? "Updating…" : "Update live site"}</button></div>
             </section>
           )}
 

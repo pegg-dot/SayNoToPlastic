@@ -54,6 +54,7 @@ expect(
   "Standard pages use a preview-first editor with one focused inspector and contextual click-to-edit wiring."
 );
 expect(admin.includes("Previous versions") && admin.includes("Restore original") && admin.includes("Update live site"), "Revision history, restore, and explicit live-update controls remain available.");
+expect(admin.includes("renderField(activeField, true)") && admin.includes("focusedFieldHeader"), "Focused page editing removes the redundant accordion step once a section has been chosen.");
 
 expect(
   admin.includes('scienceTool') &&
@@ -110,7 +111,7 @@ expect(
   "Admin chrome is compact and application-like while preserving owner identity and live-site access."
 );
 expect(css.includes("v40.51") && css.includes(".contextInspector") && css.includes(".scienceWorkbench") && css.includes(".mediaWorkbench") && css.includes(".newsletterMore"), "v40.51 desktop workspace styles cover focused page, science, media, and Field Notes workflows.");
-expect(css.includes("Preserve the existing small-screen behavior until the dedicated mobile pass"), "This release explicitly preserves mobile behavior instead of silently starting the mobile redesign.");
+expect(css.includes("Preserve the existing small-screen behavior until the dedicated mobile pass") && css.includes("v40.51 mobile containment") && css.includes(".pageCmsLayout"), "This release explicitly contains the desktop redesign and preserves the deferred mobile pass.");
 
 expect(adminContent.includes('"science.entries_json"') && adminContent.includes('"science.body_systems_json"'), "Existing structured Science storage contracts are unchanged.");
 expect(adminApi.includes("getAdminUser") && adminApi.includes("isSameOrigin(request)"), "Owner write authorization and same-origin protection remain intact.");

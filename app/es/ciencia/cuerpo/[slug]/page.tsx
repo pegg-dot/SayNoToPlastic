@@ -158,7 +158,7 @@ export default async function BodySystemSpanishPage({ params }: { params: Promis
                 <p className="body-system-editorial-note">Algunas afirmaciones más amplias del borrador proporcionado todavía requieren sus citas originales exactas antes de la publicación final.</p>
               )}
               <p className="body-system-medical-note">
-                Solo para educación general. Esta página no diagnostica, trata ni sustituye el consejo de un profesional sanitario cualificado. <a href="/medical-disclaimer">Aviso médico.</a>
+                Solo con fines de educación general. Esta página no diagnostica, trata ni sustituye el consejo de un profesional sanitario cualificado. <a href="/medical-disclaimer">Aviso médico.</a>
               </p>
             </section>
 

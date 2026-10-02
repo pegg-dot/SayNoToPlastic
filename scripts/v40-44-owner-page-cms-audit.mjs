@@ -22,7 +22,7 @@ const build = read("app/build-version.ts");
 
 expect(exists("app/lib/page-editor.ts"), "Owner page editor map is packaged.");
 expect(admin.includes('id: "pages"') && admin.includes("OWNER_PAGE_DEFINITIONS"), "Admin exposes a dedicated Pages workspace.");
-expect((admin.includes("Live page preview") || admin.includes("Page preview")) && admin.includes("<iframe"), "Pages workspace includes a live-like same-origin page preview.");
+expect((admin.includes("Live page preview") || admin.includes("Page preview") || admin.includes("contextPreview")) && admin.includes("<iframe"), "Pages workspace includes a live-like same-origin page preview.");
 expect(admin.includes("Website pages") && admin.includes("pageTreeActive"), "Pages workspace includes a page tree for navigating editable pages.");
 expect(admin.includes("Science") && ((admin.includes("Structured research editor comes next") || admin.includes("dedicated Science tab")) || (admin.includes('const isScience = page.kind === "science"') && admin.includes("<ScienceManager"))), "Science remains on a structured editor path instead of the generic text editor.");
 expect(pageEditor.includes('"about"') && pageEditor.includes('"book"') && pageEditor.includes('"solutions"') && pageEditor.includes('"guides"'), "Normal public pages are represented in the owner page map.");

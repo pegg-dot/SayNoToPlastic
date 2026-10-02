@@ -344,28 +344,38 @@ export function AdminPanel({
     if (selectedMediaId === id) setSelectedMediaId(fallback);
   }
 
-  function renderField(key: AdminContentKey) {
+  function renderField(key: AdminContentKey, focused = false) {
     const field = fields.find((candidate) => candidate.key === key);
     if (!field || field.surface === "media" || field.kind === "json") return null;
     const copy = friendlyFields[key] || { label: field.label, help: field.description };
     const record = records[key];
     const changed = drafts[key] !== (record?.value ?? "");
     const state = saveStates[key];
-    const open = editingKey === key;
+    const open = focused || editingKey === key;
     const fieldRevisions = revisions.filter((revision) => revision.key === key).slice(0, 3);
 
     return (
       <article className={`${styles.settingCard} ${open ? styles.settingCardOpen : ""}`} key={key} data-admin-field={key}>
-        <button className={styles.settingSummary} type="button" onClick={() => selectField(key, open)} aria-expanded={open}>
-          <div>
-            <strong>{copy.label}</strong>
-            <span>{copy.help}</span>
+        {focused ? (
+          <div className={styles.focusedFieldHeader}>
+            <div>
+              <strong>{copy.label}</strong>
+              <span>{copy.help}</span>
+            </div>
+            <small>{record?.value ? "Customized on the live site" : "Using the original site content"}</small>
           </div>
-          <div className={styles.settingStatus}>
-            <small>{record?.value ? "Custom version is live" : "Original version is live"}</small>
-            <b>{open ? "Close" : "Show + edit"}</b>
-          </div>
-        </button>
+        ) : (
+          <button className={styles.settingSummary} type="button" onClick={() => selectField(key, open)} aria-expanded={open}>
+            <div>
+              <strong>{copy.label}</strong>
+              <span>{copy.help}</span>
+            </div>
+            <div className={styles.settingStatus}>
+              <small>{record?.value ? "Customized on live site" : "Using original content"}</small>
+              <b>{open ? "Close" : "Show + edit"}</b>
+            </div>
+          </button>
+        )}
 
         {open && (
           <div className={styles.settingEditor}>
@@ -513,7 +523,7 @@ export function AdminPanel({
               <aside className={styles.pageTree} aria-label="Website pages">
                 <strong>Website pages</strong>
                 {OWNER_PAGE_DEFINITIONS.map((item) => (
-                  <button key={item.id} type="button" className={item.id === selectedPage ? styles.pageTreeActive : ""} onClick={() => { setSelectedPage(item.id); setEditingKey(null); setScienceTool("overview"); clearPreviewFocus(); }}>
+                  <button key={item.id} type="button" className={item.id === selectedPage ? styles.pageTreeActive : ""} aria-pressed={item.id === selectedPage} onClick={() => { setSelectedPage(item.id); setEditingKey(null); setScienceTool("overview"); clearPreviewFocus(); }}>
                     <span>{item.label}</span>
                     <small>{pageHint(item.id)}</small>
                   </button>
@@ -596,7 +606,7 @@ export function AdminPanel({
                         <>
                           <button className={styles.inspectorBack} type="button" onClick={() => selectField(activeField, true)}>← All page sections</button>
                           <div className={styles.settingsList}>
-                            {renderField(activeField)}
+                            {renderField(activeField, true)}
                           </div>
                         </>
                       ) : (
@@ -650,8 +660,8 @@ export function AdminPanel({
           </div>
 
           <div className={styles.subTabs} aria-label="Media tools">
-            <button type="button" className={section === "media" ? styles.subTabActive : ""} onClick={() => goTo("media")}>Events &amp; Media</button>
-            <button type="button" className={section === "press" ? styles.subTabActive : ""} onClick={() => goTo("press")}>Press kit</button>
+            <button type="button" className={section === "media" ? styles.subTabActive : ""} aria-pressed={section === "media"} onClick={() => goTo("media")}>Events &amp; Media</button>
+            <button type="button" className={section === "press" ? styles.subTabActive : ""} aria-pressed={section === "press"} onClick={() => goTo("press")}>Press kit</button>
           </div>
 
           {section === "media" && (
@@ -665,7 +675,7 @@ export function AdminPanel({
                   <aside className={styles.mediaItemNav} aria-label="Events and media items">
                     <div className={styles.mediaItemNavHeading}><strong>Items</strong><span>{mediaItems.length}</span></div>
                     {mediaItems.map((item) => (
-                      <button key={item.id} type="button" className={selectedMediaItem.id === item.id ? styles.mediaItemNavActive : ""} onClick={() => setSelectedMediaId(item.id)}>
+                      <button key={item.id} type="button" className={selectedMediaItem.id === item.id ? styles.mediaItemNavActive : ""} aria-pressed={selectedMediaItem.id === item.id} onClick={() => setSelectedMediaId(item.id)}>
                         <div><span className={item.published ? styles.newsletterLive : styles.newsletterDraft}>{item.published ? "Live" : "Draft"}</span><small>{item.type}</small></div>
                         <strong>{item.title || "Untitled media item"}</strong>
                         <small>{item.date || item.platform || "No date yet"}</small>

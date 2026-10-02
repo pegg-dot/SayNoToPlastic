@@ -3,6 +3,8 @@ export type SiteLocale = "en" | "es";
 const spanishRouteMap: Record<string, string> = {
   "/": "/es",
   "/science": "/es/ciencia",
+  "/science/how-detection-works": "/es/ciencia/como-funciona-la-deteccion",
+  "/science/exposome": "/es/ciencia/exposoma",
   "/solutions": "/es/accion",
   "/quick-action-card": "/es/guia-12-pasos",
   "/podcast": "/es/podcast",

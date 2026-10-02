@@ -485,6 +485,7 @@ export function AdminPanel({
       {section === "pages" && (() => {
         const page = OWNER_PAGE_DEFINITIONS.find((candidate) => candidate.id === selectedPage) || OWNER_PAGE_DEFINITIONS[0];
         const isScience = page.kind === "science";
+        const activeField = editingKey && page.fields.includes(editingKey) ? editingKey : null;
         return (
           <div className={styles.editorPage}>
             <div className={styles.editorHeader}>

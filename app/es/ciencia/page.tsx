@@ -95,7 +95,7 @@ export default function ScienceSpanishPage() {
           </div>
           <dl className="science-v2-hero-facts">
             <div><dt>{String(researchStudies.length).padStart(2, "0")}</dt><dd>Estudios humanos resumidos</dd></div>
-            <div><dt>07</dt><dd>Visiones por sistemas del cuerpo</dd></div>
+            <div><dt>07</dt><dd>Resúmenes por sistemas del cuerpo</dd></div>
             <div><dt>100%</dt><dd>Fuentes originales enlazadas</dd></div>
           </dl>
         </section>

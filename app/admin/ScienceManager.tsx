@@ -127,6 +127,7 @@ export function ScienceManager({
                 key={study.id}
                 type="button"
                 className={selectedStudy?.id === study.id ? styles.scienceStudyNavActive : ""}
+                aria-pressed={selectedStudy?.id === study.id}
                 onClick={() => { setSelectedStudyId(study.id); setMessage(""); }}
               >
                 <div>

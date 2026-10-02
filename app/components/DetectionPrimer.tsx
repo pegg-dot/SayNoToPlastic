@@ -1,29 +1,8 @@
 import { detectionSteps } from "../content/haddad-topics";
+import { detectionStepsEs } from "../content/es/haddad-topics";
 import { TrackedLink } from "./TrackedLink";
 import type { SiteLocale } from "../lib/i18n";
 
-const detectionStepsEs = [
-  {
-    number: "01",
-    title: "Recoger una muestra",
-    text: "Los investigadores comienzan con sangre, tejido, leche materna, tejido placentario, heces u otra muestra biológica definida.",
-  },
-  {
-    number: "02",
-    title: "Prepararla con cuidado",
-    text: "Se eliminan grasas, proteínas y otros materiales biológicos mientras el equipo intenta conservar las partículas que puedan estar presentes.",
-  },
-  {
-    number: "03",
-    title: "Analizar el material restante",
-    text: "Instrumentos especializados examinan el tamaño, la forma, la masa o las características espectrales de las partículas, según el método del estudio.",
-  },
-  {
-    number: "04",
-    title: "Identificar el polímero",
-    text: "Los investigadores comparan la firma química con materiales conocidos como PE, PP, PET, PS y PVC.",
-  },
-] as const;
 
 export function DetectionPrimer({ locale = "en" }: { locale?: SiteLocale }) {
   return (

@@ -7,10 +7,11 @@ import { CheckoutButton } from "./CheckoutButton";
 import { useBodyScrollLock } from "./useBodyScrollLock";
 import { clearAnalyticsConsent } from "./privacy-consent";
 import { SignupForm } from "./SignupForm";
+import { chromeCopy, localizedPath, type SiteLocale } from "../lib/i18n";
 
-export function Wordmark({ footer = false }: { footer?: boolean }) {
+export function Wordmark({ footer = false, locale = "en" }: { footer?: boolean; locale?: SiteLocale }) {
   return (
-    <a className={`brand${footer ? " footer-brand" : ""}`} href="/" aria-label="Say No to Plastic home">
+    <a className={`brand${footer ? " footer-brand" : ""}`} href={locale === "es" ? "/es" : "/"} aria-label={locale === "es" ? "Inicio de Say No to Plastic" : "Say No to Plastic home"}>
       <img
         className="brand-wordmark"
         src={footer ? "/brand/sntp-wordmark-microplastic.png" : "/brand/sntp-wordmark-microplastic-nav.png"}
@@ -24,14 +25,15 @@ export function Wordmark({ footer = false }: { footer?: boolean }) {
   );
 }
 
-export function Header({ skipToContent = true }: { skipToContent?: boolean }) {
+export function Header({ skipToContent = true, locale = "en" }: { skipToContent?: boolean; locale?: SiteLocale }) {
   const pathname = usePathname();
+  const copy = chromeCopy[locale];
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [notice, setNotice] = useState("");
   const toggleRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLElement>(null);
-  const forceSolid = pathname.startsWith("/resources/") || pathname.startsWith("/newsletters/");
+  const forceSolid = pathname.startsWith("/resources/") || pathname.startsWith("/newsletters/") || pathname.startsWith("/es/guias/") || pathname.startsWith("/es/boletines/");
 
   useEffect(() => {
     const controller = new AbortController();
@@ -112,60 +114,64 @@ export function Header({ skipToContent = true }: { skipToContent?: boolean }) {
 
   const close = () => setMenuOpen(false);
   const isCurrent = (href: string) => {
-    if (href === "/") return pathname === "/";
-    if (["/science", "/solutions", "/resources", "/media", "/purchase"].includes(href)) return pathname.startsWith(href);
-    return pathname === href;
+    if (href === "/" || href === "/es") return pathname === href;
+    return pathname === href || pathname.startsWith(`${href}/`);
   };
   const primaryNav = [
-    { href: "/", label: "Home" },
-    { href: "/science", label: "The Science" },
-    { href: "/solutions", label: "Take Action" },
-    { href: "/quick-action-card", label: "Guides" },
-    { href: "/podcast", label: "Podcast" },
-    { href: "/tedx", label: "TEDx Talk" },
-    { href: "/about-dr-elie-haddad", label: "About" },
+    { href: localizedPath("/", locale), label: copy.home },
+    { href: localizedPath("/science", locale), label: copy.science },
+    { href: localizedPath("/solutions", locale), label: copy.action },
+    { href: localizedPath("/quick-action-card", locale), label: copy.guides },
+    { href: localizedPath("/podcast", locale), label: copy.podcast },
+    { href: localizedPath("/tedx", locale), label: copy.tedx },
+    { href: localizedPath("/about-dr-elie-haddad", locale), label: copy.about },
   ];
+  const alternateLocale: SiteLocale = locale === "es" ? "en" : "es";
+  const alternateHref = localizedPath(pathname, alternateLocale);
   return (
     <header className={`site-header${scrolled || forceSolid ? " is-scrolled" : ""}`}>
-      {skipToContent && <a className="skip-link" href="#main-content">Skip to main content</a>}
+      {skipToContent && <a className="skip-link" href="#main-content">{copy.skip}</a>}
       {notice && <div className="site-owner-notice" role="status"><span>{notice}</span></div>}
-      <Wordmark />
+      <Wordmark locale={locale} />
       <button ref={toggleRef} className="menu-button" type="button" aria-expanded={menuOpen} aria-controls="mobile-menu" aria-haspopup="true" onClick={() => setMenuOpen(!menuOpen)}>
-        <span className="sr-only">{menuOpen ? "Close" : "Open"} navigation</span><i /><i />
+        <span className="sr-only">{locale === "es" ? (menuOpen ? "Cerrar navegación" : "Abrir navegación") : `${menuOpen ? "Close" : "Open"} navigation`}</span><i /><i />
       </button>
-      <nav className="desktop-nav" aria-label="Primary navigation">
+      <nav className="desktop-nav" aria-label={locale === "es" ? "Navegación principal" : "Primary navigation"}>
         {primaryNav.map((item) => <a key={item.href} href={item.href} aria-current={isCurrent(item.href) ? "page" : undefined}>{item.label}</a>)}
+              <a className="language-switcher" href={alternateHref} hrefLang={alternateLocale} aria-label={locale === "es" ? "View this page in English" : "Ver esta página en español"}>{locale === "es" ? "EN" : "ES"}</a>
       </nav>
-      <CheckoutButton className="header-cta" label="header">Get the book <span>↗</span></CheckoutButton>
+      <CheckoutButton className="header-cta" label={locale === "es" ? "header-es" : "header"}>{copy.book} <span>↗</span></CheckoutButton>
       {menuOpen && (
-        <nav ref={menuRef} id="mobile-menu" className="mobile-nav" aria-label="Mobile navigation">
+        <nav ref={menuRef} id="mobile-menu" className="mobile-nav" aria-label={locale === "es" ? "Navegación móvil" : "Mobile navigation"}>
           {primaryNav.map((item) => <a key={item.href} onClick={close} href={item.href} aria-current={isCurrent(item.href) ? "page" : undefined}>{item.label}</a>)}
-          <div className="mobile-nav-secondary" aria-label="More from Say No to Plastic">
-            <span>More</span><a onClick={close} href="/resources">Guide library</a><a onClick={close} href="/homo-plasticus">The book</a><a onClick={close} href="/media">Events &amp; Media</a><a onClick={close} href="/community">Community</a>
+          <div className="mobile-nav-secondary" aria-label={locale === "es" ? "Más de Say No to Plastic" : "More from Say No to Plastic"}>
+            <span>{copy.more}</span><a onClick={close} href={localizedPath("/resources", locale)}>{copy.guideLibrary}</a><a onClick={close} href={localizedPath("/homo-plasticus", locale)}>{copy.theBook}</a><a onClick={close} href={localizedPath("/media", locale)}>{copy.media}</a><a onClick={close} href={locale === "es" ? "/community" : "/community"}>{copy.community}</a>
           </div>
-          <CheckoutButton label="mobile-menu" onStarted={close}>Get the ebook · ${BOOK.price}</CheckoutButton>
+          <a className="mobile-language-switcher" onClick={close} href={alternateHref} hrefLang={alternateLocale}>{locale === "es" ? "English" : "Español"}</a>
+          <CheckoutButton label={locale === "es" ? "mobile-menu-es" : "mobile-menu"} onStarted={close}>{copy.ebook} · ${BOOK.price}</CheckoutButton>
         </nav>
       )}
     </header>
   );
 }
 
-export function Footer() {
+export function Footer({ locale = "en" }: { locale?: SiteLocale }) {
   const resetPrivacy = () => {
     clearAnalyticsConsent();
     window.scrollTo({ top: document.documentElement.scrollHeight, behavior: "smooth" });
   };
   const year = new Date().getFullYear();
+  const copy = chromeCopy[locale];
   return (
     <footer className="site-footer">
-      <div className="earth"><p>“The greatest inheritance we can leave our children isn't wealth. <em>It's health.</em>”</p></div>
+      <div className="earth"><p>“{copy.inheritance} <em>{copy.health}</em>”</p></div>
       <div className="footer-grid">
-        <div><Wordmark footer /><p>Science, clarity, and practical action for a world living with plastic.</p><span className="movement-mark" aria-hidden="true"><img src="/brand/sntp-wordmark-microplastic-nav.png" width="900" height="150" alt="" decoding="async" /></span></div>
-        <div><strong>Explore</strong><a href="/science">The evidence</a><a href="/science/how-detection-works">How detection works</a><a href="/science/exposome">The exposome</a><a href="/solutions">Practical action</a><a href="/quick-action-card">12-step guide</a><a href="/homo-plasticus">The book</a><a href="/purchase/recover">Book access</a><a href="/resources">Guide library</a><a href="/recommendations">Product review standard</a></div>
-        <div><strong>Project</strong><a href="/podcast">Beyond Plastic podcast</a><a href="/tedx">TEDx Talk</a><a href="/about-dr-elie-haddad">Dr. Haddad</a><a href="/media">Talk and media</a><a href="/newsletters">Field Notes</a><a href="/contact">Contact</a><a href="/editorial-policy">Editorial standard</a></div>
-        <div className="footer-signup"><strong>Field Notes / Newsletter</strong><p>Research summaries and practical exposure-reduction guidance, sent by email.</p><SignupForm compact buttonLabel="Join the movement" successTitle="You&apos;re in." successText="You&apos;re subscribed. No confirmation email is required." /></div>
+        <div><Wordmark footer locale={locale} /><p>{copy.footerTagline}</p><span className="movement-mark" aria-hidden="true"><img src="/brand/sntp-wordmark-microplastic-nav.png" width="900" height="150" alt="" decoding="async" /></span></div>
+        <div><strong>{copy.explore}</strong><a href={localizedPath("/science", locale)}>{copy.evidence}</a><a href={locale === "es" ? "/science/how-detection-works" : "/science/how-detection-works"}>{copy.detection}</a><a href={locale === "es" ? "/science/exposome" : "/science/exposome"}>{copy.exposome}</a><a href={localizedPath("/solutions", locale)}>{copy.practical}</a><a href={localizedPath("/quick-action-card", locale)}>{copy.twelveStep}</a><a href={localizedPath("/homo-plasticus", locale)}>{copy.theBook}</a><a href="/purchase/recover">{copy.bookAccess}</a><a href={localizedPath("/resources", locale)}>{copy.guideLibrary}</a><a href="/recommendations">{copy.reviewStandard}</a></div>
+        <div><strong>{copy.project}</strong><a href={localizedPath("/podcast", locale)}>Beyond Plastic podcast</a><a href={localizedPath("/tedx", locale)}>{copy.tedx}</a><a href={localizedPath("/about-dr-elie-haddad", locale)}>{copy.drHaddad}</a><a href={localizedPath("/media", locale)}>{copy.talkMedia}</a><a href={localizedPath("/newsletters", locale)}>{copy.fieldNotes}</a><a href={localizedPath("/contact", locale)}>{copy.contact}</a><a href="/editorial-policy">{copy.editorial}</a></div>
+        <div className="footer-signup"><strong>{copy.newsletterTitle}</strong><p>{copy.newsletterBody}</p><SignupForm compact locale={locale} buttonLabel={copy.join} successTitle={copy.successTitle} successText={copy.successText} /></div>
       </div>
-      <div className="footer-bottom"><span>© {year} Say No to Plastic</span><span><a href="/privacy-policy">Privacy</a> &nbsp; <button className="privacy-choice-link" type="button" onClick={resetPrivacy}>Privacy choices</button> &nbsp; <a href="/terms">Terms</a> &nbsp; <a href="/refunds-and-returns">Refunds</a> &nbsp; <a href="/affiliate-disclosure">Affiliate disclosure</a> &nbsp; <a href="/medical-disclaimer">Medical disclaimer</a> &nbsp; <a href="/accessibility">Accessibility</a> &nbsp; <a href="/contact">Media inquiries</a></span></div>
+      <div className="footer-bottom"><span>© {year} Say No to Plastic</span><span><a href="/privacy-policy">{copy.privacy}</a> &nbsp; <button className="privacy-choice-link" type="button" onClick={resetPrivacy}>{copy.privacyChoices}</button> &nbsp; <a href="/terms">{copy.terms}</a> &nbsp; <a href="/refunds-and-returns">{copy.refunds}</a> &nbsp; <a href="/affiliate-disclosure">{copy.affiliate}</a> &nbsp; <a href="/medical-disclaimer">{copy.disclaimer}</a> &nbsp; <a href="/accessibility">{copy.accessibility}</a> &nbsp; <a href={localizedPath("/contact", locale)}>{copy.mediaInquiries}</a></span></div>
     </footer>
   );
 }

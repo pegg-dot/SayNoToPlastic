@@ -2203,3 +2203,26 @@
   outline: 2px solid #825c2b;
   outline-offset: 2px;
 }
+
+
+/* v40.51 mobile containment: do not convert the desktop UX pass into the deferred mobile redesign. */
+@media (max-width: 920px) {
+  .pageCmsLayout {
+    grid-template-columns: 1fr;
+  }
+  .pageTree {
+    position: static;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding: 0 0 12px;
+    border-right: 0;
+    border-bottom: 1px solid #ddd8ce;
+  }
+  .pageTree > strong {
+    grid-column: 1 / -1;
+  }
+}
+@media (max-width: 620px) {
+  .pageTree {
+    grid-template-columns: 1fr;
+  }
+}

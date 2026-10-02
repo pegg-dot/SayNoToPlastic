@@ -14,7 +14,7 @@ const description = "Dr. Elie Haddad's TEDxMiami talk on microplastics, nanoplas
 export const metadata: Metadata = {
   title: `${title} | TEDxMiami | Say No to Plastic`,
   description,
-  alternates: { canonical: "/tedx" },
+  alternates: { canonical: "/tedx", languages: { "en-US": "/tedx", "es-US": "/es/tedx" } },
   openGraph: {
     title: `${title} | Dr. Elie Haddad | TEDxMiami`,
     description,

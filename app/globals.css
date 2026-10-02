@@ -3362,3 +3362,36 @@ body[data-anatomy-viewer-open="true"] .welcome-film-trigger{display:none!importa
   .desktop-nav{gap:14px;font-size:9.5px;letter-spacing:.07em}
   .header-cta{font-size:10px;letter-spacing:.08em}
 }
+
+
+/* v40.48 — bilingual navigation */
+.language-switcher{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:34px;
+  padding:6px 8px;
+  border:1px solid rgba(255,255,255,.22);
+  border-radius:999px;
+  color:rgba(255,255,255,.82)!important;
+  font:700 9px/1 Arial,sans-serif!important;
+  letter-spacing:.12em!important;
+  text-decoration:none!important;
+}
+.language-switcher:hover{border-color:rgba(215,169,103,.75);color:#f2c987!important}
+.mobile-language-switcher{
+  display:inline-flex;
+  width:max-content;
+  margin:0 0 10px;
+  padding:9px 12px;
+  border:1px solid rgba(255,255,255,.18);
+  border-radius:999px;
+  color:#f0c37d;
+  font:700 10px/1 Arial,sans-serif;
+  letter-spacing:.08em;
+  text-decoration:none;
+}
+@media(max-width:1380px) and (min-width:1001px){
+  .desktop-nav{gap:11px}
+  .language-switcher{min-width:30px;padding:5px 7px}
+}

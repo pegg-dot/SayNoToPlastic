@@ -13,6 +13,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/media/press-kit", "/community", "/newsletters", "/contact", "/editorial-policy",
     "/medical-disclaimer", "/affiliate-disclosure", "/privacy-policy",
     "/refunds-and-returns", "/terms", "/accessibility",
+    "/es", "/es/ciencia", "/es/accion", "/es/guia-12-pasos", "/es/homo-plasticus",
+    "/es/podcast", "/es/tedx", "/es/sobre-dr-elie-haddad",
   ];
   if (TEDX_RELEASE.published) routes.push("/tedx");
   return [

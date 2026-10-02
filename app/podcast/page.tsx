@@ -10,7 +10,7 @@ export const dynamic = "force-dynamic";
 
 const description = "Beyond Plastic: Where Science Meets Consciousness is Dr. Elie Haddad's podcast exploring health, medicine, human experience, consciousness, and the forces shaping how we live.";
 export const metadata: Metadata = {
-  title: "Beyond Plastic Podcast | Say No to Plastic", description, alternates: { canonical: "/podcast" },
+  title: "Beyond Plastic Podcast | Say No to Plastic", description, alternates: { canonical: "/podcast", languages: { "en-US": "/podcast", "es-US": "/es/podcast" } },
   openGraph: { title: "Beyond Plastic: Where Science Meets Consciousness", description, url: "/podcast", siteName: "Say No to Plastic", type: "website", images: [{ url: BEYOND_PLASTIC.artwork, width: 1200, height: 1200, alt: BEYOND_PLASTIC.artworkAlt }] },
   twitter: { card: "summary_large_image", title: "Beyond Plastic: Where Science Meets Consciousness", description, images: [BEYOND_PLASTIC.artwork] },
 };

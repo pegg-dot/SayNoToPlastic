@@ -12,7 +12,7 @@ const description = "A simple starting point for using less plastic around drink
 export const metadata: Metadata = {
   title: "Practical Action | Say No to Plastic",
   description,
-  alternates: { canonical: "/solutions" },
+  alternates: { canonical: "/solutions", languages: { "en-US": "/solutions", "es-US": "/es/accion" } },
   openGraph: {
     title: "Practical Action | Say No to Plastic",
     description,

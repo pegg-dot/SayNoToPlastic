@@ -17,7 +17,7 @@ const description = "A study-by-study human evidence record, body-system explain
 export const metadata: Metadata = {
   title: "Plastic in the Human Body: What the Studies Found | Say No to Plastic",
   description,
-  alternates: { canonical: "/science" },
+  alternates: { canonical: "/science", languages: { "en-US": "/science", "es-US": "/es/ciencia" } },
   openGraph: {
     title: "Plastic in the Human Body: What the Studies Found",
     description,

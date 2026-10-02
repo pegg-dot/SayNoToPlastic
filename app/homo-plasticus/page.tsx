@@ -7,7 +7,7 @@ import { getAdminContentValues } from "../lib/admin-content";
 export const dynamic = "force-dynamic";
 
 const description = `${BOOK.subtitle}. By ${BOOK.author}, with collaboration by ${BOOK.collaborator}.`;
-export const metadata: Metadata = { title: `${BOOK.title}, the Book | ${BOOK.author}`, description, alternates: { canonical: "/homo-plasticus" }, openGraph: { title: `${BOOK.title} | ${BOOK.author}`, description, url: "/homo-plasticus", siteName: "Say No to Plastic", type: "book", images: [{ url: "/book-official.webp", width: 1122, height: 1402, alt: `${BOOK.title} by ${BOOK.author}` }] }, twitter: { card: "summary", title: `${BOOK.title} | ${BOOK.author}`, description, images: ["/book-official.webp"] } };
+export const metadata: Metadata = { title: `${BOOK.title}, the Book | ${BOOK.author}`, description, alternates: { canonical: "/homo-plasticus", languages: { "en-US": "/homo-plasticus", "es-US": "/es/homo-plasticus" } }, openGraph: { title: `${BOOK.title} | ${BOOK.author}`, description, url: "/homo-plasticus", siteName: "Say No to Plastic", type: "book", images: [{ url: "/book-official.webp", width: 1122, height: 1402, alt: `${BOOK.title} by ${BOOK.author}` }] }, twitter: { card: "summary", title: `${BOOK.title} | ${BOOK.author}`, description, images: ["/book-official.webp"] } };
 
 const faq=[
   {q:"What format is the current edition?",a:"The current edition is a digital ebook delivered after checkout."},

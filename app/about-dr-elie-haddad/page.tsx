@@ -11,7 +11,7 @@ const description = "Meet Elie R. Haddad, MD, the cardiologist and cardiac elect
 export const metadata: Metadata = {
   title: "Dr. Elie R. Haddad | Say No to Plastic",
   description,
-  alternates: { canonical: "/about-dr-elie-haddad" },
+  alternates: { canonical: "/about-dr-elie-haddad", languages: { "en-US": "/about-dr-elie-haddad", "es-US": "/es/sobre-dr-elie-haddad" } },
   openGraph: {
     title: "Dr. Elie R. Haddad | Say No to Plastic",
     description,

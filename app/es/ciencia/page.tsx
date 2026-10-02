@@ -5,6 +5,8 @@ import { BOOK, SITE_URL } from "../../config";
 import { evidenceChaptersEs } from "../../content/es/evidence";
 import { bodySystemsEs } from "../../content/es/body-systems";
 import type { EvidenceStudy } from "../../content/evidence";
+import { ScienceNavigator } from "../../science/ScienceNavigator";
+import { DetectionPrimer } from "../../components/DetectionPrimer";
 
 export const dynamic = "force-dynamic";
 
@@ -99,6 +101,10 @@ export default function ScienceSpanishPage() {
             <div><dt>100%</dt><dd>Fuentes originales enlazadas</dd></div>
           </dl>
         </section>
+
+        <ScienceNavigator locale="es" chapters={evidenceChaptersEs.map(({ id, navLabel }) => ({ id, navLabel }))} />
+
+        <DetectionPrimer locale="es" />
 
         <section className="science-v2-reading" aria-label="Capítulos de evidencia humana">
           <header className="science-v2-reading-intro">

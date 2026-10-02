@@ -511,50 +511,62 @@ export function AdminPanel({
 
               <div className={styles.pageCmsMain}>
                 {isScience ? (
-                  <>
-                    <section className={styles.livePreviewCard}>
-                      <div className={styles.livePreviewHeader}>
-                        <div><span>Live Science page</span><small>Science uses structured fields so evidence, sources, and uncertainty stay together.</small></div>
-                        <a href="/science" target="_blank" rel="noreferrer">Full page ↗</a>
-                      </div>
-                      <div className={styles.livePreviewFrame}>
-                        <iframe key={`science-${previewRevision}`} src="/science" title="Science page live preview" loading="lazy" />
-                      </div>
-                    </section>
+                  <div className={styles.scienceWorkspace}>
+                    {scienceTool === "overview" ? (
+                      <>
+                        <section className={styles.livePreviewCard}>
+                          <div className={styles.livePreviewHeader}>
+                            <div><span>Science page</span><small>See the public page before choosing what kind of science content to manage.</small></div>
+                            <a href="/science" target="_blank" rel="noreferrer">View live ↗</a>
+                          </div>
+                          <div className={styles.livePreviewFrame}>
+                            <iframe key={`science-${previewRevision}`} src="/science" title="Science page live preview" loading="lazy" />
+                          </div>
+                        </section>
 
-                    <div className={styles.pageEditorNote}><strong>Why this editor looks different</strong><span>Science is still a website page, but research cannot safely be edited like ordinary marketing copy. The interface keeps study methods, sample, limitations, sources, and review status attached to the claim.</span></div>
+                        <div className={styles.pageEditorNote}><strong>Science stays structured</strong><span>Research cannot safely be edited like ordinary marketing copy. Study methods, sample, limitations, sources, and review status stay attached to the claim.</span></div>
 
-                    <ScienceManager
-                      value={records["science.entries_json"]?.value ?? ""}
-                      saveState={saveStates["science.entries_json"]}
-                      onSave={(value) => saveValue("science.entries_json", value)}
-                    />
-
-                    <BodySystemManager
-                      value={records["science.body_systems_json"]?.value ?? ""}
-                      saveState={saveStates["science.body_systems_json"]}
-                      previewRevision={previewRevision}
-                      onSave={(value) => saveValue("science.body_systems_json", value)}
-                    />
-                  </>
+                        <div className={styles.scienceToolGrid}>
+                          <button type="button" onClick={() => setScienceTool("studies")}>
+                            <span>01</span>
+                            <strong>Human evidence studies</strong>
+                            <small>Add or review individual studies, sources, methods, limitations, and publication status.</small>
+                            <b>Open studies →</b>
+                          </button>
+                          <button type="button" onClick={() => setScienceTool("body-systems")}>
+                            <span>02</span>
+                            <strong>Body-system explainers</strong>
+                            <small>Edit the deeper cardiovascular, reproductive, endocrine, kidney, skin, digestive, and pregnancy pages.</small>
+                            <b>Open body systems →</b>
+                          </button>
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <button className={styles.toolBackButton} type="button" onClick={() => setScienceTool("overview")}>← All Science tools</button>
+                        {scienceTool === "studies" ? (
+                          <ScienceManager
+                            value={records["science.entries_json"]?.value ?? ""}
+                            saveState={saveStates["science.entries_json"]}
+                            onSave={(value) => saveValue("science.entries_json", value)}
+                          />
+                        ) : (
+                          <BodySystemManager
+                            value={records["science.body_systems_json"]?.value ?? ""}
+                            saveState={saveStates["science.body_systems_json"]}
+                            previewRevision={previewRevision}
+                            onSave={(value) => saveValue("science.body_systems_json", value)}
+                          />
+                        )}
+                      </>
+                    )}
+                  </div>
                 ) : (
                   <div className={styles.contextEditorLayout}>
-                    <section className={styles.contextFieldPane}>
-                      <div className={styles.settingsIntro}>
-                        <p className={styles.kicker}>Edit in context</p>
-                        <h3>Click a section here or directly in the preview.</h3>
-                        <p>The preview stays beside you. When you choose a field, the exact place it controls is highlighted. Typing into most text fields previews the wording before you publish.</p>
-                      </div>
-                      {page.note ? <div className={styles.pageEditorNote}><strong>Protected content</strong><span>{page.note}</span></div> : null}
-                      <div className={styles.settingsList}>
-                        {page.fields.map(renderField)}
-                      </div>
-                    </section>
-
                     <section className={`${styles.livePreviewCard} ${styles.contextPreview}`}>
                       <div className={styles.livePreviewHeader}>
-                        <div><span>Page preview</span><small>Click highlighted text in the page to edit that exact content.</small></div>
-                        <a href={page.href} target="_blank" rel="noreferrer">Full page ↗</a>
+                        <div><span>{page.label} preview</span><small>Click editable text in the page or choose a section from the panel.</small></div>
+                        <a href={page.href} target="_blank" rel="noreferrer">View live ↗</a>
                       </div>
                       <div className={styles.livePreviewFrame}>
                         <iframe
@@ -567,6 +579,40 @@ export function AdminPanel({
                         />
                       </div>
                     </section>
+
+                    <aside className={styles.contextInspector}>
+                      {activeField ? (
+                        <>
+                          <button className={styles.inspectorBack} type="button" onClick={() => selectField(activeField, true)}>← All page sections</button>
+                          <div className={styles.settingsList}>
+                            {renderField(activeField)}
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          <div className={styles.inspectorIntro}>
+                            <p className={styles.kicker}>Page sections</p>
+                            <h3>Choose one thing to change.</h3>
+                            <p>The preview stays visible while you work. Only the section you choose opens for editing.</p>
+                          </div>
+                          {page.note ? <div className={styles.pageEditorNote}><strong>Protected content</strong><span>{page.note}</span></div> : null}
+                          <div className={styles.pageFieldList}>
+                            {page.fields.map((key) => {
+                              const field = fields.find((candidate) => candidate.key === key);
+                              if (!field) return null;
+                              const copy = friendlyFields[key] || { label: field.label, help: field.description };
+                              const custom = Boolean(records[key]?.value);
+                              return (
+                                <button key={key} type="button" onClick={() => selectField(key, false)}>
+                                  <div><strong>{copy.label}</strong><small>{copy.help}</small></div>
+                                  <span>{custom ? "Customized" : "Original"} <b>›</b></span>
+                                </button>
+                              );
+                            })}
+                          </div>
+                        </>
+                      )}
+                    </aside>
                   </div>
                 )}
               </div>

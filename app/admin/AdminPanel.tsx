@@ -399,25 +399,29 @@ export function AdminPanel({
   return (
     <div className={styles.workspace}>
       <nav className={styles.tabs} aria-label="Website manager sections">
-        {sections.map((item) => (
-          <button key={item.id} type="button" className={section === item.id ? styles.tabActive : ""} onClick={() => goTo(item.id)}>{item.label}</button>
-        ))}
+        {sections.map((item) => {
+          const active = section === item.id || (section === "press" && item.id === "media");
+          return <button key={item.id} type="button" className={active ? styles.tabActive : ""} onClick={() => goTo(item.id)}>{item.label}</button>;
+        })}
       </nav>
 
       {section === "dashboard" && (
         <div className={styles.dashboard}>
           <section className={styles.welcomeCard}>
-            <p className={styles.kicker}>Website manager</p>
-            <h2>What do you want to change?</h2>
-            <p>Pick a task. You will always see a clear button before anything is changed on the live website.</p>
+            <p className={styles.kicker}>Today</p>
+            <h2>What do you want to work on?</h2>
+            <p>Choose the kind of work first. The manager will show only the controls you need for that task.</p>
             <div className={styles.actionGrid}>
-              <button type="button" onClick={() => goTo("pages")}><span>01</span><strong>Edit a website page</strong><small>Choose a page, see it live, and edit its content</small></button>
-              <button type="button" onClick={() => goTo("media")}><span>02</span><strong>Add an event or appearance</strong><small>Talks, interviews, press, podcast appearances</small></button>
-              <button type="button" onClick={() => goToPage("tedx", "tedx.video_url")}><span>03</span><strong>Replace the TEDx video</strong><small>Paste the new YouTube link when it is ready</small></button>
-              <button type="button" onClick={() => goToPage("podcast")}><span>04</span><strong>Update the podcast</strong><small>Opening copy, series details, and listening links</small></button>
-              <button type="button" onClick={() => goTo("press")}><span>05</span><strong>Update bio or press contact</strong><small>Biography and media email</small></button>
-              <button type="button" onClick={() => goTo("newsletters")}><span>06</span><strong>Publish a newsletter</strong><small>Upload Word, preview, publish, create Mailchimp draft</small></button>
-              <button type="button" onClick={() => goToPage("science")}><span>07</span><strong>Add or review research</strong><small>Structured study fields, sources, limitations, draft or publish</small></button>
+              <button type="button" onClick={() => goTo("pages")}><span>01</span><strong>Edit the website</strong><small>Choose a page, see it, then edit one section at a time</small></button>
+              <button type="button" onClick={() => goTo("newsletters")}><span>02</span><strong>Publish Field Notes</strong><small>Upload the Word document, publish it, then create the Mailchimp draft</small></button>
+              <button type="button" onClick={() => goTo("media")}><span>03</span><strong>Add media or an appearance</strong><small>Events, talks, interviews, press, and podcast appearances</small></button>
+              <button type="button" onClick={() => goToPage("science")}><span>04</span><strong>Review or add science</strong><small>Human studies and body-system explainers with sources and limitations</small></button>
+            </div>
+            <div className={styles.quickLinks} aria-label="Common shortcuts">
+              <span>Common shortcuts</span>
+              <button type="button" onClick={() => goToPage("tedx", "tedx.video_url")}>Replace TEDx video</button>
+              <button type="button" onClick={() => goToPage("podcast")}>Update podcast</button>
+              <button type="button" onClick={() => goTo("press")}>Edit press kit</button>
             </div>
           </section>
 

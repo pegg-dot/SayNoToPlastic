@@ -419,6 +419,7 @@ export function AdminPanel({
 
   const mediaRecord = records["media.entries_json"];
   const mediaDirty = JSON.stringify(mediaItems) !== (mediaRecord?.value || "");
+  const selectedMediaItem = mediaItems.find((item) => item.id === selectedMediaId) ?? mediaItems[0] ?? null;
   const recentRevisions = revisions.slice(0, 4);
 
   return (

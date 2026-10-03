@@ -27,6 +27,13 @@ fi
 git diff --quiet || fail "Tracked files have uncommitted changes."
 git diff --cached --quiet || fail "The index has uncommitted changes."
 
+echo "Checking production D1 migration state..."
+pending_migrations="$(npx wrangler d1 migrations list saynotoplastic-db --remote)"
+printf '%s\n' "$pending_migrations"
+if printf '%s\n' "$pending_migrations" | grep -Eq '[0-9]{4}_[A-Za-z0-9_.-]+\.sql'; then
+  fail "Production D1 migrations are pending. Run npm run db:migrate:production before deploying."
+fi
+
 echo "Running full release audit..."
 npm run release:audit
 
@@ -80,7 +87,17 @@ npx wrangler deploy --config "$config_path"
 
 echo "Verifying production..."
 version_body="$(curl -fsS --max-time 25 -H 'Cache-Control: no-cache' "https://saynotoplastic.com/api/version?deploy_check=$(date +%s)")"
-printf '%s' "$version_body" | grep -Fq "$build_version" || fail "Production version endpoint does not report $build_version."
+VERSION_BODY="$version_body" node --input-type=module - "$build_version" "$local_head" <<'NODE'
+const body = JSON.parse(process.env.VERSION_BODY ?? "{}");
+const expectedVersion = process.argv[2];
+const expectedRevision = process.argv[3];
+if (body.version !== expectedVersion) {
+  throw new Error(`Production version mismatch: expected ${expectedVersion}, got ${body.version}`);
+}
+if (body.revision !== expectedRevision) {
+  throw new Error(`Production revision mismatch: expected ${expectedRevision}, got ${body.revision}`);
+}
+NODE
 
 home_body="$(curl -fsS --max-time 25 -H 'Cache-Control: no-cache' "https://saynotoplastic.com/?deploy_check=$(date +%s)")"
 if printf '%s' "$home_body" | grep -Fq "Scroll to turn the pages"; then
@@ -104,4 +121,4 @@ case "$www_status" in
   *) echo "WARNING: www returned HTTP $www_status instead of a redirect. Check the Cloudflare www DNS/custom-domain binding." ;;
 esac
 
-echo "Production verification passed for $build_version"
+echo "Production verification passed for $build_version at $local_head"

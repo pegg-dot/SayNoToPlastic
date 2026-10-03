@@ -41,6 +41,7 @@ next-env.d.ts
 /.sites-runtime/
 /outputs/
 /work/
+/app/deploy-revision.generated.ts
 
 # private commerce assets and operator-only working files
 /private/

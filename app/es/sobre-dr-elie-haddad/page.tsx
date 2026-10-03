@@ -14,6 +14,14 @@ export const metadata: Metadata = {
     canonical: "/es/sobre-dr-elie-haddad",
     languages: { "en-US": "/about-dr-elie-haddad", "es-US": "/es/sobre-dr-elie-haddad" },
   },
+  openGraph: {
+    title: "Dr. Elie R. Haddad | Say No to Plastic",
+    description,
+    url: "/es/sobre-dr-elie-haddad",
+    siteName: "Say No to Plastic",
+    type: "profile",
+    images: [{ url: "/portrait.webp", width: 900, height: 1024, alt: "Elie R. Haddad, MD" }],
+  },
 };
 
 const story = [
@@ -36,6 +44,16 @@ const story = [
 ];
 
 export default function AboutSpanishPage() {
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: "Elie R. Haddad, MD",
+    jobTitle: "Cardiólogo y electrofisiólogo cardíaco",
+    description,
+    url: "/es/sobre-dr-elie-haddad",
+    inLanguage: "es-US",
+  };
+
   return (
     <>
       <Header locale="es" skipToContent />
@@ -49,17 +67,23 @@ export default function AboutSpanishPage() {
           </figure>
 
           <div className={styles.heroCopy}>
-            <p className={styles.kicker}>Médico · Autor · Educador</p>
+            <p className="eyebrow">Detrás de la ciencia</p>
             <h1 id="about-title">Conoce al Dr. Elie Haddad</h1>
             <p className={styles.heroLead}>El Dr. Elie R. Haddad es cardiólogo y electrofisiólogo cardíaco con más de dos décadas de experiencia clínica, además de autor, educador y conferencista TEDx.</p>
             <p className={styles.heroLead}>Say No to Plastic nació de una pregunta médica: ¿qué influencias ambientales estamos pasando por alto cuando la enfermedad aparece antes, con mayor frecuencia o en personas que no encajan con el patrón esperado?</p>
+            <div className={styles.credentials} aria-label="Funciones profesionales">
+              <span>Cardiólogo</span><span>Electrofisiólogo cardíaco</span><span>Autor</span><span>Conferencista TEDx</span>
+            </div>
+            <div className={styles.heroActions}>
+              <a className="button gold" href="#why">Leer su historia <span>↓</span></a>
+              <TrackedLink className={styles.textAction} href="/media" eventName="cta_click" label="about-es-media">Eventos y medios (en inglés) <span>→</span></TrackedLink>
+            </div>
           </div>
         </section>
 
-        <section className={styles.why} aria-labelledby="why-title">
-          <div className={styles.sectionIndex}>01 · Por qué le importa</div>
-          <div>
-            <p className={styles.eyebrow}>La pregunta clínica</p>
+        <section id="why" className={styles.reason} aria-labelledby="why-title">
+          <p className={styles.sectionIndex}>01 · Por qué le importa</p>
+          <div className={styles.sectionCopy}>
             <h2 id="why-title">La pregunta comenzó en la consulta.</h2>
             <p>Años cuidando a personas con enfermedad cardiovascular hicieron que el Dr. Haddad se interesara no solo por cómo se trata una enfermedad, sino por qué aparece y qué podría prevenirse.</p>
             <p>Esa investigación se amplió desde la genética y el estilo de vida hacia el mundo que nos rodea. Los microplásticos se convirtieron en una parte de una pregunta mucho más amplia sobre la exposición ambiental repetida a lo largo de la vida.</p>
@@ -67,28 +91,44 @@ export default function AboutSpanishPage() {
         </section>
 
         <section className={styles.story} aria-labelledby="story-title">
-          <header>
+          <div className={styles.storyHeading}>
             <div><p className={styles.sectionIndex}>02 · El camino</p><h2 id="story-title">De la cardiología a la investigación ambiental.</h2></div>
             <p>El trabajo clínico llevó a una pregunta más amplia; esa pregunta llevó a la investigación, y la investigación llevó a la educación pública.</p>
-          </header>
-          <ol>
-            {story.map((item, index) => <li key={item.title}><span>{String(index + 1).padStart(2, "0")}</span><div><h3>{item.title}</h3><p>{item.body}</p></div></li>)}
-          </ol>
+          </div>
+          <div className={styles.storyRows}>
+            {story.map((item, index) => (
+              <article className={styles.storyRow} key={item.title}>
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <h3>{item.title}</h3>
+                <p>{item.body}</p>
+              </article>
+            ))}
+          </div>
         </section>
 
-        <section className={styles.work} aria-labelledby="work-title">
-          <div>
+        <section className={styles.closing} aria-labelledby="work-title">
+          <div className={styles.closingCopy}>
             <p className={styles.sectionIndex}>03 · El trabajo ahora</p>
             <h2 id="work-title">Traducir la evidencia. Mantener visible la incertidumbre.</h2>
             <p>A través de Say No to Plastic, el Dr. Haddad conecta investigación humana emergente con orientación práctica para reducir la exposición, manteniendo separadas la detección, la asociación y la causalidad.</p>
           </div>
-          <aside>
-            <strong>Seguir explorando</strong>
-            <TrackedLink href="/es/ciencia" eventName="cta_click" label="about-es-science">La ciencia <span>→</span></TrackedLink>
-            <TrackedLink href="/es/accion" eventName="cta_click" label="about-es-action">Acción práctica <span>→</span></TrackedLink>
-            <TrackedLink href="/es/tedx" eventName="cta_click" label="about-es-tedx">Charla TEDx <span>→</span></TrackedLink>
-          </aside>
+
+          <nav className={styles.linkList} aria-label="Explorar el trabajo del Dr. Haddad">
+            <TrackedLink href="/es/ciencia" eventName="cta_click" label="about-es-science">Explorar la ciencia <span>→</span></TrackedLink>
+            <TrackedLink href="/es/homo-plasticus" eventName="cta_click" label="about-es-book">Explorar Homo Plasticus <span>→</span></TrackedLink>
+            <TrackedLink href="/es/tedx" eventName="cta_click" label="about-es-tedx">Ver la charla TEDx <span>→</span></TrackedLink>
+          </nav>
+
+          <details className={styles.deeper}>
+            <summary>Más sobre el enfoque</summary>
+            <div className={styles.deeperBody}>
+              <p>El marco más amplio es el exposoma: la influencia acumulada del aire, el agua, los alimentos, los productos, el estilo de vida, la genética, la nutrición, el ejercicio y la edad a lo largo de la vida. Es una forma de hacer mejores preguntas sobre la salud, no una puntuación individual de riesgo.</p>
+              <p>Si quieres explorar ese marco, <a href="/es/ciencia/exposoma">conoce el exposoma →</a></p>
+            </div>
+          </details>
         </section>
+
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
       </main>
       <Footer locale="es" />
     </>

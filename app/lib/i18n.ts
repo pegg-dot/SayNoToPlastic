@@ -6,6 +6,7 @@ const spanishRouteMap: Record<string, string> = {
   "/science/how-detection-works": "/es/ciencia/como-funciona-la-deteccion",
   "/science/exposome": "/es/ciencia/exposoma",
   "/solutions": "/es/accion",
+  "/solutions/reduce-exposure": "/es/accion/reducir-exposicion",
   "/quick-action-card": "/es/guia-12-pasos",
   "/podcast": "/es/podcast",
   "/tedx": "/es/tedx",
@@ -27,6 +28,19 @@ export function localizedPath(pathname: string, locale: SiteLocale) {
   if (englishRouteMap[pathname]) return englishRouteMap[pathname];
   if (pathname.startsWith("/es/ciencia/cuerpo/")) return pathname.replace("/es/ciencia/cuerpo/", "/science/body/");
   return pathname.startsWith("/es/") ? (englishRouteMap[pathname] || "/") : pathname;
+}
+
+
+export function alternateLocalePath(pathname: string, locale: SiteLocale) {
+  if (locale === "es") {
+    if (spanishRouteMap[pathname]) return spanishRouteMap[pathname];
+    if (pathname.startsWith("/science/body/")) return pathname.replace("/science/body/", "/es/ciencia/cuerpo/");
+    return "/es";
+  }
+
+  if (englishRouteMap[pathname]) return englishRouteMap[pathname];
+  if (pathname.startsWith("/es/ciencia/cuerpo/")) return pathname.replace("/es/ciencia/cuerpo/", "/science/body/");
+  return "/";
 }
 
 export const chromeCopy = {

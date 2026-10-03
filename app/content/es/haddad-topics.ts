@@ -141,3 +141,96 @@ export const exposomeContentEs = {
   closing: "La salud no está determinada por una sola exposición, sino por el efecto combinado de lo que una persona encuentra a lo largo de su vida y por cómo responde el cuerpo, lo que influye en la salud a largo plazo.",
   sourceDocument: "Exposome diagram.pdf",
 } as const;
+
+export const reduceExposureGroupsEs = [
+  {
+    id: "food-drink",
+    number: "01",
+    title: "Alimentos y bebidas",
+    summary: "Empieza por el plástico que toca repetidamente lo que comes y bebes.",
+    actions: [
+      "Reemplaza los artículos de plástico de uso frecuente en la cocina por madera, cerámica, acero inoxidable o vidrio cuando sea práctico.",
+      "Evita el uso rutinario de botellas de agua de plástico y usa recipientes de vidrio o acero inoxidable.",
+      "Compara la ósmosis inversa u otro filtro con mantenimiento con la calidad del agua local y las necesidades del hogar.",
+      "Evita calentar alimentos en recipientes de plástico.",
+      "Guarda las sobras en vidrio, cerámica o acero inoxidable cuando sea práctico.",
+      "Reduce los utensilios y recipientes de plástico de un solo uso y, cuando sea práctico, elige alimentos frescos o mínimamente procesados frente a opciones muy empaquetadas.",
+    ],
+    links: [
+      { label: "Guía del agua (en inglés)", href: "/resources/microplastics-drinking-water-filter-guide" },
+      { label: "Conversión de la cocina (en inglés)", href: "/resources/plastic-kitchen-conversion" },
+      { label: "Utensilios de un solo uso (en inglés)", href: "/resources/single-use-plastic-foodware" },
+    ],
+  },
+  {
+    id: "home-air",
+    number: "02",
+    title: "Hogar y aire interior",
+    summary: "El polvo, los textiles, los muebles, la ventilación y la limpieza influyen en el ambiente interior.",
+    actions: [
+      "Aspira y quita el polvo con regularidad usando, cuando sea posible, una máquina bien sellada con filtro HEPA.",
+      "Usa métodos de limpieza húmeda que retiren el polvo en lugar de volver a moverlo al aire.",
+      "Ventila el hogar cuando la calidad del aire exterior y el clima lo hagan razonable.",
+      "Concéntrate en rutinas repetidas en lugar de intentar crear un hogar sin partículas.",
+    ],
+    links: [
+      { label: "Guía sobre polvo interior (en inglés)", href: "/resources/microplastics-indoor-dust" },
+      { label: "Prioridades para niños y el hogar (en inglés)", href: "/resources/children-household-plastic-priorities" },
+    ],
+  },
+  {
+    id: "clothing-care",
+    number: "03",
+    title: "Ropa y cuidado personal",
+    summary: "Elige materiales duraderos y revisa los productos que entran en contacto con la piel todos los días.",
+    actions: [
+      "Cuando una prenda ya necesite reemplazo, considera fibras naturales como algodón, lino, lana o cáñamo si el material funciona para ese uso.",
+      "Sigue usando la ropa que todavía sirve en lugar de reemplazar todo el armario.",
+      "Revisa cosméticos y productos de cuidado personal para detectar polímeros sintéticos innecesarios y sustancias químicas asociadas al plástico.",
+      "Prioriza productos útiles, mantenibles y apropiados para la persona que los usa.",
+    ],
+    links: [
+      { label: "Guía sobre ropa sintética (en inglés)", href: "/resources/synthetic-clothing-microfibers" },
+      { label: "Guía de cuidado personal (en inglés)", href: "/resources/personal-care-cosmetics-plastic" },
+      { label: "Resumen de la piel", href: "/es/ciencia/cuerpo/skin" },
+    ],
+  },
+  {
+    id: "habit",
+    number: "04",
+    title: "Construye un hábito a la vez",
+    summary: "La meta no es la perfección. La meta es un cambio pequeño que pueda repetirse durante años.",
+    actions: [
+      "Identifica el contacto con plástico que ocurre con mayor frecuencia en tu rutina.",
+      "Elige un reemplazo o cambio de comportamiento realista.",
+      "Mantén primero las necesidades médicas, de seguridad alimentaria, higiene y accesibilidad.",
+      "Revisa qué funcionó antes de añadir otro cambio.",
+      "Comparte con otra persona una idea clara y consciente de los límites de la evidencia.",
+    ],
+    links: [
+      { label: "Guía rápida de 12 pasos", href: "/es/guia-12-pasos" },
+      { label: "Elige un siguiente cambio", href: "/es/accion#planner" },
+      { label: "Comunidad (en inglés)", href: "/community" },
+    ],
+  },
+] as const;
+
+export const reduceExposureContentEs = {
+  title: "Cómo reducir tu exposición al plástico",
+  subtitle: "Los cambios pequeños pueden marcar una gran diferencia",
+  description: "Un enfoque práctico, sin buscar perfección, para reducir la exposición repetida al plástico en alimentos, agua, calor, almacenamiento, ropa, polvo, aire interior y cuidado personal.",
+  introduction: [
+    "Los microplásticos forman parte del ambiente moderno y se han detectado en el aire, el agua, los alimentos y múltiples tejidos humanos.",
+    "Esto no se trata de perfección. Evitar por completo el plástico no es realista ni necesario. La meta es identificar las fuentes repetidas más importantes y hacer cambios sencillos que puedan reducir la exposición a lo largo de la vida.",
+    "Piensa en ello como mejorar tu entorno una decisión a la vez.",
+  ],
+  takeaways: [
+    "No necesitas eliminar todo el plástico de tu vida para marcar una diferencia.",
+    "Concéntrate primero en las fuentes repetidas más grandes y prácticas.",
+    "Los cambios pequeños y constantes son más útiles que los esfuerzos drásticos y de corta duración.",
+    "Mejorar el entorno que te rodea es una inversión a largo plazo, no una limpieza de emergencia.",
+    "La conciencia es el primer paso hacia una acción significativa.",
+  ],
+  reflection: "La ciencia nos ayuda a entender el problema. Las decisiones pequeñas de cada día se convierten en la respuesta. La meta no es el miedo, sino una acción informada que proteja la salud, la familia y las generaciones futuras una decisión a la vez.",
+  sourceDocument: "Reduce exposure.pdf",
+} as const;

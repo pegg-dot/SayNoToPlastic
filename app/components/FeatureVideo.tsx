@@ -1,11 +1,12 @@
 "use client";
 
 import { useRef, useState } from "react";
+import type { SiteLocale } from "../lib/i18n";
 import type { VideoFeature } from "../content/media-content";
 import { trackEvent } from "./ConsentAnalytics";
 import { TrackedLink } from "./TrackedLink";
 
-export function FeatureVideo({ video, analyticsLabel, className = "" }: { video: VideoFeature; analyticsLabel: string; className?: string }) {
+export function FeatureVideo({ video, analyticsLabel, className = "", locale = "en" }: { video: VideoFeature; analyticsLabel: string; className?: string; locale?: SiteLocale }) {
   const [playing, setPlaying] = useState(false);
   const trackedStart = useRef(false);
 
@@ -35,7 +36,7 @@ export function FeatureVideo({ video, analyticsLabel, className = "" }: { video:
         )}
       </div>
       <TrackedLink href={video.watchUrl} target="_blank" rel="noopener noreferrer" eventName="outbound_video" label={`${analyticsLabel}-youtube`}>
-        Open on YouTube <span>↗</span>
+        {locale === "es" ? "Abrir en YouTube" : "Open on YouTube"} <span>↗</span>
       </TrackedLink>
     </div>
   );

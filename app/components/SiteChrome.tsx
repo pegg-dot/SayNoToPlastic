@@ -7,7 +7,7 @@ import { CheckoutButton } from "./CheckoutButton";
 import { useBodyScrollLock } from "./useBodyScrollLock";
 import { clearAnalyticsConsent } from "./privacy-consent";
 import { SignupForm } from "./SignupForm";
-import { chromeCopy, localizedPath, type SiteLocale } from "../lib/i18n";
+import { alternateLocalePath, chromeCopy, localizedPath, type SiteLocale } from "../lib/i18n";
 
 export function Wordmark({ footer = false, locale = "en" }: { footer?: boolean; locale?: SiteLocale }) {
   return (
@@ -127,7 +127,7 @@ export function Header({ skipToContent = true, locale = "en" }: { skipToContent?
     { href: localizedPath("/about-dr-elie-haddad", locale), label: copy.about },
   ];
   const alternateLocale: SiteLocale = locale === "es" ? "en" : "es";
-  const alternateHref = localizedPath(pathname, alternateLocale);
+  const alternateHref = alternateLocalePath(pathname, alternateLocale);
   return (
     <header className={`site-header${scrolled || forceSolid ? " is-scrolled" : ""}`}>
       {skipToContent && <a className="skip-link" href="#main-content">{copy.skip}</a>}

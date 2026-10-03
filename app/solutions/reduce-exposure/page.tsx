@@ -8,7 +8,7 @@ import { ExposureWorksheet } from "../../components/ExposureWorksheet";
 export const metadata: Metadata = {
   title: "How to Reduce Plastic Exposure | Say No to Plastic",
   description: reduceExposureContent.description,
-  alternates: { canonical: "/solutions/reduce-exposure" },
+  alternates: { canonical: "/solutions/reduce-exposure", languages: { "en-US": "/solutions/reduce-exposure", "es-US": "/es/accion/reducir-exposicion" } },
   openGraph: { title: reduceExposureContent.title, description: reduceExposureContent.description, url: `${SITE_URL}/solutions/reduce-exposure`, siteName: "Say No to Plastic", type: "article", images: [{ url: "/kitchen.webp", width: 1536, height: 1024, alt: "Practical lower-plastic household choices" }] },
   twitter: { card: "summary_large_image", title: reduceExposureContent.title, description: reduceExposureContent.description, images: ["/kitchen.webp"] },
 };

@@ -89,7 +89,7 @@ export default function SpanishHome() {
           <div className="exposure-grid">
             {exposureRoutes.map((route) => (
               <article key={route.number} data-reveal>
-                <ExposureRouteVisual kind={route.kind} />
+                <ExposureRouteVisual kind={route.kind} locale="es" />
                 <span>{route.number}</span>
                 <h3>{route.name}</h3>
                 <p>{route.text}</p>

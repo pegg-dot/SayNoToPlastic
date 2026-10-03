@@ -12,6 +12,45 @@ export const dynamic = "force-dynamic";
 
 const description = "Un registro en español de la evidencia humana sobre microplásticos y nanoplásticos, con resultados, métodos, limitaciones y fuentes originales.";
 
+const scienceChapterVisualsEs: Partial<Record<(typeof evidenceChaptersEs)[number]["id"], { src: string; alt: string; width: number; height: number }>> = {
+  blood: {
+    src: "/images/science/blood.webp",
+    alt: "Ilustración estilizada de células sanguíneas humanas con partículas suspendidas.",
+    width: 372,
+    height: 269,
+  },
+  brain: {
+    src: "/images/science/brain.webp",
+    alt: "Ilustración estilizada de un cerebro humano con partículas suspendidas.",
+    width: 370,
+    height: 279,
+  },
+  "heart-arteries": {
+    src: "/images/science/heart.webp",
+    alt: "Ilustración estilizada de un corazón humano y vasos sanguíneos con partículas suspendidas.",
+    width: 372,
+    height: 279,
+  },
+  placenta: {
+    src: "/images/science/placenta.webp",
+    alt: "Ilustración estilizada de una placenta y vasos ramificados con partículas suspendidas.",
+    width: 372,
+    height: 279,
+  },
+  ovary: {
+    src: "/images/science/ovary.webp",
+    alt: "Ilustración estilizada de un ovario humano con folículos visibles y partículas suspendidas.",
+    width: 372,
+    height: 269,
+  },
+  "testicular-tissue": {
+    src: "/images/science/testicular-tissue.webp",
+    alt: "Ilustración estilizada en corte de tejido testicular humano con partículas suspendidas.",
+    width: 370,
+    height: 269,
+  },
+};
+
 export const metadata: Metadata = {
   title: "Plástico en el cuerpo humano: qué encontraron los estudios | Say No to Plastic",
   description,
@@ -113,18 +152,32 @@ export default function ScienceSpanishPage() {
             <p>Detectar una partícula no equivale a diagnosticar una enfermedad. Estos estudios establecen presencia o asociación; no convierten automáticamente esa presencia en causalidad.</p>
           </header>
 
-          {evidenceChaptersEs.map((chapter, chapterIndex) => (
-            <article id={chapter.id} className={`science-v2-chapter${chapter.id === "pregnancy" ? " science-v2-chapter-context" : ""}`} key={chapter.id}>
-              <header className="science-v2-chapter-heading">
-                <p><span>{String(chapterIndex + 1).padStart(2, "0")}</span>{chapter.eyebrow}</p>
-                <h2>{chapter.title}</h2>
-                {chapter.introduction && <p>{chapter.introduction}</p>}
-              </header>
-              <div className="science-v2-chapter-studies">
-                {chapter.studies.map((study, studyIndex) => <StudyEs key={study.id} study={study} chapterNumber={chapterIndex + 1} studyNumber={chapter.studies.length > 1 ? studyIndex + 1 : 0} totalStudies={chapter.studies.length} />)}
-              </div>
-            </article>
-          ))}
+          {evidenceChaptersEs.map((chapter, chapterIndex) => {
+            const chapterVisual = scienceChapterVisualsEs[chapter.id];
+            return (
+              <article id={chapter.id} className={`science-v2-chapter${chapter.id === "pregnancy" ? " science-v2-chapter-context" : ""}`} key={chapter.id}>
+                <header className="science-v2-chapter-heading">
+                  <p><span>{String(chapterIndex + 1).padStart(2, "0")}</span>{chapter.eyebrow}</p>
+                  <h2>{chapter.title}</h2>
+                  {chapter.introduction && <p>{chapter.introduction}</p>}
+                  {chapterVisual && (
+                    <figure className="science-v2-chapter-visual">
+                      <img
+                        src={chapterVisual.src}
+                        width={chapterVisual.width}
+                        height={chapterVisual.height}
+                        loading="lazy"
+                        alt={chapterVisual.alt}
+                      />
+                    </figure>
+                  )}
+                </header>
+                <div className="science-v2-chapter-studies">
+                  {chapter.studies.map((study, studyIndex) => <StudyEs key={study.id} study={study} chapterNumber={chapterIndex + 1} studyNumber={chapter.studies.length > 1 ? studyIndex + 1 : 0} totalStudies={chapter.studies.length} />)}
+                </div>
+              </article>
+            );
+          })}
         </section>
 
         <section id="body-system-overviews" className="science-v2-context" aria-labelledby="body-system-title">

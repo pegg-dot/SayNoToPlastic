@@ -54,7 +54,7 @@ export default async function TedxSpanishPage() {
             <h2 id="tedx-video-title">{title}</h2>
           </div>
           {video ? (
-            <FeatureVideo video={video} analyticsLabel="tedx-page-es" className="media-video" />
+            <FeatureVideo video={{ ...video, playLabel: "Reproducir charla TEDx", kicker: "TEDxMiami" }} analyticsLabel="tedx-page-es" className="media-video" locale="es" />
           ) : (
             <figure className="media-pending-card">
               <img src="/tedx.webp" width="1536" height="1024" alt="Dr. Elie Haddad hablando en un escenario de TEDxMiami" />

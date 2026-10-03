@@ -42,6 +42,7 @@ expect(bookEn.includes('className="book-policy-link"') && bookEs.includes('class
 expect(adminCss.includes("v40.57 dedicated mobile pass") && adminCss.includes("font-size: 16px !important") && adminCss.includes("min-height: 44px"), "Owner workspace form controls prevent iOS focus zoom and use phone-sized controls.");
 expect(adminCss.includes(".pageStudioPreviewFrame") && adminCss.includes("height: 440px"), "Page Studio has a narrow-phone preview height override.");
 expect(ownerLoginCss.includes("min-height: 48px"), "Owner sign-in action is touch-sized on phones.");
+expect(adminCss.includes("v40.57.1 owner mobile polish") && adminCss.includes("gap: 12px") && adminCss.includes("font-size: 12px"), "Owner primary workspace tabs stay fully visible at 320px without shrinking touch height.");
 
 expect(qaDoc.includes("64 sitemap routes") && qaDoc.includes("192 portrait route-width checks") && qaDoc.includes("430 px") && qaDoc.includes("320 px"), "Mobile QA record captures the complete portrait route matrix.");
 expect(qaDoc.includes("844 × 390") && qaDoc.includes("667 × 375") && qaDoc.includes("Cloudflare Access JWT"), "Mobile QA record captures landscape testing and the authenticated-admin boundary.");

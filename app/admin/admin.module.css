@@ -3277,7 +3277,18 @@ details.pageEditorNote span { display: block; margin-top: 8px; color: #7d8388; f
   }
 }
 
+/* v40.57.1 owner mobile polish: keep all four primary workspace tabs visible at 320px. */
 @media (max-width: 420px) {
+  .tabs {
+    gap: 12px;
+  }
+
+  .tabs button {
+    padding-left: 1px;
+    padding-right: 1px;
+    font-size: 12px;
+  }
+
   .ownerTopbar {
     align-items: stretch;
   }

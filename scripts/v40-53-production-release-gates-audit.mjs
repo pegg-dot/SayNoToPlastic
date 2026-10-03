@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { execFileSync } from "node:child_process";
 import { existsSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -17,6 +18,17 @@ const workflow = read(".github/workflows/release-validation.yml");
 const buildVersion = read("app/build-version.ts");
 const gitignore = read(".gitignore");
 
+let shellSyntaxOk = true;
+try {
+  execFileSync("bash", ["-n", "scripts/deploy-production.sh", "scripts/migrate-production.sh"], {
+    cwd: root,
+    stdio: "pipe",
+  });
+} catch {
+  shellSyntaxOk = false;
+}
+
+expect(shellSyntaxOk, "Production shell scripts parse cleanly with bash -n.");
 expect(pkg.scripts["db:migrate:production"] === "bash scripts/migrate-production.sh", "Production D1 migrations have one named guarded command.");
 expect(pkg.scripts["prepare:deploy-revision"] === "node scripts/prepare-deploy-revision.mjs", "Exact Git revision generation has one named command.");
 expect(pkg.scripts["release:audit"].includes("v40-53-production-release-gates-audit.mjs"), "v40.53 production release gates are part of the release audit.");

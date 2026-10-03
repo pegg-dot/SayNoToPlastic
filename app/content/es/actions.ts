@@ -1,3 +1,5 @@
+import type { ActionStep } from "../actions";
+
 export const coreRulesEs = [
   {
     number: "01",
@@ -15,6 +17,33 @@ export const coreRulesEs = [
     detail: "Para las bebidas que consumes con más frecuencia, usa botellas y vasos de vidrio o acero inoxidable.",
   },
 ] as const;
+
+export const plannerActionsEs: ActionStep[] = [
+  {
+    number: "01",
+    title: "Saca una rutina de comida caliente del plástico",
+    shortTitle: "Aleja el calor del plástico",
+    practical: "Elige una comida o una rutina de sobras y recalienta en vidrio o cerámica esta semana.",
+    why: "El calor y el contacto con alimentos son un lugar claro para empezar.",
+    guide: "/resources/heating-food-in-plastic",
+  },
+  {
+    number: "02",
+    title: "Cambia una rutina de almacenamiento",
+    shortTitle: "Cambia el almacenamiento",
+    practical: "Usa vidrio, cerámica o acero inoxidable para un alimento que guardas con frecuencia.",
+    why: "La meta es sacar el plástico de una rutina que se repite, no rehacer toda la cocina de una vez.",
+    guide: "/resources/plastic-kitchen-conversion",
+  },
+  {
+    number: "03",
+    title: "Reemplaza tu botella o vaso de uso diario",
+    shortTitle: "Cambia lo que usas para beber",
+    practical: "Usa una botella o un vaso de vidrio o acero inoxidable para la bebida que llevas con más frecuencia.",
+    why: "Una rutina diaria de bebida es fácil de reconocer y repetir.",
+    guide: "/resources/microplastics-drinking-water-filter-guide",
+  },
+];
 
 export const authoredQuickActionCardEs = [
   { number: "01", text: "Bebe de vidrio o acero inoxidable, nunca de botellas de plástico." },

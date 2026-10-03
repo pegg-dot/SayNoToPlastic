@@ -29,10 +29,10 @@ expect(panel.includes("activitySummary") && panel.includes("Why this workspace i
 
 expect(panel.includes("Publish change") && panel.includes("History &amp; restore") && panel.includes("sourceValues"), "Website editing resolves live text into a direct editor while keeping history behind a safety drawer.");
 expect(!panel.includes("Live right now") && !panel.includes("New version") && !panel.includes("Customized on the live site"), "Normal Website editing no longer exposes CMS override/version jargon.");
-expect(panel.includes("Click highlighted text in the page to edit it") && panel.includes("What would you like to change?"), "Website remains preview-first and contextual.");
+expect(((panel.includes("Click highlighted text in the page to edit it") && panel.includes("What would you like to change?")) || (panel.includes("Click editable text to change it") && panel.includes("What would you like to edit?"))) && panel.includes("preparePreview"), "Website remains preview-first and contextual.");
 expect(panel.includes("Why some content is locked"), "Protected website content is explained only when the owner asks for the reason.");
 expect(panel.includes("owner_preview=1") && consent.includes("ownerPreview") && welcome.includes("ownerPreview"), "Owner page previews suppress visitor-only consent and welcome overlays without changing public routes.");
-expect(panel.includes("pageCmsLayoutScience") && panel.includes("← Website pages"), "Science becomes a focused workspace instead of showing the general Website page tree beside Science tools.");
+expect((panel.includes("pageCmsLayoutScience") && panel.includes("← Website pages")) || (panel.includes("pageStudioPage") && panel.includes('const isScience = page.kind === "science"') && !panel.includes('<aside className={styles.pageTree}')), "Science becomes a focused workspace instead of showing the general Website page tree beside Science tools.");
 
 expect(newsletter.includes("selectedId") && newsletter.includes("objectWorkbench") && newsletter.includes("objectNextAction"), "Field Notes is selection-first with one issue detail workspace.");
 expect(newsletter.includes("Next step") && newsletter.includes("Publish to website") && newsletter.includes("Create Mailchimp draft") && newsletter.includes("Open Mailchimp"), "Field Notes advances through one obvious next action based on issue state.");

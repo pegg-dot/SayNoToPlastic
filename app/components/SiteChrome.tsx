@@ -63,6 +63,7 @@ export function Header({ skipToContent = true, locale = "en" }: { skipToContent?
 
   useEffect(() => {
     if (!menuOpen) return;
+    document.body.dataset.mobileNavOpen = "true";
     const backgroundRegions = [
       document.getElementById("main-content"),
       document.querySelector<HTMLElement>(".site-footer"),
@@ -80,6 +81,7 @@ export function Header({ skipToContent = true, locale = "en" }: { skipToContent?
       region.setAttribute("aria-hidden", "true");
     }
     return () => {
+      delete document.body.dataset.mobileNavOpen;
       for (const state of previous) {
         state.region.inert = state.inert;
         if (state.ariaHidden === null) state.region.removeAttribute("aria-hidden");
@@ -171,7 +173,7 @@ export function Footer({ locale = "en" }: { locale?: SiteLocale }) {
         <div><strong>{copy.project}</strong><a href={localizedPath("/podcast", locale)}>Beyond Plastic podcast</a><a href={localizedPath("/tedx", locale)}>{copy.tedx}</a><a href={localizedPath("/about-dr-elie-haddad", locale)}>{copy.drHaddad}</a><a href={localizedPath("/media", locale)}>{copy.talkMedia}</a><a href={localizedPath("/newsletters", locale)}>{copy.fieldNotes}</a><a href={localizedPath("/contact", locale)}>{copy.contact}</a><a href="/editorial-policy">{copy.editorial}</a></div>
         <div className="footer-signup"><strong>{copy.newsletterTitle}</strong><p>{copy.newsletterBody}</p><SignupForm compact locale={locale} buttonLabel={copy.join} successTitle={copy.successTitle} successText={copy.successText} /></div>
       </div>
-      <div className="footer-bottom"><span>© {year} Say No to Plastic</span><span><a href="/privacy-policy">{copy.privacy}</a> &nbsp; <button className="privacy-choice-link" type="button" onClick={resetPrivacy}>{copy.privacyChoices}</button> &nbsp; <a href="/terms">{copy.terms}</a> &nbsp; <a href="/refunds-and-returns">{copy.refunds}</a> &nbsp; <a href="/affiliate-disclosure">{copy.affiliate}</a> &nbsp; <a href="/medical-disclaimer">{copy.disclaimer}</a> &nbsp; <a href="/accessibility">{copy.accessibility}</a> &nbsp; <a href={localizedPath("/contact", locale)}>{copy.mediaInquiries}</a></span></div>
+      <div className="footer-bottom"><span>© {year} Say No to Plastic</span><nav className="footer-legal" aria-label={locale === "es" ? "Políticas y ayuda" : "Policies and help"}><a href="/privacy-policy">{copy.privacy}</a><button className="privacy-choice-link" type="button" onClick={resetPrivacy}>{copy.privacyChoices}</button><a href="/terms">{copy.terms}</a><a href="/refunds-and-returns">{copy.refunds}</a><a href="/affiliate-disclosure">{copy.affiliate}</a><a href="/medical-disclaimer">{copy.disclaimer}</a><a href="/accessibility">{copy.accessibility}</a><a href={localizedPath("/contact", locale)}>{copy.mediaInquiries}</a></nav></div>
     </footer>
   );
 }

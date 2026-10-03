@@ -132,7 +132,7 @@ export function WelcomeVideoModal() {
   return (
     <>
       {pathname === "/" && !open && (
-        <button ref={triggerRef} className="welcome-film-trigger" type="button" onClick={show} aria-haspopup="dialog">
+        <button ref={triggerRef} className="welcome-film-trigger" type="button" onClick={show} aria-haspopup="dialog" aria-label="Welcome from Dr. Haddad">
           <span aria-hidden="true">▶</span>
           <b>Welcome</b>
           <small>From Dr. Haddad</small>

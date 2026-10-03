@@ -57,7 +57,7 @@ export default async function BookPage(){
           <p className="book-byline">{BOOK.author}<br/><span>With collaboration by {BOOK.collaborator}</span></p>
           <div className="book-purchase-line"><strong>${BOOK.price}</strong><span>{BOOK.format}<br/>Instant digital access</span></div>
           <CheckoutButton className="button gold" label="book-page-hero">Get the ebook <span>↗</span></CheckoutButton>
-          <small>Secure payment through the configured checkout. Access is delivered after confirmed payment. Digital sales are final. <a href="/refunds-and-returns">Read the policy.</a></small>
+          <small>Secure payment through the configured checkout. Access is delivered after confirmed payment. Digital sales are final. <a className="book-policy-link" href="/refunds-and-returns">Read the policy.</a></small>
           <div className="book-access-help"><a href="/purchase/recover">Recover ebook access →</a><a href="/contact">Get technical support →</a></div>
         </div>
       </section>

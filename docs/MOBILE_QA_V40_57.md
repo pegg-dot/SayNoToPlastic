@@ -48,6 +48,8 @@ The unauthenticated `/owner-login` and `/admin` entry surfaces were rendered at 
 
 The authenticated Page Studio was not bypassed for visual QA. Production owner access requires a signed Cloudflare Access JWT whose signature, issuer, audience, time claims, and allowlisted identity are validated by the application. v40.57 does not weaken or add a development bypass to that contract.
 
+A temporary local QA harness rendered the real AdminPanel without changing production authentication. At 390 px and 320 px, Today, Website, Field Notes, and Media rendered without horizontal overflow; owner form controls remained 16 px / 44 px minimum; Publish change remained 44 px; Page Studio preview and editor flows were exercised; and v40.57.1 tightened the 320 px tab spacing so all four primary workspace areas remain simultaneously visible. The harness was removed before commit.
+
 ## Release evidence
 
 Before release, run:

@@ -390,3 +390,634 @@ dd {
     scroll-behavior: auto;
   }
 }
+
+/* v40.57 phase 1 — shared phone ergonomics and narrow-screen resilience. */
+@media (max-width: 760px) {
+  .brand {
+    min-height: 44px;
+    justify-content: center;
+  }
+
+  .mobile-nav > a,
+  .mobile-nav-secondary > a,
+  .mobile-language-switcher {
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+  }
+
+  .mobile-nav-secondary {
+    gap: 4px 18px;
+  }
+
+  .mobile-nav-secondary > a {
+    min-height: 44px;
+  }
+
+  .text-link,
+  .aside-link,
+  .book-detail-link,
+  .book-access-help a,
+  .press-kit-hero aside a,
+  .media-briefings article > div a,
+  .press-kit-briefings article > a,
+  .community-challenge-body li > a,
+  .medical-note-v25 a,
+  .related-guide-links-v25 > a {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .body-journey .organ-nav button {
+    min-height: 48px;
+    padding-top: 11px;
+    padding-bottom: 11px;
+  }
+
+  .book-story-progress button {
+    height: 44px;
+    background: linear-gradient(transparent 20px, rgba(255,255,255,.18) 20px, rgba(255,255,255,.18) 23px, transparent 23px);
+  }
+
+  .book-story-progress button.active {
+    background: linear-gradient(transparent 20px, var(--hp-amber) 20px, var(--hp-amber) 23px, transparent 23px);
+  }
+
+  .footer-grid > div > a {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+
+  .footer-bottom span:last-child {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 2px 14px;
+    line-height: 1.35;
+  }
+
+  .footer-bottom a,
+  .footer-bottom .privacy-choice-link {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .press-kit-hero > *,
+  .contact-hero > *,
+  .purchase-help > * {
+    min-width: 0;
+  }
+
+  .press-kit-hero aside strong,
+  .direct-contact a,
+  .purchase-help a {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  .press-kit-hero aside strong,
+  .direct-contact a {
+    line-height: 1.2;
+  }
+
+  .press-kit-briefings article > a,
+  .media-briefings article > div a {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  .community-challenge-tabs button {
+    min-height: 48px;
+  }
+
+  .community-challenge-body li label > i {
+    width: 24px;
+    height: 24px;
+  }
+
+  .community-challenge-body li label {
+    min-height: 44px;
+    align-items: center;
+  }
+}
+
+@media (max-width: 360px) {
+  .site-header {
+    padding-left: max(18px, env(safe-area-inset-left));
+    padding-right: max(18px, env(safe-area-inset-right));
+  }
+
+  .welcome-film-trigger {
+    grid-template-columns: 40px;
+    min-width: 56px;
+    width: 56px;
+    height: 56px;
+    padding: 8px;
+    border-radius: 999px;
+  }
+
+  .welcome-film-trigger b,
+  .welcome-film-trigger small {
+    display: none;
+  }
+
+  .press-kit-hero,
+  .contact-hero,
+  .purchase-recovery-hero,
+  .purchase-hero,
+  .legal-page {
+    padding-left: max(20px, env(safe-area-inset-left));
+    padding-right: max(20px, env(safe-area-inset-right));
+  }
+
+  .press-kit-hero h1,
+  .contact-hero h1 {
+    font-size: clamp(46px, 15vw, 52px);
+    line-height: .96;
+  }
+}
+
+/* v40.57 phases 2–3 — route-level touch surfaces shared across EN and ES. */
+.footer-legal {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 4px 18px;
+}
+
+.footer-legal .privacy-choice-link {
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-transform: inherit;
+  letter-spacing: inherit;
+  cursor: pointer;
+}
+
+@media (max-width: 760px) {
+  .footer-legal {
+    width: 100%;
+    justify-content: flex-start;
+    gap: 0 16px;
+  }
+
+  .footer-legal a,
+  .footer-legal .privacy-choice-link {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .finding-open-viewer,
+  .finding-system-link,
+  .exposure-grid article > a,
+  .home-progress-note a,
+  .detection-reading > nav a,
+  .exposome-map-panel a,
+  .exposome-domains article a,
+  .action-plan-links a,
+  .action-plan-links button,
+  .solutions-direct-grid > a,
+  .reduce-exposure-reflection a,
+  .media-hero aside a,
+  .media-video > a,
+  .press-kit-assets article a,
+  .press-kit-boundary a,
+  .recommendation-empty a,
+  .recommendation-categories article a,
+  .recommendation-honesty a,
+  .purchase-help a,
+  .commerce-preview-page a,
+  .worksheet-reset,
+  .challenge-reset {
+    min-height: 44px;
+  }
+
+  .finding-open-viewer,
+  .finding-system-link,
+  .exposure-grid article > a,
+  .home-progress-note a,
+  .detection-reading > nav a,
+  .exposome-map-panel a,
+  .exposome-domains article a,
+  .action-plan-links a,
+  .action-plan-links button,
+  .media-hero aside a,
+  .media-video > a,
+  .press-kit-assets article a,
+  .press-kit-boundary a,
+  .recommendation-empty a,
+  .recommendation-categories article a,
+  .recommendation-honesty a,
+  .purchase-help a,
+  .commerce-preview-page a,
+  .worksheet-reset,
+  .challenge-reset {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .finding-open-viewer {
+    padding-top: 14px;
+    padding-bottom: 14px;
+  }
+
+  .finding-system-link,
+  .exposure-grid article > a,
+  .home-progress-note a,
+  .exposome-map-panel a,
+  .exposome-domains article a,
+  .media-hero aside a,
+  .media-video > a,
+  .press-kit-assets article a,
+  .press-kit-boundary a,
+  .recommendation-empty a,
+  .recommendation-categories article a,
+  .recommendation-honesty a {
+    padding-top: 11px;
+    padding-bottom: 11px;
+  }
+
+  .detection-reading > nav a {
+    padding: 7px 0;
+  }
+
+  .action-plan-links a,
+  .action-plan-links button,
+  .worksheet-reset,
+  .challenge-reset {
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+
+  .reduce-exposure-reflection a {
+    display: flex;
+    align-items: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  .breadcrumb a,
+  .science-breadcrumb a,
+  .detection-hero a[href="/science"],
+  .exposome-hero a[href="/science"],
+  .reduce-exposure-hero a[href="/solutions"] {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .exposure-grid article > a,
+  .exposome-map-panel a,
+  .exposome-domains article a {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+@media (max-width: 760px) {
+  .solutions-exposure-framework article > a,
+  .reduce-exposure-groups article a,
+  .book-policy-link {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .solutions-exposure-framework article > a,
+  .reduce-exposure-groups article a {
+    padding-top: 11px;
+    padding-bottom: 11px;
+  }
+
+  .book-policy-link {
+    margin-top: 5px;
+    padding: 8px 0;
+    color: rgba(255,255,255,.72);
+  }
+
+  .detection-hero nav a,
+  .exposome-hero nav a,
+  .reduce-exposure-hero nav a {
+    min-width: 44px;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 6px;
+  }
+}
+
+@media (max-width: 760px) {
+  .site-footer .footer-signup .signup-form.compact {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 12px;
+  }
+
+  .site-footer .footer-signup .signup-form.compact > label,
+  .site-footer .footer-signup .signup-form.compact > button,
+  .site-footer .footer-signup .signup-form.compact > p {
+    grid-column: 1 !important;
+    min-width: 0;
+  }
+
+  .site-footer .footer-signup .signup-form.compact input:not([type="checkbox"]) {
+    width: 100%;
+    height: 48px;
+    min-height: 48px;
+  }
+
+  .consent-check {
+    min-height: 44px;
+    display: flex !important;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 7px 0;
+    cursor: pointer;
+    line-height: 1.45;
+  }
+
+  .consent-check input[type="checkbox"] {
+    flex: 0 0 20px;
+    width: 20px;
+    height: 20px;
+    margin: 1px 0 0;
+  }
+}
+
+/* v40.57 phase 3b — long-form Science and guide templates. */
+@media (max-width: 760px) {
+  .footer-legal a,
+  .footer-legal .privacy-choice-link {
+    min-width: 44px;
+    justify-content: center;
+  }
+
+  .direct-contact a {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .body-system-hero nav a,
+  .body-system-inline-nav a,
+  .guide-inline-nav a,
+  .body-system-return a,
+  .body-system-medical-note a,
+  .guide-hero aside a,
+  .guide-deeper-science-v25 nav a,
+  .related-guide-links-v25 > a {
+    min-height: 44px;
+  }
+
+  .body-system-hero nav a,
+  .body-system-inline-nav a,
+  .guide-inline-nav a,
+  .body-system-return a,
+  .body-system-medical-note a,
+  .guide-hero aside a,
+  .guide-deeper-science-v25 nav a {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .body-system-hero nav a {
+    min-width: 44px;
+    justify-content: center;
+    padding-inline: 6px;
+  }
+
+  .body-system-page-v26 .body-system-inline-nav a,
+  .guide-page-v26 .guide-inline-nav a {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  .body-system-return a,
+  .body-system-medical-note a,
+  .guide-hero aside a,
+  .guide-deeper-science-v25 nav a {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  .related-guide-links-v25 > a {
+    min-height: 58px !important;
+    padding-top: 12px !important;
+    padding-bottom: 12px !important;
+  }
+}
+
+@media (max-width: 360px) {
+  .resource-hero .inner-hero-note dl {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .resource-hero .inner-hero-note dl div {
+    min-width: 0;
+  }
+
+  .resource-hero .inner-hero-note dd {
+    overflow-wrap: anywhere;
+  }
+}
+
+/* v40.57 phase 3c — make the full-screen anatomy atlas genuinely touch-first. */
+@media (max-width: 760px) {
+  .anatomy-viewer-close {
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    min-height: 48px;
+  }
+
+  .anatomy-viewer-system-filter {
+    gap: 6px;
+    padding-bottom: 6px;
+    overscroll-behavior-inline: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .anatomy-viewer-system-filter button {
+    min-width: 44px;
+    min-height: 44px;
+    padding: 11px 12px;
+    font-size: 7px;
+  }
+
+  .anatomy-viewer-controls {
+    padding-bottom: 4px;
+    overscroll-behavior-inline: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .anatomy-viewer-controls fieldset {
+    min-height: 58px;
+    align-items: center;
+  }
+
+  .anatomy-viewer-controls button {
+    min-width: 44px;
+    min-height: 44px;
+    padding: 10px 11px;
+    font-size: 6.8px;
+  }
+
+  .anatomy-viewer-partial button,
+  .anatomy-viewer-included summary,
+  .anatomy-viewer-provenance summary,
+  .anatomy-viewer-provenance a,
+  .anatomy-viewer-article {
+    min-height: 44px;
+  }
+
+  .anatomy-viewer-partial button,
+  .anatomy-viewer-provenance a,
+  .anatomy-viewer-article {
+    display: flex;
+    align-items: center;
+  }
+
+  .anatomy-viewer-provenance a {
+    padding: 8px 0;
+    font-size: 7.5px;
+  }
+
+  .anatomy-viewer-article {
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+
+  .anatomy-viewer-included summary,
+  .anatomy-viewer-provenance summary {
+    align-items: center;
+    padding-top: 11px;
+    padding-bottom: 11px;
+  }
+}
+
+@media (max-width: 760px) {
+  .welcome-film-close {
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    min-height: 48px;
+    right: 10px;
+    top: 10px;
+  }
+}
+
+body[data-mobile-nav-open="true"] .welcome-film-trigger {
+  display: none !important;
+}
+
+@media (max-width: 760px) {
+  .consent-banner > a {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+}
+
+/* v40.57 short-height mobile: keep the 3D atlas usable in phone landscape. */
+@media (max-height: 540px) and (max-width: 1000px) {
+  .anatomy-viewer-backdrop {
+    padding: 0;
+  }
+
+  .anatomy-viewer-dialog {
+    width: 100%;
+    height: 100svh;
+    min-height: 0;
+    border: 0;
+  }
+
+  .anatomy-viewer-header {
+    min-height: 58px;
+    padding: 9px 62px 8px 14px;
+  }
+
+  .anatomy-viewer-header h2 {
+    font-size: 26px;
+  }
+
+  .anatomy-viewer-close {
+    right: 8px;
+    top: 7px;
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .anatomy-viewer-layout {
+    grid-template-columns: minmax(0, 1.2fr) minmax(250px, .8fr);
+    grid-template-rows: minmax(0, 1fr);
+  }
+
+  .anatomy-viewer-stage {
+    min-height: 0;
+  }
+
+  .anatomy-viewer-panel {
+    display: block;
+    min-height: 0;
+    overflow: auto;
+    padding: 16px 16px 22px;
+    border-top: 0;
+    border-left: 1px solid rgba(255,255,255,.11);
+  }
+
+  .anatomy-viewer-legend,
+  .anatomy-viewer-instructions {
+    display: none;
+  }
+
+  .anatomy-viewer-system-filter {
+    left: 8px;
+    right: 8px;
+    top: 8px;
+  }
+
+  .anatomy-viewer-system-filter button,
+  .anatomy-viewer-controls button {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .anatomy-viewer-controls {
+    left: 8px;
+    right: 8px;
+    bottom: 8px;
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+    scrollbar-width: none;
+  }
+
+  .anatomy-viewer-controls::-webkit-scrollbar {
+    display: none;
+  }
+
+  .anatomy-viewer-controls fieldset {
+    display: inline-flex;
+    flex-wrap: nowrap;
+    margin-right: 7px;
+    vertical-align: bottom;
+  }
+
+  .anatomy-viewer-partial {
+    left: 8px;
+    right: 8px;
+    bottom: 76px;
+    max-width: none;
+  }
+}

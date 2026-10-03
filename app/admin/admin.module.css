@@ -3165,3 +3165,156 @@ details.pageEditorNote span { display: block; margin-top: 8px; color: #7d8388; f
   .pageStudioPreview { top: auto; }
   .pageStudioPreviewFrame { height: 620px; min-height: 0; }
 }
+
+/* v40.57 dedicated mobile pass for the authenticated owner workspace. */
+@media (max-width: 760px) {
+  .page input:not([type="checkbox"]):not([type="radio"]),
+  .page select,
+  .page textarea {
+    min-height: 44px;
+    font-size: 16px !important;
+  }
+
+  .page button,
+  .page summary {
+    min-height: 44px;
+  }
+
+  .ownerTopbar {
+    min-height: 0;
+    flex-wrap: wrap;
+    gap: 10px 14px;
+    padding: 12px 14px;
+  }
+
+  .ownerBrand {
+    min-width: 0;
+    flex: 1 1 auto;
+  }
+
+  .ownerBrand > div {
+    min-width: 0;
+  }
+
+  .ownerBrand strong {
+    line-height: 1.2;
+  }
+
+  .ownerTopbarActions {
+    flex: 1 1 auto;
+    justify-content: flex-end;
+  }
+
+  .ownerTopbarActions > a {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .tabs {
+    min-width: 0;
+    overscroll-behavior-inline: contain;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .tabs button {
+    flex: 0 0 auto;
+    min-height: 48px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+
+  .pageTree button,
+  .objectList > button,
+  .pageFieldList > button,
+  .scienceToolGrid > button,
+  .scienceStudyNav > button,
+  .mediaItemNav > button,
+  .subTabs button,
+  .previewDeviceToggle button {
+    min-height: 48px;
+  }
+
+  .objectDetailHeader > a,
+  .objectNextAction a,
+  .objectMore a,
+  .scienceStudyFooter a,
+  .scienceWebsiteBack,
+  .footer a {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .guidedSection > summary,
+  .quickLinks > summary,
+  .activitySummary,
+  .safetyNote summary,
+  .history > summary,
+  .newsletterDetails summary,
+  .newsletterMore > summary,
+  .scienceGuardrail summary {
+    min-height: 44px;
+    align-items: center;
+  }
+
+  .scienceSaveBar,
+  .publishBar {
+    padding-bottom: max(13px, env(safe-area-inset-bottom));
+  }
+
+  .pageStudioToolbarActions,
+  .objectNextAction > div:last-child,
+  .publishBar > div:last-child,
+  .scienceSaveBar > div:last-child,
+  .newsletterActions > div:last-child {
+    gap: 8px;
+  }
+}
+
+@media (max-width: 420px) {
+  .ownerTopbar {
+    align-items: stretch;
+  }
+
+  .ownerTopbarActions {
+    width: 100%;
+    justify-content: space-between;
+    border-top: 1px solid #e6e2da;
+    padding-top: 8px;
+  }
+
+  .ownerIdentity {
+    padding-left: 10px;
+  }
+
+  .pageTree {
+    grid-template-columns: 1fr;
+  }
+
+  .pageStudioPreviewFrame,
+  .contextPreview .livePreviewFrame {
+    height: 440px;
+  }
+}
+
+@media (max-width: 620px) {
+  .locked {
+    padding: 16px;
+  }
+
+  .locked section {
+    padding: 28px 22px;
+  }
+
+  .locked a {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+}

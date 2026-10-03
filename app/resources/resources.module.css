@@ -208,6 +208,10 @@
 
 @media (max-width: 680px) {
   .resourceHero { min-height: auto !important; padding-top: 116px !important; padding-bottom: 42px !important; }
+  .searchLabel input { min-height: 48px; }
+  .filters { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 8px; scrollbar-width: none; overscroll-behavior-inline: contain; }
+  .filters::-webkit-scrollbar { display: none; }
+  .filters button { flex: 0 0 auto; min-height: 44px; padding: 10px 12px; }
   .libraryShell { padding: 42px 24px 60px; }
   .readingRow { grid-template-columns: 34px 1fr; gap: 12px 16px; padding: 21px 0 23px; }
   .rowTopic,

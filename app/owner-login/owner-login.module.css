@@ -103,3 +103,10 @@
   .card { padding: 28px 22px; }
   .steps li { grid-template-columns: 30px 1fr; }
 }
+
+@media (max-width: 620px) {
+  .button {
+    min-height: 48px;
+    box-sizing: border-box;
+  }
+}

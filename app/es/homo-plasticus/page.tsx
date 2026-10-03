@@ -63,7 +63,7 @@ export default function BookSpanishPage() {
           <p className="book-byline">{BOOK.author}<br/><span>Con la colaboración de {BOOK.collaborator}</span></p>
           <div className="book-purchase-line"><strong>${BOOK.price}</strong><span>{BOOK.format}<br/>Acceso digital inmediato</span></div>
           <CheckoutButton className="button gold" label="book-page-es-hero">Obtener el ebook <span>↗</span></CheckoutButton>
-          <small>Pago seguro mediante el sistema de compra configurado. El acceso se entrega después de confirmar el pago. <a href="/refunds-and-returns">Leer la política.</a></small>
+          <small>Pago seguro mediante el sistema de compra configurado. El acceso se entrega después de confirmar el pago. <a className="book-policy-link" href="/refunds-and-returns">Leer la política.</a></small>
           <div className="book-access-help"><a href="/purchase/recover">Recuperar acceso al ebook →</a><a href="/contact">Obtener soporte técnico →</a></div>
         </div>
       </section>

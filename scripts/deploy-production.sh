@@ -18,7 +18,7 @@ git rev-parse --is-inside-work-tree >/dev/null 2>&1 || fail "Run this from the S
 # Do not let an old Downloads folder or stale branch overwrite the live Worker.
 git fetch origin main --quiet
 local_head="$(git rev-parse HEAD)"
-main_head="$(git rev-parse origin/main)"
+main_head="$(git rev-parse FETCH_HEAD)"
 if [[ "$local_head" != "$main_head" ]]; then
   fail "This checkout is not the current origin/main. Sync main before deploying."
 fi

@@ -20,7 +20,7 @@ expect(existsSync(join(root, "docs/PRODUCTION_DEPLOYMENT.md")), "Production depl
 expect(pkg.scripts["deploy:production"] === "bash scripts/deploy-production.sh", "Production deploy has one named guarded command.");
 expect(pkg.scripts["release:audit"].includes("v40-52-production-recovery-audit.mjs"), "Production recovery audit is part of the release gate.");
 
-expect(deploy.includes("git fetch origin main") && deploy.includes('local_head="$(git rev-parse HEAD)"') && deploy.includes('main_head="$(git rev-parse origin/main)"'), "Deploy refuses stale checkouts by comparing local HEAD with origin/main.");
+expect(deploy.includes("git fetch origin main") && deploy.includes('local_head="$(git rev-parse HEAD)"') && deploy.includes('main_head="$(git rev-parse FETCH_HEAD)"'), "Deploy refuses stale checkouts by comparing local HEAD with freshly fetched origin/main.");
 expect(deploy.includes("npm run release:audit") && deploy.includes("npm run build"), "Deploy re-runs release validation and performs a fresh build.");
 expect(deploy.includes(".wrangler/deploy/config.json") && deploy.includes('npx wrangler deploy --config "$config_path"'), "Deploy uses the freshly generated Cloudflare configuration explicitly.");
 expect(deploy.includes("say-no-to-plastic") && deploy.includes("saynotoplastic-db") && deploy.includes("https://saynotoplastic.com"), "Deploy validates the production Worker, D1 binding, and canonical origin before publishing.");

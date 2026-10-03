@@ -56,6 +56,60 @@ const sectionCopy: Record<"media" | "press", { title: string; body: string; prev
   },
 };
 
+
+type PageFieldGroup = {
+  id: string;
+  label: string;
+  description: string;
+  fields: AdminContentKey[];
+};
+
+const pageFieldGroups: Partial<Record<OwnerPageId, PageFieldGroup[]>> = {
+  homepage: [
+    { id: "opening", label: "Opening message", description: "The first words visitors see when they arrive on the homepage.", fields: ["home.hero_eyebrow", "home.hero_headline", "home.hero_deck"] },
+    { id: "media", label: "Events & Media", description: "The homepage handoff to talks, interviews, appearances, and press.", fields: ["home.media_heading", "home.media_body"] },
+    { id: "field-notes", label: "Field Notes signup", description: "The invitation visitors see before joining the newsletter.", fields: ["home.newsletter_heading", "home.newsletter_body"] },
+    { id: "announcement", label: "Announcement", description: "A temporary site-wide notice when there is something important to say.", fields: ["site.notice"] },
+  ],
+  about: [
+    { id: "opening", label: "Opening", description: "Dr. Haddad's introduction and the purpose behind the work.", fields: ["about.hero_title", "about.hero_lead_primary", "about.hero_lead_secondary"] },
+    { id: "question", label: "The clinical question", description: "Why this work began and what changed the direction of the research.", fields: ["about.why_title", "about.why_body_primary", "about.why_body_secondary"] },
+    { id: "journey", label: "The journey", description: "The bridge from cardiology into environmental research and public education.", fields: ["about.story_title", "about.story_intro"] },
+    { id: "current-work", label: "The work now", description: "How the current public work translates evidence for readers.", fields: ["about.closing_title", "about.closing_body"] },
+  ],
+  book: [
+    { id: "premise", label: "Book premise", description: "The central idea and quotation that frame Homo Plasticus.", fields: ["book.premise_title", "book.premise_body", "book.quote"] },
+    { id: "territory", label: "What the book covers", description: "How the reading map introduces the book's territory.", fields: ["book.territory_title", "book.territory_intro"] },
+    { id: "science-bridge", label: "Bridge to the science", description: "The transition from the book into the evidence library.", fields: ["book.science_bridge_title", "book.science_bridge_body"] },
+  ],
+  podcast: [
+    { id: "opening", label: "Opening", description: "The introduction visitors read at the top of Beyond Plastic.", fields: ["podcast.hero_lead", "podcast.hero_body"] },
+    { id: "series", label: "Current series", description: "The label, headline, and description for the current podcast series.", fields: ["podcast.series_label", "podcast.series_heading", "podcast.series_body"] },
+    { id: "platforms", label: "Listening links", description: "Where visitors can find the show on each platform.", fields: ["podcast.spotify_url", "podcast.apple_url", "podcast.youtube_url", "podcast.amazon_url"] },
+  ],
+  tedx: [
+    { id: "video", label: "TEDx video", description: "The current recording and whether the official TEDx version is available.", fields: ["tedx.video_url", "tedx.status"] },
+    { id: "story", label: "Story beneath the talk", description: "The explanation visitors read after watching the video.", fields: ["tedx.story_title", "tedx.story_body_primary", "tedx.story_body_secondary"] },
+  ],
+  media: [
+    { id: "opening", label: "Page opening", description: "The headline and introduction at the top of Events & Media.", fields: ["media.hero_heading", "media.hero_intro"] },
+    { id: "featured-update", label: "Featured update", description: "An optional current note from Dr. Haddad.", fields: ["media.owner_update"] },
+  ],
+  solutions: [
+    { id: "opening", label: "Opening", description: "The first practical message visitors see on Take Action.", fields: ["solutions.hero_title", "solutions.hero_body"] },
+    { id: "approach", label: "Dr. Haddad's approach", description: "The short framing that explains how to think about action.", fields: ["solutions.approach_title", "solutions.approach_body"] },
+    { id: "core-rules", label: "Three core rules", description: "The introduction above the reviewed three-rule framework.", fields: ["solutions.core_title", "solutions.core_intro"] },
+    { id: "framework", label: "Exposure framework", description: "The transition into the deeper exposure-reduction priorities.", fields: ["solutions.framework_title", "solutions.framework_intro"] },
+  ],
+  guides: [
+    { id: "opening", label: "Guide introduction", description: "The title and introduction above Dr. Haddad's authored 12-step card.", fields: ["guides.hero_title", "guides.hero_body"] },
+  ],
+};
+
+function groupForField(pageId: OwnerPageId, key: AdminContentKey) {
+  return pageFieldGroups[pageId]?.find((group) => group.fields.includes(key)) || null;
+}
+
 const friendlyFields: Partial<Record<AdminContentKey, { label: string; help: string }>> = {
   "site.notice": { label: "Announcement banner", help: "A short notice that appears near the top of the website. Leave it off if there is nothing to announce." },
   "home.hero_eyebrow": { label: "Small line above the main headline", help: "The short introductory line at the very top of the homepage." },
@@ -165,6 +219,8 @@ export function AdminPanel({
   const [section, setSection] = useState<SectionId>("dashboard");
   const [selectedPage, setSelectedPage] = useState<OwnerPageId>("homepage");
   const [scienceTool, setScienceTool] = useState<"overview" | "studies" | "body-systems">("overview");
+  const [activePageGroup, setActivePageGroup] = useState<string | null>(null);
+  const [previewDevice, setPreviewDevice] = useState<"desktop" | "mobile">("desktop");
   const [previewRevision, setPreviewRevision] = useState(0);
   const previewFrameRef = useRef<HTMLIFrameElement>(null);
   const [editingKey, setEditingKey] = useState<AdminContentKey | null>(null);
@@ -253,8 +309,9 @@ export function AdminPanel({
         if (!key) return;
         event.preventDefault();
         event.stopPropagation();
+        setActivePageGroup(groupForField(page.id, key)?.id ?? null);
         setEditingKey(key);
-        window.setTimeout(() => focusPreview(key, true), 0);
+        window.setTimeout(() => focusPreview(key), 0);
       }, true);
     }
     if (editingKey) window.setTimeout(() => focusPreview(editingKey), 0);
@@ -278,6 +335,7 @@ export function AdminPanel({
       setPreviewRevision((current) => current + 1);
       return;
     }
+    setActivePageGroup(groupForField(selectedPage, key)?.id ?? null);
     setEditingKey(key);
     window.setTimeout(() => focusPreview(key), 0);
   }
@@ -286,6 +344,7 @@ export function AdminPanel({
     setSelectedPage(page);
     setSection("pages");
     setEditingKey(key ?? null);
+    setActivePageGroup(key ? groupForField(page, key)?.id ?? null : null);
     setScienceTool("overview");
     window.setTimeout(() => window.scrollTo({ top: 0, behavior: "smooth" }), 0);
   }
@@ -399,7 +458,7 @@ export function AdminPanel({
                 <option value="">Use reviewed website setting</option>
                 {field.allowedValues?.map((value) => <option value={value} key={value}>{value === "official" ? "Official TEDx video" : value === "temporary" ? "Temporary recording" : value}</option>)}
               </select>
-            ) : field.maxLength > 250 ? (
+            ) : field.kind === "text" && field.maxLength > 120 ? (
               <textarea id={key} value={drafts[key]} maxLength={field.maxLength} placeholder={field.placeholder} onChange={(event) => { const value = event.target.value; setDrafts((current) => ({ ...current, [key]: value })); previewDraft(key, value); }} />
             ) : (
               <input id={key} type={field.kind === "url" ? "url" : field.kind === "email" ? "email" : "text"} value={drafts[key]} maxLength={field.maxLength} placeholder={field.placeholder} onChange={(event) => { const value = event.target.value; setDrafts((current) => ({ ...current, [key]: value })); previewDraft(key, value); }} />
@@ -521,137 +580,152 @@ export function AdminPanel({
         const page = OWNER_PAGE_DEFINITIONS.find((candidate) => candidate.id === selectedPage) || OWNER_PAGE_DEFINITIONS[0];
         const isScience = page.kind === "science";
         const activeField = editingKey && page.fields.includes(editingKey) ? editingKey : null;
+        const groups = pageFieldGroups[page.id] ?? [];
+        const activeGroup = groups.find((group) => group.id === activePageGroup) || null;
         return (
-          <div className={styles.editorPage}>
-            <div className={styles.editorHeader}>
-              <div>
-                <button className={styles.backButton} type="button" onClick={() => goTo("dashboard")}>← Back to Today</button>
-                <p className={styles.kicker}>Website</p>
-                <h2>{page.label}</h2>
-                <p>{page.description}</p>
+          <div className={`${styles.editorPage} ${styles.pageStudioPage}`}>
+            <div className={styles.pageStudioToolbar}>
+              <label className={styles.pageStudioPagePicker}>
+                <span>Website page</span>
+                <select
+                  value={selectedPage}
+                  onChange={(event) => goToPage(event.target.value as OwnerPageId)}
+                  aria-label="Choose a website page"
+                >
+                  {OWNER_PAGE_DEFINITIONS.map((item) => <option key={item.id} value={item.id}>{item.label}</option>)}
+                </select>
+                <small>{page.description}</small>
+              </label>
+              <div className={styles.pageStudioToolbarActions}>
+                {!isScience && (
+                  <div className={styles.previewDeviceToggle} aria-label="Preview size">
+                    <button type="button" className={previewDevice === "desktop" ? styles.previewDeviceActive : ""} aria-pressed={previewDevice === "desktop"} onClick={() => setPreviewDevice("desktop")}>Desktop</button>
+                    <button type="button" className={previewDevice === "mobile" ? styles.previewDeviceActive : ""} aria-pressed={previewDevice === "mobile"} onClick={() => setPreviewDevice("mobile")}>Phone</button>
+                  </div>
+                )}
+                <span className={styles.pageStudioLiveStatus}><i aria-hidden="true" />Live</span>
+                <a href={page.href} target="_blank" rel="noreferrer">Open this page ↗</a>
               </div>
-              <a href={page.href} target="_blank" rel="noreferrer">Open live page ↗</a>
             </div>
 
-            <div className={`${styles.pageCmsLayout} ${isScience ? styles.pageCmsLayoutScience : ""}`}>
-              {!isScience && <aside className={styles.pageTree} aria-label="Website pages">
-                <strong>Pages</strong>
-                {OWNER_PAGE_DEFINITIONS.map((item) => (
-                  <button key={item.id} type="button" className={item.id === selectedPage ? styles.pageTreeActive : ""} aria-pressed={item.id === selectedPage} onClick={() => { setSelectedPage(item.id); setEditingKey(null); setScienceTool("overview"); clearPreviewFocus(); }}>
-                    <span>{item.label}</span>
-                    <small>{pageHint(item.id)}</small>
-                  </button>
-                ))}
-              </aside>}
-
-              <div className={styles.pageCmsMain}>
-                {isScience ? (
-                  <div className={styles.scienceWorkspace}>
-                    {scienceTool === "overview" ? (
-                      <>
-                        <button className={styles.scienceWebsiteBack} type="button" onClick={() => { setSelectedPage("homepage"); setScienceTool("overview"); setEditingKey(null); }}>← Website pages</button>
-                        <section className={styles.livePreviewCard}>
-                          <div className={styles.livePreviewHeader}>
-                            <div><span>Science page</span><small>See the public page before choosing what kind of science content to manage.</small></div>
-                            <a href="/science" target="_blank" rel="noreferrer">View live ↗</a>
-                          </div>
-                          <div className={styles.livePreviewFrame}>
-                            <iframe key={`science-${previewRevision}`} src={`/science?owner_preview=1&owner_preview_revision=${previewRevision}`} title="Science page live preview" loading="lazy" />
-                          </div>
-                        </section>
-
-                        <div className={styles.pageEditorNote}><strong>Science stays structured</strong><span>Research cannot safely be edited like ordinary marketing copy. Study methods, sample, limitations, sources, and review status stay attached to the claim.</span></div>
-
-                        <div className={styles.scienceToolGrid}>
-                          <button type="button" onClick={() => setScienceTool("studies")}>
-                            <span>01</span>
-                            <strong>Human evidence studies</strong>
-                            <small>Add or review individual studies, sources, methods, limitations, and publication status.</small>
-                            <b>Open studies →</b>
-                          </button>
-                          <button type="button" onClick={() => setScienceTool("body-systems")}>
-                            <span>02</span>
-                            <strong>Body-system explainers</strong>
-                            <small>Edit the deeper cardiovascular, reproductive, endocrine, kidney, skin, digestive, and pregnancy pages.</small>
-                            <b>Open body systems →</b>
-                          </button>
-                        </div>
-                      </>
-                    ) : (
-                      <>
-                        <button className={styles.toolBackButton} type="button" onClick={() => setScienceTool("overview")}>← All Science tools</button>
-                        {scienceTool === "studies" ? (
-                          <ScienceManager
-                            value={records["science.entries_json"]?.value ?? ""}
-                            saveState={saveStates["science.entries_json"]}
-                            onSave={(value) => saveValue("science.entries_json", value)}
-                          />
-                        ) : (
-                          <BodySystemManager
-                            value={records["science.body_systems_json"]?.value ?? ""}
-                            saveState={saveStates["science.body_systems_json"]}
-                            previewRevision={previewRevision}
-                            onSave={(value) => saveValue("science.body_systems_json", value)}
-                          />
-                        )}
-                      </>
-                    )}
-                  </div>
-                ) : (
-                  <div className={styles.contextEditorLayout}>
-                    <section className={`${styles.livePreviewCard} ${styles.contextPreview}`}>
+            {isScience ? (
+              <div className={styles.scienceWorkspace}>
+                {scienceTool === "overview" ? (
+                  <>
+                    <section className={styles.livePreviewCard}>
                       <div className={styles.livePreviewHeader}>
-                        <div><span>Live preview</span><small>Click highlighted text in the page to edit it.</small></div>
-                        <a href={page.href} target="_blank" rel="noreferrer">View live ↗</a>
+                        <div><span>Science page</span><small>See the public page before choosing what kind of science content to manage.</small></div>
                       </div>
                       <div className={styles.livePreviewFrame}>
-                        <iframe
-                          ref={previewFrameRef}
-                          key={`${page.id}-${previewRevision}`}
-                          src={`${page.href}${page.href.includes("?") ? "&" : "?"}owner_preview=1&owner_preview_revision=${previewRevision}`}
-                          title={`${page.label} live preview`}
-                          loading="lazy"
-                          onLoad={preparePreview}
-                        />
+                        <iframe key={`science-${previewRevision}`} src={`/science?owner_preview=1&owner_preview_revision=${previewRevision}`} title="Science page live preview" loading="lazy" />
                       </div>
                     </section>
 
-                    <aside className={styles.contextInspector}>
-                      {activeField ? (
-                        <>
-                          <button className={styles.inspectorBack} type="button" onClick={() => selectField(activeField, true)}>← All page sections</button>
-                          <div className={styles.settingsList}>
-                            {renderField(activeField, true)}
-                          </div>
-                        </>
-                      ) : (
-                        <>
-                          <div className={styles.inspectorIntro}>
-                            <p className={styles.kicker}>Edit this page</p>
-                            <h3>What would you like to change?</h3>
-                            <p>Click text in the preview, or choose a section below.</p>
-                          </div>
-                          {page.note ? <details className={styles.pageEditorNote}><summary>Why some content is locked</summary><span>{page.note}</span></details> : null}
-                          <div className={styles.pageFieldList}>
-                            {page.fields.map((key) => {
-                              const field = fields.find((candidate) => candidate.key === key);
-                              if (!field) return null;
-                              const copy = friendlyFields[key] || { label: field.label, help: field.description };
-                              return (
-                                <button key={key} type="button" onClick={() => selectField(key, false)}>
-                                  <div><strong>{copy.label}</strong><small>{copy.help}</small></div>
-                                  <span><b>›</b></span>
-                                </button>
-                              );
-                            })}
-                          </div>
-                        </>
-                      )}
-                    </aside>
-                  </div>
+                    <details className={styles.pageEditorNote}>
+                      <summary>Why Science uses a different editor</summary>
+                      <span>Research cannot safely be edited like ordinary website copy. Study methods, sample, limitations, sources, and review status stay attached to each claim.</span>
+                    </details>
+
+                    <div className={styles.scienceToolGrid}>
+                      <button type="button" onClick={() => setScienceTool("studies")}>
+                        <span>01</span>
+                        <strong>Human evidence studies</strong>
+                        <small>Add or review individual studies, sources, methods, limitations, and publication status.</small>
+                        <b>Open studies →</b>
+                      </button>
+                      <button type="button" onClick={() => setScienceTool("body-systems")}>
+                        <span>02</span>
+                        <strong>Body-system explainers</strong>
+                        <small>Edit the deeper cardiovascular, reproductive, endocrine, kidney, skin, digestive, and pregnancy pages.</small>
+                        <b>Open body systems →</b>
+                      </button>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <button className={styles.toolBackButton} type="button" onClick={() => setScienceTool("overview")}>← All Science tools</button>
+                    {scienceTool === "studies" ? (
+                      <ScienceManager
+                        value={records["science.entries_json"]?.value ?? ""}
+                        saveState={saveStates["science.entries_json"]}
+                        onSave={(value) => saveValue("science.entries_json", value)}
+                      />
+                    ) : (
+                      <BodySystemManager
+                        value={records["science.body_systems_json"]?.value ?? ""}
+                        saveState={saveStates["science.body_systems_json"]}
+                        previewRevision={previewRevision}
+                        onSave={(value) => saveValue("science.body_systems_json", value)}
+                      />
+                    )}
+                  </>
                 )}
               </div>
-            </div>
+            ) : (
+              <div className={styles.pageStudioLayout}>
+                <aside className={styles.pageStudioPanel}>
+                  {activeField ? (
+                    <>
+                      <button className={styles.studioBackButton} type="button" onClick={() => { setEditingKey(null); clearPreviewFocus(); }}>← {activeGroup?.label || "Page sections"}</button>
+                      <div className={styles.settingsList}>{renderField(activeField, true)}</div>
+                    </>
+                  ) : activeGroup ? (
+                    <>
+                      <button className={styles.studioBackButton} type="button" onClick={() => { setActivePageGroup(null); clearPreviewFocus(); }}>← All page sections</button>
+                      <div className={styles.studioPanelIntro}>
+                        <p className={styles.kicker}>{page.label}</p>
+                        <h3>{activeGroup.label}</h3>
+                        <p>{activeGroup.description}</p>
+                      </div>
+                      <div className={styles.pageFieldList}>
+                        {activeGroup.fields.map((key) => {
+                          const field = fields.find((candidate) => candidate.key === key);
+                          if (!field) return null;
+                          const copy = friendlyFields[key] || { label: field.label, help: field.description };
+                          return (
+                            <button key={key} type="button" onClick={() => selectField(key, false)}>
+                              <div><strong>{copy.label}</strong><small>{copy.help}</small></div>
+                              <span>›</span>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div className={styles.studioPanelIntro}>
+                        <p className={styles.kicker}>{page.label}</p>
+                        <h3>What would you like to edit?</h3>
+                        <p>Choose the part of the page you recognize, or click directly on text in the preview.</p>
+                      </div>
+                      <div className={styles.pageSectionList}>
+                        {groups.map((group) => (
+                          <button key={group.id} type="button" onClick={() => { setActivePageGroup(group.id); clearPreviewFocus(); }}>
+                            <div><strong>{group.label}</strong><small>{group.description}</small></div>
+                            <span>{group.fields.length} {group.fields.length === 1 ? "item" : "items"} <b>›</b></span>
+                          </button>
+                        ))}
+                      </div>
+                      {page.note ? <details className={styles.pageEditorNote}><summary>Why some content is locked</summary><span>{page.note}</span></details> : null}
+                    </>
+                  )}
+                </aside>
+
+                <section className={`${styles.pageStudioPreview} ${previewDevice === "mobile" ? styles.pageStudioPreviewMobile : ""}`}>
+                  <div className={styles.pageStudioPreviewHint}><span>Preview</span><small>Click editable text to change it</small></div>
+                  <div className={styles.pageStudioPreviewFrame}>
+                    <iframe
+                      ref={previewFrameRef}
+                      key={`${page.id}-${previewRevision}-${previewDevice}`}
+                      src={`${page.href}${page.href.includes("?") ? "&" : "?"}owner_preview=1&owner_preview_revision=${previewRevision}`}
+                      title={`${page.label} live preview`}
+                      loading="lazy"
+                      onLoad={preparePreview}
+                    />
+                  </div>
+                </section>
+              </div>
+            )}
           </div>
         );
       })()}

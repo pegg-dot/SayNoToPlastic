@@ -43,15 +43,14 @@ expect(
 );
 expect(admin.includes("quickLinks") && admin.includes("Replace TEDx video") && admin.includes("Update podcast") && admin.includes("Edit press kit"), "Less frequent jobs remain available as secondary shortcuts.");
 
-expect(!admin.includes("<small>{item.href}</small>") && admin.includes("pageHint(item.id)"), "Website navigation hides raw route paths and uses owner-facing page descriptions.");
+expect(!admin.includes("<small>{item.href}</small>") && (admin.includes("pageHint(item.id)") || admin.includes("pageStudioPagePicker")), "Website navigation hides raw route paths and uses owner-facing page descriptions.");
 expect(
-  admin.includes("contextPreview") &&
-  admin.includes("contextInspector") &&
+  ((admin.includes("contextPreview") && admin.includes("contextInspector")) || (admin.includes("pageStudioPreview") && admin.includes("pageStudioPanel"))) &&
   admin.includes("pageFieldList") &&
   admin.includes("activeField") &&
   admin.includes("preparePreview") &&
   admin.includes("data-sntp-owner-field"),
-  "Standard pages use a preview-first editor with one focused inspector and contextual click-to-edit wiring."
+  "Standard pages use a preview-first editor with one focused editing context and contextual click-to-edit wiring."
 );
 expect((admin.includes("Previous versions") || admin.includes("History &amp; restore")) && (admin.includes("Restore original") || admin.includes("Reset to reviewed website text")) && (admin.includes("Update live site") || admin.includes("Publish change")), "Revision history, restore, and explicit live-update controls remain available.");
 expect(admin.includes("renderField(activeField, true)") && admin.includes("focusedFieldHeader"), "Focused page editing removes the redundant accordion step once a section has been chosen.");

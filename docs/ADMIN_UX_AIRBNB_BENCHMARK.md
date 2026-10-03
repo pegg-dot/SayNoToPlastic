@@ -228,3 +228,52 @@ v40.55 does not change the owner database schema, Mailchimp API contract, Cloudf
 ### Validation
 
 The release adds `scripts/v40-55-owner-workspace-audit.mjs` to the full release gate. In addition to source/build validation, the implementation was rendered locally through the built Cloudflare Worker and interaction-tested for direct Website preview editing, Field Notes next-action transitions, Media progressive controls, Science/body-system save behavior, and horizontal overflow at desktop and narrower workspace widths.
+
+## v40.56 Page Studio refinement
+
+After reviewing the live v40.55 Website editor, the remaining friction was structural rather than cosmetic. The owner still saw three simultaneous navigation layers: workspace tabs, a permanent page tree, and a permanent field inspector, with the actual website compressed between them.
+
+v40.56 pivots the standard Website editor to a two-pane Page Studio. The page itself becomes the dominant object and the owner sees only one editing context at a time.
+
+### Page Studio model
+
+The editing flow is now:
+
+1. choose the website page from one compact page switcher;
+2. choose a recognizable visible section such as Opening message, Events & Media, or Field Notes signup;
+3. choose the specific text inside that section, or click the text directly in the preview;
+4. edit the actual live wording in context;
+5. publish the change explicitly.
+
+The permanent page rail is removed from standard pages. The large page-title header is also removed from the editing flow. Page selection, preview size, live status, and the open-page action live in one compact toolbar.
+
+### Section-first editing
+
+Fields are grouped by how the owner recognizes the public page rather than by the storage keys behind it. For example, Homepage editing prioritizes:
+
+- Opening message
+- Events & Media
+- Field Notes signup
+- Announcement
+
+The Announcement section intentionally comes last because it is a less common task.
+
+Selecting a section reveals only the small number of relevant text pieces. Selecting a field replaces that section list with the focused editor. Back navigation restores the previous context rather than exposing another simultaneous panel.
+
+### Dominant live preview
+
+At wide desktop widths the editor uses a narrow 360px control pane and gives the remaining space to the live website. At 1024px it remains a two-pane editor with a 320px control pane. At narrower widths the workspace collapses cleanly to one column.
+
+The preview can switch between Desktop and Phone without leaving the editor. Phone mode renders the public page in a 390px viewport inside the same workspace.
+
+Owner-preview suppression of visitor-only consent and welcome overlays remains in place.
+
+### Editorial controls
+
+Long-form text and headlines use multi-line editing controls so the editor better matches how the copy is actually displayed. URLs and email addresses remain single-line inputs.
+
+Revision history, reset-to-reviewed-content, explicit Publish change, same-origin write protection, optimistic concurrency, and all structured Science boundaries remain unchanged.
+
+### Validation
+
+The Page Studio was rendered through the built Cloudflare Worker and interaction-tested at 1536px, 1024px, and 768px with no horizontal overflow. The tests also verified page switching, section replacement, contextual direct-edit selection, the 390px Phone preview, and the sticky page toolbar.

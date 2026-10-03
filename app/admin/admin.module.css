@@ -2780,3 +2780,388 @@ details.pageEditorNote span { display: block; margin-top: 8px; color: #7d8388; f
 .pageEditorNote:not([open]) > :not(summary) {
   display: none !important;
 }
+
+/* v40.56 Page Studio: one page, one editing context, one dominant preview. */
+.workspace {
+  width: min(1580px, calc(100% - 28px));
+}
+.tabs {
+  margin-bottom: 14px;
+}
+.pageStudioPage {
+  display: grid;
+  gap: 14px;
+}
+.pageStudioToolbar {
+  min-height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 11px 14px;
+  border: 1px solid #dfdcd5;
+  border-radius: 13px;
+  background: #fff;
+}
+.pageStudioPagePicker {
+  min-width: 0;
+  flex: 1 1 auto;
+  display: grid;
+  grid-template-columns: auto 230px minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+}
+.pageStudioPagePicker > span {
+  color: #858b90;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.pageStudioPagePicker select {
+  width: 100%;
+  border: 1px solid #d8d4cc;
+  border-radius: 9px;
+  padding: 9px 34px 9px 11px;
+  background: #faf9f7;
+  color: #20292f;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+}
+.pageStudioPagePicker small {
+  min-width: 0;
+  color: #7f868b;
+  font-size: 10px;
+  line-height: 1.4;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.pageStudioToolbarActions {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.pageStudioToolbarActions > a {
+  padding: 9px 11px;
+  border: 1px solid #d4d0c8;
+  border-radius: 8px;
+  background: #fff;
+  color: #323c43;
+  font-size: 10px;
+  font-weight: 800;
+  text-decoration: none;
+}
+.pageStudioLiveStatus {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #55715f;
+  font-size: 9px;
+  font-weight: 800;
+}
+.pageStudioLiveStatus i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #5f8c6d;
+  box-shadow: 0 0 0 3px rgba(95,140,109,.1);
+}
+.previewDeviceToggle {
+  display: inline-flex;
+  padding: 2px;
+  border: 1px solid #ddd9d1;
+  border-radius: 8px;
+  background: #f5f4f1;
+}
+.previewDeviceToggle button {
+  border: 0;
+  border-radius: 6px;
+  padding: 7px 9px;
+  background: transparent;
+  color: #777e83;
+  font: inherit;
+  font-size: 9px;
+  font-weight: 800;
+  cursor: pointer;
+}
+.previewDeviceToggle button.previewDeviceActive {
+  background: #fff;
+  color: #222a30;
+  box-shadow: 0 1px 5px rgba(24,30,35,.08);
+}
+
+.pageStudioLayout {
+  display: grid;
+  grid-template-columns: 360px minmax(0, 1fr);
+  gap: 14px;
+  align-items: start;
+}
+.pageStudioPanel {
+  position: sticky;
+  top: 124px;
+  min-width: 0;
+  max-height: calc(100vh - 142px);
+  overflow: auto;
+  border: 1px solid #dfdcd5;
+  border-radius: 13px;
+  background: #fff;
+  scrollbar-width: thin;
+}
+.studioPanelIntro {
+  padding: 20px 20px 17px;
+  border-bottom: 1px solid #ece8e2;
+}
+.studioPanelIntro h3 {
+  margin: 5px 0 6px;
+  color: #20272c;
+  font-size: 24px;
+  letter-spacing: -.03em;
+}
+.studioPanelIntro > p:last-child {
+  margin: 0;
+  color: #767d82;
+  font-size: 11px;
+  line-height: 1.5;
+}
+.studioBackButton {
+  width: 100%;
+  border: 0;
+  border-bottom: 1px solid #ebe8e2;
+  padding: 13px 18px;
+  background: #faf9f7;
+  color: #555e64;
+  text-align: left;
+  font: inherit;
+  font-size: 10px;
+  font-weight: 800;
+  cursor: pointer;
+}
+.studioBackButton:hover {
+  color: #222a30;
+}
+.pageSectionList,
+.pageStudioPanel .pageFieldList {
+  display: grid;
+}
+.pageSectionList > button,
+.pageStudioPanel .pageFieldList > button {
+  width: 100%;
+  display: grid;
+  grid-template-columns: minmax(0,1fr) auto;
+  gap: 14px;
+  align-items: center;
+  padding: 16px 18px;
+  border: 0;
+  border-bottom: 1px solid #efebe5;
+  background: #fff;
+  color: #222a30;
+  text-align: left;
+  cursor: pointer;
+}
+.pageSectionList > button:hover,
+.pageStudioPanel .pageFieldList > button:hover {
+  background: #faf9f7;
+}
+.pageSectionList > button > div,
+.pageStudioPanel .pageFieldList > button > div {
+  min-width: 0;
+  display: grid;
+  gap: 4px;
+}
+.pageSectionList strong,
+.pageStudioPanel .pageFieldList strong {
+  font-size: 12px;
+}
+.pageSectionList small,
+.pageStudioPanel .pageFieldList small {
+  display: block;
+  color: #81888d;
+  font-size: 9.5px;
+  line-height: 1.45;
+}
+.pageSectionList > button > span,
+.pageStudioPanel .pageFieldList > button > span {
+  color: #969b9f;
+  font-size: 9px;
+  font-weight: 750;
+  white-space: nowrap;
+}
+.pageSectionList > button > span b {
+  margin-left: 5px;
+  color: #353e44;
+  font-size: 15px;
+}
+.pageStudioPanel .pageEditorNote {
+  margin: 13px;
+}
+.pageStudioPanel .settingsList {
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+.pageStudioPanel .focusedFieldHeader {
+  padding: 20px 18px 16px;
+  border-bottom: 1px solid #ece8e2;
+}
+.pageStudioPanel .settingEditor {
+  padding: 18px;
+}
+.pageStudioPanel .settingEditor textarea {
+  min-height: 165px;
+}
+.pageStudioPanel .publishBar {
+  align-items: flex-start;
+  flex-direction: column;
+}
+.pageStudioPanel .publishBar > div:last-child {
+  width: 100%;
+  justify-content: flex-end;
+}
+.pageStudioPanel .history {
+  margin-bottom: 4px;
+}
+
+.pageStudioPreview {
+  position: sticky;
+  top: 124px;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid #d9d6cf;
+  border-radius: 13px;
+  background: #e9e8e4;
+}
+.pageStudioPreviewHint {
+  min-height: 38px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 12px;
+  border-bottom: 1px solid #d8d5ce;
+  background: #f8f7f4;
+}
+.pageStudioPreviewHint span {
+  color: #30383e;
+  font-size: 10px;
+  font-weight: 800;
+}
+.pageStudioPreviewHint small {
+  color: #8a9094;
+  font-size: 9px;
+}
+.pageStudioPreviewFrame {
+  height: min(820px, calc(100vh - 190px));
+  min-height: 620px;
+  background: #07111d;
+  transition: padding .2s ease, background .2s ease;
+}
+.pageStudioPreviewFrame iframe {
+  width: 100%;
+  height: 100%;
+  display: block;
+  border: 0;
+  background: #fff;
+}
+.pageStudioPreviewMobile .pageStudioPreviewFrame {
+  display: flex;
+  justify-content: center;
+  padding: 14px;
+  box-sizing: border-box;
+  background: #deddd8;
+}
+.pageStudioPreviewMobile .pageStudioPreviewFrame iframe {
+  width: 390px;
+  max-width: 100%;
+  border-radius: 16px;
+  box-shadow: 0 10px 32px rgba(16,22,26,.18);
+}
+
+.pageStudioPage > .scienceWorkspace {
+  width: min(1240px, 100%);
+  margin: 0 auto;
+}
+
+@media (max-width: 1120px) {
+  .pageStudioPagePicker {
+    grid-template-columns: auto 210px;
+  }
+  .pageStudioPagePicker small {
+    display: none;
+  }
+  .pageStudioLayout {
+    grid-template-columns: 320px minmax(0,1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .pageStudioToolbar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+  .pageStudioPagePicker {
+    grid-template-columns: auto minmax(0,1fr);
+  }
+  .pageStudioToolbarActions {
+    justify-content: space-between;
+  }
+  .pageStudioLayout {
+    grid-template-columns: 1fr;
+  }
+  .pageStudioPanel,
+  .pageStudioPreview {
+    position: static;
+    max-height: none;
+  }
+  .pageStudioPreviewFrame {
+    height: 620px;
+    min-height: 0;
+  }
+}
+
+@media (max-width: 620px) {
+  .workspace {
+    width: auto;
+  }
+  .pageStudioToolbarActions {
+    align-items: stretch;
+    flex-wrap: wrap;
+  }
+  .previewDeviceToggle {
+    order: 3;
+  }
+  .pageStudioPreviewFrame {
+    height: 520px;
+  }
+  .pageStudioPreviewMobile .pageStudioPreviewFrame {
+    padding: 8px;
+  }
+}
+
+
+/* v40.56 Page Studio refinements after rendered QA. */
+.pageStudioToolbar {
+  position: sticky;
+  top: 120px;
+  z-index: 24;
+}
+.pageStudioPanel,
+.pageStudioPreview {
+  top: 198px;
+}
+.pageStudioPreviewFrame {
+  height: min(760px, calc(100vh - 264px));
+  min-height: 560px;
+}
+.pageStudioPanel .settingEditor textarea {
+  min-height: 118px;
+  line-height: 1.5;
+}
+@media (max-width: 900px) {
+  .pageStudioToolbar { position: static; }
+  .pageStudioPanel,
+  .pageStudioPreview { top: auto; }
+  .pageStudioPreviewFrame { height: 620px; min-height: 0; }
+}

@@ -58,7 +58,7 @@ expect(includesAll(loader, ["anatomyModelCache", "loadAnatomyModel", "clearAnato
 expect(includesAll(css, [".finding-brief", ".finding-open-viewer", ".journey-complete-atlas-compact", ".anatomy-viewer-system-filter", ".anatomy-viewer-quick-read"]), "Chapter, atlas, system-control, and quick-read styling remains packaged.");
 expect(licenses.includes("Interactive extended-system viewer") && licenses.includes("CC BY 4.0"), "Runtime anatomy sources retain license attribution.");
 expect(packageJson.scripts?.["anatomy:complete"] === "node scripts/v40-19-complete-atlas-audit.mjs", "Dedicated anatomy audit remains registered.");
-expect(["7915a420ef99c285f0a152256b2ca9742f3b520834be90ab937935af8225e85e", "60e568499d4a00b89a4a834487d7f992d6b0d75e1be48a0015ffb00b83ae3d0b"].includes(hash("package-lock.json")), "Package lock matches the approved baseline or the validated newsletter-manager dependency update.");
+expect(["7915a420ef99c285f0a152256b2ca9742f3b520834be90ab937935af8225e85e", "60e568499d4a00b89a4a834487d7f992d6b0d75e1be48a0015ffb00b83ae3d0b", "4280584b4443ef62afd88e26ab447aae3300503fef91531e78398d579619a9cd"].includes(hash("package-lock.json")), "Package lock matches an approved validated dependency baseline.");
 expect(exists("docs/V40_19_TEN_CHAPTER_COMPLETE_ATLAS.md"), "Historical v40.19 atlas documentation remains packaged.");
 
 for (const check of checks) console.log(`[${check.ok ? "PASS" : "FAIL"}] ${check.label}`);

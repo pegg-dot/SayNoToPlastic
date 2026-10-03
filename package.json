@@ -56,7 +56,7 @@
     "anatomy:order": "node scripts/v40-28-testicular-final-audit.mjs",
     "anatomy:microplastics": "node scripts/v40-33-system-aware-microplastic-flow-audit.mjs",
     "anatomy:flow": "node scripts/v40-33-system-aware-microplastic-flow-audit.mjs",
-    "release:audit": "npm run prepare:podcast-artwork && node scripts/v40-37-owner-review-audit.mjs && node scripts/v40-38-owner-admin-audit.mjs && node scripts/v40-39-owner-editorial-audit.mjs && node scripts/v40-40-owner-admin-usability-audit.mjs && node scripts/v40-41-owner-admin-simple-ui-audit.mjs && node scripts/v40-42-owner-cms-phase-1-audit.mjs && node scripts/v40-19-complete-atlas-audit.mjs && node scripts/podcast-tedx-audit.mjs && node scripts/v40-43-newsletter-manager-audit.mjs && node scripts/v40-44-owner-page-cms-audit.mjs && node scripts/v40-45-science-cms-audit.mjs && node scripts/v40-46-body-system-cms-audit.mjs && node scripts/v40-47-contextual-owner-editor-audit.mjs && node scripts/v40-48-spanish-core-audit.mjs && node scripts/v40-49-spanish-science-body-systems-audit.mjs && node scripts/v40-50-spanish-science-context-audit.mjs && node scripts/v40-51-airbnb-admin-ux-audit.mjs && node scripts/v40-52-production-recovery-audit.mjs && node scripts/v40-53-production-release-gates-audit.mjs && node scripts/v40-54-spanish-layout-parity-audit.mjs && node scripts/v40-55-owner-workspace-audit.mjs && node scripts/v40-56-page-studio-audit.mjs && node scripts/v40-57-sitewide-mobile-audit.mjs",
+    "release:audit": "npm run prepare:podcast-artwork && node scripts/v40-37-owner-review-audit.mjs && node scripts/v40-38-owner-admin-audit.mjs && node scripts/v40-39-owner-editorial-audit.mjs && node scripts/v40-40-owner-admin-usability-audit.mjs && node scripts/v40-41-owner-admin-simple-ui-audit.mjs && node scripts/v40-42-owner-cms-phase-1-audit.mjs && node scripts/v40-19-complete-atlas-audit.mjs && node scripts/podcast-tedx-audit.mjs && node scripts/v40-43-newsletter-manager-audit.mjs && node scripts/v40-44-owner-page-cms-audit.mjs && node scripts/v40-45-science-cms-audit.mjs && node scripts/v40-46-body-system-cms-audit.mjs && node scripts/v40-47-contextual-owner-editor-audit.mjs && node scripts/v40-48-spanish-core-audit.mjs && node scripts/v40-49-spanish-science-body-systems-audit.mjs && node scripts/v40-50-spanish-science-context-audit.mjs && node scripts/v40-51-airbnb-admin-ux-audit.mjs && node scripts/v40-52-production-recovery-audit.mjs && node scripts/v40-53-production-release-gates-audit.mjs && node scripts/v40-54-spanish-layout-parity-audit.mjs && node scripts/v40-55-owner-workspace-audit.mjs && node scripts/v40-56-page-studio-audit.mjs && node scripts/v40-57-sitewide-mobile-audit.mjs && node scripts/v40-58-dependency-hardening-audit.mjs",
     "podcast:launch-audit": "npm run prepare:podcast-artwork && node scripts/podcast-tedx-audit.mjs",
     "newsletter:phase2": "node scripts/v40-43-newsletter-manager-audit.mjs",
     "cms:phase3a": "node scripts/v40-44-owner-page-cms-audit.mjs",
@@ -71,19 +71,20 @@
     "prepare:deploy-revision": "node scripts/prepare-deploy-revision.mjs",
     "prelint": "npm run prepare:deploy-revision",
     "db:migrate:production": "bash scripts/migrate-production.sh",
-    "audit:mobile": "node scripts/v40-57-sitewide-mobile-audit.mjs"
+    "audit:mobile": "node scripts/v40-57-sitewide-mobile-audit.mjs",
+    "security:audit:production": "npm audit --omit=dev --audit-level=low"
   },
   "dependencies": {
     "@react-three/fiber": "^9.7.0",
     "drizzle-orm": "0.45.2",
-    "next": "16.2.6",
-    "react": "19.2.6",
-    "react-dom": "19.2.6",
-    "three": "^0.185.1",
-    "fflate": "0.7.4"
+    "fflate": "0.7.5",
+    "next": "16.3.8",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "three": "^0.185.1"
   },
   "devDependencies": {
-    "@cloudflare/vite-plugin": "1.37.1",
+    "@cloudflare/vite-plugin": "1.62.5",
     "@tailwindcss/postcss": "4.2.1",
     "@types/node": "22.19.19",
     "@types/react": "19.2.14",
@@ -92,13 +93,13 @@
     "@vitejs/plugin-rsc": "0.5.26",
     "drizzle-kit": "0.31.10",
     "eslint": "9.39.4",
-    "eslint-config-next": "16.2.6",
-    "react-server-dom-webpack": "19.2.6",
+    "eslint-config-next": "16.3.8",
+    "react-server-dom-webpack": "19.2.8",
     "tailwindcss": "4.2.1",
     "typescript": "5.9.3",
     "vinext": "0.0.50",
-    "vite": "8.0.13",
-    "wrangler": "4.92.0"
+    "vite": "8.3.2",
+    "wrangler": "4.147.0"
   },
   "type": "module",
   "displayName": "Say No to Plastic"

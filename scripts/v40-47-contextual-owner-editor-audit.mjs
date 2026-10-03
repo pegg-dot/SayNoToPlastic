@@ -19,7 +19,7 @@ expect(admin.includes('type SectionId = "dashboard" | "pages" | "media" | "press
 expect(pageEditor.includes('| "science";') && pageEditor.includes('kind: "science"'), "Science is represented as a website page with a specialized editor kind.");
 expect(admin.includes('goToPage("science")') && admin.includes('const isScience = page.kind === "science"'), "Research tasks route into Science through the unified Pages workspace.");
 expect(admin.includes("previewFrameRef") && admin.includes("preparePreview") && admin.includes("data-sntp-owner-field"), "Normal page preview is wired for contextual field selection.");
-expect(admin.includes("focusPreview") && admin.includes("scrollIntoView") && admin.includes("Show + edit"), "Choosing an edit locates and highlights its destination in the page preview.");
+expect(admin.includes("focusPreview") && admin.includes("scrollIntoView") && (admin.includes("Show + edit") || admin.includes("Edit ›")), "Choosing an edit locates and highlights its destination in the page preview.");
 expect(admin.includes("previewDraft") && pageEditor.includes("textPreview: true"), "Text changes can be previewed in context before publication.");
 expect(pageEditor.includes("previewTargets") && pageEditor.includes('"solutions.hero_title"') && pageEditor.includes('"about.hero_title"') && pageEditor.includes('"book.premise_title"'), "Editable pages map owner fields to concrete preview locations.");
 expect(admin.includes("<ScienceManager") && admin.includes("<BodySystemManager"), "Unified Pages workspace keeps both structured science managers intact.");

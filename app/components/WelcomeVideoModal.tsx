@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { WELCOME_FILM } from "../content/media-content";
 import { trackEvent } from "./ConsentAnalytics";
 import { useBodyScrollLock } from "./useBodyScrollLock";
@@ -22,6 +22,8 @@ function prepareWelcomeOverlay() {
 
 export function WelcomeVideoModal() {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const ownerPreview = searchParams.get("owner_preview") === "1";
   const [open, setOpen] = useState(false);
   const [playing, setPlaying] = useState(false);
   const closeRef = useRef<HTMLButtonElement>(null);
@@ -39,7 +41,7 @@ export function WelcomeVideoModal() {
   }, []);
 
   useEffect(() => {
-    if (pathname !== "/" || autoOpened.current) return;
+    if (ownerPreview || pathname !== "/" || autoOpened.current) return;
     autoOpened.current = true;
     try {
       if (window.localStorage.getItem(STORAGE_KEY)) return;
@@ -56,7 +58,7 @@ export function WelcomeVideoModal() {
     return () => {
       if (autoOpenTimer.current !== null) window.clearTimeout(autoOpenTimer.current);
     };
-  }, [pathname]);
+  }, [pathname, ownerPreview]);
 
   useEffect(() => {
     if (!open) return;
@@ -124,6 +126,8 @@ export function WelcomeVideoModal() {
 
   const canPlay = WELCOME_FILM.status === "ready"
     && Boolean(WELCOME_FILM.youtubeId || WELCOME_FILM.hostedVideoSrc || WELCOME_FILM.embedUrl);
+
+  if (ownerPreview) return null;
 
   return (
     <>

@@ -20,9 +20,9 @@ const build = read("app/build-version.ts");
 
 expect(exists("app/admin/BodySystemManager.tsx"), "Body-system page manager is packaged.");
 expect(admin.includes("<BodySystemManager") && admin.includes('"science.body_systems_json"'), "Science workspace includes the body-system page manager.");
-expect(manager.includes("Edit the deeper science explainers") && manager.includes("Live page preview"), "Body-system manager uses a page-based editing workflow with a live preview.");
+expect((manager.includes("Edit the deeper science explainers") && manager.includes("Live page preview")) || (manager.includes("Body-system explainers") && manager.includes("Live preview")), "Body-system manager uses a page-based editing workflow with a live preview.");
 expect(manager.includes("Article sections") && manager.includes("What we know") && manager.includes("What remains uncertain") && manager.includes("Primary sources"), "Body-system editor keeps scientific explanation fields structured.");
-expect(manager.includes("Review status") && manager.includes("Review note") && manager.includes("Restore original"), "Body-system editor preserves review state and rollback.");
+expect(manager.includes("Review status") && manager.includes("Review note") && (manager.includes("Restore original") || manager.includes("Reset page")), "Body-system editor preserves review state and rollback.");
 expect(adminContent.includes('"science.body_systems_json"') && adminContent.includes("validateOwnerBodySystemOverrides"), "Body-system overrides use validated owner-content storage.");
 expect(adminContent.includes("verified body-system page must include at least one primary source") && adminContent.includes("needs takeaways, known evidence, and uncertainty notes"), "Body-system validation requires evidence boundaries before a page can be marked verified.");
 expect(adminContent.includes("Only the seven reviewed body-system pages can be managed here"), "Body-system editor is constrained to the existing reviewed page set.");

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import styles from "./admin.module.css";
 
 type Newsletter = {
@@ -35,13 +35,21 @@ function prettyDate(value: string | null) {
   return date.toLocaleDateString([], { month: "short", day: "numeric", year: "numeric" });
 }
 
+function issueStage(row: RowState) {
+  if (row.mailchimpCampaignId) return { label: "Email ready", tone: "done" as const, next: "Open Mailchimp" };
+  if (row.published) return { label: "Published", tone: "live" as const, next: "Create Mailchimp draft" };
+  return { label: "Draft", tone: "draft" as const, next: "Publish to website" };
+}
+
 export function NewsletterManager() {
   const [rows, setRows] = useState<RowState[]>([]);
+  const [selectedId, setSelectedId] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
   const [uploadMessage, setUploadMessage] = useState("");
   const [uploadError, setUploadError] = useState("");
   const [mailchimpUrl, setMailchimpUrl] = useState("https://mailchimp.com/");
+  const selected = rows.find((row) => row.id === selectedId) ?? rows[0] ?? null;
 
   async function load() {
     setLoading(true);
@@ -49,7 +57,9 @@ export function NewsletterManager() {
       const response = await fetch("/admin/api/newsletters", { cache: "no-store" });
       const body = await response.json() as { newsletters?: Newsletter[]; mailchimpUrl?: string; error?: string };
       if (!response.ok || !body.newsletters) throw new Error(body.error || "Unable to load newsletters.");
-      setRows(body.newsletters.map(toRow));
+      const next = body.newsletters.map(toRow);
+      setRows(next);
+      setSelectedId((current) => current && next.some((row) => row.id === current) ? current : next[0]?.id ?? null);
       if (body.mailchimpUrl) setMailchimpUrl(body.mailchimpUrl);
     } catch (error) {
       setUploadError(error instanceof Error ? error.message : "Unable to load newsletters.");
@@ -75,8 +85,10 @@ export function NewsletterManager() {
       const response = await fetch("/admin/api/newsletters", { method: "POST", body: form });
       const body = await response.json() as { newsletter?: Newsletter; warnings?: string[]; error?: string };
       if (!response.ok || !body.newsletter) throw new Error(body.error || "Import failed.");
-      setRows((current) => [toRow(body.newsletter!), ...current]);
-      setUploadMessage(body.warnings?.[0] || "Word document imported. Check the preview, then publish when ready.");
+      const next = toRow(body.newsletter);
+      setRows((current) => [next, ...current]);
+      setSelectedId(next.id);
+      setUploadMessage(body.warnings?.[0] || "Imported successfully. Review the issue, then publish when you are ready.");
     } catch (error) {
       setUploadError(error instanceof Error ? error.message : "Import failed.");
     } finally {
@@ -98,8 +110,8 @@ export function NewsletterManager() {
       setRows((current) => current.map((item) => item.id === row.id ? {
         ...toRow(saved),
         message: typeof patch.published === "boolean"
-          ? (saved.published ? "Published on the website." : "Removed from the public archive.")
-          : "Newsletter details saved.",
+          ? (saved.published ? "Published to Field Notes." : "Removed from the public archive.")
+          : "Details saved.",
       } : item));
     } catch (error) {
       patchRow(row.id, { busy: undefined, error: error instanceof Error ? error.message : "Update failed." });
@@ -117,7 +129,7 @@ export function NewsletterManager() {
       const destination = body.mailchimpUrl || mailchimpUrl;
       setRows((current) => current.map((item) => item.id === row.id ? {
         ...toRow(saved),
-        message: "Mailchimp draft created. Review and send it from Mailchimp.",
+        message: "Email draft created. Review and send it in Mailchimp.",
       } : item));
       if (body.mailchimpUrl) setMailchimpUrl(body.mailchimpUrl);
       if (mailchimpWindow) {
@@ -132,107 +144,125 @@ export function NewsletterManager() {
 
   async function removeNewsletter(row: RowState) {
     const publicNote = row.published ? " It will disappear from the public Field Notes archive immediately." : "";
-    const emailNote = row.mailchimpCampaignId ? " Its Mailchimp draft will stay in Mailchimp so an email record is never removed by accident." : "";
+    const emailNote = row.mailchimpCampaignId ? " Its Mailchimp draft will stay in Mailchimp." : "";
     if (!window.confirm(`Delete “${row.title}”?${publicNote}${emailNote} This cannot be undone on the website.`)) return;
-
     patchRow(row.id, { busy: "deleting", message: "", error: "" });
     try {
       const response = await fetch(`/admin/api/newsletters/${row.id}`, { method: "POST" });
       const body = await response.json() as { ok?: boolean; error?: string };
       if (!response.ok || !body.ok) throw new Error(body.error || "Could not delete newsletter.");
-      setRows((current) => current.filter((item) => item.id !== row.id));
-      setUploadMessage(row.mailchimpCampaignId
-        ? "Newsletter deleted from the website manager. Its existing Mailchimp draft was left untouched."
-        : "Newsletter deleted from the website manager.");
+      setRows((current) => {
+        const next = current.filter((item) => item.id !== row.id);
+        setSelectedId(next[0]?.id ?? null);
+        return next;
+      });
+      setUploadMessage(row.mailchimpCampaignId ? "Issue removed from the website manager. Its Mailchimp draft was left untouched." : "Issue removed from the website manager.");
     } catch (error) {
       patchRow(row.id, { busy: undefined, error: error instanceof Error ? error.message : "Could not delete newsletter." });
     }
   }
 
+  const counts = useMemo(() => ({
+    drafts: rows.filter((row) => !row.published).length,
+    published: rows.filter((row) => row.published).length,
+  }), [rows]);
+
   return (
     <section className={styles.newsletterManager}>
-      <div className={styles.newsletterIntro}>
+      <div className={styles.objectToolbar}>
         <div>
           <p className={styles.kicker}>Field Notes</p>
-          <h3>Publish a newsletter</h3>
-          <p>Upload the Word document Dr. Haddad already uses. The website imports the text and formatting, then you can check it before publishing.</p>
+          <h3>Your issues</h3>
+          <p>Choose an issue to continue where you left off.</p>
         </div>
         <label className={styles.newsletterUpload}>
-          <span>{uploading ? "Importing…" : "Upload Word document"}</span>
-          <small>.docx · up to 4 MB</small>
+          <span>{uploading ? "Importing…" : "+ New from Word"}</span>
           <input type="file" accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document" disabled={uploading} onChange={(event) => { const file = event.target.files?.[0] || null; void upload(file); event.currentTarget.value = ""; }} />
         </label>
-      </div>
-
-      <div className={styles.newsletterWorkflow} aria-label="Newsletter publishing workflow">
-        <div><span>1</span><strong>Upload</strong><small>Word .docx</small></div>
-        <div><span>2</span><strong>Preview</strong><small>Check the website version</small></div>
-        <div><span>3</span><strong>Publish</strong><small>Add it to Field Notes</small></div>
-        <div><span>4</span><strong>Email</strong><small>Create the Mailchimp draft</small></div>
       </div>
 
       {uploadMessage ? <div className={styles.newsletterNotice}>{uploadMessage}</div> : null}
       {uploadError ? <div className={styles.newsletterError}>{uploadError}</div> : null}
 
-      {loading ? <div className={styles.emptyBox}>Loading newsletters…</div> : rows.length === 0 ? (
-        <div className={styles.emptyBox}>No newsletters have been imported yet. Upload a Word document to create the first one.</div>
+      {loading ? <div className={styles.emptyBox}>Loading Field Notes…</div> : rows.length === 0 ? (
+        <div className={styles.emptyBox}>No issues yet. Import a Word document to create the first one.</div>
       ) : (
-        <div className={styles.newsletterList}>
-          {rows.map((row) => {
-            const detailsDirty = row.draftTitle !== row.title || row.draftExcerpt !== row.excerpt;
-            return <article className={styles.newsletterRow} key={row.id}>
-              <div className={styles.newsletterRowTop}>
-                <div>
-                  <span className={row.published ? styles.newsletterLive : styles.newsletterDraft}>{row.published ? "Published" : "Draft"}</span>
-                  <small>{row.sourceFilename} · imported {prettyDate(row.createdAt)}</small>
-                </div>
-                <div className={styles.newsletterLinks}>
-                  <a href={`/admin/newsletters/${row.id}/preview`} target="_blank" rel="noreferrer">Preview ↗</a>
-                  {row.published ? <a href={`/newsletters/${row.slug}`} target="_blank" rel="noreferrer">Open live issue ↗</a> : null}
-                </div>
-              </div>
+        <div className={styles.objectWorkbench}>
+          <aside className={styles.objectList} aria-label="Field Notes issues">
+            <div className={styles.objectListHeading}>
+              <strong>Issues</strong>
+              <span>{counts.drafts} draft{counts.drafts === 1 ? "" : "s"} · {counts.published} published</span>
+            </div>
+            {rows.map((row) => {
+              const stage = issueStage(row);
+              return (
+                <button key={row.id} type="button" className={selected?.id === row.id ? styles.objectListActive : ""} onClick={() => setSelectedId(row.id)}>
+                  <div><span className={stage.tone === "live" || stage.tone === "done" ? styles.newsletterLive : styles.newsletterDraft}>{stage.label}</span><small>{prettyDate(row.publishedAt || row.createdAt)}</small></div>
+                  <strong>{row.title || "Untitled Field Note"}</strong>
+                  <small>{row.excerpt || row.sourceFilename}</small>
+                </button>
+              );
+            })}
+          </aside>
 
-              <h4 className={styles.newsletterCardTitle}>{row.title}</h4>
-              <details className={styles.newsletterDetails}>
-                <summary>Edit title &amp; archive description</summary>
-                <div className={styles.newsletterFields}>
-                  <label>Newsletter title<input value={row.draftTitle} maxLength={180} onChange={(event) => patchRow(row.id, { draftTitle: event.target.value })} /></label>
-                  <label>Short archive description <small>optional</small><textarea value={row.draftExcerpt} maxLength={320} onChange={(event) => patchRow(row.id, { draftExcerpt: event.target.value })} /></label>
-                </div>
-              </details>
+          {selected && (() => {
+            const detailsDirty = selected.draftTitle !== selected.title || selected.draftExcerpt !== selected.excerpt;
+            const stage = issueStage(selected);
+            return (
+              <article className={styles.objectDetail}>
+                <header className={styles.objectDetailHeader}>
+                  <div>
+                    <span className={stage.tone === "live" || stage.tone === "done" ? styles.newsletterLive : styles.newsletterDraft}>{stage.label}</span>
+                    <h4>{selected.title || "Untitled Field Note"}</h4>
+                    <small>{selected.sourceFilename} · imported {prettyDate(selected.createdAt)}</small>
+                  </div>
+                  <a href={`/admin/newsletters/${selected.id}/preview`} target="_blank" rel="noreferrer">Preview issue ↗</a>
+                </header>
 
-              <div className={styles.newsletterActions}>
-                <div>
-                  {row.message ? <span className={styles.success}>{row.message}</span> : null}
-                  {row.error ? <span className={styles.error}>{row.error}</span> : null}
-                  {!row.message && !row.error ? (
-                    <span className={styles.saveHint}>
-                      {row.mailchimpCampaignId ? "Email draft ready in Mailchimp." : row.published ? "Website issue is live. Next: create the email draft." : "Draft is private. Next: publish it to the website."}
-                    </span>
-                  ) : null}
+                <div className={styles.objectProgress} aria-label="Field Notes workflow">
+                  <span className={styles.progressDone}>Imported</span>
+                  <span className={selected.published ? styles.progressDone : styles.progressCurrent}>Published</span>
+                  <span className={selected.mailchimpCampaignId ? styles.progressDone : selected.published ? styles.progressCurrent : ""}>Email draft</span>
                 </div>
-                <div className={styles.newsletterPrimaryActions}>
-                  {detailsDirty ? (
-                    <button className={styles.secondaryButton} type="button" disabled={Boolean(row.busy)} onClick={() => void update(row, { title: row.draftTitle, excerpt: row.draftExcerpt }, "saving")}>{row.busy === "saving" ? "Saving…" : "Save title & description"}</button>
-                  ) : null}
-                  {!row.published ? (
-                    <button className={styles.primaryButton} type="button" disabled={Boolean(row.busy)} onClick={() => void update(row, { published: true }, "publishing")}>{row.busy === "publishing" ? "Publishing…" : "Publish to website"}</button>
-                  ) : !row.mailchimpCampaignId ? (
-                    <button className={styles.primaryButton} type="button" disabled={Boolean(row.busy)} onClick={() => void createMailchimp(row)}>{row.busy === "mailchimp" ? "Creating…" : "Create Mailchimp draft"}</button>
-                  ) : (
-                    <a className={styles.primaryButton} href={mailchimpUrl} target="_blank" rel="noreferrer">Open Mailchimp ↗</a>
-                  )}
-                  <details className={styles.newsletterMore}>
-                    <summary aria-label={`More actions for ${row.title}`}>More</summary>
-                    <div>
-                      {row.published ? <button type="button" disabled={Boolean(row.busy)} onClick={() => void update(row, { published: false }, "publishing")}>{row.busy === "publishing" ? "Updating…" : "Unpublish from website"}</button> : null}
-                      <button className={styles.dangerMenuButton} type="button" disabled={Boolean(row.busy)} onClick={() => void removeNewsletter(row)}>{row.busy === "deleting" ? "Deleting…" : "Delete from website manager"}</button>
-                    </div>
-                  </details>
+
+                <div className={styles.objectNextAction}>
+                  <div>
+                    <span>Next step</span>
+                    <strong>{detailsDirty ? "Save your text changes" : stage.next}</strong>
+                    {selected.message ? <small className={styles.success}>{selected.message}</small> : selected.error ? <small className={styles.error}>{selected.error}</small> : null}
+                  </div>
+                  <div>
+                    {detailsDirty ? (
+                      <button className={styles.primaryButton} type="button" disabled={Boolean(selected.busy)} onClick={() => void update(selected, { title: selected.draftTitle, excerpt: selected.draftExcerpt }, "saving")}>{selected.busy === "saving" ? "Saving…" : "Save changes"}</button>
+                    ) : !selected.published ? (
+                      <button className={styles.primaryButton} type="button" disabled={Boolean(selected.busy)} onClick={() => void update(selected, { published: true }, "publishing")}>{selected.busy === "publishing" ? "Publishing…" : "Publish to website"}</button>
+                    ) : !selected.mailchimpCampaignId ? (
+                      <button className={styles.primaryButton} type="button" disabled={Boolean(selected.busy)} onClick={() => void createMailchimp(selected)}>{selected.busy === "mailchimp" ? "Creating…" : "Create Mailchimp draft"}</button>
+                    ) : (
+                      <a className={styles.primaryButton} href={mailchimpUrl} target="_blank" rel="noreferrer">Open Mailchimp ↗</a>
+                    )}
+                    {selected.published ? <a className={styles.secondaryButton} href={`/newsletters/${selected.slug}`} target="_blank" rel="noreferrer">View live ↗</a> : null}
+                  </div>
                 </div>
-              </div>
-            </article>;
-          })}
+
+                <details className={styles.issueDetails}>
+                  <summary>Edit issue details</summary>
+                  <div className={styles.objectFields}>
+                    <label>Title<input value={selected.draftTitle} maxLength={180} onChange={(event) => patchRow(selected.id, { draftTitle: event.target.value })} /></label>
+                    <label>Archive description <small>optional</small><textarea value={selected.draftExcerpt} maxLength={320} onChange={(event) => patchRow(selected.id, { draftExcerpt: event.target.value })} /></label>
+                  </div>
+                </details>
+
+                <details className={styles.objectMore}>
+                  <summary>More actions</summary>
+                  <div>
+                    {selected.published ? <button type="button" disabled={Boolean(selected.busy)} onClick={() => void update(selected, { published: false }, "publishing")}>Unpublish from website</button> : null}
+                    <button className={styles.dangerMenuButton} type="button" disabled={Boolean(selected.busy)} onClick={() => void removeNewsletter(selected)}>{selected.busy === "deleting" ? "Deleting…" : "Delete from website manager"}</button>
+                  </div>
+                </details>
+              </article>
+            );
+          })()}
         </div>
       )}
     </section>

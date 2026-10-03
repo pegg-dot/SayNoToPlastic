@@ -22,8 +22,8 @@ const build = read("app/build-version.ts");
 
 expect(exists("app/admin/api/newsletters/route.ts") && exists("app/admin/api/newsletters/[id]/route.ts") && exists("app/admin/api/newsletters/[id]/mailchimp/route.ts"), "Owner newsletter import, publish, and Mailchimp API routes are packaged.");
 expect(admin.includes('"newsletters"') && admin.includes("<NewsletterManager />"), "Owner website manager exposes a dedicated newsletters section.");
-expect(manager.includes('accept=".docx') && manager.includes("Preview ↗") && manager.includes("Publish to website") && manager.includes("Create Mailchimp draft"), "Newsletter manager follows DOCX → preview → publish → Mailchimp draft workflow.");
-expect(manager.includes("newsletterWorkflow") && manager.includes("Edit title &amp; archive description"), "Newsletter manager presents a clearer step-by-step workflow with secondary details collapsed.");
+expect(manager.includes('accept=".docx') && (manager.includes("Preview ↗") || manager.includes("Preview issue ↗")) && manager.includes("Publish to website") && manager.includes("Create Mailchimp draft"), "Newsletter manager follows DOCX → preview → publish → Mailchimp draft workflow.");
+expect((manager.includes("newsletterWorkflow") && manager.includes("Edit title &amp; archive description")) || (manager.includes("objectProgress") && manager.includes("Next step") && manager.includes("More actions")), "Newsletter manager presents a clearer step-by-step workflow with secondary details collapsed.");
 expect(manager.includes("Delete") && newsletterLib.includes("deleteNewsletter") && read("app/admin/api/newsletters/[id]/route.ts").includes("deleteNewsletter"), "Owner can remove an imported newsletter with guarded website-manager deletion.");
 expect(newsletterLib.includes("unzipSync") && newsletterLib.includes("word/document.xml") && newsletterLib.includes("Only Word") === false, "DOCX parser reads Word document XML without a server-side office dependency.");
 expect(newsletterLib.includes("imageCount") && importRoute.includes("embedded image"), "Embedded Word images are detected and surfaced as an explicit import warning.");

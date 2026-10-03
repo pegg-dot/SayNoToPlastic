@@ -170,6 +170,7 @@ export function AdminPanel({
   const [editingKey, setEditingKey] = useState<AdminContentKey | null>(null);
   const [records, setRecords] = useState(() => Object.fromEntries(initialContent.map((record) => [record.key, record])) as Record<AdminContentKey, AdminContentRecord>);
   const [drafts, setDrafts] = useState(() => Object.fromEntries(fields.map((field) => [field.key, initialMap.get(field.key)?.value ?? ""])) as Record<AdminContentKey, string>);
+  const [sourceValues, setSourceValues] = useState<Partial<Record<AdminContentKey, string>>>({});
   const [saveStates, setSaveStates] = useState(() => Object.fromEntries(fields.map((field) => [field.key, "idle"])) as Record<AdminContentKey, SaveState>);
   const [messages, setMessages] = useState(() => Object.fromEntries(fields.map((field) => [field.key, ""])) as Record<AdminContentKey, string>);
   const [revisions, setRevisions] = useState(initialRevisions);
@@ -230,9 +231,17 @@ export function AdminPanel({
       doc.head.appendChild(style);
     }
     page.previewTargets?.forEach((target) => {
-      doc.querySelectorAll<HTMLElement>(target.selector).forEach((node) => {
+      const nodes = doc.querySelectorAll<HTMLElement>(target.selector);
+      nodes.forEach((node) => {
         node.dataset.sntpOwnerField = target.key;
       });
+      if (target.textPreview && !records[target.key]?.value) {
+        const liveText = nodes[0]?.textContent?.trim() || "";
+        if (liveText) {
+          setSourceValues((current) => current[target.key] ? current : { ...current, [target.key]: liveText });
+          setDrafts((current) => current[target.key] ? current : { ...current, [target.key]: liveText });
+        }
+      }
     });
     const flagged = doc as Document & { __sntpOwnerPreviewBound?: boolean };
     if (!flagged.__sntpOwnerPreviewBound) {
@@ -294,7 +303,7 @@ export function AdminPanel({
       if (!response.ok || !body.saved) throw new Error(body.error || "Save failed.");
       const saved = body.saved;
       setRecords((current) => ({ ...current, [key]: saved }));
-      setDrafts((current) => ({ ...current, [key]: saved.value }));
+      setDrafts((current) => ({ ...current, [key]: saved.value || sourceValues[key] || "" }));
       setRevisions((current) => [{
         id: -Date.now(),
         key,
@@ -305,7 +314,7 @@ export function AdminPanel({
       }, ...current].slice(0, 80));
       setSaveStates((current) => ({ ...current, [key]: "saved" }));
       setPreviewRevision((current) => current + 1);
-      setMessages((current) => ({ ...current, [key]: saved.value ? "Updated on the live site" : "Original website content restored" }));
+      setMessages((current) => ({ ...current, [key]: saved.value ? "Published to the live site." : "Reviewed website text restored." }));
       window.setTimeout(() => setSaveStates((current) => ({ ...current, [key]: current[key] === "saved" ? "idle" : current[key] })), 2200);
       return saved;
     } catch (error) {
@@ -316,7 +325,7 @@ export function AdminPanel({
   }
 
   async function restoreOriginal(key: AdminContentKey) {
-    if (!window.confirm(`Restore the original website content for “${fieldLabel(key)}”?`)) return;
+    if (!window.confirm(`Reset “${fieldLabel(key)}” to the reviewed website text? You can still recover this version from History.`)) return;
     await saveValue(key, "");
   }
 
@@ -349,20 +358,28 @@ export function AdminPanel({
     if (!field || field.surface === "media" || field.kind === "json") return null;
     const copy = friendlyFields[key] || { label: field.label, help: field.description };
     const record = records[key];
-    const changed = drafts[key] !== (record?.value ?? "");
+    const baseline = record?.value || sourceValues[key] || "";
+    const changed = drafts[key] !== baseline;
     const state = saveStates[key];
     const open = focused || editingKey === key;
-    const fieldRevisions = revisions.filter((revision) => revision.key === key).slice(0, 3);
+    const fieldRevisions = revisions.filter((revision) => revision.key === key).slice(0, 5);
+
+    function discardDraft() {
+      setDrafts((current) => ({ ...current, [key]: baseline }));
+      setMessages((current) => ({ ...current, [key]: "" }));
+      setPreviewRevision((current) => current + 1);
+    }
 
     return (
       <article className={`${styles.settingCard} ${open ? styles.settingCardOpen : ""}`} key={key} data-admin-field={key}>
         {focused ? (
           <div className={styles.focusedFieldHeader}>
             <div>
+              <p className={styles.editorEyebrow}>Editing</p>
               <strong>{copy.label}</strong>
               <span>{copy.help}</span>
             </div>
-            <small>{record?.value ? "Customized on the live site" : "Using the original site content"}</small>
+            <span className={changed ? styles.unsavedBadge : styles.liveBadge}>{changed ? "Unsaved" : "Live"}</span>
           </div>
         ) : (
           <button className={styles.settingSummary} type="button" onClick={() => selectField(key, open)} aria-expanded={open}>
@@ -370,24 +387,16 @@ export function AdminPanel({
               <strong>{copy.label}</strong>
               <span>{copy.help}</span>
             </div>
-            <div className={styles.settingStatus}>
-              <small>{record?.value ? "Customized on live site" : "Using original content"}</small>
-              <b>{open ? "Close" : "Show + edit"}</b>
-            </div>
+            <b>Edit ›</b>
           </button>
         )}
 
         {open && (
           <div className={styles.settingEditor}>
-            <div className={styles.liveState}>
-              <span>Live right now</span>
-              <strong>{record?.value ? revisionSummary(record.value) : "The website's original content"}</strong>
-            </div>
-
-            <label className={styles.editLabel} htmlFor={key}>New version</label>
+            <label className={styles.srOnly} htmlFor={key}>{copy.label}</label>
             {field.kind === "enum" ? (
               <select id={key} value={drafts[key]} onChange={(event) => { const value = event.target.value; setDrafts((current) => ({ ...current, [key]: value })); previewDraft(key, value); }}>
-                <option value="">Use original setting</option>
+                <option value="">Use reviewed website setting</option>
                 {field.allowedValues?.map((value) => <option value={value} key={value}>{value === "official" ? "Official TEDx video" : value === "temporary" ? "Temporary recording" : value}</option>)}
               </select>
             ) : field.maxLength > 250 ? (
@@ -396,31 +405,38 @@ export function AdminPanel({
               <input id={key} type={field.kind === "url" ? "url" : field.kind === "email" ? "email" : "text"} value={drafts[key]} maxLength={field.maxLength} placeholder={field.placeholder} onChange={(event) => { const value = event.target.value; setDrafts((current) => ({ ...current, [key]: value })); previewDraft(key, value); }} />
             )}
 
-            <div className={styles.editorActions}>
+            <div className={styles.editorMeta}>
+              {field.kind === "text" ? <span>{drafts[key].length} / {field.maxLength}</span> : <span>Changes appear in the preview before you publish.</span>}
+            </div>
+
+            <div className={styles.publishBar}>
               <div>
                 {messages[key] && <span className={state === "error" ? styles.error : styles.success}>{messages[key]}</span>}
-                {!messages[key] && <span className={styles.saveHint}>Press Update live site only when you are ready.</span>}
+                {!messages[key] && <span>{changed ? "Your change is only in this editor until you publish it." : "This matches the live site."}</span>}
               </div>
               <div>
-                {Boolean(record?.value) && <button className={styles.secondaryButton} type="button" disabled={state === "saving"} onClick={() => void restoreOriginal(key)}>Restore original</button>}
-                <button className={styles.primaryButton} type="button" disabled={!changed || state === "saving"} onClick={() => void saveValue(key, drafts[key])}>{state === "saving" ? "Updating…" : "Update live site"}</button>
+                {changed && <button className={styles.secondaryButton} type="button" disabled={state === "saving"} onClick={discardDraft}>Discard</button>}
+                <button className={styles.primaryButton} type="button" disabled={!changed || state === "saving"} onClick={() => void saveValue(key, drafts[key])}>{state === "saving" ? "Publishing…" : "Publish change"}</button>
               </div>
             </div>
 
-            {fieldRevisions.length > 0 && (
-              <details className={styles.history}>
-                <summary>Previous versions</summary>
+            <details className={styles.history}>
+              <summary>History &amp; restore</summary>
+              <div className={styles.historyUtilities}>
+                {Boolean(record?.value) && <button className={styles.historyResetButton} type="button" disabled={state === "saving"} onClick={() => void restoreOriginal(key)}>Reset to reviewed website text</button>}
+              </div>
+              {fieldRevisions.length > 0 ? (
                 <div className={styles.historyList}>
                   {fieldRevisions.map((revision) => (
                     <div className={styles.historyRow} key={`${revision.id}-${revision.version}`}>
                       <div><strong>{revisionTime(revision.createdAt)}</strong><span>{revisionSummary(revision.value)}</span><small>Changed by {revision.updatedBy}</small></div>
-                      <button type="button" disabled={revision.value === drafts[key]} onClick={() => setDrafts((current) => ({ ...current, [key]: revision.value }))}>Use this</button>
+                      <button type="button" disabled={revision.value === drafts[key]} onClick={() => { setDrafts((current) => ({ ...current, [key]: revision.value })); previewDraft(key, revision.value); }}>Preview this</button>
                     </div>
                   ))}
                 </div>
-                <p>Choosing a previous version only fills the editor. It will not go live until you press Update live site.</p>
-              </details>
-            )}
+              ) : <p>No owner changes have been published for this section yet.</p>}
+              <p>History is a safety net. Nothing from here goes live until you press Publish change.</p>
+            </details>
           </div>
         )}
       </article>
@@ -430,7 +446,7 @@ export function AdminPanel({
   const mediaRecord = records["media.entries_json"];
   const mediaDirty = JSON.stringify(mediaItems) !== (mediaRecord?.value || "");
   const selectedMediaItem = mediaItems.find((item) => item.id === selectedMediaId) ?? mediaItems[0] ?? null;
-  const recentRevisions = revisions.slice(0, 4);
+  const recentRevisions = revisions.slice(0, 3);
 
   return (
     <div className={styles.workspace}>
@@ -445,27 +461,25 @@ export function AdminPanel({
         <div className={styles.dashboard}>
           <section className={styles.welcomeCard}>
             <p className={styles.kicker}>Today</p>
-            <h2>What do you want to work on?</h2>
-            <p>Choose the kind of work first. The manager will show only the controls you need for that task.</p>
+            <h2>What would you like to do?</h2>
+            <p>Pick a task. The workspace will only show what you need for that job.</p>
             <div className={styles.actionGrid}>
-              <button type="button" onClick={() => goTo("pages")}><span>01</span><strong>Edit the website</strong><small>Choose a page, see it, then edit one section at a time</small></button>
-              <button type="button" onClick={() => goTo("newsletters")}><span>02</span><strong>Publish Field Notes</strong><small>Upload the Word document, publish it, then create the Mailchimp draft</small></button>
-              <button type="button" onClick={() => goTo("media")}><span>03</span><strong>Add media or an appearance</strong><small>Events, talks, interviews, press, and podcast appearances</small></button>
-              <button type="button" onClick={() => goToPage("science")}><span>04</span><strong>Review or add science</strong><small>Human studies and body-system explainers with sources and limitations</small></button>
+              <button type="button" onClick={() => goTo("pages")}><span>W</span><strong>Edit the website</strong><small>Choose a page and change what visitors see</small></button>
+              <button type="button" onClick={() => goTo("newsletters")}><span>F</span><strong>Field Notes</strong><small>Import, publish, and prepare the next email</small></button>
+              <button type="button" onClick={() => goTo("media")}><span>M</span><strong>Media & appearances</strong><small>Add or update an event, interview, talk, or press item</small></button>
+              <button type="button" onClick={() => goToPage("science")}><span>S</span><strong>Science</strong><small>Review studies and body-system explainers safely</small></button>
             </div>
-            <div className={styles.quickLinks} aria-label="Common shortcuts">
-              <span>Common shortcuts</span>
+            <details className={styles.quickLinks}>
+              <summary>Other common tasks</summary>
               <button type="button" onClick={() => goToPage("tedx", "tedx.video_url")}>Replace TEDx video</button>
               <button type="button" onClick={() => goToPage("podcast")}>Update podcast</button>
               <button type="button" onClick={() => goTo("press")}>Edit press kit</button>
-            </div>
+            </details>
           </section>
 
-          <section className={styles.activityCard}>
-            <div className={styles.sectionTitleRow}>
-              <div><p className={styles.kicker}>Site activity</p><h3>Last 30 days</h3></div>
-              <small>Traffic numbers only count visitors who allowed anonymous analytics.</small>
-            </div>
+          <details className={styles.activityCard}>
+            <summary className={styles.activitySummary}><div><strong>Site activity</strong><span>Visitors, subscribers, and other recent activity</span></div><b>View</b></summary>
+            <div className={styles.activityBody}><div className={styles.sectionTitleRow}><div><p className={styles.kicker}>Last 30 days</p><h3>How the site is doing</h3></div><small>Traffic numbers only count visitors who allowed anonymous analytics.</small></div>
             {metrics.available ? (
               <>
                 <div className={styles.metricGrid}>
@@ -487,7 +501,7 @@ export function AdminPanel({
                 </details>
               </>
             ) : <div className={styles.emptyBox}>Site stats are temporarily unavailable. Editing still works normally.</div>}
-          </section>
+          </div></details>
 
           <section className={styles.recentCard}>
             <div className={styles.sectionTitleRow}><div><p className={styles.kicker}>Recent changes</p><h3>What was updated lately</h3></div></div>
@@ -499,7 +513,7 @@ export function AdminPanel({
             )) : <div className={styles.emptyBox}>No owner changes yet. The site is using its original reviewed content.</div>}
           </section>
 
-          <div className={styles.safetyNote}><strong>Protected by structure</strong><span>Scientific evidence is managed only through the structured Science editor with required sources and limitations. Payments, hosting, passwords, and code cannot be changed from this page.</span></div>
+          <details className={styles.safetyNote}><summary>Why this workspace is safe</summary><p>Science keeps required sources and limitations. Payments, hosting, passwords, and code cannot be changed here. Every owner edit keeps revision history.</p></details>
         </div>
       )}
 
@@ -512,36 +526,37 @@ export function AdminPanel({
             <div className={styles.editorHeader}>
               <div>
                 <button className={styles.backButton} type="button" onClick={() => goTo("dashboard")}>← Back to Today</button>
-                <p className={styles.kicker}>Website pages</p>
+                <p className={styles.kicker}>Website</p>
                 <h2>{page.label}</h2>
                 <p>{page.description}</p>
               </div>
               <a href={page.href} target="_blank" rel="noreferrer">Open live page ↗</a>
             </div>
 
-            <div className={styles.pageCmsLayout}>
-              <aside className={styles.pageTree} aria-label="Website pages">
-                <strong>Website pages</strong>
+            <div className={`${styles.pageCmsLayout} ${isScience ? styles.pageCmsLayoutScience : ""}`}>
+              {!isScience && <aside className={styles.pageTree} aria-label="Website pages">
+                <strong>Pages</strong>
                 {OWNER_PAGE_DEFINITIONS.map((item) => (
                   <button key={item.id} type="button" className={item.id === selectedPage ? styles.pageTreeActive : ""} aria-pressed={item.id === selectedPage} onClick={() => { setSelectedPage(item.id); setEditingKey(null); setScienceTool("overview"); clearPreviewFocus(); }}>
                     <span>{item.label}</span>
                     <small>{pageHint(item.id)}</small>
                   </button>
                 ))}
-              </aside>
+              </aside>}
 
               <div className={styles.pageCmsMain}>
                 {isScience ? (
                   <div className={styles.scienceWorkspace}>
                     {scienceTool === "overview" ? (
                       <>
+                        <button className={styles.scienceWebsiteBack} type="button" onClick={() => { setSelectedPage("homepage"); setScienceTool("overview"); setEditingKey(null); }}>← Website pages</button>
                         <section className={styles.livePreviewCard}>
                           <div className={styles.livePreviewHeader}>
                             <div><span>Science page</span><small>See the public page before choosing what kind of science content to manage.</small></div>
                             <a href="/science" target="_blank" rel="noreferrer">View live ↗</a>
                           </div>
                           <div className={styles.livePreviewFrame}>
-                            <iframe key={`science-${previewRevision}`} src="/science" title="Science page live preview" loading="lazy" />
+                            <iframe key={`science-${previewRevision}`} src={`/science?owner_preview=1&owner_preview_revision=${previewRevision}`} title="Science page live preview" loading="lazy" />
                           </div>
                         </section>
 
@@ -586,14 +601,14 @@ export function AdminPanel({
                   <div className={styles.contextEditorLayout}>
                     <section className={`${styles.livePreviewCard} ${styles.contextPreview}`}>
                       <div className={styles.livePreviewHeader}>
-                        <div><span>{page.label} preview</span><small>Click editable text in the page or choose a section from the panel.</small></div>
+                        <div><span>Live preview</span><small>Click highlighted text in the page to edit it.</small></div>
                         <a href={page.href} target="_blank" rel="noreferrer">View live ↗</a>
                       </div>
                       <div className={styles.livePreviewFrame}>
                         <iframe
                           ref={previewFrameRef}
                           key={`${page.id}-${previewRevision}`}
-                          src={page.href}
+                          src={`${page.href}${page.href.includes("?") ? "&" : "?"}owner_preview=1&owner_preview_revision=${previewRevision}`}
                           title={`${page.label} live preview`}
                           loading="lazy"
                           onLoad={preparePreview}
@@ -612,21 +627,20 @@ export function AdminPanel({
                       ) : (
                         <>
                           <div className={styles.inspectorIntro}>
-                            <p className={styles.kicker}>Page sections</p>
-                            <h3>Choose one thing to change.</h3>
-                            <p>The preview stays visible while you work. Only the section you choose opens for editing.</p>
+                            <p className={styles.kicker}>Edit this page</p>
+                            <h3>What would you like to change?</h3>
+                            <p>Click text in the preview, or choose a section below.</p>
                           </div>
-                          {page.note ? <div className={styles.pageEditorNote}><strong>Protected content</strong><span>{page.note}</span></div> : null}
+                          {page.note ? <details className={styles.pageEditorNote}><summary>Why some content is locked</summary><span>{page.note}</span></details> : null}
                           <div className={styles.pageFieldList}>
                             {page.fields.map((key) => {
                               const field = fields.find((candidate) => candidate.key === key);
                               if (!field) return null;
                               const copy = friendlyFields[key] || { label: field.label, help: field.description };
-                              const custom = Boolean(records[key]?.value);
                               return (
                                 <button key={key} type="button" onClick={() => selectField(key, false)}>
                                   <div><strong>{copy.label}</strong><small>{copy.help}</small></div>
-                                  <span>{custom ? "Customized" : "Original"} <b>›</b></span>
+                                  <span><b>›</b></span>
                                 </button>
                               );
                             })}
@@ -645,7 +659,7 @@ export function AdminPanel({
       {section === "newsletters" && (
         <div className={styles.editorPage}>
           <div className={styles.editorHeader}>
-            <div><button className={styles.backButton} type="button" onClick={() => goTo("dashboard")}>← Back to Today</button><h2>Newsletters</h2><p>Upload the Word document, check the private preview, publish it to the Field Notes archive, then create a Mailchimp draft for final review and sending.</p></div>
+            <div><button className={styles.backButton} type="button" onClick={() => goTo("dashboard")}>← Back to Today</button><h2>Field Notes</h2><p>Choose an issue and continue from the next step. Import from Word when you are ready to start a new one.</p></div>
             <a href="/newsletters" target="_blank" rel="noreferrer">View Field Notes archive ↗</a>
           </div>
           <NewsletterManager />
@@ -694,17 +708,21 @@ export function AdminPanel({
                     <div className={styles.twoCol}><label>Date<input type="date" value={selectedMediaItem.date} onChange={(event) => updateMediaItem(selectedMediaItem.id, { date: event.target.value })} /></label><label>Where it appeared<input type="text" value={selectedMediaItem.platform} maxLength={100} placeholder="Event, publication, podcast, etc." onChange={(event) => updateMediaItem(selectedMediaItem.id, { platform: event.target.value })} /></label></div>
                     <label>Link <small>optional</small><input type="url" value={selectedMediaItem.url} maxLength={500} placeholder="https://..." onChange={(event) => updateMediaItem(selectedMediaItem.id, { url: event.target.value })} /></label>
                     <label>Short description<textarea value={selectedMediaItem.description} maxLength={700} placeholder="What should visitors know?" onChange={(event) => updateMediaItem(selectedMediaItem.id, { description: event.target.value })} /></label>
-                    <div className={styles.mediaItemFooter}><span>{selectedMediaItem.published ? "This item will be public after you save." : "This item will stay private after you save."}</span><button type="button" onClick={() => removeMediaItem(selectedMediaItem.id, selectedMediaItem.title)}>Remove item</button></div>
+                    <div className={styles.mediaItemFooter}><span>{selectedMediaItem.published ? "This item will be public after you save." : "This item will stay private after you save."}</span></div>
+                    <details className={styles.objectMore}>
+                      <summary>More actions</summary>
+                      <div><button className={styles.dangerMenuButton} type="button" onClick={() => removeMediaItem(selectedMediaItem.id, selectedMediaItem.title)}>Remove item</button></div>
+                    </details>
                   </article>
                 </div>
               )}
-              <div className={styles.mediaSaveBar}><span>{mediaDirty ? "You have unsaved media changes." : "Everything is saved."}</span><button className={styles.primaryButton} type="button" disabled={!mediaDirty || saveStates["media.entries_json"] === "saving"} onClick={() => void saveMediaItems()}>{saveStates["media.entries_json"] === "saving" ? "Updating…" : "Update live site"}</button></div>
+              {(mediaDirty || saveStates["media.entries_json"] === "saving" || Boolean(messages["media.entries_json"])) && <div className={styles.mediaSaveBar}><span>{messages["media.entries_json"] || (mediaDirty ? "You have unsaved media changes." : "Saved.")}</span><button className={styles.primaryButton} type="button" disabled={!mediaDirty || saveStates["media.entries_json"] === "saving"} onClick={() => void saveMediaItems()}>{saveStates["media.entries_json"] === "saving" ? "Saving…" : "Save changes"}</button></div>}
             </section>
           )}
 
           <section className={styles.settingsList}>
             <div className={styles.settingsIntro}><h3>{section === "media" ? "Page text" : "Biography and contact"}</h3><p>Click Edit beside only the item you want to change.</p></div>
-            {fieldGroups[section].map(renderField)}
+            {fieldGroups[section].map((key) => renderField(key))}
           </section>
         </div>
       )}

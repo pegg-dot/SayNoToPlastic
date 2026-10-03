@@ -157,3 +157,74 @@ Secondary and destructive actions should visually recede.
 - No Cloudflare Access changes.
 - No public website redesign.
 - No weakening of science publication requirements.
+
+## v40.55 owner-workspace refinement
+
+Dr. Haddad's direct feedback after the v40.51 release was that the owner workspace was still a little complicated to understand even though the information architecture had improved. He specifically liked how Airbnb keeps powerful host tools seamless and flowy while preserving substantial complexity underneath.
+
+v40.55 therefore moves one layer deeper than navigation cleanup. The owner should think about the object being managed, not the CMS mechanism behind it.
+
+### Interaction model
+
+The workspace now follows one repeated pattern:
+
+1. choose the thing you want to work on;
+2. see its current state in context;
+3. change one thing at a time;
+4. expose one obvious next action;
+5. keep history, destructive controls, and implementation detail behind progressive disclosure.
+
+The design rule is: **one object, one context, one obvious next action.**
+
+### Today
+
+Today opens with four durable jobs only: Website, Field Notes, Media, and Science. Secondary shortcuts, analytics, and the explanation of safety boundaries are available but collapsed by default so they do not compete with the owner's next decision.
+
+### Website
+
+Standard pages remain preview-first, but the editor no longer exposes the storage model through phrases such as custom override, original version, or new version. When source-controlled text is currently live, the preview resolves that effective text into the editor so the owner edits the words they actually see.
+
+A selected field has one primary action: **Publish change**. Unsaved work can be discarded. Revision history and reset-to-reviewed-content controls remain available under **History & restore**.
+
+Owner previews use a same-origin `owner_preview=1` mode that suppresses visitor-only welcome and consent overlays inside the iframe. The public site is unchanged when that flag is absent.
+
+### Field Notes
+
+Field Notes is now object-first: a compact issue list selects one issue detail view. The primary action changes with state:
+
+- Draft -> Publish to website
+- Published -> Create Mailchimp draft
+- Mailchimp draft exists -> Open Mailchimp
+
+Title and archive-description editing is secondary under **Edit issue details**. Unpublish and delete actions live under **More actions**.
+
+### Media
+
+Events and appearances remain selection-first. Only the selected item is edited. The save bar appears only when something actually changed, while removal is hidden under **More actions**. Public/private status remains explicit.
+
+### Science
+
+Science remains intentionally structured. The simplification is sequencing, not removal of safeguards.
+
+Human evidence studies are edited in three guided stages:
+
+1. What the study found
+2. How the study was done
+3. Limitations & source
+
+Body-system explainers are edited in four stages:
+
+1. Page basics
+2. Article sections
+3. Evidence boundaries
+4. Sources & review
+
+The general Website page tree disappears after entering the Science workspace so the owner sees only one navigation model at a time. Save controls appear only after a real change.
+
+### Preserved contracts
+
+v40.55 does not change the owner database schema, Mailchimp API contract, Cloudflare Access policy, approved owner allowlist, public content storage model, revision history, optimistic concurrency, same-origin write protection, scientific publication requirements, or production infrastructure.
+
+### Validation
+
+The release adds `scripts/v40-55-owner-workspace-audit.mjs` to the full release gate. In addition to source/build validation, the implementation was rendered locally through the built Cloudflare Worker and interaction-tested for direct Website preview editing, Field Notes next-action transitions, Media progressive controls, Science/body-system save behavior, and horizontal overflow at desktop and narrower workspace widths.

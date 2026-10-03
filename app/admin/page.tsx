@@ -52,27 +52,28 @@ export default async function AdminPage() {
 
   return (
     <main className={styles.page}>
-      <header className={styles.header}>
-        <div>
-          <p className={styles.eyebrow}>Say No To Plastic · Private</p>
-          <h1>Website manager</h1>
-          <p>Manage the public website without touching code. Changes only go live when you use an explicit publish or update button.</p>
-        </div>
-        <aside>
-          <a href="/" target="_blank" rel="noreferrer">View live website ↗</a>
+      <header className={styles.ownerTopbar}>
+        <div className={styles.ownerBrand}>
+          <span className={styles.ownerMark}>S</span>
           <div>
-            <span>Signed in as</span>
-            <strong>{user.email}</strong>
-            <small>{adminAllowlist().length} approved accounts</small>
+            <strong>Say No To Plastic</strong>
+            <small>Owner workspace</small>
           </div>
-        </aside>
+        </div>
+        <div className={styles.ownerTopbarActions}>
+          <a href="/" target="_blank" rel="noreferrer">View website ↗</a>
+          <div className={styles.ownerIdentity}>
+            <span>{user.email === "DrElieBeyondPlastic@gmail.com" ? "Dr. Haddad" : "Owner"}</span>
+            <small>{user.email}</small>
+          </div>
+        </div>
       </header>
 
       <AdminPanel fields={ADMIN_CONTENT_FIELDS} initialContent={content} initialRevisions={revisions} metrics={metrics} />
 
       <footer className={styles.footer}>
-        <a href="/" target="_blank" rel="noreferrer">Open Say No To Plastic ↗</a>
-        <span>Private owner page</span>
+        <span>Changes are protected by revision history and owner-only access.</span>
+        <a href="/" target="_blank" rel="noreferrer">Open live website ↗</a>
       </footer>
     </main>
   );

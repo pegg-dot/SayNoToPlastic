@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { AnalyticsConsent, CONSENT_EVENT, readAnalyticsConsent, writeAnalyticsConsent } from "./privacy-consent";
 
 const SESSION_KEY = "hp_session_v1";
@@ -54,12 +54,15 @@ export async function trackEvent(eventName: string, detail: { label?: string; de
 
 export function ConsentAnalytics() {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const ownerPreview = searchParams.get("owner_preview") === "1";
   const [choice, setChoice] = useState<AnalyticsConsent | null>(null);
   const initialTracked = useRef(false);
   const locale = pathname?.startsWith("/es") ? "es" : "en";
   const copy = consentCopy[locale];
 
   useEffect(() => {
+    if (ownerPreview) return;
     const update = (event?: Event) => {
       const detail = event instanceof CustomEvent ? event.detail as AnalyticsConsent | undefined : undefined;
       const next = detail === "accepted" || detail === "essential" ? detail : readAnalyticsConsent();
@@ -73,13 +76,13 @@ export function ConsentAnalytics() {
     update();
     window.addEventListener(CONSENT_EVENT, update);
     return () => window.removeEventListener(CONSENT_EVENT, update);
-  }, [locale]);
+  }, [locale, ownerPreview]);
 
   function choose(next: AnalyticsConsent) {
     writeAnalyticsConsent(next);
     setChoice(next);
   }
 
-  if (choice) return null;
+  if (ownerPreview || choice) return null;
   return <aside className="consent-banner" aria-label={copy.aria}><div><strong>{copy.title}</strong><p>{copy.body}</p></div><div className="consent-actions"><button type="button" onClick={() => choose("essential")}>{copy.essential}</button><button type="button" className="consent-accept" onClick={() => choose("accepted")}>{copy.allow}</button></div><a href="/privacy-policy#privacy-choices">{copy.details}</a></aside>;
 }

@@ -1,7 +1,7 @@
 # Current State — Say No to Plastic
 
 **Authority date:** October 5, 2026
-**Current source line:** v40.60 Spanish homepage parity
+**Current source line:** v40.60.1 Spanish homepage mobile closure
 **Production domain:** https://saynotoplastic.com
 **Production Worker:** `say-no-to-plastic`
 **Production D1:** `DB -> saynotoplastic-db`

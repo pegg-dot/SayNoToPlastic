@@ -80,3 +80,10 @@ The parity patch was then run through the shared site regression, not only Spani
 The Spanish complete atlas additionally loaded ten Human Reference Atlas GLB surfaces from `cdn.humanatlas.io`; every request returned HTTP 200 `model/gltf-binary` and the enforced CSP produced zero violations. The only browser errors in localhost QA were the expected canonical-manifest CORS warnings caused by testing `http://localhost:8787` against the production manifest URL.
 
 Visual screenshots at 390px and 320px were inspected after the automated checks. The anatomy journey and localized atlas are present and readable; the first-visit privacy sheet can cover part of the journey until the visitor makes the normal consent choice, but the underlying Spanish content is rendered rather than hidden.
+
+
+## v40.60.1 mobile closure
+
+Live post-deploy QA found one narrow-width discrepancy that the v40.60 merge did not contain: at 320px the Spanish About copy retained the desktop `align-self: center` behavior after the section became a column flex layout. The longer Spanish CTA/copy therefore created a shrink-to-fit box about 329px wide, clipped by roughly 4.6px on each side even though the document itself reported no horizontal overflow.
+
+v40.60.1 explicitly sets the mobile `.hp-author-copy` to `align-self: stretch`, matching the intended viewport-width mobile layout. The permanent v40.60 parity audit now asserts that rule so this exact regression cannot silently return. English and Spanish are both rechecked at 320px after the patch.

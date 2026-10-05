@@ -14,6 +14,7 @@ const reveal = read("app/components/HomeRevealObserver.tsx");
 const journey = read("app/components/BodyJourney.tsx");
 const esEvidence = read("app/content/es/evidence.ts");
 const viewer = read("app/components/AnatomySystemViewer.tsx");
+const css = read("app/globals.css");
 const sync = read("app/components/AnatomyAtlasEvidenceSync.tsx");
 const pkg = JSON.parse(read("package.json"));
 const buildVersion = read("app/build-version.ts");
@@ -46,6 +47,7 @@ for (const marker of [
 ]) expect(esHome.includes(marker), `Spanish Home includes ${marker}.`);
 expect(esHome.includes('href="/es/homo-plasticus"'), "Spanish Home book detail CTA stays on the Spanish book route.");
 expect(!esHome.includes('href="/es/media"'), "Spanish Home does not invent a nonexistent /es/media route.");
+expect(css.includes('.hp-author-copy{padding:95px 8vw;align-self:stretch}'), "Mobile About copy stretches to the viewport instead of retaining desktop center alignment.");
 
 expect(journey.includes('/es/ciencia/cuerpo/cardiovascular-system') && journey.includes('/es/ciencia/cuerpo/kidneys-urinary-system') && journey.includes('scienceHref: "/es/ciencia"'), "Spanish anatomy journey links into Spanish science/body-system routes.");
 expect(viewer.includes('locale?: ViewerLocale') && viewer.includes('data-locale={locale}') && viewer.includes('data-anatomy-group={group.id}'), "Anatomy viewer carries explicit locale and stable anatomy-group identifiers.");

@@ -244,3 +244,15 @@
     padding-bottom: 42px !important;
   }
 }
+
+/* v40.59: the field-guide hero is intentionally ivory. Override older dark-hero
+   inheritance so supporting copy meets WCAG contrast on the actual light surface. */
+.guidePage :global(.guide-hero-v25 .eyebrow) {
+  color: #7a5427 !important;
+}
+.guidePage :global(.guide-hero-v25 > div > p:not(.eyebrow)) {
+  color: #5f584e !important;
+}
+.guidePage :global(.guide-hero-v25 aside span) {
+  color: #6b4a20 !important;
+}

@@ -64,8 +64,18 @@ const exposurePhotos: Record<ExposureRouteVisualKind, ExposurePhoto> = {
   },
 };
 
+function sizedUnsplash(src: string, width: number) {
+  const url = new URL(src);
+  url.searchParams.set("w", String(width));
+  url.searchParams.set("q", "74");
+  return url.toString();
+}
+
 export function ExposureRouteVisual({ kind, locale = "en" }: { kind: ExposureRouteVisualKind; locale?: "en" | "es" }) {
   const photo = exposurePhotos[kind];
+  const src640 = sizedUnsplash(photo.src, 640);
+  const src960 = sizedUnsplash(photo.src, 960);
+  const src1400 = sizedUnsplash(photo.src, 1400);
 
   return (
     <figure
@@ -82,7 +92,9 @@ export function ExposureRouteVisual({ kind, locale = "en" }: { kind: ExposureRou
       }}
     >
       <img
-        src={photo.src}
+        src={src1400}
+        srcSet={`${src640} 640w, ${src960} 960w, ${src1400} 1400w`}
+        sizes="(max-width: 700px) 100vw, (max-width: 1180px) 50vw, 33vw"
         alt={locale === "es" ? photo.altEs : photo.alt}
         loading="lazy"
         decoding="async"

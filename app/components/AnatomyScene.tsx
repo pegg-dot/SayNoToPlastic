@@ -1064,7 +1064,7 @@ function LoadedAtlas({ progress, loadCompleteContext }: { progress: MutableRefOb
 
 export function HeroAnatomy() {
   return (
-    <img className="hero-anatomy-maternal" src="/images/anatomy/maternal-fetal-cutaway-v1.png" width="1672" height="941" alt="" />
+    <img className="hero-anatomy-maternal" src="/images/anatomy/maternal-fetal-cutaway-v1.webp" width="1672" height="941" alt="" />
   );
 }
 
@@ -1125,23 +1125,23 @@ export function AnatomyScene({ progress, reducedMotion, activeIndex, loadComplet
 function AnatomyFallback({ activeIndex }: { activeIndex: number }) {
 
   const images = [
-    { name: "maternal-fetal-cutaway-v1.png", width: 1672, height: 941 },
+    { name: "maternal-fetal-cutaway-v1.webp", width: 1672, height: 941 },
     { name: "brain.png", width: 237, height: 255 },
     { name: "heart.png", width: 353, height: 293 },
-    { name: "maternal-fetal-cutaway-v1.png", width: 1672, height: 941 },
+    { name: "maternal-fetal-cutaway-v1.webp", width: 1672, height: 941 },
     { name: "ovary-labeled.svg", width: 1200, height: 900 },
-    { name: "body.png", width: 1536, height: 1024 },
-    { name: "body.png", width: 1536, height: 1024 },
-    { name: "body.png", width: 1536, height: 1024 },
-    { name: "body.png", width: 1536, height: 1024 },
+    { name: "body.png", width: 200, height: 350 },
+    { name: "body.png", width: 200, height: 350 },
+    { name: "body.png", width: 200, height: 350 },
+    { name: "body.png", width: 200, height: 350 },
     { name: "testis-labeled.png", width: 1185, height: 1007 },
   ];
+  const safeIndex = Math.min(Math.max(activeIndex, 0), images.length - 1);
+  const image = images[safeIndex];
   return (
-    <div className="anatomy-image-fallback" data-scene={String(activeIndex)} aria-hidden="true">
+    <div className="anatomy-image-fallback" data-scene={String(safeIndex)} aria-hidden="true">
       <div className="fallback-atlas-ring" />
-      {images.map((image, index) => (
-        <img key={`${index}-${image.name}`} className={`fallback-anatomy-image fallback-scene-${index}`} src={`/images/anatomy/${image.name}`} width={image.width} height={image.height} alt="" />
-      ))}
+      <img className={`fallback-anatomy-image fallback-scene-${safeIndex}`} src={`/images/anatomy/${image.name}`} width={image.width} height={image.height} alt="" decoding="async" />
       <div className="fallback-fragments">
         {Array.from({ length: 64 }, (_, index) => (
           <i

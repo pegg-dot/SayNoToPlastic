@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import type { AdminContentRecord, OwnerScienceChapterId, OwnerScienceStudy } from "../lib/admin-content";
 import styles from "./admin.module.css";
 
@@ -58,7 +58,7 @@ export function ScienceManager({
   saveState: "idle" | "saving" | "saved" | "error";
   onSave: (value: string) => Promise<AdminContentRecord | null>;
 }) {
-  const initialStudies = useMemo(() => parseStudies(value), [value]);
+  const initialStudies = parseStudies(value);
   const [studies, setStudies] = useState<OwnerScienceStudy[]>(() => initialStudies);
   const [selectedStudyId, setSelectedStudyId] = useState<string | null>(() => initialStudies[0]?.id ?? null);
   const [message, setMessage] = useState("");
@@ -66,11 +66,6 @@ export function ScienceManager({
   const dirty = serialized !== (value || "[]");
   const selectedStudy = studies.find((study) => study.id === selectedStudyId) ?? studies[0] ?? null;
 
-  useEffect(() => {
-    const next = parseStudies(value);
-    setStudies(next);
-    setSelectedStudyId((current) => current && next.some((study) => study.id === current) ? current : next[0]?.id ?? null);
-  }, [value]);
 
   function patchStudy(id: string, patch: Partial<OwnerScienceStudy>) {
     setMessage("");

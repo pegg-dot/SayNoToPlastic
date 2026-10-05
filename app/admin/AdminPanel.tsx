@@ -189,21 +189,6 @@ function pageName(path: string) {
   return known[path] || path;
 }
 
-function pageHint(id: OwnerPageId) {
-  const hints: Record<OwnerPageId, string> = {
-    homepage: "Main landing page",
-    about: "Biography and story",
-    book: "Book page",
-    podcast: "Podcast page",
-    tedx: "TEDx page",
-    media: "Media landing page",
-    solutions: "Action page",
-    guides: "12-step guide",
-    science: "Research and evidence",
-  };
-  return hints[id];
-}
-
 export function AdminPanel({
   fields,
   initialContent,
@@ -646,12 +631,14 @@ export function AdminPanel({
                     <button className={styles.toolBackButton} type="button" onClick={() => setScienceTool("overview")}>← All Science tools</button>
                     {scienceTool === "studies" ? (
                       <ScienceManager
+                        key={`science-studies-${records["science.entries_json"]?.version ?? 0}`}
                         value={records["science.entries_json"]?.value ?? ""}
                         saveState={saveStates["science.entries_json"]}
                         onSave={(value) => saveValue("science.entries_json", value)}
                       />
                     ) : (
                       <BodySystemManager
+                        key={`body-systems-${records["science.body_systems_json"]?.version ?? 0}`}
                         value={records["science.body_systems_json"]?.value ?? ""}
                         saveState={saveStates["science.body_systems_json"]}
                         previewRevision={previewRevision}

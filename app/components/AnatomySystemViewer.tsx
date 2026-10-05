@@ -1,7 +1,7 @@
 "use client";
 
 import { Canvas, useFrame, useLoader, useThree } from "@react-three/fiber";
-import { Component, Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { Component, Suspense, useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import type { MutableRefObject, ReactNode } from "react";
 import { createPortal } from "react-dom";
 import * as THREE from "three";
@@ -44,6 +44,32 @@ type ModelLoadState = {
 
 const SHELL_URL = "/models/anatomy/body-female.glb";
 
+function subscribeClientMounted() {
+  return () => undefined;
+}
+
+function getClientMounted() {
+  return true;
+}
+
+function getServerMounted() {
+  return false;
+}
+
+function subscribeReducedMotion(update: () => void) {
+  const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+  media.addEventListener("change", update);
+  return () => media.removeEventListener("change", update);
+}
+
+function getReducedMotion() {
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
+function getServerReducedMotion() {
+  return false;
+}
+
 
 function useSystemModels(config: AnatomySystemModelConfig, retryToken: number) {
   const [state, setState] = useState<ModelLoadState>(() => ({
@@ -57,7 +83,9 @@ function useSystemModels(config: AnatomySystemModelConfig, retryToken: number) {
   useEffect(() => {
     let cancelled = false;
     const total = config.models.length;
-    setState({ loading: total > 0, completed: 0, total, loaded: [], failures: [] });
+    queueMicrotask(() => {
+      if (!cancelled) setState({ loading: total > 0, completed: 0, total, loaded: [], failures: [] });
+    });
     if (total === 0) return () => { cancelled = true; };
 
     config.models.forEach((definition) => {
@@ -144,6 +172,7 @@ function SystemModel({
   const rotation = transform?.rotation ?? [0, 0, 0];
   const scale = transform?.scale ?? 1;
 
+  /* eslint-disable react-hooks/immutability -- Three.js scene clones/materials are intentionally mutated inside their owning render effect. */
   useEffect(() => {
     prepared.object.visible = visible;
     const xray = viewMode === "exterior";
@@ -158,6 +187,7 @@ function SystemModel({
       material.needsUpdate = true;
     });
   }, [prepared.materials, prepared.object, selected, viewMode, visible]);
+  /* eslint-enable react-hooks/immutability */
 
   useEffect(() => () => {
     prepared.materials.forEach((material) => material.dispose());
@@ -295,6 +325,7 @@ function CameraController({
     pendingRef.current = { action: framing === "full" ? "fit-full" : "fit-system", attempts: 0 };
   }, [framing, readyKey]);
 
+  /* eslint-disable react-hooks/immutability -- R3F cameras and OrbitControls are imperative objects updated inside the render loop. */
   useFrame(() => {
     const controls = controlsRef.current;
     if (!controls || !(camera instanceof THREE.PerspectiveCamera)) return;
@@ -346,6 +377,7 @@ function CameraController({
     controls.update();
     pendingRef.current = null;
   });
+  /* eslint-enable react-hooks/immutability */
 
   return null;
 }
@@ -457,16 +489,15 @@ function ViewerFallback({ config, onRetry }: { config: AnatomySystemModelConfig;
 
 export function AnatomySystemViewer({ slug, onClose }: { slug: AnatomySystemSlug; onClose: () => void }) {
   const config = getAnatomySystemModel(slug);
-  const article = slug === "whole-body-atlas" ? undefined : getBodySystem(slug);
   const isSkin = Boolean(config.surfaceSystem);
   const isComposite = Boolean(config.compositeSystem);
-  const [mounted, setMounted] = useState(false);
+  const mounted = useSyncExternalStore(subscribeClientMounted, getClientMounted, getServerMounted);
   const [viewMode, setViewMode] = useState<ViewMode>(isSkin ? "exterior" : "cutaway");
   const [framing, setFraming] = useState<FramingMode>(isSkin || isComposite ? "full" : "system");
   const [activeGroup, setActiveGroup] = useState<AnatomySystemGroupId>("all");
   const [command, setCommand] = useState<CameraCommand>({ id: 0, action: isSkin || isComposite ? "fit-full" : "fit-system" });
   const [retryToken, setRetryToken] = useState(0);
-  const [reducedMotion, setReducedMotion] = useState(false);
+  const reducedMotion = useSyncExternalStore(subscribeReducedMotion, getReducedMotion, getServerReducedMotion);
   const dialogRef = useRef<HTMLElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
   const loadState = useSystemModels(config, retryToken);
@@ -498,21 +529,8 @@ export function AnatomySystemViewer({ slug, onClose }: { slug: AnatomySystemSlug
   }, [issueCommand]);
 
   useEffect(() => {
-    setMounted(true);
-    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const update = () => setReducedMotion(media.matches);
-    update();
-    media.addEventListener("change", update);
-    return () => media.removeEventListener("change", update);
-  }, []);
-
-  useEffect(() => {
-    setViewMode(isSkin ? "exterior" : "cutaway");
-    setFraming(isSkin || isComposite ? "full" : "system");
-    setActiveGroup("all");
-    issueCommand(isSkin || isComposite ? "fit-full" : "fit-system");
     void trackEvent("anatomy_viewer_open", { label: slug, destination: config.route });
-  }, [config.route, isComposite, isSkin, issueCommand, slug]);
+  }, [config.route, slug]);
 
   useEffect(() => {
     if (!mounted) return;

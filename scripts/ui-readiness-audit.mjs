@@ -52,7 +52,7 @@ for (const token of [
   'document.getElementById("main-content")',
   "region.inert = true",
   'type="button" aria-expanded={menuOpen}',
-  'pathname.startsWith("/media")',
+  'pathname.startsWith(`${href}/`)',
   'window.addEventListener("hp:welcome-opening", closeForWelcome)',
 ]) {
   if (!chrome.includes(token)) fail(`Site chrome is missing UI contract: ${token}`);
@@ -94,8 +94,8 @@ for (const token of [
   "class AnatomyErrorBoundary",
   "if (!webglAvailable || reducedMotion) return fallback",
   'aria-hidden="true"',
-  'data-scene={String(activeIndex)}',
-  'key={`${index}-${image.name}`}',
+  'data-scene={String(safeIndex)}',
+  'fallback-scene-${safeIndex}',
   'ovary-labeled.svg',
   'testis-labeled.png',
 ]) {
@@ -103,7 +103,7 @@ for (const token of [
 }
 const fallbackSection = anatomy.slice(anatomy.indexOf("function AnatomyFallback"));
 if (/requestAnimationFrame|useFrame/.test(fallbackSection)) fail("Static anatomy fallback still runs an animation loop.");
-if (!failures.some((message) => message.startsWith("Anatomy renderer") || message.startsWith("Static anatomy"))) pass("Anatomy rendering has a static reduced-motion path, a WebGL/load error boundary, and stable fallback keys.");
+if (!failures.some((message) => message.startsWith("Anatomy renderer") || message.startsWith("Static anatomy"))) pass("Anatomy rendering has a static reduced-motion path, a WebGL/load error boundary, and an active-only stable fallback scene.");
 
 const book = read("app/components/BookJourney.tsx");
 for (const token of [
@@ -132,7 +132,7 @@ if (!failures.some((message) => /^(Signup form|Contact form|Commerce preview|Che
 
 const guideLibrary = read("app/components/GuideLibrary.tsx");
 const recommendations = read("app/components/RecommendationLibrary.tsx");
-if (guideLibrary.includes('role="group" aria-label="Filter field guides by topic"') && recommendations.includes('role="group" aria-label="Filter recommendations by category"')) pass("Guide and recommendation filter controls expose named button groups.");
+if (guideLibrary.includes('role="group" aria-label="Filter guides by topic"') && recommendations.includes('role="group" aria-label="Filter recommendations by category"')) pass("Guide and recommendation filter controls expose named button groups.");
 else fail("Guide or recommendation filters are missing named group semantics.");
 
 const css = read("app/globals.css");

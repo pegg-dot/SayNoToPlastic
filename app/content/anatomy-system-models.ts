@@ -129,10 +129,6 @@ const thymus = hraModel("thymus", "Thymus", "VH_F_Thymus.glb", "#c98572", "#4d2e
 const endocrineOvaryLeft = hraModel("endocrine-ovary-left", "Left ovary", "VH_F_Ovary_L.glb", "#d68d7f", "#552e2d", "endocrine");
 const endocrineOvaryRight = hraModel("endocrine-ovary-right", "Right ovary", "VH_F_Ovary_R.glb", "#d68d7f", "#552e2d", "endocrine");
 
-const reproductiveOvaryLeft = hraModel("reproductive-ovary-left", "Left ovary", "VH_F_Ovary_L.glb", "#d68d7f", "#552e2d", "reproductive");
-const reproductiveOvaryRight = hraModel("reproductive-ovary-right", "Right ovary", "VH_F_Ovary_R.glb", "#d68d7f", "#552e2d", "reproductive");
-const fallopianLeft = hraModel("fallopian-left", "Left fallopian tube", "VH_F_Fallopian_Tube_L.glb", "#c97876", "#4e282b", "reproductive");
-const fallopianRight = hraModel("fallopian-right", "Right fallopian tube", "VH_F_Fallopian_Tube_R.glb", "#c97876", "#4e282b", "reproductive");
 
 const groups: AnatomySystemGroup[] = [
   { id: "all", label: "General anatomy", color: "#e1ad63" },

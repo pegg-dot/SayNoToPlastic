@@ -14,6 +14,8 @@ const home = read("app/page.tsx");
 const podcast = read("app/podcast/page.tsx");
 const publications = read("app/content/publications.ts");
 const mediaItems = read("app/content/media-items.json");
+const mediaRegistry = JSON.parse(mediaItems);
+const currentTedx = (mediaRegistry.entries || []).find((entry) => entry.id === "tedx-invisible-inheritance");
 const tedx = read("app/tedx/page.tsx");
 const media = read("app/media/page.tsx");
 const community = read("app/community/page.tsx");
@@ -32,7 +34,7 @@ expect(!media.includes("High-resolution owner-approved media assets are still pa
 expect(mediaItems.includes("https://www.youtube.com/shorts/6juPFhIh68I") && mediaItems.includes('"youtubeId": "6juPFhIh68I"'), "Media registry uses the owner-supplied replacement temporary TEDx recording.");
 expect(publications.includes('officialVideoUrl: "https://www.youtube.com/shorts/6juPFhIh68I"') && publications.includes('officialYoutubeId: "6juPFhIh68I"'), "TEDx compatibility registry uses the replacement URL and ID.");
 expect(!mediaItems.includes("MVnY2vw99SY") && !publications.includes("MVnY2vw99SY"), "Superseded TEDx temporary recording ID is removed from current registries.");
-expect(!tedx.includes("temporary audience recording") && !tedx.includes("official TEDx video has not yet been released") && !media.includes("Temporary audience recording"), "Public TEDx surfaces no longer expose temporary-recording status copy.");
+expect(tedx.includes("Temporary audience recording") && tedx.includes("not the official TEDx release") && media.includes("Temporary audience recording") && currentTedx?.temporary === true && currentTedx?.replaceWhenOfficialAvailable === true && /temporary audience recording/i.test(currentTedx?.displayStatus || ""), "Public TEDx surfaces visibly preserve the authorized temporary-recording boundary until the official release is available.");
 expect(home.includes("No confirmation email is required") && (chrome.includes("No confirmation email is required") || i18n.includes("No confirmation email is required")) && community.includes("No confirmation email is required") && media.includes("No confirmation email is required"), "Field Notes signup surfaces clearly explain single-opt-in success behavior.");
 expect(subscribe.includes("syncAudienceSubscriber") && subscribe.includes('program === "field-notes"') && wrangler.includes('"AUDIENCE_PROVIDER": "mailchimp"'), "Field Notes remains wired to Mailchimp.");
 expect(audience.includes('status_if_new: "subscribed"'), "Mailchimp adapter remains single opt in for new contacts.");

@@ -27,6 +27,23 @@ function secureResponse(request: Request, response: Response) {
   headers.set("X-Frame-Options", "SAMEORIGIN");
   headers.set("Cross-Origin-Opener-Policy", "same-origin-allow-popups");
   headers.set("Permissions-Policy", "camera=(), microphone=(), geolocation=(), browsing-topics=(), payment=(self)");
+  headers.set("Content-Security-Policy", [
+    "default-src 'self'",
+    "base-uri 'self'",
+    "object-src 'none'",
+    "frame-ancestors 'self'",
+    "form-action 'self'",
+    "script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' https://static.cloudflareinsights.com",
+    "style-src 'self' 'unsafe-inline'",
+    "img-src 'self' data: blob: https:",
+    "font-src 'self' data:",
+    "connect-src 'self' https://cdn.humanatlas.io https://raw.githubusercontent.com https://static.cloudflareinsights.com",
+    "media-src 'self' blob:",
+    "manifest-src 'self' https://saynotoplastic.com",
+    "frame-src 'self' https://www.youtube-nocookie.com https://www.youtube.com https://open.spotify.com",
+    "worker-src 'self' blob:",
+    "upgrade-insecure-requests",
+  ].join("; "));
   if (url.protocol === "https:" && !["localhost", "127.0.0.1"].includes(url.hostname)) {
     headers.set("Strict-Transport-Security", "max-age=31536000; includeSubDomains");
   }

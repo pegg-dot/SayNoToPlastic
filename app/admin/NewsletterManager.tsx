@@ -51,24 +51,28 @@ export function NewsletterManager() {
   const [mailchimpUrl, setMailchimpUrl] = useState("https://mailchimp.com/");
   const selected = rows.find((row) => row.id === selectedId) ?? rows[0] ?? null;
 
-  async function load() {
-    setLoading(true);
-    try {
-      const response = await fetch("/admin/api/newsletters", { cache: "no-store" });
-      const body = await response.json() as { newsletters?: Newsletter[]; mailchimpUrl?: string; error?: string };
-      if (!response.ok || !body.newsletters) throw new Error(body.error || "Unable to load newsletters.");
-      const next = body.newsletters.map(toRow);
-      setRows(next);
-      setSelectedId((current) => current && next.some((row) => row.id === current) ? current : next[0]?.id ?? null);
-      if (body.mailchimpUrl) setMailchimpUrl(body.mailchimpUrl);
-    } catch (error) {
-      setUploadError(error instanceof Error ? error.message : "Unable to load newsletters.");
-    } finally {
-      setLoading(false);
-    }
-  }
+  useEffect(() => {
+    let active = true;
 
-  useEffect(() => { void load(); }, []);
+    void (async () => {
+      try {
+        const response = await fetch("/admin/api/newsletters", { cache: "no-store" });
+        const body = await response.json() as { newsletters?: Newsletter[]; mailchimpUrl?: string; error?: string };
+        if (!response.ok || !body.newsletters) throw new Error(body.error || "Unable to load newsletters.");
+        if (!active) return;
+        const next = body.newsletters.map(toRow);
+        setRows(next);
+        setSelectedId((current) => current && next.some((row) => row.id === current) ? current : next[0]?.id ?? null);
+        if (body.mailchimpUrl) setMailchimpUrl(body.mailchimpUrl);
+      } catch (error) {
+        if (active) setUploadError(error instanceof Error ? error.message : "Unable to load newsletters.");
+      } finally {
+        if (active) setLoading(false);
+      }
+    })();
+
+    return () => { active = false; };
+  }, []);
 
   function patchRow(id: number, patch: Partial<RowState>) {
     setRows((current) => current.map((row) => row.id === id ? { ...row, ...patch } : row));

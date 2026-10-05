@@ -1,21 +1,18 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 import { AnalyticsConsent, CONSENT_EVENT, readAnalyticsConsent, writeAnalyticsConsent } from "./privacy-consent";
 
-export function PrivacyPreferences() {
-  const [choice, setChoice] = useState<AnalyticsConsent | null>(null);
+function subscribeAnalyticsConsent(update: () => void) {
+  window.addEventListener(CONSENT_EVENT, update);
+  return () => window.removeEventListener(CONSENT_EVENT, update);
+}
 
-  useEffect(() => {
-    setChoice(readAnalyticsConsent());
-    const update = () => setChoice(readAnalyticsConsent());
-    window.addEventListener(CONSENT_EVENT, update);
-    return () => window.removeEventListener(CONSENT_EVENT, update);
-  }, []);
+export function PrivacyPreferences() {
+  const choice = useSyncExternalStore(subscribeAnalyticsConsent, readAnalyticsConsent, () => null);
 
   function choose(next: AnalyticsConsent) {
     writeAnalyticsConsent(next);
-    setChoice(next);
   }
 
   return <section className="privacy-choice-panel" aria-labelledby="privacy-choice-title">

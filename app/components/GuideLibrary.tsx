@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import type { Guide } from "../content/guides";
 import { TrackedLink } from "./TrackedLink";
 import styles from "../resources/resources.module.css";
@@ -20,14 +20,12 @@ export function GuideLibrary({ guides }: { guides: Guide[] }) {
   const [category, setCategory] = useState("All");
   const [query, setQuery] = useState("");
   const categories = ["All", ...Array.from(new Set(guides.map((guide) => guide.category)))];
-  const visibleGuides = useMemo(() => {
-    const terms = query.trim().toLowerCase();
-    return guides.filter((guide) => {
-      const matchesCategory = category === "All" || guide.category === category;
-      const searchable = `${guide.category} ${displayCategory(guide.category)} ${guide.title} ${guide.description} ${guide.audience || ""}`.toLowerCase();
-      return matchesCategory && (!terms || searchable.includes(terms));
-    });
-  }, [category, guides, query]);
+  const terms = query.trim().toLowerCase();
+  const visibleGuides = guides.filter((guide) => {
+    const matchesCategory = category === "All" || guide.category === category;
+    const searchable = `${guide.category} ${displayCategory(guide.category)} ${guide.title} ${guide.description} ${guide.audience || ""}`.toLowerCase();
+    return matchesCategory && (!terms || searchable.includes(terms));
+  });
 
   return <>
     <div className={styles.libraryHeader}>

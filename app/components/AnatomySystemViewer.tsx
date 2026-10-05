@@ -22,6 +22,7 @@ import {
   HRA_REPOSITORY_URL,
 } from "../content/anatomy-system-models";
 import { getBodySystem } from "../content/body-systems";
+import { getBodySystemEs } from "../content/es/body-systems";
 import { clearAnatomyModelCache, loadAnatomyModel } from "../lib/anatomy-model-loader";
 import type { LoadedAnatomyModel } from "../lib/anatomy-model-loader";
 import { BodySystemVisual } from "./BodySystemVisual";
@@ -457,6 +458,202 @@ function ViewerScene({
   );
 }
 
+type ViewerLocale = "en" | "es";
+
+type ViewerDisplayCopy = {
+  title: string;
+  route: string;
+  summary: string;
+  panelKnown: string;
+  panelUncertain: string;
+  structures: string[];
+  scopeNote: string;
+};
+
+const anatomyViewerSpanishContent: Record<AnatomySystemSlug, ViewerDisplayCopy> = {
+  "kidneys-urinary-system": {
+    title: "Riñones y sistema urinario",
+    route: "/es/ciencia/cuerpo/kidneys-urinary-system",
+    summary: "Rota el cuerpo, revela el tracto urinario o aísla el sistema para observarlo con mayor detalle.",
+    panelKnown: "Se han reportado microplásticos en tejido renal humano, lo que confirma que la exposición puede alcanzar un órgano filtrante.",
+    panelUncertain: "Todavía no se sabe si las partículas se eliminan, permanecen en el tejido o afectan la función renal.",
+    structures: ["Riñón izquierdo", "Riñón derecho", "Uréter izquierdo", "Uréter derecho", "Vejiga urinaria"],
+    scopeNote: "Orientación educativa con las principales estructuras urinarias disponibles en el modelo femenino de referencia HRA.",
+  },
+  "digestive-system": {
+    title: "Sistema digestivo",
+    route: "/es/ciencia/cuerpo/digestive-system",
+    summary: "Sigue los principales órganos digestivos dentro del contexto corporal y después retira la superficie exterior.",
+    panelKnown: "Los alimentos y el agua son vías importantes de exposición, y se han detectado partículas en heces humanas.",
+    panelUncertain: "Los efectos humanos sobre la barrera intestinal, la inflamación y el microbioma siguen sin resolverse.",
+    structures: ["Intestino delgado", "Intestino grueso", "Hígado", "Páncreas"],
+    scopeNote: "Conjunto educativo enfocado en cuatro superficies digestivas HRA de referencia; no es un atlas gastrointestinal clínico completo.",
+  },
+  "endocrine-metabolic-system": {
+    title: "Sistema endocrino y metabólico",
+    route: "/es/ciencia/cuerpo/endocrine-metabolic-system",
+    summary: "Observa tejidos seleccionados que producen hormonas dentro del contexto corporal o aíslalos.",
+    panelKnown: "Las sustancias químicas asociadas al plástico tienen una base de evidencia endocrina más amplia que las propias partículas microplásticas.",
+    panelUncertain: "Los efectos directos de las partículas microplásticas sobre la señalización hormonal humana todavía están en estudio.",
+    structures: ["Páncreas", "Timo", "Ovario izquierdo", "Ovario derecho"],
+    scopeNote: "Esta escena limitada no inventa glándulas ausentes del modelo, como tiroides, hipófisis o suprarrenales.",
+  },
+  skin: {
+    title: "Piel y superficie exterior",
+    route: "/es/ciencia/cuerpo/skin",
+    summary: "Rota la superficie exterior completa o vuelve el cuerpo translúcido para observar la piel como su límite externo.",
+    panelKnown: "La piel sana e intacta parece bloquear la mayoría de las partículas microplásticas.",
+    panelUncertain: "Los nanoplásticos, la piel dañada y las sustancias químicas asociadas al plástico siguen siendo preguntas de investigación separadas.",
+    structures: ["Superficie exterior completa del cuerpo femenino de referencia"],
+    scopeNote: "Superficie HRA de cuerpo completo; no es un escaneo de paciente, un modelo diagnóstico ni una reconstrucción microscópica de las capas de la piel.",
+  },
+  "whole-body-atlas": {
+    title: "Atlas anatómico de referencia",
+    route: "/es/ciencia",
+    summary: "Rota un cuerpo femenino de referencia, cambia las capas anatómicas generales o enfoca un sistema disponible a la vez.",
+    panelKnown: "Este visor reúne superficies de referencia compatibles y con licencia en un mismo espacio de navegación para facilitar la orientación. No implica que todos los modelos del sitio pertenezcan a una misma persona o etapa de vida.",
+    panelUncertain: "La geometría de referencia varía según el modelo de origen y el contexto corporal. Es un conjunto educativo de referencia, no un atlas clínico completo ni una reconstrucción específica de un paciente.",
+    structures: [
+      "Superficie exterior femenina de referencia",
+      "Cerebro, corazón y vasculatura sanguínea",
+      "Esqueleto pélvico",
+      "Tejidos endocrinos seleccionados: timo y páncreas",
+      "Riñones, uréteres y vejiga",
+      "Intestino delgado y grueso, hígado y páncreas",
+    ],
+    scopeNote: "Los modelos de embarazo, feto, anatomía reproductiva femenina y tejido testicular masculino permanecen en sus capítulos dedicados y no se superponen aquí. El atlas tampoco incluye cada órgano, glándula, hueso o capa microscópica de tejido.",
+  },
+};
+
+const groupLabelsEs: Partial<Record<AnatomySystemGroupId, string>> = {
+  all: "Anatomía general",
+  skin: "Exterior",
+  brain: "Cerebro",
+  circulation: "Circulación",
+  heart: "Corazón",
+  skeleton: "Pelvis",
+  endocrine: "Endocrino",
+  urinary: "Riñones + urinario",
+  digestive: "Digestivo",
+};
+
+const modelLabelsEs: Record<string, string> = {
+  "Blood vasculature": "Vasculatura sanguínea",
+  Brain: "Cerebro",
+  Heart: "Corazón",
+  "Pelvic skeleton": "Esqueleto pélvico",
+  Pancreas: "Páncreas",
+  Thymus: "Timo",
+  "Left ovary": "Ovario izquierdo",
+  "Right ovary": "Ovario derecho",
+  "Left kidney": "Riñón izquierdo",
+  "Right kidney": "Riñón derecho",
+  "Left ureter": "Uréter izquierdo",
+  "Right ureter": "Uréter derecho",
+  "Urinary bladder": "Vejiga urinaria",
+  "Small intestine": "Intestino delgado",
+  "Large intestine": "Intestino grueso",
+  Liver: "Hígado",
+};
+
+const viewerUi = {
+  en: {
+    eyebrow: (release: string) => `Interactive 3D reference · HRA ${release}`,
+    close: (title: string) => `Close ${title} 3D viewer`,
+    canvas: (title: string) => `Interactive three-dimensional model of ${title}. Drag to rotate, scroll or pinch to zoom.`,
+    loading: "Loading licensed anatomy",
+    loadingProgress: (completed: number, total: number, progress: number) => `${completed} of ${total} reference surfaces · ${progress}%`,
+    loadingNote: "Local surfaces appear first. Additional HRA anatomy requires an internet connection on first open.",
+    surfacesLoaded: (completed: number, total: number) => `${completed} of ${total} surfaces loaded.`,
+    structuresLoaded: (loaded: number, total: number) => `${loaded} of ${total} structures loaded.`,
+    retryMissing: "Retry missing surfaces",
+    chooseSystem: "Choose anatomy system",
+    currentFocus: "Current focus",
+    visibleStructures: "Visible structures",
+    loadedLegend: (count: number) => `${count} surfaces loaded`,
+    skinSurface: "Skin surface",
+    bodyLayers: "Body layers",
+    camera: "Camera",
+    focusSystem: "Focus system",
+    fullBody: "Full body",
+    front: "Front",
+    rear: "Rear",
+    zoomIn: "Zoom in",
+    zoomOut: "Zoom out",
+    reset: "Reset",
+    instructions: <><span>Drag</span> rotate · <span>Scroll or pinch</span> zoom · <span>Shift + drag</span> pan</>,
+    finding: "Finding",
+    openQuestion: "Open question",
+    included: "Included anatomy",
+    completeScience: "Explore the complete science library",
+    evidenceOverview: "Read the evidence overview",
+    provenance: "3D model provenance",
+    provenanceBody: "The exterior and organ surfaces are educational reference objects, not patient-specific scans.",
+    releaseDirectory: (release: string) => `Release ${release} model directory`,
+    medicalBoundary: "Educational anatomy only. This viewer does not diagnose disease, measure exposure, or show a specific person's body.",
+    fallbackMap: ["Brain", "Heart", "Circulation", "Pregnancy", "Endocrine", "Kidneys", "Digestive"],
+    fallbackTitle: "The interactive reference could not finish loading.",
+    fallbackBody: "The evidence pages remain available. Reconnect and retry to load the licensed anatomy surfaces.",
+    fallbackRetry: "Retry 3D models",
+  },
+  es: {
+    eyebrow: (release: string) => `Referencia 3D interactiva · HRA ${release}`,
+    close: (title: string) => `Cerrar visor 3D de ${title}`,
+    canvas: (title: string) => `Modelo tridimensional interactivo de ${title}. Arrastra para rotar; desplázate o pellizca para acercar.`,
+    loading: "Cargando anatomía con licencia",
+    loadingProgress: (completed: number, total: number, progress: number) => `${completed} de ${total} superficies de referencia · ${progress}%`,
+    loadingNote: "Las superficies locales aparecen primero. La anatomía HRA adicional necesita conexión a internet la primera vez que se abre.",
+    surfacesLoaded: (completed: number, total: number) => `${completed} de ${total} superficies cargadas.`,
+    structuresLoaded: (loaded: number, total: number) => `${loaded} de ${total} estructuras cargadas.`,
+    retryMissing: "Reintentar superficies faltantes",
+    chooseSystem: "Elegir sistema anatómico",
+    currentFocus: "Foco actual",
+    visibleStructures: "Estructuras visibles",
+    loadedLegend: (count: number) => `${count} superficies cargadas`,
+    skinSurface: "Superficie de la piel",
+    bodyLayers: "Capas del cuerpo",
+    camera: "Cámara",
+    focusSystem: "Enfocar sistema",
+    fullBody: "Cuerpo completo",
+    front: "Frente",
+    rear: "Espalda",
+    zoomIn: "Acercar",
+    zoomOut: "Alejar",
+    reset: "Restablecer",
+    instructions: <><span>Arrastra</span> para rotar · <span>Desplázate o pellizca</span> para acercar · <span>Mayús + arrastra</span> para mover</>,
+    finding: "Hallazgo",
+    openQuestion: "Pregunta abierta",
+    included: "Anatomía incluida",
+    completeScience: "Explorar la biblioteca completa de ciencia",
+    evidenceOverview: "Leer el resumen de evidencia",
+    provenance: "Procedencia de los modelos 3D",
+    provenanceBody: "Las superficies exteriores y de órganos son objetos educativos de referencia, no escaneos específicos de pacientes.",
+    releaseDirectory: (release: string) => `Directorio de modelos de la versión ${release}`,
+    medicalBoundary: "Anatomía educativa únicamente. Este visor no diagnostica enfermedades, no mide exposición ni representa el cuerpo de una persona específica.",
+    fallbackMap: ["Cerebro", "Corazón", "Circulación", "Embarazo", "Endocrino", "Riñones", "Digestivo"],
+    fallbackTitle: "La referencia interactiva no pudo terminar de cargar.",
+    fallbackBody: "Las páginas de evidencia siguen disponibles. Vuelve a conectarte e inténtalo de nuevo para cargar las superficies anatómicas con licencia.",
+    fallbackRetry: "Reintentar modelos 3D",
+  },
+} as const;
+
+function displayCopyFor(config: AnatomySystemModelConfig, locale: ViewerLocale): ViewerDisplayCopy {
+  if (locale === "es") return anatomyViewerSpanishContent[config.slug];
+  return {
+    title: config.title,
+    route: config.route,
+    summary: config.summary,
+    panelKnown: config.panelKnown,
+    panelUncertain: config.panelUncertain,
+    structures: config.structures,
+    scopeNote: config.scopeNote,
+  };
+}
+
+function modelLabel(label: string, locale: ViewerLocale) {
+  return locale === "es" ? (modelLabelsEs[label] ?? label) : label;
+}
+
 class ViewerErrorBoundary extends Component<{ children: ReactNode; fallback: ReactNode }, { failed: boolean }> {
   state = { failed: false };
 
@@ -469,26 +666,31 @@ class ViewerErrorBoundary extends Component<{ children: ReactNode; fallback: Rea
   }
 }
 
-function ViewerFallback({ config, onRetry }: { config: AnatomySystemModelConfig; onRetry: () => void }) {
-  const article = config.slug === "whole-body-atlas" ? undefined : getBodySystem(config.slug);
+function ViewerFallback({ config, onRetry, locale }: { config: AnatomySystemModelConfig; onRetry: () => void; locale: ViewerLocale }) {
+  const article = config.slug === "whole-body-atlas"
+    ? undefined
+    : locale === "es" ? getBodySystemEs(config.slug) : getBodySystem(config.slug);
+  const copy = viewerUi[locale];
   return (
     <div className={`anatomy-viewer-fallback${config.compositeSystem ? " anatomy-viewer-fallback-complete" : ""}`} role="status">
       {article ? <BodySystemVisual article={article} /> : (
         <div className="complete-atlas-fallback-map" aria-hidden="true">
-          <span>Brain</span><span>Heart</span><span>Circulation</span><span>Pregnancy</span><span>Endocrine</span><span>Kidneys</span><span>Digestive</span>
+          {copy.fallbackMap.map((label) => <span key={label}>{label}</span>)}
         </div>
       )}
       <div>
-        <strong>The interactive reference could not finish loading.</strong>
-        <p>The evidence pages remain available. Reconnect and retry to load the licensed anatomy surfaces.</p>
-        <button type="button" onClick={onRetry}>Retry 3D models</button>
+        <strong>{copy.fallbackTitle}</strong>
+        <p>{copy.fallbackBody}</p>
+        <button type="button" onClick={onRetry}>{copy.fallbackRetry}</button>
       </div>
     </div>
   );
 }
 
-export function AnatomySystemViewer({ slug, onClose }: { slug: AnatomySystemSlug; onClose: () => void }) {
+export function AnatomySystemViewer({ slug, onClose, locale = "en" }: { slug: AnatomySystemSlug; onClose: () => void; locale?: ViewerLocale }) {
   const config = getAnatomySystemModel(slug);
+  const display = displayCopyFor(config, locale);
+  const copy = viewerUi[locale];
   const isSkin = Boolean(config.surfaceSystem);
   const isComposite = Boolean(config.compositeSystem);
   const mounted = useSyncExternalStore(subscribeClientMounted, getClientMounted, getServerMounted);
@@ -529,8 +731,8 @@ export function AnatomySystemViewer({ slug, onClose }: { slug: AnatomySystemSlug
   }, [issueCommand]);
 
   useEffect(() => {
-    void trackEvent("anatomy_viewer_open", { label: slug, destination: config.route });
-  }, [config.route, slug]);
+    void trackEvent("anatomy_viewer_open", { label: slug, destination: display.route });
+  }, [display.route, slug]);
 
   useEffect(() => {
     if (!mounted) return;
@@ -586,11 +788,18 @@ export function AnatomySystemViewer({ slug, onClose }: { slug: AnatomySystemSlug
 
   const completeFailure = !isSkin && !loadState.loading && loadState.loaded.length === 0;
   const progress = loadState.total ? Math.round((loadState.completed / loadState.total) * 100) : 100;
-  const modeLabels = isSkin
-    ? { exterior: "Skin surface", cutaway: "Translucent", system: "Surface only" }
-    : { exterior: "Exterior", cutaway: "Cutaway", system: "System only" };
-  const activeGroupLabel = config.groups?.find((group) => group.id === activeGroup)?.label ?? "All systems";
-  const articleLabel = isComposite ? "Explore the complete science library" : "Read the evidence overview";
+  const modeLabels = locale === "es"
+    ? isSkin
+      ? { exterior: "Superficie de la piel", cutaway: "Translúcido", system: "Solo superficie" }
+      : { exterior: "Exterior", cutaway: "Corte", system: "Solo sistema" }
+    : isSkin
+      ? { exterior: "Skin surface", cutaway: "Translucent", system: "Surface only" }
+      : { exterior: "Exterior", cutaway: "Cutaway", system: "System only" };
+  const activeGroupSource = config.groups?.find((group) => group.id === activeGroup);
+  const activeGroupLabel = locale === "es"
+    ? (activeGroupSource ? (groupLabelsEs[activeGroupSource.id] ?? activeGroupSource.label) : "Todos los sistemas")
+    : (activeGroupSource?.label ?? "All systems");
+  const articleLabel = isComposite ? copy.completeScience : copy.evidenceOverview;
 
   return createPortal(
     <div
@@ -603,6 +812,7 @@ export function AnatomySystemViewer({ slug, onClose }: { slug: AnatomySystemSlug
       <section
         ref={dialogRef}
         className={`anatomy-viewer-dialog anatomy-viewer-${slug}`}
+        data-locale={locale}
         role="dialog"
         aria-modal="true"
         aria-labelledby="anatomy-viewer-title"
@@ -610,20 +820,20 @@ export function AnatomySystemViewer({ slug, onClose }: { slug: AnatomySystemSlug
       >
         <header className="anatomy-viewer-header">
           <div>
-            <p className="eyebrow">Interactive 3D reference · HRA {HRA_RELEASE}</p>
-            <h2 id="anatomy-viewer-title">{config.title}</h2>
+            <p className="eyebrow">{copy.eyebrow(HRA_RELEASE)}</p>
+            <h2 id="anatomy-viewer-title">{display.title}</h2>
           </div>
-          <button ref={closeRef} type="button" className="anatomy-viewer-close" onClick={onClose} aria-label={`Close ${config.title} 3D viewer`}>×</button>
+          <button ref={closeRef} type="button" className="anatomy-viewer-close" onClick={onClose} aria-label={copy.close(display.title)}>×</button>
         </header>
 
         <div className="anatomy-viewer-layout">
           <div className="anatomy-viewer-stage">
             <div className="anatomy-viewer-grid" aria-hidden="true" />
             {!completeFailure ? (
-              <ViewerErrorBoundary key={`${slug}:${retryToken}`} fallback={<ViewerFallback config={config} onRetry={retry} />}>
+              <ViewerErrorBoundary key={`${slug}:${retryToken}`} fallback={<ViewerFallback config={config} onRetry={retry} locale={locale} />}>
                 <Canvas
                   className="anatomy-viewer-canvas"
-                  aria-label={`Interactive three-dimensional model of ${config.title}. Drag to rotate, scroll or pinch to zoom.`}
+                  aria-label={copy.canvas(display.title)}
                   role="img"
                   dpr={[1, 1.6]}
                   camera={{ position: [0, 0.1, 8], fov: 34, near: 0.01, far: 100 }}
@@ -647,68 +857,69 @@ export function AnatomySystemViewer({ slug, onClose }: { slug: AnatomySystemSlug
                   </Suspense>
                 </Canvas>
               </ViewerErrorBoundary>
-            ) : <ViewerFallback config={config} onRetry={retry} />}
+            ) : <ViewerFallback config={config} onRetry={retry} locale={locale} />}
 
             {loadState.loading && loadState.loaded.length === 0 && (
               <div className="anatomy-viewer-loading" role="status" aria-live="polite">
                 <span aria-hidden="true" />
-                <strong>Loading licensed anatomy</strong>
-                <p>{loadState.completed} of {loadState.total} reference surfaces · {progress}%</p>
-                <small>Local surfaces appear first. Additional HRA anatomy requires an internet connection on first open.</small>
+                <strong>{copy.loading}</strong>
+                <p>{copy.loadingProgress(loadState.completed, loadState.total, progress)}</p>
+                <small>{copy.loadingNote}</small>
               </div>
             )}
 
             {loadState.loading && loadState.loaded.length > 0 && (
               <div className="anatomy-viewer-partial" role="status" aria-live="polite">
-                <strong>{loadState.completed} of {loadState.total} surfaces loaded.</strong>
+                <strong>{copy.surfacesLoaded(loadState.completed, loadState.total)}</strong>
                 <span>{progress}%</span>
               </div>
             )}
 
             {!loadState.loading && loadState.failures.length > 0 && loadState.loaded.length > 0 && (
               <div className="anatomy-viewer-partial" role="status">
-                <strong>{loadState.loaded.length} of {loadState.total} structures loaded.</strong>
-                <button type="button" onClick={retry}>Retry missing surfaces</button>
+                <strong>{copy.structuresLoaded(loadState.loaded.length, loadState.total)}</strong>
+                <button type="button" onClick={retry}>{copy.retryMissing}</button>
               </div>
             )}
 
             {config.groups && (
-              <nav className="anatomy-viewer-system-filter" aria-label="Choose anatomy system">
+              <nav className="anatomy-viewer-system-filter" aria-label={copy.chooseSystem}>
                 {config.groups.map((group) => (
                   <button
                     key={group.id}
                     type="button"
+                    data-anatomy-group={group.id}
                     aria-pressed={activeGroup === group.id}
                     onClick={() => selectGroup(group.id)}
                   >
-                    {group.label}
+                    {locale === "es" ? (groupLabelsEs[group.id] ?? group.label) : group.label}
                   </button>
                 ))}
               </nav>
             )}
 
-            <div className="anatomy-viewer-legend" aria-label="Visible structures">
-              <span>{isComposite ? "Current focus" : "Visible structures"}</span>
+            <div className="anatomy-viewer-legend" aria-label={copy.visibleStructures}>
+              <span>{isComposite ? copy.currentFocus : copy.visibleStructures}</span>
               <div>
                 {isComposite ? (
                   <>
                     <i style={{ "--legend-color": config.accent } as React.CSSProperties}>{activeGroupLabel}</i>
-                    <i style={{ "--legend-color": "#8aa4ae" } as React.CSSProperties}>{loadState.loaded.length} surfaces loaded</i>
+                    <i style={{ "--legend-color": "#8aa4ae" } as React.CSSProperties}>{copy.loadedLegend(loadState.loaded.length)}</i>
                   </>
                 ) : (
                   <>
-                    {isSkin && <i style={{ "--legend-color": "#d7ab88" } as React.CSSProperties}>Skin surface</i>}
+                    {isSkin && <i style={{ "--legend-color": "#d7ab88" } as React.CSSProperties}>{copy.skinSurface}</i>}
                     {loadState.loaded.map(({ definition }) => (
-                      <i key={definition.id} style={{ "--legend-color": definition.color } as React.CSSProperties}>{definition.label}</i>
+                      <i key={definition.id} style={{ "--legend-color": definition.color } as React.CSSProperties}>{modelLabel(definition.label, locale)}</i>
                     ))}
                   </>
                 )}
               </div>
             </div>
 
-            <div className="anatomy-viewer-controls" aria-label="3D view controls">
+            <div className="anatomy-viewer-controls" aria-label={locale === "es" ? "Controles de vista 3D" : "3D view controls"}>
               <fieldset>
-                <legend>Body layers</legend>
+                <legend>{copy.bodyLayers}</legend>
                 {(["exterior", "cutaway", "system"] as ViewMode[]).map((mode) => (
                   <button
                     key={mode}
@@ -721,57 +932,57 @@ export function AnatomySystemViewer({ slug, onClose }: { slug: AnatomySystemSlug
                 ))}
               </fieldset>
               <fieldset>
-                <legend>Camera</legend>
-                <button type="button" aria-pressed={framing === "system"} onClick={() => { setFraming("system"); issueCommand("fit-system"); }}>Focus system</button>
-                <button type="button" aria-pressed={framing === "full"} onClick={() => { setFraming("full"); issueCommand("fit-full"); }}>Full body</button>
-                <button type="button" onClick={() => issueCommand("front")}>Front</button>
-                <button type="button" onClick={() => issueCommand("rear")}>Rear</button>
-                <button type="button" onClick={() => issueCommand("zoom-in")} aria-label="Zoom in">＋</button>
-                <button type="button" onClick={() => issueCommand("zoom-out")} aria-label="Zoom out">−</button>
-                <button type="button" onClick={resetViewer}>Reset</button>
+                <legend>{copy.camera}</legend>
+                <button type="button" aria-pressed={framing === "system"} onClick={() => { setFraming("system"); issueCommand("fit-system"); }}>{copy.focusSystem}</button>
+                <button type="button" aria-pressed={framing === "full"} onClick={() => { setFraming("full"); issueCommand("fit-full"); }}>{copy.fullBody}</button>
+                <button type="button" onClick={() => issueCommand("front")}>{copy.front}</button>
+                <button type="button" onClick={() => issueCommand("rear")}>{copy.rear}</button>
+                <button type="button" onClick={() => issueCommand("zoom-in")} aria-label={copy.zoomIn}>＋</button>
+                <button type="button" onClick={() => issueCommand("zoom-out")} aria-label={copy.zoomOut}>−</button>
+                <button type="button" onClick={resetViewer}>{copy.reset}</button>
               </fieldset>
             </div>
 
-            <p className="anatomy-viewer-instructions"><span>Drag</span> rotate · <span>Scroll or pinch</span> zoom · <span>Shift + drag</span> pan</p>
+            <p className="anatomy-viewer-instructions">{copy.instructions}</p>
           </div>
 
           <aside className="anatomy-viewer-panel">
-            <p id="anatomy-viewer-summary">{config.summary}</p>
+            <p id="anatomy-viewer-summary">{display.summary}</p>
 
             <div className="anatomy-viewer-quick-read">
               <article>
-                <h3>Finding</h3>
-                <p>{config.panelKnown}</p>
+                <h3>{copy.finding}</h3>
+                <p>{display.panelKnown}</p>
               </article>
               <article>
-                <h3>Open question</h3>
-                <p>{config.panelUncertain}</p>
+                <h3>{copy.openQuestion}</h3>
+                <p>{display.panelUncertain}</p>
               </article>
             </div>
 
             <details className="anatomy-viewer-included">
-              <summary>Included anatomy <span>{config.structures.length}</span></summary>
+              <summary>{copy.included} <span>{display.structures.length}</span></summary>
               <ul className="anatomy-viewer-structures">
-                {config.structures.map((structure) => <li key={structure}>{structure}</li>)}
+                {display.structures.map((structure) => <li key={structure}>{structure}</li>)}
               </ul>
-              <small>{config.scopeNote}</small>
+              <small>{display.scopeNote}</small>
             </details>
 
-            <TrackedLink className="anatomy-viewer-article" href={config.route} eventName="science_topic_open" label={`anatomy-viewer-${slug}`}>
+            <TrackedLink className="anatomy-viewer-article" href={display.route} eventName="science_topic_open" label={`anatomy-viewer-${slug}`}>
               {articleLabel} <span>→</span>
             </TrackedLink>
 
             <details className="anatomy-viewer-provenance">
-              <summary>3D model provenance <span>+</span></summary>
-              <p>The exterior and organ surfaces are educational reference objects, not patient-specific scans.</p>
+              <summary>{copy.provenance} <span>+</span></summary>
+              <p>{copy.provenanceBody}</p>
               <ul>
                 <li><a href={HRA_LIBRARY_URL} target="_blank" rel="noopener noreferrer">HRA 3D Reference Object Library <span>↗</span></a></li>
-                <li><a href={HRA_REPOSITORY_URL} target="_blank" rel="noopener noreferrer">Release {HRA_RELEASE} model directory <span>↗</span></a></li>
+                <li><a href={HRA_REPOSITORY_URL} target="_blank" rel="noopener noreferrer">{copy.releaseDirectory(HRA_RELEASE)} <span>↗</span></a></li>
                 <li><a href={HRA_LICENSE_URL} target="_blank" rel="noopener noreferrer">Creative Commons Attribution 4.0 <span>↗</span></a></li>
               </ul>
             </details>
 
-            <p className="anatomy-viewer-medical-boundary">Educational anatomy only. This viewer does not diagnose disease, measure exposure, or show a specific person's body.</p>
+            <p className="anatomy-viewer-medical-boundary">{copy.medicalBoundary}</p>
           </aside>
         </div>
       </section>

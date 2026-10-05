@@ -1,7 +1,7 @@
 # Current State — Say No to Plastic
 
 **Authority date:** October 5, 2026
-**Current source line:** v40.59 quality hardening
+**Current source line:** v40.60 Spanish homepage parity
 **Production domain:** https://saynotoplastic.com
 **Production Worker:** `say-no-to-plastic`
 **Production D1:** `DB -> saynotoplastic-db`
@@ -63,6 +63,7 @@ The release path must preserve:
 - v40.57 mobile audit;
 - v40.58 dependency-hardening audit;
 - v40.59 quality-hardening audit;
+- v40.60 Spanish-home parity audit;
 - clean lint, syntax, UI, source, links, and content-preflight gates;
 - a fresh Cloudflare/Vinext production artifact from the exact merged `main` revision;
 - the guarded production deploy command only.
@@ -84,6 +85,16 @@ The v40.59 quality pass includes:
 - Lighthouse representative accessibility and SEO scores at 100 after the measured contrast/search fixes.
 
 See `docs/QUALITY_HARDENING_V40_59.md` for detailed evidence.
+
+## v40.60 Spanish homepage parity
+
+The Spanish homepage is a first-class variant of the main homepage rather than a reduced bridge page. `/es` now includes the same ten-stage anatomy/evidence journey, exposure cards, action cards, book feature, About, Podcast, TEDx, newsletter, and media handoff as the English Home architecture, with Spanish evidence copy and Spanish science/body-system routes where localized routes exist.
+
+Homepage reveal behavior is owned by a shared mutation-aware observer rather than by the English anatomy component, so late-mounted localized sections cannot remain permanently transparent after hydration. The anatomy atlas and its evidence-sync layer both carry locale explicitly; changing atlas systems in Spanish keeps headings, study snapshots, sources, evidence links, and routes in Spanish.
+
+The dedicated book language switch is also verified: `/homo-plasticus` switches to `/es/homo-plasticus`, which renders Spanish book content.
+
+See `docs/SPANISH_HOME_PARITY_V40_60.md` for the root cause and rendered proof.
 
 ## Owner/provider/clinical acceptance still external
 

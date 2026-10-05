@@ -2,13 +2,13 @@
 
 **Current roadmap date:** October 5, 2026
 
-This roadmap reflects the current post-v40.59 product. It replaces older launch-phase roadmaps where later explicit client decisions or completed engineering work have superseded them. Historical documents remain preserved for traceability.
+This roadmap reflects the current post-v40.60 product. It replaces older launch-phase roadmaps where later explicit client decisions or completed engineering work have superseded them. Historical documents remain preserved for traceability.
 
 ## Phase 1 — Engineering closure and quality hardening
 
-**Status: current / completing with v40.59**
+**Status: completed through v40.60**
 
-Finish and ship the quality-hardening release with:
+The engineering closure baseline now includes:
 
 - enforced, tested Content Security Policy;
 - search/indexing alignment for source-review science pages;
@@ -19,9 +19,10 @@ Finish and ship the quality-hardening release with:
 - clean lint/syntax/UI/source/link/content audits;
 - exact desktop/tablet/mobile viewport proof;
 - keyboard, reduced-motion, no-WebGL, 200% reflow, owner Page Studio, and media-embed proof;
-- PR validation, guarded production deployment, and live post-deploy verification.
+- PR validation, guarded production deployment, and live post-deploy verification;
+- first-class Spanish homepage parity, including the ten-stage anatomy/evidence journey and a reveal system that is not coupled to the English page.
 
-**Exit condition:** v40.59 is merged to `main`, passes GitHub Release validation, is deployed through the existing Worker, and the live domain reproduces the validated quality/security behavior.
+**Exit condition:** v40.60 is merged to `main`, passes GitHub Release validation, is deployed through the existing Worker, and the live domain reproduces the validated quality/security and Spanish-parity behavior.
 
 ## Phase 2 — Owner and clinical acceptance
 

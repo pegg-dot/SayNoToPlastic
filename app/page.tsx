@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Footer, Header } from "./components/SiteChrome";
 import { BodyJourney } from "./components/BodyJourney";
+import { HomeRevealObserver } from "./components/HomeRevealObserver";
 import { coreRules } from "./content/actions";
 import { BOOK } from "./config";
 import { TrackedLink } from "./components/TrackedLink";
@@ -55,6 +56,7 @@ export default async function Home() {
     <>
       <Header />
       <main id="main-content" tabIndex={-1} className="home-v2">
+      <HomeRevealObserver />
 
       <section id="top" className="hp-hero">
         <MatterField className="hp-hero-field" density={74} />

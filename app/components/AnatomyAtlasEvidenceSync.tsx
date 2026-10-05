@@ -4,21 +4,15 @@ import { useEffect } from "react";
 import type { AnatomySystemGroupId } from "../content/anatomy-system-models";
 import { getAnatomySystemModel } from "../content/anatomy-system-models";
 import { homepageJourney } from "../content/evidence";
+import { homepageJourneyEs } from "../content/es/evidence";
+
+type SyncLocale = "en" | "es";
 
 const atlasConfig = getAnatomySystemModel("whole-body-atlas");
-const evidenceBySlug = new Map(homepageJourney.map((chapter) => [chapter.slug, chapter]));
-
-const groupByLabel: Record<string, AnatomySystemGroupId> = {
-  "general anatomy": "all",
-  exterior: "skin",
-  brain: "brain",
-  circulation: "circulation",
-  heart: "heart",
-  pelvis: "skeleton",
-  endocrine: "endocrine",
-  "kidneys + urinary": "urinary",
-  digestive: "digestive",
-};
+const evidenceByLocale = {
+  en: new Map(homepageJourney.map((chapter) => [chapter.slug, chapter])),
+  es: new Map(homepageJourneyEs.map((chapter) => [chapter.slug, chapter])),
+} as const;
 
 const evidenceSlugByGroup: Partial<Record<AnatomySystemGroupId, string>> = {
   skin: "skin",
@@ -30,14 +24,25 @@ const evidenceSlugByGroup: Partial<Record<AnatomySystemGroupId, string>> = {
   digestive: "digestive-system",
 };
 
-const routeByEvidenceSlug: Record<string, string> = {
-  skin: "/science/body/skin",
-  brain: "/science#brain",
-  blood: "/science#blood",
-  "heart-arteries": "/science#heart-arteries",
-  "endocrine-metabolic-system": "/science/body/endocrine-metabolic-system",
-  "kidneys-urinary-system": "/science/body/kidneys-urinary-system",
-  "digestive-system": "/science/body/digestive-system",
+const routeByLocale: Record<SyncLocale, Record<string, string>> = {
+  en: {
+    skin: "/science/body/skin",
+    brain: "/science#brain",
+    blood: "/science#blood",
+    "heart-arteries": "/science#heart-arteries",
+    "endocrine-metabolic-system": "/science/body/endocrine-metabolic-system",
+    "kidneys-urinary-system": "/science/body/kidneys-urinary-system",
+    "digestive-system": "/science/body/digestive-system",
+  },
+  es: {
+    skin: "/es/ciencia/cuerpo/skin",
+    brain: "/es/ciencia#brain",
+    blood: "/es/ciencia#blood",
+    "heart-arteries": "/es/ciencia#heart-arteries",
+    "endocrine-metabolic-system": "/es/ciencia/cuerpo/endocrine-metabolic-system",
+    "kidneys-urinary-system": "/es/ciencia/cuerpo/kidneys-urinary-system",
+    "digestive-system": "/es/ciencia/cuerpo/digestive-system",
+  },
 };
 
 const groupsWithStudyStats = new Set<AnatomySystemGroupId>(["brain", "circulation", "heart"]);
@@ -57,56 +62,96 @@ type PanelCopy = {
   routeLabel: string;
 };
 
-function copyForGroup(group: AnatomySystemGroupId): PanelCopy {
+const generalCopy = {
+  en: {
+    summary: atlasConfig.summary,
+    findingHeading: "Finding",
+    finding: atlasConfig.panelKnown,
+    uncertaintyHeading: "Open question",
+    uncertainty: atlasConfig.panelUncertain,
+    route: atlasConfig.route,
+    routeLabel: "Explore the complete science library →",
+  },
+  es: {
+    summary: "Rota un cuerpo femenino de referencia, cambia las capas anatómicas generales o enfoca un sistema disponible a la vez.",
+    findingHeading: "Hallazgo",
+    finding: "Este visor reúne superficies de referencia compatibles y con licencia en un mismo espacio de navegación para facilitar la orientación. No implica que todos los modelos del sitio pertenezcan a una misma persona o etapa de vida.",
+    uncertaintyHeading: "Pregunta abierta",
+    uncertainty: "La geometría de referencia varía según el modelo de origen y el contexto corporal. Es un conjunto educativo de referencia, no un atlas clínico completo ni una reconstrucción específica de un paciente.",
+    route: "/es/ciencia",
+    routeLabel: "Explorar la biblioteca completa de ciencia →",
+  },
+} as const;
+
+const skeletonCopy = {
+  en: {
+    summary: "Pelvic skeleton: anatomical orientation.",
+    findingHeading: "Anatomy context",
+    finding: "The pelvic skeleton is shown to orient nearby organs and body regions within the female reference model.",
+    uncertaintyHeading: "Evidence boundary",
+    uncertainty: "This site does not currently present a human microplastic study specific to the pelvic bones. Findings from blood, organs, or other tissues should not be generalized to bone.",
+    route: "/science",
+    routeLabel: "Explore the evidence library →",
+  },
+  es: {
+    summary: "Esqueleto pélvico: orientación anatómica.",
+    findingHeading: "Contexto anatómico",
+    finding: "El esqueleto pélvico se muestra para orientar los órganos y regiones corporales cercanos dentro del modelo femenino de referencia.",
+    uncertaintyHeading: "Límite de la evidencia",
+    uncertainty: "El sitio no presenta actualmente un estudio humano de microplásticos específico de los huesos pélvicos. Los hallazgos de sangre, órganos u otros tejidos no deben generalizarse al hueso.",
+    route: "/es/ciencia",
+    routeLabel: "Explorar la biblioteca de evidencia →",
+  },
+} as const;
+
+const uiCopy = {
+  en: {
+    evidenceHeading: "What the evidence says",
+    uncertaintyHeading: "What it does not prove",
+    studySnapshot: "Study snapshot",
+    sources: "Sources",
+    studyRoute: "Read the study context →",
+    overviewRoute: "Read the full evidence overview →",
+  },
+  es: {
+    evidenceHeading: "Lo que dice la evidencia",
+    uncertaintyHeading: "Lo que no demuestra",
+    studySnapshot: "Resumen del estudio",
+    sources: "Fuentes",
+    studyRoute: "Leer el contexto del estudio →",
+    overviewRoute: "Leer el resumen completo de evidencia →",
+  },
+} as const;
+
+function copyForGroup(group: AnatomySystemGroupId, locale: SyncLocale): PanelCopy {
   if (group === "all") {
-    return {
-      key: "all",
-      summary: atlasConfig.summary,
-      findingHeading: "Finding",
-      finding: atlasConfig.panelKnown,
-      uncertaintyHeading: "Open question",
-      uncertainty: atlasConfig.panelUncertain,
-      sources: [],
-      route: atlasConfig.route,
-      routeLabel: "Explore the complete science library →",
-    };
+    return { key: "all", ...generalCopy[locale], sources: [] };
   }
 
   if (group === "skeleton") {
-    return {
-      key: "skeleton",
-      summary: "Pelvic skeleton: anatomical orientation.",
-      findingHeading: "Anatomy context",
-      finding: "The pelvic skeleton is shown to orient nearby organs and body regions within the female reference model.",
-      uncertaintyHeading: "Evidence boundary",
-      uncertainty: "This site does not currently present a human microplastic study specific to the pelvic bones. Findings from blood, organs, or other tissues should not be generalized to bone.",
-      sources: [],
-      route: "/science",
-      routeLabel: "Explore the evidence library →",
-    };
+    return { key: "skeleton", ...skeletonCopy[locale], sources: [] };
   }
 
   const evidenceSlug = evidenceSlugByGroup[group];
-  const evidence = evidenceSlug ? evidenceBySlug.get(evidenceSlug) : undefined;
-  if (!evidence || !evidenceSlug) {
-    return copyForGroup("all");
-  }
+  const evidence = evidenceSlug ? evidenceByLocale[locale].get(evidenceSlug) : undefined;
+  if (!evidence || !evidenceSlug) return copyForGroup("all", locale);
 
   const showStat = groupsWithStudyStats.has(group);
+  const ui = uiCopy[locale];
   return {
     key: group,
     summary: evidence.title,
-    findingHeading: "What the evidence says",
+    findingHeading: ui.evidenceHeading,
     finding: evidence.compactFinding ?? evidence.finding,
-    uncertaintyHeading: "What it does not prove",
+    uncertaintyHeading: ui.uncertaintyHeading,
     uncertainty: evidence.compactMeaning ?? evidence.meaning,
     stat: showStat ? evidence.stat : undefined,
     statLabel: showStat ? evidence.statLabel : undefined,
     sources: evidence.sources,
-    route: routeByEvidenceSlug[evidenceSlug] ?? "/science",
+    route: routeByLocale[locale][evidenceSlug] ?? generalCopy[locale].route,
     routeLabel: evidenceSlug === "brain" || evidenceSlug === "blood" || evidenceSlug === "heart-arteries"
-      ? "Read the study context →"
-      : "Read the full evidence overview →",
+      ? ui.studyRoute
+      : ui.overviewRoute,
   };
 }
 
@@ -118,17 +163,18 @@ function syncAtlasPanel() {
   const dialog = document.querySelector<HTMLElement>(".anatomy-viewer-whole-body-atlas");
   if (!dialog) return;
 
+  const locale: SyncLocale = dialog.dataset.locale === "es" ? "es" : "en";
   const activeButton = dialog.querySelector<HTMLButtonElement>(
     '.anatomy-viewer-system-filter button[aria-pressed="true"]',
   );
-  const label = activeButton?.textContent?.trim().toLowerCase() ?? "general anatomy";
-  const group = groupByLabel[label] ?? "all";
+  const group = (activeButton?.dataset.anatomyGroup as AnatomySystemGroupId | undefined) ?? "all";
   const panel = dialog.querySelector<HTMLElement>(".anatomy-viewer-panel");
   if (!panel) return;
 
-  const copy = copyForGroup(group);
-  if (panel.dataset.evidenceGroup === copy.key) return;
-  panel.dataset.evidenceGroup = copy.key;
+  const copy = copyForGroup(group, locale);
+  const stateKey = `${locale}:${copy.key}`;
+  if (panel.dataset.evidenceGroup === stateKey) return;
+  panel.dataset.evidenceGroup = stateKey;
   panel.setAttribute("aria-live", "polite");
 
   replaceText(panel.querySelector("#anatomy-viewer-summary"), copy.summary);
@@ -153,7 +199,7 @@ function syncAtlasPanel() {
   stat.replaceChildren();
   if (copy.stat && copy.statLabel) {
     const eyebrow = document.createElement("span");
-    eyebrow.textContent = "Study snapshot";
+    eyebrow.textContent = uiCopy[locale].studySnapshot;
     const value = document.createElement("strong");
     value.textContent = copy.stat;
     const labelNode = document.createElement("small");
@@ -179,7 +225,7 @@ function syncAtlasPanel() {
   sources.replaceChildren();
   if (copy.sources.length) {
     const labelNode = document.createElement("span");
-    labelNode.textContent = "Sources";
+    labelNode.textContent = uiCopy[locale].sources;
     sources.append(labelNode);
     for (const source of copy.sources.slice(0, 2)) {
       const link = document.createElement("a");

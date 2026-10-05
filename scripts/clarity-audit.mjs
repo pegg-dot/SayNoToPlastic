@@ -22,8 +22,8 @@ expect(!home.includes("quickActions.slice(0, 5)") && !home.includes("hp-action-l
 expect(!home.includes("Repetition principle") && !home.includes("routes repeat"), "Rejected ambiguous exposure language is absent from the homepage.");
 
 expect(solutions.includes("First: use less plastic."), "Solutions leads with the direct first step.");
-expect(solutions.includes("The first step is simple. The rest is optional depth."), "Solutions separates immediate action from optional detail.");
-expect(solutions.includes("Avoid routine plastic bottles.") && solutions.includes("Replace the plastic used around heat and food.") && solutions.includes("Remove disposable plastic foodware"), "Solutions includes direct water, kitchen, and single-use guidance.");
+expect(solutions.includes("Three direct changes, with the details separated into guides.") && solutions.includes("More detail, when you need it") && solutions.includes("Start with one change. Go deeper when you need to."), "Solutions separates immediate action from optional detail.");
+expect(solutions.includes("Avoid routine plastic bottles.") && solutions.includes("Replace the plastic used around heat and food.") && solutions.includes("Reduce disposable plastic foodware where practical."), "Solutions includes direct water, kitchen, and single-use guidance.");
 expect(!solutions.includes("solutions-twelve") && !solutions.includes("solutions-rhythm"), "Solutions does not repeat the full card and another priority framework.");
 expect(!solutions.includes("Do not turn precaution into panic") && !solutions.includes("frequency × contact × heat"), "Rejected formula-like and caution-first messaging is absent.");
 
@@ -51,7 +51,7 @@ expect(guides.includes("There is no need to cool hot food and then move it into 
 expect(guides.includes('slug: "plastic-kitchen-conversion"') && guides.includes('slug: "single-use-plastic-foodware"'), "Dedicated kitchen-conversion and single-use guides exist.");
 expect(guides.includes("avoid routine plastic water bottles") && guides.includes("reverse osmosis"), "Water guide begins with the requested direct advice and explains reverse osmosis.");
 
-expect(resources.includes("Start simple. Go deeper when you need to."), "Guide library makes detail optional.");
+expect(resources.includes("Practical detail, when you want it.") && resources.includes("Solutions gives you the short version."), "Guide library makes detail optional.");
 expect(science.includes("Use less plastic. Start with the routines you repeat."), "Science-to-action bridge returns to the same clear principle.");
 
 for (const check of checks) console.log(`[${check.ok ? "PASS" : "FAIL"}] ${check.message}`);

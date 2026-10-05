@@ -47,12 +47,13 @@ for (const category of affiliate.categories) {
 if (!failures.some((message) => message.startsWith("Affiliate category"))) pass(`${affiliate.categories.length} affiliate categories point to valid guides.`);
 
 const homepage = readFileSync(join(root, "app/page.tsx"), "utf8");
-if (/tedx/i.test(homepage)) fail("Homepage source still contains TEDx content.");
-else pass("Homepage source contains no TEDx content.");
+if (homepage.includes("homeStyles.tedxFeature") && homepage.includes('href="/tedx"') && homepage.includes('className="hp-media-bridge"') && homepage.includes('href="/media"')) {
+  pass("Homepage preserves the later-approved compact TEDx feature alongside the broader Events & Media bridge.");
+} else fail("Homepage no longer matches the later v40.36 TEDx + Events & Media structure.");
 
 const tedxRoute = readFileSync(join(root, "app/tedx/page.tsx"), "utf8");
-if (/redirect\("\/media#featured-talk"\)/.test(tedxRoute)) pass("Legacy /tedx redirects to the Media feature.");
-else fail("Legacy /tedx does not redirect to /media#featured-talk.");
+if (tedxRoute.includes("FeatureVideo") && tedxRoute.includes("getEffectiveTedxEntry") && tedxRoute.includes("Temporary audience recording")) pass("Dedicated /tedx route preserves the later client request and visibly labels the temporary recording.");
+else fail("Dedicated /tedx route or its temporary-recording boundary is incomplete.");
 
 const welcome = readFileSync(join(root, "app/components/WelcomeVideoModal.tsx"), "utf8");
 for (const token of ["localStorage", "aria-modal=\"true\"", "event.key === \"Escape\"", "youtube-nocookie.com", "Continue to the site"]) {
@@ -107,14 +108,18 @@ if (anatomySource.includes("ovary-labeled.svg") && anatomySource.includes("testi
 else fail("Reproductive fallbacks still use the rejected generic ovary or testis approximations.");
 
 const chrome = readFileSync(join(root, "app/components/SiteChrome.tsx"), "utf8");
-if (chrome.includes("Events &amp; Media")) pass("Desktop and mobile navigation identify Events & Media explicitly.");
-else fail("Primary navigation does not identify Events & Media explicitly.");
+if (chrome.includes('localizedPath("/podcast", locale)') && chrome.includes('localizedPath("/tedx", locale)') && chrome.includes('localizedPath("/media", locale)')) {
+  pass("Navigation matches the later v40.36 authority: Podcast/TEDx are primary destinations and Events & Media remains directly available in secondary navigation.");
+} else fail("Navigation no longer matches the later v40.36 Podcast/TEDx/Media authority.");
 const mediaRegistry = JSON.parse(readFileSync(join(root, "app/content/media-items.json"), "utf8"));
 const mediaItems = Array.isArray(mediaRegistry) ? mediaRegistry : mediaRegistry.entries || [];
 const mediaApprovalFailures = mediaItems.filter((item) => item.published && !(item.ownerApproved || item.publicationApproval === "owner_confirmed" || item.publicationApproval === "user_authorized"));
 const temporaryLabelFailures = mediaItems.filter((item) => item.published && item.temporary && (!item.replaceWhenOfficialAvailable || !/temporary/i.test(item.displayStatus || "")));
 if (mediaItems.length > 0 && mediaApprovalFailures.length === 0 && temporaryLabelFailures.length === 0) pass("Published media has an explicit approval basis, and temporary media is labeled for replacement rather than misrepresented as official.");
 else fail("Published media is missing an approval basis or a temporary/replacement label.");
+const decisions = readFileSync(join(root, "docs/maintenance/DECISIONS.md"), "utf8");
+if (decisions.includes("v40.36 final client pass") && decisions.includes("Later Dr. Haddad TEDx direction supersedes the v33/v34 placement rule")) pass("Current decisions record preserves the later client authority over historical TEDx placement rules.");
+else fail("Current decisions record is missing the later v40.36 TEDx authority.");
 const ownerFacts = readFileSync(join(root, "app/content/owner-facts.ts"), "utf8");
 if (ownerFacts.includes("pending_owner_confirmation") && ownerFacts.includes("source conflict remains recorded internally") && !readFileSync(join(root, "app/about-dr-elie-haddad/page.tsx"), "utf8").includes("Owner confirmation required")) pass("Education uses the higher-authority transcript/Register presentation while preserving the unresolved source conflict internally.");
 else fail("Education provenance or public presentation no longer matches the latest approved handling.");

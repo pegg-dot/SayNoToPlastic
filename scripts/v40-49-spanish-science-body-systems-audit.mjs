@@ -71,7 +71,7 @@ expect(spanishRoute.includes('"en-US": `/science/body/${article.slug}`') && span
 expect(englishRoute.includes('"es-US": `/es/ciencia/cuerpo/${article.slug}`'), "English body-system metadata exposes the Spanish alternate.");
 expect(spanishScience.includes('import { bodySystemsEs }') && spanishScience.includes('/es/ciencia/cuerpo/${item.slug}') && !spanishScience.includes("Página detallada en inglés"), "Spanish Science now routes body-system cards to translated detail pages.");
 expect(i18n.includes('pathname.startsWith("/science/body/")') && i18n.includes('pathname.startsWith("/es/ciencia/cuerpo/")'), "Language switcher maps body-system routes in both directions.");
-expect(sitemap.includes('bodySystemsEs.map') && sitemap.includes('/es/ciencia/cuerpo/${item.slug}'), "Spanish body-system pages are included in the sitemap.");
+expect(sitemap.includes('bodySystemsEs.filter((item) => item.reviewStatus !== "source-review").map') && sitemap.includes('/es/ciencia/cuerpo/${item.slug}'), "Spanish body-system sitemap follows publication status: verified/partial pages are discoverable while source-review/noindex pages stay out.");
 expect(build.includes("v40.49-spanish-science-body-systems"), "Build marker identifies Spanish body-system science phase.");
 
 for (const check of checks) console.log(`[${check.ok ? "PASS" : "FAIL"}] ${check.label}`);

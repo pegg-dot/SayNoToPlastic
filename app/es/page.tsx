@@ -49,7 +49,7 @@ export default function SpanishHome() {
         <section id="top" className="hp-hero">
           <MatterField className="hp-hero-field" density={74} />
           <div className="hp-hero-shade" />
-          <picture className="hp-hero-approved-art" aria-hidden="true">
+          <picture className="hp-hero-approved-art">
             <source media="(max-width: 767px)" srcSet="/hero-mobile.webp"/>
             <img src="/hero-desktop.webp" width="1536" height="980" fetchPriority="high" alt=""/>
           </picture>

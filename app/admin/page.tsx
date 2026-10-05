@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { getAdminUser, adminAllowlist } from "../lib/admin-auth";
+import { getAdminUser } from "../lib/admin-auth";
 import { ADMIN_CONTENT_FIELDS, listAdminContent, listAdminContentRevisions } from "../lib/admin-content";
 import { getAdminDashboardMetrics } from "../lib/admin-metrics";
 import { AdminPanel } from "./AdminPanel";

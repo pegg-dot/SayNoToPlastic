@@ -14,7 +14,7 @@ export function Wordmark({ footer = false, locale = "en" }: { footer?: boolean; 
     <a className={`brand${footer ? " footer-brand" : ""}`} href={locale === "es" ? "/es" : "/"} aria-label={locale === "es" ? "Inicio de Say No to Plastic" : "Say No to Plastic home"}>
       <img
         className="brand-wordmark"
-        src={footer ? "/brand/sntp-wordmark-microplastic.png" : "/brand/sntp-wordmark-microplastic-nav.png"}
+        src={footer ? "/brand/sntp-wordmark-microplastic.webp" : "/brand/sntp-wordmark-microplastic-nav.webp"}
         width={footer ? 1320 : 900}
         height={footer ? 220 : 150}
         alt=""
@@ -168,7 +168,7 @@ export function Footer({ locale = "en" }: { locale?: SiteLocale }) {
     <footer className="site-footer">
       <div className="earth"><p>“{copy.inheritance} <em>{copy.health}</em>”</p></div>
       <div className="footer-grid">
-        <div><Wordmark footer locale={locale} /><p>{copy.footerTagline}</p><span className="movement-mark" aria-hidden="true"><img src="/brand/sntp-wordmark-microplastic-nav.png" width="900" height="150" alt="" decoding="async" /></span></div>
+        <div><Wordmark footer locale={locale} /><p>{copy.footerTagline}</p><span className="movement-mark" aria-hidden="true"><img src="/brand/sntp-wordmark-microplastic-nav.webp" width="900" height="150" alt="" decoding="async" /></span></div>
         <div><strong>{copy.explore}</strong><a href={localizedPath("/science", locale)}>{copy.evidence}</a><a href={localizedPath("/science/how-detection-works", locale)}>{copy.detection}</a><a href={localizedPath("/science/exposome", locale)}>{copy.exposome}</a><a href={localizedPath("/solutions", locale)}>{copy.practical}</a><a href={localizedPath("/quick-action-card", locale)}>{copy.twelveStep}</a><a href={localizedPath("/homo-plasticus", locale)}>{copy.theBook}</a><a href="/purchase/recover">{copy.bookAccess}</a><a href={localizedPath("/resources", locale)}>{copy.guideLibrary}</a><a href="/recommendations">{copy.reviewStandard}</a></div>
         <div><strong>{copy.project}</strong><a href={localizedPath("/podcast", locale)}>Beyond Plastic podcast</a><a href={localizedPath("/tedx", locale)}>{copy.tedx}</a><a href={localizedPath("/about-dr-elie-haddad", locale)}>{copy.drHaddad}</a><a href={localizedPath("/media", locale)}>{copy.talkMedia}</a><a href={localizedPath("/newsletters", locale)}>{copy.fieldNotes}</a><a href={localizedPath("/contact", locale)}>{copy.contact}</a><a href="/editorial-policy">{copy.editorial}</a></div>
         <div className="footer-signup"><strong>{copy.newsletterTitle}</strong><p>{copy.newsletterBody}</p><SignupForm compact locale={locale} buttonLabel={copy.join} successTitle={copy.successTitle} successText={copy.successText} /></div>

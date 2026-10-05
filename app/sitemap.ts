@@ -22,17 +22,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     ...routes.map((path, index) => ({
       url: `${base}${path}`,
-      lastModified: new Date("2026-08-31"),
+      lastModified: new Date("2026-10-05"),
       changeFrequency: (index === 0 ? "weekly" : "monthly") as "weekly" | "monthly",
       priority: index === 0 ? 1 : .7,
     })),
-    ...bodySystems.map((item) => ({
+    ...bodySystems.filter((item) => item.reviewStatus !== "source-review").map((item) => ({
       url: `${base}/science/body/${item.slug}`,
       lastModified: new Date(item.updatedDate),
       changeFrequency: "monthly" as const,
       priority: .82,
     })),
-    ...bodySystemsEs.map((item) => ({
+    ...bodySystemsEs.filter((item) => item.reviewStatus !== "source-review").map((item) => ({
       url: `${base}/es/ciencia/cuerpo/${item.slug}`,
       lastModified: new Date(item.updatedDate),
       changeFrequency: "monthly" as const,

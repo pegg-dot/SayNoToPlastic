@@ -1142,6 +1142,12 @@ html:has(.science-v2){scroll-behavior:auto}
 @media(prefers-reduced-motion:reduce){.welcome-film-backdrop,.welcome-film-dialog{animation:none}.resource-pathways a,.guide-starters a{transition:none}}
 .guide-search small{display:block;margin-top:8px;color:#766b5a;font:11px/1.45 Georgia,serif;letter-spacing:0;text-transform:none}
 
+/* Current-media provenance boundary */
+.media-temporary-status{max-width:760px;margin:18px 0 0;padding:12px 14px;border-left:2px solid #9a6a31;background:#efe7da;color:#51483d;font:13px/1.55 Georgia,serif}
+.media-temporary-status strong{color:#5f401d}
+.media-feature-copy .media-temporary-status{margin-top:22px}
+@media(max-width:700px){.media-temporary-status{font-size:14px;line-height:1.55}}
+
 /* Transcript reconciliation additions */
 .finding-companion{margin:28px 0 8px;padding:22px;border-left:1px solid var(--gold);background:rgba(255,255,255,.035)}
 .finding-companion>p{margin:0 0 15px;font:8px Arial,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-light)}
@@ -3412,3 +3418,19 @@ body[data-anatomy-viewer-open="true"] .welcome-film-trigger{display:none!importa
   text-decoration:underline;
   text-underline-offset:3px;
 }
+
+/* v40.59 quality hardening: WCAG contrast and readable legal controls.
+   Measured against the live production Lighthouse audit before this release. */
+.science-v2-chapter-heading>p:first-child,
+.science-v2-explanation p span{color:#6b4a20}
+.science-v2-stat span,
+.science-v2-source small{color:#5f584e}
+.science-v2-context-links a>span{color:#8a5723}
+.body-system-page .body-system-section .section-index{color:#7a5427}
+.body-system-sources>a>span{color:#7a5427}
+.body-system-boundary>div:first-child .eyebrow.dark{color:#6b4a20}
+.hp-actions-visual li>span{color:#7a5427}
+.exposure-marquee{color:#56616a}
+.footer-bottom{color:#9aa0a5;font-size:14px;line-height:1.5}
+.footer-bottom span:last-child>a,
+.footer-bottom span:last-child>button{min-height:48px;font-size:14px;color:#9aa0a5}

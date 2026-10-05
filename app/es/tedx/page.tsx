@@ -53,8 +53,9 @@ export default async function TedxSpanishPage() {
             <p className="eyebrow dark">TEDxMiami</p>
             <h2 id="tedx-video-title">{title}</h2>
           </div>
+          {entry?.temporary ? <p className="media-temporary-status"><strong>Grabación temporal del público.</strong> No es la publicación oficial de TEDx y será reemplazada cuando esté disponible el video público oficial.</p> : null}
           {video ? (
-            <FeatureVideo video={{ ...video, playLabel: "Reproducir charla TEDx", kicker: "TEDxMiami" }} analyticsLabel="tedx-page-es" className="media-video" locale="es" />
+            <FeatureVideo video={{ ...video, playLabel: "Reproducir charla TEDx", kicker: entry?.temporary ? "Grabación temporal · TEDxMiami" : "TEDxMiami" }} analyticsLabel="tedx-page-es" className="media-video" locale="es" />
           ) : (
             <figure className="media-pending-card">
               <img src="/tedx.webp" width="1536" height="1024" alt="Dr. Elie Haddad hablando en un escenario de TEDxMiami" />

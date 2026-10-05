@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { bodySystems, type BodySystemArticle } from "../content/body-systems";
 import type { AdminContentRecord, OwnerBodySystemOverride, OwnerBodySystemSource } from "../lib/admin-content";
 import styles from "./admin.module.css";
@@ -49,7 +49,6 @@ export function BodySystemManager({ value, saveState, previewRevision, onSave }:
   const [selectedSlug, setSelectedSlug] = useState(bodySystems[0].slug);
   const [message, setMessage] = useState("");
 
-  useEffect(() => { setOverrides(parseOverrides(value)); }, [value]);
 
   const base = bodySystems.find((item) => item.slug === selectedSlug) || bodySystems[0];
   const stored = overrides.find((item) => item.slug === selectedSlug);

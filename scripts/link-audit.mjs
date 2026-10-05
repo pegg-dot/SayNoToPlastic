@@ -41,6 +41,9 @@ for (const match of guideSource.matchAll(/\bslug:\s*"([^"]+)"/g)) staticRoutes.a
 const bodySystemSource = readFileSync(join(root, "app/content/body-systems.ts"), "utf8");
 for (const match of bodySystemSource.matchAll(/\bslug:\s*"([^"]+)"/g)) staticRoutes.add(`/science/body/${match[1]}`);
 
+const spanishBodySystemSource = readFileSync(join(root, "app/content/es/body-systems.ts"), "utf8");
+for (const match of spanishBodySystemSource.matchAll(/\bslug:\s*"([^"]+)"/g)) staticRoutes.add(`/es/ciencia/cuerpo/${match[1]}`);
+
 const publicPaths = new Set(walk(publicRoot).map((path) => `/${relative(publicRoot, path).split(sep).join("/")}`));
 const sourceFiles = walk(appRoot).filter((path) => /\.(?:ts|tsx)$/.test(path));
 const internalLinks = [];
@@ -80,6 +83,18 @@ const evidenceSource = readFileSync(join(root, "app/content/evidence.ts"), "utf8
 const scienceIds = routeIds.get("/science") ?? new Set();
 for (const match of evidenceSource.matchAll(/\{\s*id:\s*"([^"]+)",\s*navLabel:/g)) scienceIds.add(match[1]);
 routeIds.set("/science", scienceIds);
+
+const spanishEvidenceSource = readFileSync(join(root, "app/content/es/evidence.ts"), "utf8");
+const spanishScienceIds = routeIds.get("/es/ciencia") ?? new Set();
+for (const match of spanishEvidenceSource.matchAll(/\{\s*id:\s*"([^"]+)",\s*navLabel:/g)) spanishScienceIds.add(match[1]);
+routeIds.set("/es/ciencia", spanishScienceIds);
+
+// CommunityChallenge is imported into /community, so its literal section IDs are
+// part of the rendered /community fragment contract even though they live in a component file.
+const communityChallengeSource = readFileSync(join(root, "app/components/CommunityChallenge.tsx"), "utf8");
+const communityIds = routeIds.get("/community") ?? new Set();
+for (const match of communityChallengeSource.matchAll(/\bid\s*=\s*["']([^"']+)["']/g)) communityIds.add(match[1]);
+routeIds.set("/community", communityIds);
 
 for (const { file, href } of internalLinks.filter((item) => item.href.includes("#"))) {
   const [pathname, fragment] = href.split("#");

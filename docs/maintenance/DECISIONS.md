@@ -257,3 +257,10 @@ Dr. Rudolph Eberwein’s published collaboration credit remains on the book/byli
 8. **Generated PDFs are reproducible review candidates.** The Python generator and hash/page manifest ship with the source. Final public release still requires rendered, editorial, and rights approval.
 9. **No respiratory invention.** Lack of a dedicated lungs source remains an explicit content boundary.
 10. **No production or dependency workaround.** Sites v30, provider settings, secrets, DNS, storage, commerce default, dependencies, and package lock remain unchanged.
+
+## v40.36 final client pass — September 1, 2026
+
+1. **Later Dr. Haddad TEDx direction supersedes the v33/v34 placement rule.** The client explicitly requested a dedicated `/tedx` page, a compact TEDx feature on Home, and Podcast/TEDx in primary navigation. Preserve those surfaces unless a still-later owner decision changes them.
+2. **Events & Media remains the broader hub.** `/media` still owns the complete talks/appearances/press story; the compact Home feature and dedicated TEDx route do not replace that hub.
+3. **Temporary recording status must remain explicit.** The currently authorized audience recording is not the official TEDx release. Any public surface that plays it must identify it as temporary and preserve the replace-when-official contract.
+4. **Do not resurrect the older large TEDx-heavy homepage architecture.** v40.36 authorizes the small client-requested feature, not the superseded nine-section blueprint or a TEDx hero conversion path.

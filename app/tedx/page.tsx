@@ -58,6 +58,7 @@ export default async function TedxPage() {
             <p className="eyebrow dark">TEDxMiami</p>
             <h2 id="tedx-video-title">{title}</h2>
           </div>
+          {entry?.temporary ? <p className="media-temporary-status"><strong>Temporary audience recording.</strong> This is not the official TEDx release and will be replaced when the official public video becomes available.</p> : null}
           {video ? (
             <FeatureVideo video={video} analyticsLabel="tedx-page" className="media-video" />
           ) : (

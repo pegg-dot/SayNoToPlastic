@@ -5,7 +5,7 @@
       "type": "talk",
       "title": "The Invisible Inheritance of Nanoplastics",
       "description": "Temporary audience recording of Dr. Haddad's TEDxMiami talk. It is not the official TEDx release and will be replaced when the official public video arrives.",
-      "platform": "YouTube · audience recording",
+      "platform": "YouTube \u00b7 audience recording",
       "date": null,
       "status": "ready",
       "sourceUrl": "https://www.youtube.com/shorts/6juPFhIh68I",
@@ -20,7 +20,7 @@
       "publicationApproval": "user_authorized",
       "temporary": true,
       "replaceWhenOfficialAvailable": true,
-      "displayStatus": "TEDxMiami",
+      "displayStatus": "Temporary audience recording \u00b7 TEDxMiami",
       "playLabel": "Play the TEDx talk",
       "showPosterText": false,
       "useThumbnailAsPoster": true
@@ -45,7 +45,7 @@
       "publicationApproval": "user_authorized",
       "temporary": false,
       "replaceWhenOfficialAvailable": false,
-      "displayStatus": "Long-form conversation · current YouTube link",
+      "displayStatus": "Long-form conversation \u00b7 current YouTube link",
       "playLabel": "Watch the conversation",
       "useThumbnailAsPoster": false
     }

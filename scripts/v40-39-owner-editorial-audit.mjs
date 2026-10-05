@@ -10,7 +10,6 @@ const expect = (ok, label) => checks.push({ ok: Boolean(ok), label });
 const build = read("app/build-version.ts");
 const adminContent = read("app/lib/admin-content.ts");
 const adminPanel = read("app/admin/AdminPanel.tsx");
-const adminPage = read("app/admin/page.tsx");
 const adminApi = read("app/admin/api/content/route.ts");
 const home = read("app/page.tsx");
 const media = read("app/media/page.tsx");

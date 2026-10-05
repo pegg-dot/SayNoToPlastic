@@ -296,7 +296,7 @@ export function BodyJourney() {
         <small>Educational reference assembly, not a clinical or patient-specific atlas. Particle motion in the anatomy journey is an illustrative spatial cue, not a measured transport trajectory.</small>
       </section>
 
-      {openSlug && <AnatomySystemViewer slug={openSlug} onClose={closeViewer} />}
+      {openSlug && <AnatomySystemViewer key={openSlug} slug={openSlug} onClose={closeViewer} />}
     </>
   );
 }

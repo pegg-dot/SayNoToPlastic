@@ -52,8 +52,8 @@ if (homepage.includes("homeStyles.tedxFeature") && homepage.includes('href="/ted
 } else fail("Homepage no longer matches the later v40.36 TEDx + Events & Media structure.");
 
 const tedxRoute = readFileSync(join(root, "app/tedx/page.tsx"), "utf8");
-if (tedxRoute.includes("FeatureVideo") && tedxRoute.includes("getEffectiveTedxEntry") && tedxRoute.includes("Temporary audience recording")) pass("Dedicated /tedx route preserves the later client request and visibly labels the temporary recording.");
-else fail("Dedicated /tedx route or its temporary-recording boundary is incomplete.");
+if (tedxRoute.includes("FeatureVideo") && tedxRoute.includes("getEffectiveTedxEntry") && tedxRoute.includes("The Future of Human Health (In the Age of Nanoplastics)")) pass("Dedicated /tedx route preserves the later client request and names the official TEDxMiami release.");
+else fail("Dedicated /tedx route or its official-release integration is incomplete.");
 
 const welcome = readFileSync(join(root, "app/components/WelcomeVideoModal.tsx"), "utf8");
 for (const token of ["localStorage", "aria-modal=\"true\"", "event.key === \"Escape\"", "youtube-nocookie.com", "Continue to the site"]) {

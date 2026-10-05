@@ -265,7 +265,7 @@ export const ADMIN_CONTENT_FIELDS: AdminFieldSpec[] = [
   {
     key: "tedx.video_url",
     label: "TEDx video URL",
-    description: "Temporary or official YouTube URL used on the TEDx and Events & Media pages.",
+    description: "Canonical YouTube URL used on the TEDx and Events & Media pages.",
     kind: "url",
     maxLength: 500,
     allowedHosts: ["youtube.com", "www.youtube.com", "youtu.be"],
@@ -274,7 +274,7 @@ export const ADMIN_CONTENT_FIELDS: AdminFieldSpec[] = [
   {
     key: "tedx.status",
     label: "TEDx video status",
-    description: "Keep this Temporary until TEDx publishes the official release. Official requires an owner-supplied TEDx video URL.",
+    description: "Publication status for the TEDx recording. The current canonical release is official.",
     kind: "enum",
     maxLength: 20,
     allowedValues: ["temporary", "official"],

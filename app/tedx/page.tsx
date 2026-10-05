@@ -8,7 +8,7 @@ import { getAdminContentValues } from "../lib/admin-content";
 
 export const dynamic = "force-dynamic";
 
-const title = "The Invisible Inheritance of Nanoplastics";
+const title = "The Future of Human Health (In the Age of Nanoplastics)";
 const description = "Dr. Elie Haddad's TEDxMiami talk on microplastics, nanoplastics, human health, and the relationship between the world around us and the world within us.";
 
 export const metadata: Metadata = {
@@ -33,7 +33,7 @@ export default async function TedxPage() {
   ]);
   const video = entry ? toVideoFeature(entry) : null;
   const storyTitle = ownerCopy["tedx.story_title"] || "What if one of the greatest environmental stories of our time is no longer only happening around us, but within us?";
-  const storyBodyPrimary = ownerCopy["tedx.story_body_primary"] || "In The Invisible Inheritance of Nanoplastics, Dr. Elie Haddad explores the emerging science of micro- and nanoplastics in the human body and asks us to reconsider the boundary between environmental health and human health.";
+  const storyBodyPrimary = ownerCopy["tedx.story_body_primary"] || "In The Future of Human Health (In the Age of Nanoplastics), Dr. Elie Haddad explores the emerging science of micro- and nanoplastics in the human body and asks us to reconsider the boundary between environmental health and human health.";
   const storyBodySecondary = ownerCopy["tedx.story_body_secondary"] || "Drawing from medicine, scientific research and the story behind Say No To Plastic, the talk is ultimately about something larger than plastic: the intimate relationship between the world we create around us and the world we create within us.";
 
   return (
@@ -71,7 +71,7 @@ export default async function TedxPage() {
 
         <section className="media-inquiries ivory">
           <div>
-            <p className="eyebrow dark">The Invisible Inheritance of Nanoplastics</p>
+            <p className="eyebrow dark">The Future of Human Health (In the Age of Nanoplastics)</p>
             <h2>{storyTitle}</h2>
             <p>{storyBodyPrimary}</p>
             <p>{storyBodySecondary}</p>

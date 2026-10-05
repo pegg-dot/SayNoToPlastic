@@ -18,12 +18,12 @@ export const BEYOND_PLASTIC = {
   ] satisfies PodcastPlatform[],
 } as const;
 
-// Compatibility registry for homepage/sitemap consumers. This remains the current
-// owner-approved temporary recording until TEDx publishes the official release.
+// Compatibility registry for homepage/sitemap consumers. TEDxMiami's official
+// public release is now the canonical playback source.
 export const TEDX_RELEASE = {
   published: true,
-  title: "The Invisible Inheritance of Nanoplastics",
+  title: "The Future of Human Health (In the Age of Nanoplastics)",
   speakerLine: "Dr. Elie Haddad | TEDxMiami",
-  officialVideoUrl: "https://www.youtube.com/shorts/6juPFhIh68I",
-  officialYoutubeId: "6juPFhIh68I",
+  officialVideoUrl: "https://www.youtube.com/watch?v=solsGnKO1-c",
+  officialYoutubeId: "solsGnKO1-c",
 } as const;

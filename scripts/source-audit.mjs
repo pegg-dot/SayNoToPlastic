@@ -92,8 +92,8 @@ if (journeySection.includes('slug: "heart-arteries"') && journeySection.includes
 else fail("Heart chapter does not preserve both cardiovascular studies.");
 
 const bodyJourney = readFileSync(join(root, "app/components/BodyJourney.tsx"), "utf8");
-if ((bodyJourney.includes("Complete interactive atlas") || bodyJourney.includes("Interactive anatomy")) && bodyJourney.includes('openViewer("whole-body-atlas"') && bodyJourney.includes('href="/science"')) pass("Anatomy journey ends with a complete-body interactive atlas handoff.");
-else fail("Anatomy journey is missing the complete-body interactive atlas handoff.");
+if (bodyJourney.includes('className="journey-complete-atlas-compact"') && bodyJourney.includes('openViewer("whole-body-atlas"') && bodyJourney.includes('scienceHref: "/science"') && bodyJourney.includes('scienceHref: "/es/ciencia"') && bodyJourney.includes('atlasButton: "Open anatomy atlas"') && bodyJourney.includes('atlasButton: "Abrir atlas anatómico"')) pass("Anatomy journey ends with a localized complete-body interactive atlas handoff.");
+else fail("Anatomy journey is missing the localized complete-body interactive atlas handoff.");
 if (bodyJourney.includes("finding-sources") && bodyJourney.includes("item.sources.map")) pass("Homepage evidence chapters support multiple direct primary sources.");
 else fail("Homepage evidence chapters do not render their source lists.");
 

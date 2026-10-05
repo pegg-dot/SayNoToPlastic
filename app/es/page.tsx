@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Footer, Header } from "../components/SiteChrome";
+import { BodyJourney } from "../components/BodyJourney";
+import { HomeRevealObserver } from "../components/HomeRevealObserver";
 import { coreRulesEs } from "../content/es/actions";
 import { BOOK } from "../config";
 import { TrackedLink } from "../components/TrackedLink";
@@ -45,6 +47,7 @@ export default function SpanishHome() {
     <>
       <Header locale="es" />
       <main id="main-content" tabIndex={-1} className="home-v2">
+        <HomeRevealObserver />
 
         <section id="top" className="hp-hero">
           <MatterField className="hp-hero-field" density={74} />
@@ -65,17 +68,16 @@ export default function SpanishHome() {
           <div className="hp-hero-index"><span>01</span><p>Ciencia · Claridad · Acción</p></div>
         </section>
 
-        <section id="evidence" className="hp-media-bridge" aria-labelledby="home-es-science-title">
-          <div data-reveal>
-            <p className="eyebrow">La ciencia</p>
-            <h2 id="home-es-science-title">Primero entendemos qué encontraron los estudios. Después preguntamos qué significa.</h2>
-            <p>La sección de Ciencia separa detección, asociación, mecanismos e incertidumbre. Las traducciones científicas completas se revisan por separado para no perder precisión.</p>
+        <BodyJourney locale="es" />
+
+        <section id="join" className="hp-join">
+          <div className="hp-join-copy" data-reveal>
+            <div className="hp-section-index light"><span>07</span><p>Mantente conectado</p></div>
+            <p className="eyebrow">Field Notes / Boletín</p>
+            <h2>Mantente cerca de la investigación.</h2>
+            <p>Recibe nuevos resúmenes de investigación, orientación práctica para reducir la exposición, noticias del libro y actualizaciones del proyecto.</p>
+            <SignupForm locale="es" buttonLabel="Únete al movimiento" successTitle="Ya estás dentro." successText="Tu suscripción está activa. No necesitas confirmar por correo electrónico." />
           </div>
-          <aside data-reveal>
-            <strong>Evidencia estructurada</strong>
-            <p>Estudios en humanos, sistemas del cuerpo y métodos de detección, con fuentes y limitaciones visibles.</p>
-            <TrackedLink className="button gold" href="/es/ciencia" eventName="cta_click" label="home-es-science">Explorar la ciencia <span>→</span></TrackedLink>
-          </aside>
         </section>
 
         <section id="exposure" className="exposure-section">
@@ -170,14 +172,17 @@ export default function SpanishHome() {
           </div>
         </section>
 
-        <section id="join" className="hp-join">
-          <div className="hp-join-copy" data-reveal>
-            <div className="hp-section-index light"><span>07</span><p>Mantente conectado</p></div>
-            <p className="eyebrow">Field Notes / Boletín</p>
-            <h2>Mantente cerca de la investigación.</h2>
-            <p>Recibe nuevos resúmenes de investigación, orientación práctica para reducir la exposición, noticias del libro y actualizaciones del proyecto.</p>
-            <SignupForm locale="es" buttonLabel="Únete al movimiento" successTitle="Ya estás dentro." successText="Tu suscripción está activa. No necesitas confirmar por correo electrónico." />
+        <section className="hp-media-bridge" aria-labelledby="home-es-media-title">
+          <div data-reveal>
+            <p className="eyebrow">Eventos y medios</p>
+            <h2 id="home-es-media-title">Sigue la conversación pública.</h2>
+            <p>Charlas, entrevistas, apariciones públicas y recursos de prensa viven en un centro de medios dedicado.</p>
           </div>
+          <aside data-reveal>
+            <strong>Centro de medios</strong>
+            <p>Explora apariciones verificadas y recursos de prensa.</p>
+            <TrackedLink className="button gold" href="/media" eventName="cta_click" label="home-es-media">Abrir Eventos y Medios <span>→</span></TrackedLink>
+          </aside>
         </section>
 
       </main>

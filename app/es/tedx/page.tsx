@@ -7,7 +7,7 @@ import { getEffectiveTedxEntry } from "../../lib/publication-overrides";
 
 export const dynamic = "force-dynamic";
 
-const title = "La herencia invisible de los nanoplásticos";
+const title = "El futuro de la salud humana (en la era de los nanoplásticos)";
 const description = "La charla TEDxMiami del Dr. Elie Haddad sobre microplásticos, nanoplásticos, salud humana y la relación entre el mundo que nos rodea y el mundo dentro de nosotros.";
 
 export const metadata: Metadata = {
@@ -66,9 +66,9 @@ export default async function TedxSpanishPage() {
 
         <section className="media-inquiries ivory">
           <div>
-            <p className="eyebrow dark">La herencia invisible de los nanoplásticos</p>
+            <p className="eyebrow dark">El futuro de la salud humana (en la era de los nanoplásticos)</p>
             <h2>¿Y si una de las grandes historias ambientales de nuestro tiempo ya no ocurre solo a nuestro alrededor, sino también dentro de nosotros?</h2>
-            <p>En <em>La herencia invisible de los nanoplásticos</em>, el Dr. Elie Haddad explora la ciencia emergente sobre microplásticos y nanoplásticos en el cuerpo humano y nos invita a reconsiderar la frontera entre la salud ambiental y la salud humana.</p>
+            <p>En <em>El futuro de la salud humana (en la era de los nanoplásticos)</em>, el Dr. Elie Haddad explora la ciencia emergente sobre microplásticos y nanoplásticos en el cuerpo humano y nos invita a reconsiderar la frontera entre la salud ambiental y la salud humana.</p>
             <p>A partir de la medicina, la investigación científica y la historia detrás de Say No to Plastic, la charla trata en última instancia de algo más amplio que el plástico: la relación íntima entre el mundo que creamos a nuestro alrededor y el mundo que creamos dentro de nosotros.</p>
             <a className="button dark" href="#tedx-video-title">Ver la charla TEDx <span>↑</span></a>
           </div>

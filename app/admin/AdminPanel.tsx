@@ -88,7 +88,7 @@ const pageFieldGroups: Partial<Record<OwnerPageId, PageFieldGroup[]>> = {
     { id: "platforms", label: "Listening links", description: "Where visitors can find the show on each platform.", fields: ["podcast.spotify_url", "podcast.apple_url", "podcast.youtube_url", "podcast.amazon_url"] },
   ],
   tedx: [
-    { id: "video", label: "TEDx video", description: "The current recording and whether the official TEDx version is available.", fields: ["tedx.video_url", "tedx.status"] },
+    { id: "video", label: "TEDx video", description: "The official TEDxMiami recording and its publication status.", fields: ["tedx.video_url", "tedx.status"] },
     { id: "story", label: "Story beneath the talk", description: "The explanation visitors read after watching the video.", fields: ["tedx.story_title", "tedx.story_body_primary", "tedx.story_body_secondary"] },
   ],
   media: [
@@ -122,8 +122,8 @@ const friendlyFields: Partial<Record<AdminContentKey, { label: string; help: str
   "media.hero_heading": { label: "Events & Media page headline", help: "The large headline at the top of the Events & Media page." },
   "media.hero_intro": { label: "Events & Media introduction", help: "The opening paragraph under the page headline." },
   "media.owner_update": { label: "Featured update from Dr. Haddad", help: "Optional highlighted news or announcement. Leave blank if there is no current update." },
-  "tedx.video_url": { label: "TEDx video link", help: "Paste the YouTube link here when you want to replace the current TEDx recording." },
-  "tedx.status": { label: "Is the TEDx video official yet?", help: "Keep Temporary recording until TEDx publishes the official video." },
+  "tedx.video_url": { label: "TEDx video link", help: "Official TEDxMiami video link. Replace only if TEDx publishes a newer canonical release." },
+  "tedx.status": { label: "TEDx video status", help: "This should remain Official for the current TEDxMiami public release." },
   "podcast.series_label": { label: "Small podcast label", help: "A short label shown above the main podcast heading." },
   "podcast.series_heading": { label: "Podcast heading", help: "The main headline on the Beyond Plastic page." },
   "podcast.series_body": { label: "Podcast description", help: "The paragraph that explains the current podcast series." },

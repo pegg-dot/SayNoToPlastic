@@ -1,7 +1,7 @@
 # Current State — Say No to Plastic
 
 **Authority date:** October 5, 2026
-**Current source line:** v40.60.1 Spanish homepage mobile closure
+**Current source line:** v40.61 official TEDxMiami release
 **Production domain:** https://saynotoplastic.com
 **Production Worker:** `say-no-to-plastic`
 **Production D1:** `DB -> saynotoplastic-db`
@@ -31,7 +31,7 @@ The later v40.36 Dr. Haddad client request supersedes the older v33/v34 TEDx pla
 - `/media` remains the broader Events & Media / press hub;
 - do not reintroduce the older large TEDx-heavy homepage blueprint.
 
-The current public TEDx video is an authorized **temporary audience recording**, not the official TEDx release. Public playback surfaces must label it temporary and replace it when the official public release becomes available.
+The current public TEDx video is the **official TEDxMiami release**, verified at `https://www.youtube.com/watch?v=solsGnKO1-c`. Public playback surfaces must use that canonical release and must not fall back to the superseded temporary audience recording.
 
 ## Science publication boundary
 
@@ -100,7 +100,7 @@ See `docs/SPANISH_HOME_PARITY_V40_60.md` for the root cause and rendered proof.
 
 These are not hidden engineering defects and must not be invented or silently marked complete:
 
-- official TEDx replacement video/date/rights when it becomes available;
+- final TEDx publication date / reuse-rights metadata if the team wants those fields fully verified beyond the canonical public release;
 - final clinical/anatomy approval where Dr. Haddad wants qualified review;
 - unresolved biography/education provenance that requires written owner confirmation;
 - final press/photography reuse rights where still pending;

@@ -16,7 +16,6 @@ const anatomy = read("app/components/AnatomyScene.tsx");
 const ownerFacts = read("app/content/owner-facts.ts");
 const about = read("app/about-dr-elie-haddad/page.tsx");
 const mediaData = JSON.parse(read("app/content/media-items.json"));
-const media = read("app/media/page.tsx");
 const config = read("app/config.ts");
 const env = read(".env.example");
 const audience = read("app/lib/audience-service.ts");
@@ -33,7 +32,7 @@ expect(guides.includes('slug: "single-use-plastic-foodware"') && solutions.inclu
 expect(anatomy.includes("ovary-labeled.svg") && anatomy.includes("testis-labeled.png"), "T07", "Rejected reproductive fallback blobs are replaced with recognizable labeled views.");
 expect(ownerFacts.includes("pending_owner_confirmation") && ownerFacts.includes("source conflict remains recorded internally") && about.includes("Jackson Memorial / Jackson Health") === false && !about.includes("Owner confirmation required") && !about.includes("Not presented as a final credential"), "T08", "Education keeps the source conflict internal while the public page follows the latest direction to remove owner-confirmation workflow language.");
 const entries = mediaData.entries || [];
-expect(entries.length >= 2 && entries.some((entry) => entry.id === "tedx-invisible-inheritance" && entry.published === true && entry.ownerApproved === false && entry.publicationApproval === "user_authorized" && entry.temporary === true && entry.replaceWhenOfficialAvailable === true) && media.includes("temporary recording") && media.includes("not the official TEDx release"), "T09", "Latest user-authorized TEDx exception is explicit: temporary phone recording is playable, not mislabeled official, and marked for replacement.");
+expect(entries.length >= 2 && entries.some((entry) => entry.id === "tedx-invisible-inheritance" && entry.published === true && entry.ownerApproved === false && entry.publicationApproval === "user_authorized" && entry.temporary === false && entry.replaceWhenOfficialAvailable === false && entry.youtubeId === "solsGnKO1-c"), "T09", "Later user-supplied TEDx authority supersedes the temporary phone recording with the verified official TEDxMiami release.");
 expect(config.includes('DEFAULT_SITE_URL = "https://saynotoplastic.com"') && env.includes("PUBLIC_SITE_URL=https://saynotoplastic.com"), "T10", "Movement canonical and support configuration use Say No to Plastic.");
 expect(env.includes("AUDIENCE_PROVIDER=none") && audience.includes('"resend" | "mailchimp"') && audience.includes("MAILCHIMP_AUDIENCE_ID"), "T11", "Mailchimp-versus-Resend is an explicit provider decision with both adapters available.");
 expect(entries.every((entry) => "thumbnailRights" in entry && "status" in entry && "published" in entry), "T12", "Media uses an approval-aware editorial registry.");

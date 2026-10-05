@@ -166,7 +166,7 @@ export default function SpanishHome() {
           <div className={homeStyles.tedxRule}><span>TEDxMiami</span></div>
           <div className={homeStyles.tedxCopy} data-reveal>
             <p className={homeStyles.tedxEyebrow}>Ver la charla TEDx</p>
-            <h2 id="home-tedx-title">La herencia invisible de los nanoplásticos</h2>
+            <h2 id="home-tedx-title">El futuro de la salud humana (en la era de los nanoplásticos)</h2>
             <p>¿Qué ocurre cuando un contaminante ambiental se convierte en parte de la historia humana?</p>
             <TrackedLink className={homeStyles.tedxCta} href="/es/tedx" eventName="cta_click" label="home-es-tedx">Ver la charla <span>→</span></TrackedLink>
           </div>

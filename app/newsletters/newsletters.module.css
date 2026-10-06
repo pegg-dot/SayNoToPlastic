@@ -29,11 +29,48 @@
   letter-spacing: -.04em;
 }
 
-.hero > p:last-child {
+.hero > p:nth-of-type(2) {
   max-width: 730px;
   margin: 28px 0 0;
   color: #b7c1c9;
   font: 18px/1.65 Georgia, serif;
+}
+
+.heroActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 34px;
+}
+
+.primaryAction,
+.secondaryAction {
+  min-height: 50px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  padding: 0 20px;
+  font: 800 10px/1 Arial, sans-serif;
+  letter-spacing: .11em;
+  text-transform: uppercase;
+}
+
+.primaryAction {
+  background: #d7a967;
+  color: #091725;
+}
+
+.secondaryAction {
+  border: 1px solid rgba(255,255,255,.34);
+  color: #fff;
+}
+
+.heroNote {
+  max-width: 680px;
+  margin: 18px 0 0;
+  color: #85929c;
+  font: 12px/1.6 Arial, sans-serif;
 }
 
 .archive {
@@ -200,6 +237,8 @@
 
 @media (max-width: 760px) {
   .hero { padding-top: 150px; }
+  .heroActions { flex-direction: column; align-items: stretch; }
+  .primaryAction, .secondaryAction { width: 100%; }
   .grid { grid-template-columns: 1fr; }
   .archiveHeading { align-items: start; flex-direction: column; }
   .signup { grid-template-columns: 1fr; align-items: start; }

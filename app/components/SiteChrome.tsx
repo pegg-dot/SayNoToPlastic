@@ -124,6 +124,7 @@ export function Header({ skipToContent = true, locale = "en" }: { skipToContent?
     { href: localizedPath("/science", locale), label: copy.science },
     { href: localizedPath("/solutions", locale), label: copy.action },
     { href: localizedPath("/quick-action-card", locale), label: copy.guides },
+    { href: localizedPath("/newsletters", locale), label: copy.newsletterNav },
     { href: localizedPath("/podcast", locale), label: copy.podcast },
     { href: localizedPath("/tedx", locale), label: copy.tedx },
     { href: localizedPath("/about-dr-elie-haddad", locale), label: copy.about },

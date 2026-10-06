@@ -16,13 +16,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/refunds-and-returns", "/terms", "/accessibility",
     "/es", "/es/ciencia", "/es/ciencia/como-funciona-la-deteccion", "/es/ciencia/exposoma",
     "/es/accion", "/es/accion/reducir-exposicion", "/es/guia-12-pasos", "/es/homo-plasticus",
-    "/es/podcast", "/es/tedx", "/es/sobre-dr-elie-haddad",
+    "/es/podcast", "/es/tedx", "/es/sobre-dr-elie-haddad", "/es/boletines",
   ];
   if (TEDX_RELEASE.published) routes.push("/tedx");
   return [
     ...routes.map((path, index) => ({
       url: `${base}${path}`,
-      lastModified: new Date("2026-10-05"),
+      lastModified: new Date("2026-10-06"),
       changeFrequency: (index === 0 ? "weekly" : "monthly") as "weekly" | "monthly",
       priority: index === 0 ? 1 : .7,
     })),

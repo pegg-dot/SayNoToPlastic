@@ -33,7 +33,7 @@ The later v40.36 Dr. Haddad client request supersedes the older v33/v34 TEDx pla
 
 The current public TEDx video is the **official TEDxMiami release**, verified at `https://www.youtube.com/watch?v=solsGnKO1-c`. Public playback surfaces must use that canonical release and must not fall back to the superseded temporary audience recording.
 
-Field Notes / Newsletter is a first-class English primary-navigation destination at `/newsletters`. Published issues remain freely readable; the archive should prominently invite non-subscribers to subscribe for new issues rather than gating the public archive.
+Field Notes / Newsletter is a first-class primary-navigation destination at `/newsletters`, with a Spanish archive shell at `/es/boletines`. Published issues remain freely readable; the archive should prominently invite non-subscribers to subscribe for new issues rather than gating the public archive. Spanish archive cards may link to an issue in its original publication language when no translated issue exists.
 
 ## Science publication boundary
 

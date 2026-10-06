@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Field Notes | Say No To Plastic",
   description: "Read Field Notes from Dr. Elie Haddad on plastic exposure, emerging research, and practical ways to reduce repeated exposure.",
-  alternates: { canonical: "/newsletters" },
+  alternates: { canonical: "/newsletters", languages: { "en-US": "/newsletters", "es-US": "/es/boletines" } },
 };
 
 function displayDate(value: string | null) {

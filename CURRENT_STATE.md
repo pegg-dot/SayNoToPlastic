@@ -1,7 +1,7 @@
 # Current State — Say No to Plastic
 
-**Authority date:** October 5, 2026
-**Current source line:** v40.61 official TEDxMiami release
+**Authority date:** October 6, 2026
+**Current source line:** v40.62 newsletter navigation and subscription discovery
 **Production domain:** https://saynotoplastic.com
 **Production Worker:** `say-no-to-plastic`
 **Production D1:** `DB -> saynotoplastic-db`
@@ -17,7 +17,7 @@ Say No to Plastic is a public educational site about microplastics, human exposu
 - deeper Science, detection, exposome, and body-system reading paths;
 - practical Solutions, the 12-step guide, and evidence-first Field Guides;
 - the *Homo Plasticus* ebook experience;
-- Beyond Plastic podcast, TEDx, Events & Media, press resources, and Contact;
+- Beyond Plastic podcast, TEDx, Field Notes / Newsletter, Events & Media, press resources, and Contact;
 - consent-aware analytics, newsletter/community forms, legal/editorial pages, and owner tooling;
 - a protected owner workspace with Today, Website/Page Studio, Field Notes, Media, and structured Science management.
 
@@ -32,6 +32,8 @@ The later v40.36 Dr. Haddad client request supersedes the older v33/v34 TEDx pla
 - do not reintroduce the older large TEDx-heavy homepage blueprint.
 
 The current public TEDx video is the **official TEDxMiami release**, verified at `https://www.youtube.com/watch?v=solsGnKO1-c`. Public playback surfaces must use that canonical release and must not fall back to the superseded temporary audience recording.
+
+Field Notes / Newsletter is a first-class English primary-navigation destination at `/newsletters`. Published issues remain freely readable; the archive should prominently invite non-subscribers to subscribe for new issues rather than gating the public archive.
 
 ## Science publication boundary
 

@@ -61,6 +61,7 @@ Do not create a replacement Worker/Site/database just to simplify deployment.
 The release path must preserve:
 
 - `npm audit --omit=dev --audit-level=low` with **0 production vulnerabilities**;
+- the v40.62 transitive security overrides for `sharp@0.35.5` and `source-map-js@1.2.2`, added in response to the October 6, 2026 advisories while preserving the validated direct dependency line;
 - the full historical `release:audit` stack;
 - v40.57 mobile audit;
 - v40.58 dependency-hardening audit;

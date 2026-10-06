@@ -105,5 +105,9 @@
     "wrangler": "4.147.0"
   },
   "type": "module",
-  "displayName": "Say No to Plastic"
+  "displayName": "Say No to Plastic",
+  "overrides": {
+    "sharp": "0.35.5",
+    "source-map-js": "1.2.2"
+  }
 }

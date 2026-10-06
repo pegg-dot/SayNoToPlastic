@@ -27,6 +27,11 @@ export default async function NewslettersPage() {
       <p className={styles.eyebrow}>Field Notes</p>
       <h1>Research worth understanding. Practical steps worth taking.</h1>
       <p>Notes from Dr. Elie Haddad on emerging plastic-health research, what the evidence can and cannot show, and practical ways to reduce repeated exposure.</p>
+      <div className={styles.heroActions}>
+        <a className={styles.primaryAction} href="#archive-title">Read the latest issues <span>↓</span></a>
+        <a className={styles.secondaryAction} href="#subscribe-field-notes">Subscribe to Field Notes <span>→</span></a>
+      </div>
+      <p className={styles.heroNote}>Every published issue is free to read. Subscribe to get new Field Notes by email when they are released.</p>
     </section>
 
     <section className={styles.archive} aria-labelledby="archive-title">
@@ -44,8 +49,8 @@ export default async function NewslettersPage() {
       </div> : <div className={styles.empty}><h3>Field Notes are on the way.</h3><p>New issues will appear here as they are published.</p></div>}
     </section>
 
-    <section className={styles.signup}>
-      <div><p className={styles.eyebrow}>Field Notes / Newsletter</p><h2>Get new issues by email.</h2><p>Research summaries, practical exposure-reduction guidance, and updates from Say No To Plastic.</p></div>
+    <section id="subscribe-field-notes" className={styles.signup}>
+      <div><p className={styles.eyebrow}>Field Notes / Newsletter</p><h2>Subscribe so the next issue comes to you.</h2><p>Research summaries, practical exposure-reduction guidance, and updates from Say No To Plastic. The full archive stays open to everyone.</p></div>
       <SignupForm compact buttonLabel="Join Field Notes" successTitle="You’re in." successText="You’re subscribed. No confirmation email is required." />
     </section>
   </main><Footer /></>;

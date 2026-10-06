@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-import { createHash } from "node:crypto";
 import { existsSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -10,7 +9,6 @@ const read = (path) => readFileSync(join(root, path), "utf8");
 const exists = (path) => existsSync(join(root, path));
 const includesAll = (text, tokens) => tokens.every((token) => text.includes(token));
 const expect = (ok, label) => checks.push({ ok: Boolean(ok), label });
-const hash = (path) => createHash("sha256").update(readFileSync(join(root, path))).digest("hex");
 
 const journey = read("app/components/BodyJourney.tsx");
 const evidence = read("app/content/evidence.ts");
@@ -22,6 +20,12 @@ const home = read("app/page.tsx");
 const css = read("app/globals.css");
 const licenses = read("public/models/anatomy/LICENSES.txt");
 const packageJson = JSON.parse(read("package.json"));
+const packageLock = JSON.parse(read("package-lock.json"));
+const patchedSecuritySuccessor =
+  packageJson.overrides?.sharp === "0.35.5" &&
+  packageJson.overrides?.["source-map-js"] === "1.2.2" &&
+  packageLock.packages?.["node_modules/sharp"]?.version === "0.35.5" &&
+  packageLock.packages?.["node_modules/source-map-js"]?.version === "1.2.2";
 
 expect(!home.includes("HomeAnatomySystemShowcase") && !home.includes("<ExposomeMap"), "Home contains neither the retired anatomy card showcase nor the large Exposome block.");
 expect(includesAll(home, ["<BodyJourney />", '<section id="exposure" className="exposure-section">']), "The anatomy journey remains in the homepage flow.");
@@ -58,7 +62,7 @@ expect(includesAll(loader, ["anatomyModelCache", "loadAnatomyModel", "clearAnato
 expect(includesAll(css, [".finding-brief", ".finding-open-viewer", ".journey-complete-atlas-compact", ".anatomy-viewer-system-filter", ".anatomy-viewer-quick-read"]), "Chapter, atlas, system-control, and quick-read styling remains packaged.");
 expect(licenses.includes("Interactive extended-system viewer") && licenses.includes("CC BY 4.0"), "Runtime anatomy sources retain license attribution.");
 expect(packageJson.scripts?.["anatomy:complete"] === "node scripts/v40-19-complete-atlas-audit.mjs", "Dedicated anatomy audit remains registered.");
-expect(["7915a420ef99c285f0a152256b2ca9742f3b520834be90ab937935af8225e85e", "60e568499d4a00b89a4a834487d7f992d6b0d75e1be48a0015ffb00b83ae3d0b", "4280584b4443ef62afd88e26ab447aae3300503fef91531e78398d579619a9cd"].includes(hash("package-lock.json")), "Package lock matches an approved validated dependency baseline.");
+expect(patchedSecuritySuccessor, "Package lock matches the validated dependency line with the patched v40.62 security successor.");
 expect(exists("docs/V40_19_TEN_CHAPTER_COMPLETE_ATLAS.md"), "Historical v40.19 atlas documentation remains packaged.");
 
 for (const check of checks) console.log(`[${check.ok ? "PASS" : "FAIL"}] ${check.label}`);

@@ -12,6 +12,7 @@ const spanishRouteMap: Record<string, string> = {
   "/tedx": "/es/tedx",
   "/about-dr-elie-haddad": "/es/sobre-dr-elie-haddad",
   "/homo-plasticus": "/es/homo-plasticus",
+  "/newsletters": "/es/boletines",
 };
 
 const englishRouteMap = Object.fromEntries(

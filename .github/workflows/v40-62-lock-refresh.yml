@@ -25,7 +25,7 @@ jobs:
           cache: npm
 
       - name: Refresh patched production dependencies
-        run: npm audit fix --package-lock-only --omit=dev --ignore-scripts
+        run: npm install --package-lock-only --ignore-scripts --no-audit --save=false sharp@0.35.5 source-map-js@1.2.2
 
       - name: Verify production dependency audit
         run: npm audit --omit=dev --audit-level=low

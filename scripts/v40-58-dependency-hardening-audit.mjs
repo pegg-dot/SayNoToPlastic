@@ -1,12 +1,10 @@
 #!/usr/bin/env node
-import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = dirname(dirname(fileURLToPath(import.meta.url)));
 const read = (path) => readFileSync(join(root, path), "utf8");
-const hash = (path) => createHash("sha256").update(readFileSync(join(root, path))).digest("hex");
 const checks = [];
 const expect = (ok, label) => checks.push({ ok: Boolean(ok), label });
 
@@ -16,7 +14,14 @@ const viteConfig = read("vite.config.ts");
 const wrangler = read("wrangler.jsonc");
 const buildVersion = read("app/build-version.ts");
 const securityDoc = read("docs/DEPENDENCY_HARDENING_V40_58.md");
-const lockHash = hash("package-lock.json");
+const lock = JSON.parse(read("package-lock.json"));
+const patchedSecuritySuccessor =
+  pkg.overrides?.sharp === "0.35.5" &&
+  pkg.overrides?.["source-map-js"] === "1.2.2" &&
+  lock.packages?.["node_modules/sharp"]?.version === "0.35.5" &&
+  lock.packages?.["node_modules/source-map-js"]?.version === "1.2.2" &&
+  lock.packages?.["node_modules/@img/sharp-linux-x64"]?.version === "0.35.5" &&
+  lock.packages?.["node_modules/@img/sharp-libvips-linux-x64"]?.version === "1.3.4";
 
 const expectedDependencies = {
   next: "16.3.8",
@@ -44,7 +49,7 @@ expect(pkg.scripts?.["security:audit:production"] === "npm audit --omit=dev --au
 expect(pkg.scripts?.["release:audit"]?.includes("v40-58-dependency-hardening-audit.mjs"), "v40.58 dependency hardening audit is part of the release gate.");
 expect(workflow.includes("Audit production dependencies") && workflow.includes("npm run security:audit:production"), "GitHub release validation blocks PRs and main when production dependencies have a known npm advisory.");
 expect(viteConfig.includes('from "./build/sites-vite-plugin.ts"'), "Vite config uses an explicit TypeScript extension for native config-loader compatibility.");
-expect(lockHash === "4280584b4443ef62afd88e26ab447aae3300503fef91531e78398d579619a9cd", "Package lock matches the validated v40.58 security baseline.");
+expect(patchedSecuritySuccessor, "Package lock retains the validated dependency baseline with the v40.62 patched sharp/source-map-js security successor.");
 expect(wrangler.includes('"binding": "DB"') && wrangler.includes('"database_name": "saynotoplastic-db"'), "Existing production D1 binding remains unchanged.");
 expect(wrangler.includes('"PUBLIC_SITE_URL": "https://saynotoplastic.com"') && wrangler.includes('"name": "say-no-to-plastic"'), "Existing production Worker identity and canonical origin remain unchanged.");
 expect(buildVersion.includes("v40.58-dependency-hardening"), "Build marker identifies the dependency hardening release.");

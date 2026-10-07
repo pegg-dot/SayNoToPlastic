@@ -2553,7 +2553,7 @@ details.pageEditorNote span { display: block; margin-top: 8px; color: #7d8388; f
 .objectDetailHeader > a { color: #76572f; font-size: 10px; font-weight: 800; text-decoration: none; }
 .objectProgress {
   display: grid;
-  grid-template-columns: repeat(3,minmax(0,1fr));
+  grid-template-columns: repeat(4,minmax(0,1fr));
   padding: 14px 22px;
   border-bottom: 1px solid #ebe7df;
   background: #faf9f6;

@@ -13,6 +13,8 @@ export const newsletters = sqliteTable("newsletters", {
   publishedAt: text("published_at"),
   mailchimpCampaignId: text("mailchimp_campaign_id"),
   mailchimpCreatedAt: text("mailchimp_created_at"),
+  mailchimpSentAt: text("mailchimp_sent_at"),
+  sourceImageCount: integer("source_image_count").notNull().default(0),
   createdBy: text("created_by").notNull(),
   createdAt: text("created_at").notNull().default(sql`CURRENT_TIMESTAMP`),
   updatedAt: text("updated_at").notNull().default(sql`CURRENT_TIMESTAMP`),

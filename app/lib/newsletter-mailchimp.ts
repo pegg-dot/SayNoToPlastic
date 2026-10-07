@@ -73,6 +73,16 @@ export async function getNewsletterMailchimpAdminUrl() {
   return prefix ? `https://${prefix}.admin.mailchimp.com/campaigns/` : "https://mailchimp.com/";
 }
 
+async function mailchimpError(response: Response, fallback: string) {
+  try {
+    const body = await response.json() as { title?: string; detail?: string };
+    const detail = body.detail?.trim() || body.title?.trim();
+    return detail ? `${fallback} ${detail}` : fallback;
+  } catch {
+    return fallback;
+  }
+}
+
 export async function createNewsletterCampaignDraft(input: {
   title: string;
   slug: string;
@@ -118,6 +128,70 @@ export async function createNewsletterCampaignDraft(input: {
 
   return {
     id: campaign.id,
+    mailchimpUrl: `https://${prefix}.admin.mailchimp.com/campaigns/`,
+  };
+}
+
+export async function sendNewsletterCampaign(campaignId: string) {
+  const env = await runtimeEnv();
+  const prefix = serverPrefix(env);
+  const apiKey = env.MAILCHIMP_API_KEY?.trim();
+  if (!apiKey || !prefix) throw new Error("Mailchimp is not configured.");
+
+  const headers = { Authorization: authHeader(apiKey) };
+  const encodedId = encodeURIComponent(campaignId);
+  const campaignResponse = await fetch(`https://${prefix}.api.mailchimp.com/3.0/campaigns/${encodedId}?fields=status,send_time`, {
+    method: "GET",
+    headers,
+  });
+  if (!campaignResponse.ok) {
+    throw new Error(await mailchimpError(campaignResponse, `Mailchimp could not read the campaign status (${campaignResponse.status}).`));
+  }
+
+  const campaign = await campaignResponse.json() as { status?: string; send_time?: string };
+  if (campaign.status === "sent") {
+    return {
+      sent: true as const,
+      alreadySent: true as const,
+      sentAt: campaign.send_time || null,
+      mailchimpUrl: `https://${prefix}.admin.mailchimp.com/campaigns/`,
+    };
+  }
+
+  const checklistResponse = await fetch(`https://${prefix}.api.mailchimp.com/3.0/campaigns/${encodedId}/send-checklist`, {
+    method: "GET",
+    headers,
+  });
+  if (!checklistResponse.ok) {
+    throw new Error(await mailchimpError(checklistResponse, `Mailchimp could not verify the campaign before sending (${checklistResponse.status}).`));
+  }
+
+  const checklist = await checklistResponse.json() as {
+    is_ready?: boolean;
+    items?: Array<{ type?: string; heading?: string; details?: string }>;
+  };
+  if (!checklist.is_ready) {
+    const blockers = (checklist.items || [])
+      .filter((item) => item.type !== "success")
+      .map((item) => item.heading?.trim() || item.details?.trim())
+      .filter(Boolean)
+      .slice(0, 3);
+    const suffix = blockers.length ? ` Fix: ${blockers.join("; ")}.` : "";
+    throw new Error(`Mailchimp says this campaign is not ready to send.${suffix}`);
+  }
+
+  const sendResponse = await fetch(`https://${prefix}.api.mailchimp.com/3.0/campaigns/${encodedId}/actions/send`, {
+    method: "POST",
+    headers,
+  });
+  if (!sendResponse.ok) {
+    throw new Error(await mailchimpError(sendResponse, `Mailchimp could not send the campaign (${sendResponse.status}).`));
+  }
+
+  return {
+    sent: true as const,
+    alreadySent: false as const,
+    sentAt: new Date().toISOString(),
     mailchimpUrl: `https://${prefix}.admin.mailchimp.com/campaigns/`,
   };
 }

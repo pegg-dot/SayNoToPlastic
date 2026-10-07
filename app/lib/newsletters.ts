@@ -14,6 +14,8 @@ export type NewsletterRecord = {
   publishedAt: string | null;
   mailchimpCampaignId: string | null;
   mailchimpCreatedAt: string | null;
+  mailchimpSentAt: string | null;
+  sourceImageCount: number;
   createdBy: string;
   createdAt: string;
   updatedAt: string;
@@ -211,6 +213,7 @@ export async function createNewsletterFromDocx(input: {
     contentHtml: parsed.contentHtml,
     published: false,
     publishedAt: null,
+    sourceImageCount: parsed.imageCount,
     createdBy: input.createdBy,
     createdAt: now,
     updatedAt: now,
@@ -237,6 +240,9 @@ export async function updateNewsletter(input: {
   }
   if (typeof input.excerpt === "string") patch.excerpt = input.excerpt.trim().slice(0, 320);
   if (typeof input.published === "boolean") {
+    if (!input.published && current.mailchimpSentAt) {
+      throw new Error("This issue was already emailed. Keep it published so links in the sent email continue to work.");
+    }
     patch.published = input.published;
     patch.publishedAt = input.published ? (current.publishedAt || new Date().toISOString()) : null;
   }
@@ -250,6 +256,9 @@ export async function deleteNewsletter(id: number) {
   const rows = await db.select().from(newsletters).where(eq(newsletters.id, id)).limit(1);
   const current = rows[0];
   if (!current) throw new Error("Newsletter not found.");
+  if (current.mailchimpSentAt) {
+    throw new Error("This issue was already emailed. Keep it in the website archive so links in the sent email continue to work.");
+  }
 
   await db.delete(newsletters).where(eq(newsletters.id, id));
   return {
@@ -265,6 +274,16 @@ export async function markNewsletterMailchimpDraft(id: number, campaignId: strin
   const updated = await db.update(newsletters).set({
     mailchimpCampaignId: campaignId,
     mailchimpCreatedAt: now,
+    updatedAt: now,
+  }).where(eq(newsletters.id, id)).returning();
+  return updated[0];
+}
+
+export async function markNewsletterMailchimpSent(id: number, sentAt?: string | null) {
+  const db = await getDb();
+  const now = new Date().toISOString();
+  const updated = await db.update(newsletters).set({
+    mailchimpSentAt: sentAt || now,
     updatedAt: now,
   }).where(eq(newsletters.id, id)).returning();
   return updated[0];

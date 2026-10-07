@@ -95,12 +95,12 @@ expect(admin.includes("Show on site") && admin.includes("Keep private") && (admi
 expect(
   (newsletter.includes("newsletterPrimaryActions") || newsletter.includes("objectNextAction")) &&
   (newsletter.includes("newsletterMore") || newsletter.includes("More actions")) &&
-  newsletter.includes("Publish to website") &&
+  (newsletter.includes("Publish to website") || newsletter.includes("Publish & send")) &&
   newsletter.includes("Create Mailchimp draft") &&
   newsletter.includes("Open Mailchimp"),
-  "Field Notes emphasizes the next valid workflow action and moves secondary actions into More."
+  "Field Notes emphasizes the next valid workflow action and moves secondary actions into More, including the later publish-and-send successor."
 );
-expect((newsletter.includes("Preview ↗") || newsletter.includes("Preview issue ↗")) && newsletter.includes("Publish to website") && newsletter.includes("Create Mailchimp draft"), "DOCX preview, website publish, and Mailchimp draft workflow remains intact.");
+expect((newsletter.includes("Preview ↗") || newsletter.includes("Preview issue ↗")) && (newsletter.includes("Publish to website") || newsletter.includes("Publish & send")) && newsletter.includes("Create Mailchimp draft"), "DOCX preview, website publication, and Mailchimp email workflow remains intact, including the later one-step send path.");
 expect(newsletterMailchimp.includes("create") || newsletterMailchimp.includes("Mailchimp"), "Mailchimp draft endpoint remains packaged.");
 
 expect(

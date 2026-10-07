@@ -35,7 +35,7 @@ expect(panel.includes("owner_preview=1") && consent.includes("ownerPreview") && 
 expect((panel.includes("pageCmsLayoutScience") && panel.includes("← Website pages")) || (panel.includes("pageStudioPage") && panel.includes('const isScience = page.kind === "science"') && !panel.includes('<aside className={styles.pageTree}')), "Science becomes a focused workspace instead of showing the general Website page tree beside Science tools.");
 
 expect(newsletter.includes("selectedId") && newsletter.includes("objectWorkbench") && newsletter.includes("objectNextAction"), "Field Notes is selection-first with one issue detail workspace.");
-expect(newsletter.includes("Next step") && newsletter.includes("Publish to website") && newsletter.includes("Create Mailchimp draft") && newsletter.includes("Open Mailchimp"), "Field Notes advances through one obvious next action based on issue state.");
+expect(newsletter.includes("Next step") && (newsletter.includes("Publish to website") || newsletter.includes("Publish & send")) && newsletter.includes("Create Mailchimp draft") && newsletter.includes("Open Mailchimp"), "Field Notes advances through one obvious next action based on issue state, including the later publish-and-send successor.");
 expect(newsletter.includes("More actions") && newsletter.includes("Unpublish from website") && newsletter.includes("Delete from website manager"), "Secondary and destructive Field Notes actions are progressively disclosed.");
 
 expect(science.includes("What the study found") && science.includes("How the study was done") && science.includes("Limitations & source"), "Human evidence editor sequences complexity into three guided steps.");

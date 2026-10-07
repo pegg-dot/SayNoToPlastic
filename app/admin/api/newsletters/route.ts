@@ -41,7 +41,7 @@ export async function POST(request: Request) {
       ok: true,
       newsletter: result.newsletter,
       warnings: result.imageCount > 0
-        ? [`The document contains ${result.imageCount} embedded image${result.imageCount === 1 ? "" : "s"}. This first version imports text, headings, links, and lists only. Embedded images will not appear on the website or in the Mailchimp draft, so add any important images in Mailchimp before sending.`]
+        ? [`The document contains ${result.imageCount} embedded image${result.imageCount === 1 ? "" : "s"}. The importer includes text, headings, links, and lists, but not embedded Word images. “Publish & send” will therefore send a text-only version; use “Create Mailchimp draft only” if you need to add those images before sending.`]
         : [],
     }, { status: 201 });
   } catch (error) {

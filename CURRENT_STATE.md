@@ -1,7 +1,7 @@
 # Current State — Say No to Plastic
 
 **Authority date:** October 6, 2026
-**Current source line:** v40.62 newsletter navigation and subscription discovery
+**Current source line:** v40.63 newsletter publish-and-send
 **Production domain:** https://saynotoplastic.com
 **Production Worker:** `say-no-to-plastic`
 **Production D1:** `DB -> saynotoplastic-db`
@@ -34,6 +34,8 @@ The later v40.36 Dr. Haddad client request supersedes the older v33/v34 TEDx pla
 The current public TEDx video is the **official TEDxMiami release**, verified at `https://www.youtube.com/watch?v=solsGnKO1-c`. Public playback surfaces must use that canonical release and must not fall back to the superseded temporary audience recording.
 
 Field Notes / Newsletter is a first-class primary-navigation destination at `/newsletters`, with a Spanish archive shell at `/es/boletines`. Published issues remain freely readable; the archive should prominently invite non-subscribers to subscribe for new issues rather than gating the public archive. Spanish archive cards may link to an issue in its original publication language when no translated issue exists.
+
+The owner Field Notes workflow now supports **Publish & send**: after importing and previewing a Word newsletter, one confirmed action publishes it to the website, creates or reuses the Mailchimp campaign, checks Mailchimp send readiness, and immediately sends it to the subscribed audience. Raw upload alone never sends email. Embedded Word images are not auto-imported; image-bearing issues require an explicit acknowledgement or the owner can choose the Mailchimp draft-only path. Sent issues are retained in the public archive so links already delivered by email do not break.
 
 ## Science publication boundary
 

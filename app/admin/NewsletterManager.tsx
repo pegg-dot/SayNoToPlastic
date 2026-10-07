@@ -13,13 +13,15 @@ type Newsletter = {
   publishedAt: string | null;
   mailchimpCampaignId: string | null;
   mailchimpCreatedAt: string | null;
+  mailchimpSentAt: string | null;
+  sourceImageCount: number;
   createdAt: string;
 };
 
 type RowState = Newsletter & {
   draftTitle: string;
   draftExcerpt: string;
-  busy?: "saving" | "publishing" | "mailchimp" | "deleting";
+  busy?: "saving" | "publishing" | "mailchimp" | "sending" | "deleting";
   message?: string;
   error?: string;
 };
@@ -36,9 +38,10 @@ function prettyDate(value: string | null) {
 }
 
 function issueStage(row: RowState) {
-  if (row.mailchimpCampaignId) return { label: "Email ready", tone: "done" as const, next: "Open Mailchimp" };
-  if (row.published) return { label: "Published", tone: "live" as const, next: "Create Mailchimp draft" };
-  return { label: "Draft", tone: "draft" as const, next: "Publish to website" };
+  if (row.mailchimpSentAt) return { label: "Sent", tone: "done" as const, next: "Sent to subscribers" };
+  if (row.mailchimpCampaignId) return { label: "Email ready", tone: "live" as const, next: "Send to subscribers" };
+  if (row.published) return { label: "Published", tone: "live" as const, next: "Send to subscribers" };
+  return { label: "Draft", tone: "draft" as const, next: "Publish & send" };
 }
 
 export function NewsletterManager() {
@@ -92,7 +95,7 @@ export function NewsletterManager() {
       const next = toRow(body.newsletter);
       setRows((current) => [next, ...current]);
       setSelectedId(next.id);
-      setUploadMessage(body.warnings?.[0] || "Imported successfully. Review the issue, then publish when you are ready.");
+      setUploadMessage(body.warnings?.[0] || "Imported successfully. Review the preview, then use Publish & send when you are ready.");
     } catch (error) {
       setUploadError(error instanceof Error ? error.message : "Import failed.");
     } finally {
@@ -133,7 +136,7 @@ export function NewsletterManager() {
       const destination = body.mailchimpUrl || mailchimpUrl;
       setRows((current) => current.map((item) => item.id === row.id ? {
         ...toRow(saved),
-        message: "Email draft created. Review and send it in Mailchimp.",
+        message: "Email draft created. You can send it from here when ready.",
       } : item));
       if (body.mailchimpUrl) setMailchimpUrl(body.mailchimpUrl);
       if (mailchimpWindow) {
@@ -143,6 +146,47 @@ export function NewsletterManager() {
     } catch (error) {
       if (mailchimpWindow) mailchimpWindow.close();
       patchRow(row.id, { busy: undefined, error: error instanceof Error ? error.message : "Could not create Mailchimp draft." });
+    }
+  }
+
+  async function sendNewsletter(row: RowState) {
+    const imageWarning = row.sourceImageCount > 0
+      ? `\n\nImportant: this Word file has ${row.sourceImageCount} embedded image${row.sourceImageCount === 1 ? "" : "s"}. Those images are not included by the importer, so the email will send as text-only unless you build the draft manually in Mailchimp.`
+      : "";
+    const action = row.published
+      ? "Send this Field Note to all currently subscribed Mailchimp contacts now?"
+      : "Publish this Field Note to the website and send it to all currently subscribed Mailchimp contacts now?";
+    if (!window.confirm(`${action}\n\nThis email send is immediate and cannot be undone.${imageWarning}`)) return;
+
+    patchRow(row.id, { busy: "sending", message: "", error: "" });
+    try {
+      const response = await fetch(`/admin/api/newsletters/${row.id}/send`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ acknowledgeMissingImages: row.sourceImageCount > 0 }),
+      });
+      const body = await response.json() as {
+        newsletter?: Newsletter;
+        mailchimpUrl?: string;
+        alreadySentAtMailchimp?: boolean;
+        error?: string;
+      };
+      if (!response.ok || !body.newsletter) {
+        if (body.newsletter) {
+          setRows((current) => current.map((item) => item.id === row.id ? { ...toRow(body.newsletter as Newsletter), error: body.error || "Could not send this Field Note." } : item));
+        }
+        throw new Error(body.error || "Could not send this Field Note.");
+      }
+      const saved = body.newsletter;
+      setRows((current) => current.map((item) => item.id === row.id ? {
+        ...toRow(saved),
+        message: body.alreadySentAtMailchimp
+          ? "Mailchimp had already sent this campaign. The website record is now synced."
+          : (row.published ? "Sent to subscribers." : "Published to Field Notes and sent to subscribers."),
+      } : item));
+      if (body.mailchimpUrl) setMailchimpUrl(body.mailchimpUrl);
+    } catch (error) {
+      patchRow(row.id, { busy: undefined, error: error instanceof Error ? error.message : "Could not send this Field Note." });
     }
   }
 
@@ -226,8 +270,13 @@ export function NewsletterManager() {
                 <div className={styles.objectProgress} aria-label="Field Notes workflow">
                   <span className={styles.progressDone}>Imported</span>
                   <span className={selected.published ? styles.progressDone : styles.progressCurrent}>Published</span>
-                  <span className={selected.mailchimpCampaignId ? styles.progressDone : selected.published ? styles.progressCurrent : ""}>Email draft</span>
+                  <span className={selected.mailchimpCampaignId ? styles.progressDone : selected.published ? styles.progressCurrent : ""}>Email ready</span>
+                  <span className={selected.mailchimpSentAt ? styles.progressDone : selected.mailchimpCampaignId ? styles.progressCurrent : ""}>Sent</span>
                 </div>
+
+                {selected.sourceImageCount > 0 && !selected.mailchimpSentAt ? (
+                  <div className={styles.newsletterNotice}>This Word file contains {selected.sourceImageCount} embedded image{selected.sourceImageCount === 1 ? "" : "s"}. The automatic email importer sends the text, headings, links, and lists, but not embedded Word images. Use “Create Mailchimp draft only” below if those images need to be added before sending.</div>
+                ) : null}
 
                 <div className={styles.objectNextAction}>
                   <div>
@@ -238,10 +287,8 @@ export function NewsletterManager() {
                   <div>
                     {detailsDirty ? (
                       <button className={styles.primaryButton} type="button" disabled={Boolean(selected.busy)} onClick={() => void update(selected, { title: selected.draftTitle, excerpt: selected.draftExcerpt }, "saving")}>{selected.busy === "saving" ? "Saving…" : "Save changes"}</button>
-                    ) : !selected.published ? (
-                      <button className={styles.primaryButton} type="button" disabled={Boolean(selected.busy)} onClick={() => void update(selected, { published: true }, "publishing")}>{selected.busy === "publishing" ? "Publishing…" : "Publish to website"}</button>
-                    ) : !selected.mailchimpCampaignId ? (
-                      <button className={styles.primaryButton} type="button" disabled={Boolean(selected.busy)} onClick={() => void createMailchimp(selected)}>{selected.busy === "mailchimp" ? "Creating…" : "Create Mailchimp draft"}</button>
+                    ) : !selected.mailchimpSentAt ? (
+                      <button className={styles.primaryButton} type="button" disabled={Boolean(selected.busy)} onClick={() => void sendNewsletter(selected)}>{selected.busy === "sending" ? "Sending…" : selected.published ? "Send to subscribers" : "Publish & send"}</button>
                     ) : (
                       <a className={styles.primaryButton} href={mailchimpUrl} target="_blank" rel="noreferrer">Open Mailchimp ↗</a>
                     )}
@@ -260,8 +307,11 @@ export function NewsletterManager() {
                 <details className={styles.objectMore}>
                   <summary>More actions</summary>
                   <div>
-                    {selected.published ? <button type="button" disabled={Boolean(selected.busy)} onClick={() => void update(selected, { published: false }, "publishing")}>Unpublish from website</button> : null}
-                    <button className={styles.dangerMenuButton} type="button" disabled={Boolean(selected.busy)} onClick={() => void removeNewsletter(selected)}>{selected.busy === "deleting" ? "Deleting…" : "Delete from website manager"}</button>
+                    {!selected.published ? <button type="button" disabled={Boolean(selected.busy)} onClick={() => void update(selected, { published: true }, "publishing")}>Publish without sending</button> : null}
+                    {selected.published && !selected.mailchimpCampaignId ? <button type="button" disabled={Boolean(selected.busy)} onClick={() => void createMailchimp(selected)}>{selected.busy === "mailchimp" ? "Creating…" : "Create Mailchimp draft only"}</button> : null}
+                    {selected.mailchimpCampaignId ? <a href={mailchimpUrl} target="_blank" rel="noreferrer">Open Mailchimp ↗</a> : null}
+                    {selected.published && !selected.mailchimpSentAt ? <button type="button" disabled={Boolean(selected.busy)} onClick={() => void update(selected, { published: false }, "publishing")}>Unpublish from website</button> : null}
+                    {!selected.mailchimpSentAt ? <button className={styles.dangerMenuButton} type="button" disabled={Boolean(selected.busy)} onClick={() => void removeNewsletter(selected)}>{selected.busy === "deleting" ? "Deleting…" : "Delete from website manager"}</button> : <span>Sent issues stay published so links in subscribers’ emails keep working.</span>}
                   </div>
                 </details>
               </article>
